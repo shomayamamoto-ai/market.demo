@@ -205,7 +205,7 @@ export function runMany(D, personas, product, plans, { months = 36, runs = 20, s
     const s = [...values].sort((a, b) => a - b);
     return s[Math.min(s.length - 1, Math.max(0, Math.round(q * (s.length - 1))))];
   };
-  const fields = ["users", "revenue", "cumProfit", "awareRate"];
+  const fields = ["users", "revenue", "profit", "cumProfit", "awareRate", "everBought"];
   const series = [];
   for (let m = 0; m < months; m++) {
     const row = { month: m + 1 };

@@ -1,5 +1,6 @@
 :root{--bg:#f5f6f8;--card:#fff;--ink:#1c2430;--sub:#5b6676;--line:#dfe3ea;--accent:#1f6feb;--accent-ink:#fff;--male:#4c8ddb;--female:#e2708f;--good:#1a8f5a;--bad:#c9432f;--band:#1f6feb22}
-@media (prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1b212b;--ink:#e8ecf2;--sub:#9aa6b6;--line:#2c3542;--accent:#5a9bff;--accent-ink:#0b1018;--band:#5a9bff33}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161c;--card:#1b212b;--ink:#e8ecf2;--sub:#9aa6b6;--line:#2c3542;--accent:#5a9bff;--accent-ink:#0b1018;--band:#5a9bff33}}
+:root[data-theme="dark"]{--bg:#12161c;--card:#1b212b;--ink:#e8ecf2;--sub:#9aa6b6;--line:#2c3542;--accent:#5a9bff;--accent-ink:#0b1018;--band:#5a9bff33}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",Meiryo,system-ui,sans-serif;line-height:1.7;font-size:15px;overflow-wrap:anywhere;word-break:normal;line-break:strict}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
@@ -61,3 +62,9 @@ details{margin:8px 0}summary{cursor:pointer;color:var(--sub);font-size:13px}
 .form-row .pair input{flex:0 0 auto;width:80px}
 @media (max-width:700px){.top{position:static}.top h1{font-size:18px}}
 td:first-child,th{white-space:nowrap}#sources td,#assumptions td,#sources th,#assumptions th{white-space:normal}
+.doc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.doc h3{border-left:4px solid var(--accent);padding-left:8px;margin-top:22px}
+.doc-kind{color:var(--accent);font-weight:700;margin:0;font-size:13px}.doc-title{font-size:20px;margin:2px 0 6px}
+.doc ul{margin:6px 0;padding-left:20px}
+@media print{.top,.foot,.no-print{display:none!important}.tab{display:none!important}#tab-report{display:block!important}
+body{background:#fff;color:#000;font-size:12px}.doc{border:0;padding:0}.kpi{border:1px solid #ccc}.table-scroll{overflow:visible}h3{break-after:avoid}table{break-inside:avoid}}

@@ -217,4 +217,7 @@ out = {
     ],
 }
 (ROOT / "data" / "japan.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+# ブラウザが通信なしで読めるよう、同じ内容をJSモジュールとしても出力する
+(ROOT / "public" / "js" / "japan-data.js").write_text(
+    "// scripts/build_data.py が自動生成したファイルです。直接編集しないでください。\nexport default " + json.dumps(out, ensure_ascii=False) + ";\n", encoding="utf-8")
 print("data/japan.json を作成しました。総人口(千人):", population["total"], "/ 年齢階級の合計:", sum(g["male"] + g["female"] for g in groups))

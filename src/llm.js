@@ -87,6 +87,9 @@ const BriefSchema = z.object({
   target_sex: z.enum(["all", "male", "female"]),
   online_only: z.boolean().describe("インターネット利用者しか買えない・使えないなら true"),
   selling_points: z.array(z.string()).describe("訴求点(最大5つ)"),
+  suggested_purpose: z
+    .enum(["planning", "internal", "bank", "investor"])
+    .describe("お題の書きぶりから推測した用途。planning=新商品の企画検討、internal=社内向けの説明、bank=金融機関向け(融資・借入)、investor=出資者・投資家向け。手がかりが無ければ planning"),
   assumptions: z.array(z.string()).describe("資料に書かれておらず、推測で補った項目"),
   missing_info: z.array(z.string()).describe("精度を上げるために利用者へ確認したい情報"),
 });
@@ -156,8 +159,16 @@ const ReportSchema = z.object({
   counterpoints: z.array(z.string()).describe("この結果を疑うべき点・弱点・反証になりうること"),
 });
 
-export async function makeReport({ brief, aggregate, reactions }) {
+const AUDIENCE = {
+  planning: "読み手は企画・開発の担当者です。誰に・いくらで・何を訴求すると反応が良いか、商品をどう直すべきかを中心に書きます。",
+  internal: "読み手は経営層・社内の決裁者です。利益と成長性、投資する価値があるかの判断材料を中心に書きます。",
+  bank: "読み手は金融機関の融資担当者です。返済能力に関わる点(需要の確かさ、売上が下振れする要因、安定して続く顧客層)を中心に、控えめな見方で書きます。",
+  investor: "読み手は出資者・投資家です。市場の大きさ、伸びしろ、他社に対する強みになりうる点と、その根拠の弱さを中心に書きます。",
+};
+
+export async function makeReport({ brief, aggregate, reactions, purpose }) {
   const system = [
+    AUDIENCE[purpose] ?? AUDIENCE.planning,
     "あなたは日本市場を専門とするマーケティングリサーチャーです。",
     "合成ペルソナによるシミュレーション結果を、意思決定に使える短いレポートにまとめます。",
     "この結果は実在の人への調査ではなく、統計から作った仮想の生活者に AI が答えさせた試算です。",

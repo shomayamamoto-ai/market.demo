@@ -8,6 +8,8 @@ import {
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, esc } from "./charts.js";
 import { makeRng } from "./rng.js";
+import { PURPOSES, buildReport } from "./report.js";
+import JAPAN from "./japan-data.js";
 
 const $ = (id) => document.getElementById(id);
 const state = { D: null, base: [], personas: [], llm: false, materials: [], brief: null, ai: null, game: null };
@@ -32,15 +34,17 @@ const sum = (arr, f) => arr.reduce((a, x) => a + f(x), 0);
 
 // ---------- 起動 ----------
 async function init() {
-  state.D = await (await fetch("/data/japan.json")).json();
+  state.D = JAPAN;
   try {
-    const s = await (await fetch("/api/status")).json();
+    const res = await fetch("api/status");
+    if (!res.ok) throw new Error("no server");
+    const s = await res.json();
     state.llm = s.llm;
     $("status").innerHTML = s.llm
       ? `AIモード:<b class="ok">使えます</b>(${esc(s.model)})`
       : `AIモード:<b class="ng">未設定</b>(APIキーを設定すると、お題の読み取りとAIインタビューが使えます。統計モードはこのまま使えます)`;
   } catch {
-    $("status").innerHTML = `AIモード:<b class="ng">サーバー未接続</b>(統計モードのみ)`;
+    $("status").innerHTML = `AIモード:<b class="ng">この公開版では使えません</b>(統計モードはすべて使えます。AIモードは、APIキーを設定したサーバーで動かすと使えます)`;
   }
   $("read-brief").disabled = $("run-ai").disabled = !state.llm;
 
@@ -64,6 +68,14 @@ async function init() {
   $("run-spread").onclick = runSpread;
   $("g-start").onclick = startGame;
   $("g-next").onclick = nextQuarter;
+
+  const opts = Object.entries(PURPOSES).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+  $("purpose").innerHTML = $("purpose2").innerHTML = opts;
+  $("purpose").onchange = () => setPurpose($("purpose").value);
+  $("purpose2").onchange = () => setPurpose($("purpose2").value);
+  $("run-report").onclick = runReport;
+  $("print-report").onclick = () => window.print();
+  setPurpose("planning");
 
   regenerate();
   renderMarket();
@@ -166,7 +178,7 @@ function renderSpending() {
 
 // ---------- ③ お題シミュレーション ----------
 async function api(path, body) {
-  const res = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const res = await fetch(path.replace(/^\//, ""), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "エラーが発生しました。");
   return json.result;
@@ -207,6 +219,7 @@ async function readBrief() {
     $("p-age-max").value = Math.min(110, Math.round(b.target_age_max));
     $("p-sex").value = b.target_sex;
     $("p-online").checked = b.online_only;
+    setPurpose(b.suggested_purpose, "AIがお題から用途を推測しました。違う場合は選び直してください。");
     const list = (title, items) => (items?.length ? `<h4>${title}</h4><ul>${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "");
     $("brief-box").innerHTML = `<div class="report"><p class="headline">${esc(b.title)}</p><p>${esc(b.summary)}</p>
       ${list("訴求点", b.selling_points)}${list("AIが推測で補った項目", b.assumptions)}${list("確認したい情報", b.missing_info)}</div>`;
@@ -293,6 +306,7 @@ async function runAI() {
     setMsg("ai-msg", "レポートを作成中…");
     const report = await api("/api/report", {
       brief,
+      purpose: $("purpose").value,
       aggregate: { ...agg, demandCurve: agg.demandCurve.slice(0, 30), segmentProb: undefined },
       reactions: reactions.map((r) => ({ ...r, persona: describePersona(sample.find((p) => p.id === r.id) ?? {}) })),
     });
@@ -338,23 +352,30 @@ function renderAI() {
 
 // ---------- ④ 普及シミュレーション ----------
 const man = (id) => (Number($(id).value) || 0) * 10000;
-function runSpread() {
-  const product = currentProduct();
-  const plan = {
+function currentPlan() {
+  return {
     ad: { tv: man("s-tv"), net: man("s-net"), store: man("s-store") },
     churn: (Number($("s-churn").value) || 0) / 100,
     costRate: (Number($("s-cost").value) || 0) / 100,
     fixedCost: man("s-fixed"),
   };
+}
+function computeSpread(product, plan) {
   const months = Math.min(120, Math.max(6, Number($("s-months").value) || 36));
-  const useCalib = $("s-calib").checked && state.ai;
+  const useCalib = Boolean($("s-calib").checked && state.ai);
+  const out = runMany(state.D, state.personas, product, plan, {
+    months, runs: Math.min(100, Math.max(1, Number($("s-runs").value) || 20)),
+    seed: Number($("seed").value) || 1, randomEvents: $("s-events").checked,
+    segmentProb: useCalib ? state.ai.agg.segmentProb : null,
+  });
+  return { out, months, useCalib };
+}
+function runSpread() {
+  const product = currentProduct();
+  const plan = currentPlan();
   $("spread-result").innerHTML = `<p class="note">計算中です…</p>`;
   setTimeout(() => {
-    const out = runMany(state.D, state.personas, product, plan, {
-      months, runs: Math.min(100, Math.max(1, Number($("s-runs").value) || 20)),
-      seed: Number($("seed").value) || 1, randomEvents: $("s-events").checked,
-      segmentProb: useCalib ? state.ai.agg.segmentProb : null,
-    });
+    const { out, months, useCalib } = computeSpread(product, plan);
     const last = out.series[out.series.length - 1];
     const peak = out.series.reduce((a, b) => (b.users.mid > a.users.mid ? b : a));
     const breakEven = out.series.find((s) => s.cumProfit.mid > 0);
@@ -372,6 +393,33 @@ function runSpread() {
       <h3>利用者数</h3>${line(s("users"), { fmt: fmtPeople, xLabel: "発売からの月数" })}
       <h3>月間売上</h3>${line(s("revenue"), { fmt: fmtYen, xLabel: "発売からの月数", color: "var(--good)" })}
       <h3>累計の利益</h3>${line(s("cumProfit"), { fmt: fmtYen, xLabel: "発売からの月数", color: "var(--female)", zero: true })}`;
+  }, 30);
+}
+
+// ---------- ⑥ 用途別レポート ----------
+function setPurpose(key, note = "") {
+  if (!PURPOSES[key]) key = "planning";
+  $("purpose").value = $("purpose2").value = key;
+  $("purpose-note").textContent = note;
+  $("purpose-focus").textContent = `${PURPOSES[key].label}:${PURPOSES[key].focus}`;
+  $("loan-box").open = key === "bank";
+}
+function runReport() {
+  const product = currentProduct(), plan = currentPlan(), purpose = $("purpose2").value;
+  $("report-out").innerHTML = `<p class="note">計算中です…</p>`;
+  setTimeout(() => {
+    const { out, useCalib } = computeSpread(product, plan);
+    const amount = man("l-amount");
+    $("report-out").innerHTML = buildReport({
+      purpose, product, plan, spread: out, personas: state.personas, year: $("year").value,
+      topic: state.brief?.summary || $("topic").value.trim(),
+      ai: useCalib ? state.ai : null,
+      loan: purpose === "bank" && amount > 0
+        ? { amount, rate: Number($("l-rate").value) || 0, years: Math.max(1, Number($("l-years").value) || 5), grace: Math.max(0, Number($("l-grace").value) || 0) }
+        : null,
+      fmt: { fmtYen, fmtPeople, pct, num, esc },
+    });
+    $("print-report").disabled = false;
   }, 30);
 }
 

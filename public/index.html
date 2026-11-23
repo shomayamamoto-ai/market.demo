@@ -19,6 +19,7 @@
     <button data-tab="sim">③ お題シミュレーション</button>
     <button data-tab="spread">④ 普及シミュレーション</button>
     <button data-tab="game">⑤ 経営ゲーム</button>
+    <button data-tab="report">⑥ 用途別レポート</button>
     <button data-tab="source">出典と仮定</button>
   </nav>
 </header>
@@ -81,6 +82,12 @@
   <div class="card">
     <h2>STEP 1 お題と資料を入れる</h2>
     <textarea id="topic" rows="4" placeholder="例:共働き世帯向けに、管理栄養士が監修した冷凍の夕食セットを月額9,800円で届けるサービスを始めたい。"></textarea>
+    <div class="form-row">
+      <label>用途(読み手)
+        <select id="purpose"></select>
+      </label>
+      <span id="purpose-note" class="msg"></span>
+    </div>
     <div class="form-row">
       <label class="file">資料を追加(PDF・テキスト・CSV)<input id="files" type="file" multiple accept=".pdf,.txt,.md,.csv,.json"></label>
       <button id="read-brief" class="primary">AIで読み取る</button>
@@ -172,6 +179,31 @@
       <ul id="g-log" class="log"></ul>
     </div>
   </div>
+</section>
+
+<!-- ⑥ 用途別レポート -->
+<section id="tab-report" class="tab">
+  <div class="card no-print">
+    <h2>読み手に合わせたレポートをつくる</h2>
+    <p class="note">③の商品条件と④の計画(広告費・原価率など)を使い、読み手が重視する数字を前に出してまとめます。<br>用途は③の STEP 1 と連動しています。</p>
+    <div class="form-row">
+      <label>用途(読み手) <select id="purpose2"></select></label>
+    </div>
+    <p id="purpose-focus" class="note"></p>
+    <details id="loan-box"><summary>借入の条件(金融機関向けで使用)</summary>
+      <div class="form-grid">
+        <label>借入額(万円) <input id="l-amount" type="number" value="3000" min="0"></label>
+        <label>年利(%) <input id="l-rate" type="number" value="2.5" min="0" step="0.1"></label>
+        <label>返済期間(年) <input id="l-years" type="number" value="5" min="1" max="30"></label>
+        <label>据置期間(月) <input id="l-grace" type="number" value="6" min="0" max="36"></label>
+      </div>
+    </details>
+    <div class="form-row">
+      <button id="run-report" class="primary">レポートをつくる</button>
+      <button id="print-report" disabled>印刷・PDF保存</button>
+    </div>
+  </div>
+  <div id="report-out"></div>
 </section>
 
 <!-- 出典と仮定 -->
