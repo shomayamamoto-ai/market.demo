@@ -282,3 +282,17 @@ test("3D:選択肢が1つなら買う/買わない、4つならどれか1つか�
   const n = (k) => four.filter((d) => d.choice === k).length;
   assert.ok(n(3) > n(0), "安い案を選ぶ人のほうが多い");
 });
+
+import { TEMPLATES, runCustom, trialCustom, sensitivity } from "../public/js/custom.js";
+test("オリジナルの実験:条件を変えると結果が動き、割合の合計は100%になる", () => {
+  const cfg = { ...TEMPLATES.fourday, n: 600 }, t = trialCustom(P, cfg, 4, 1);
+  near(t.mean.reduce((a, b) => a + b, 0), 1, 1e-6, "割合の合計");
+  assert.ok(t.mean[0] < 0.99 && t.mean[0] > 0.3, `今のままが${t.mean[0]}`);
+  const richer = JSON.parse(JSON.stringify(cfg)); richer.options[1].money = 20000;
+  assert.ok(trialCustom(P, richer, 4, 1).mean[1] > t.mean[1] + 0.05, "給与が増える案にすると、選ぶ人が増える");
+  const young = t.byAge[0].shares[0], old = t.byAge[t.byAge.length - 1].shares[0];
+  assert.ok(young < old, "若い人ほど、今のままから動く");
+  assert.deepEqual(runCustom(P, cfg, 3).final, runCustom(P, cfg, 3).final); // 同じシードなら同じ結果
+  assert.equal(runCustom(P, { ...cfg, target: { ageMin: 150, ageMax: 160, sex: "all" } }, 1), null);
+  assert.ok(sensitivity(P, cfg, 1, 2, 1).rows.length >= 5);
+});

@@ -16,6 +16,7 @@ import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
 import { labor } from "./labor.js";
+import { mountCustom, CUSTOM_ASSUMPTIONS } from "./custom.js";
 import { queue, spreadModel, schelling, newsvendor, laffer } from "./theory.js";
 import { threshold, tournament, commons, split } from "./experiments.js";
 import { future } from "./future.js";
@@ -140,6 +141,7 @@ async function init() {
 // ---------- 画面の切り替え(大きな区分 → 画面) ----------
 const NAV = [
   { key: "home", label: "はじめに", tabs: [["home", "はじめに"]] },
+  { key: "custom", label: "自分で試す", tabs: [["custom", "オリジナルの実験"]] },
   { key: "japan", label: "仮想の日本", tabs: [["people", "人口とペルソナ"], ["market", "市場の規模感"]] },
   { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
@@ -152,6 +154,7 @@ const LABS = [economy, labor, town, island, council, climb];
 const THEORY_LABS = [queue, spreadModel, schelling, newsvendor, laffer];
 const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
+  mountCustom({ getPersonas: () => state.personas, seedOf: () => Number($("seed").value) || 1, before: $("tab-score") });
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
   for (const def of EXPERIMENT_LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "experiment").tabs.push([def.key, def.title]); }
   mountLab(future, { seedOf: () => 1 }); NAV.find((g) => g.key === "japan").tabs.push([future.key, future.title]);
@@ -1129,6 +1132,7 @@ function renderSources() {
   const rows = [];
   const add = (group, obj) => Object.values(obj).forEach((a) => rows.push(`<tr><td>${group}</td><td>${esc(a.note)}</td><td>${esc(typeof a.value === "object" ? JSON.stringify(a.value) : String(a.value))}</td></tr>`));
   add("ペルソナ生成", ASSUMPTIONS);
+  add("オリジナルの実験", CUSTOM_ASSUMPTIONS);
   add("市場規模", MARKET_ASSUMPTIONS);
   add("普及シミュレーション", DIFFUSION_ASSUMPTIONS);
   add("組織シミュレーター", ORG_ASSUMPTIONS);

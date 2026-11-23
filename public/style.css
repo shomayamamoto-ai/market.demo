@@ -229,3 +229,7 @@ html.stage-big{overflow:hidden}
 .v-opt b{font-family:var(--display);align-self:center}.v-opt b small{display:block;font-weight:400;color:var(--sub);font-size:12px}.v-opt label{min-width:0}.v-opt input{width:100%;min-width:0}
 .v-opt .o-fixed{grid-column:2/-1;color:var(--sub);font-size:13px;align-self:center}.v-opt .o-del{min-height:44px}
 @media (max-width:560px){.v-opt{grid-template-columns:1fr 1fr}.v-opt b{grid-column:1/-1}.v-opt .o-del{grid-column:1/-1}.v-opt .o-fixed{grid-column:1/-1}}
+.card.own{display:grid;gap:4px;text-decoration:none;color:var(--ink);border-left:4px solid var(--accent);margin-bottom:18px}.card.own b{font-family:var(--display);font-size:20px}.card.own span{color:var(--sub)}.card.own em{font-style:normal;color:var(--accent);font-weight:700;font-size:14px}.card.own:hover{border-color:var(--accent)}
+.form-grid label.wide{grid-column:1/-1}
+.x-opt{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px 12px;align-items:end;padding:12px;margin-bottom:8px;border:1px solid var(--line);border-left:5px solid;border-radius:6px;background:var(--surface);min-width:0}
+.x-opt label{min-width:0;font-size:13px}.x-opt input{width:100%;min-width:0}.x-opt .x-name{grid-column:1/-1;font-family:var(--display);font-weight:700;font-size:15px}.x-opt .x-del{min-height:44px}
