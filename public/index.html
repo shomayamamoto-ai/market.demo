@@ -328,6 +328,28 @@
   <div id="t-out"></div>
 </section>
 
+<!-- 多重下請け -->
+<section id="tab-chain" class="tab">
+  <div class="page-head"><h1>多重下請け</h1><p>予算が現場に届くまでに抜かれる段階の数が、現場の人数と工事の出来をどう変えるかを試します。</p></div>
+  <div class="slot"></div>
+  <div class="card">
+    <div class="form-grid">
+      <label>条件 <select id="c-preset"></select></label>
+      <label>中抜きの段階数 <input id="c-layers" type="number" value="3" min="0" max="6"></label>
+      <label>1段階で抜く割合(%) <input id="c-rate" type="number" value="30" min="0" max="90" step="5"></label>
+      <label>工期(日) <input id="c-days" type="number" value="30" min="10" max="120"></label>
+    </div>
+    <p class="note">発注者は毎日、人数分の食料を予算として出します。職人は1日1個食べ、1日1個の石を運びます。<br>食料が届かない日が続くと倒れ、遅れが大きくなると手抜きを選ぶ人が出ます。この画面では「期間(年)」は使いません。</p>
+    <div class="form-row">
+      <button id="c-run" class="primary">この条件で試す</button>
+      <button id="c-compare">4つの条件を比べる</button>
+      <button id="c-sweep">段階数を変えて検証する</button>
+    </div>
+    <p id="c-msg" class="msg"></p>
+  </div>
+  <div id="c-out"></div>
+</section>
+
 <!-- 出典と仮定 -->
 <section id="tab-source" class="tab">
   <div class="page-head"><h1>出典と仮定</h1><p>使っているデータの出どころと、統計に無い部分をどう補ったかの一覧です。</p></div>

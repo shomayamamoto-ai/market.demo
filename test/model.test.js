@@ -100,3 +100,24 @@ import { validate } from "../public/js/personas.js";
 test("検算:主な合計値が公表値の15%以内に収まる", () => {
   for (const t of validate(D, P)) assert.ok(Math.abs(t.error) < 0.15, `${t.label}: モデル ${t.model} / 公表 ${t.value}`);
 });
+
+// ---- 多重下請け ----
+import { trialChain, relay } from "../public/js/chain.js";
+import { sweepLayers, CHAIN_REFERENCE } from "../public/js/chain.js";
+test("下請け:3段階で30%ずつ抜くと現場に届くのは34%で、働ける人もその水準まで減る", () => {
+  const cfg = { n: 100, ages: ORG.ages, seed: 1 };
+  assert.ok(Math.abs(relay(100, { layers: 3, rate: 0.3 }).delivered - 34.3) < 0.01);
+  const direct = trialChain(cfg, { layers: 0, rate: 0.3 }, 30, 20), layered = trialChain(cfg, { layers: 3, rate: 0.3 }, 30, 20);
+  assert.ok(direct.survivors > 0.999 && direct.collapsed === 0);
+  assert.ok(Math.abs(layered.survivors - 0.34) < 0.05, `生存 ${layered.survivors}`);
+  assert.ok(layered.strength < 0.6);
+});
+
+test("下請け:段数別の結果が、参考にした実験の値から大きく外れない", () => {
+  const sw = sweepLayers({ n: 100, ages: ORG.ages, seed: 1 }, { rate: 0.3, shortcut: true }, CHAIN_REFERENCE.layers, 30, 100);
+  sw.forEach((s, i) => {
+    assert.ok(Math.abs(s.survivors * 100 - CHAIN_REFERENCE.survivors[i]) <= 6, `生存 ${i}段: ${s.survivors}`);
+    assert.ok(Math.abs(s.strength * 100 - CHAIN_REFERENCE.strength[i]) <= 6, `強度 ${i}段: ${s.strength}`);
+    assert.ok(Math.abs(s.collapsed - CHAIN_REFERENCE.collapsed[i]) <= 15, `崩落 ${i}段: ${s.collapsed}`);
+  });
+});

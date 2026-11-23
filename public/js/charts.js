@@ -97,4 +97,20 @@ export function multiLine(series, { xLabel = "", fmt = (v) => `${Math.round(v * 
   return `<svg viewBox="0 0 ${W} ${H}" role="img">${legend}${ticks}${lines}${xt.join("")}<text x="${W - R}" y="${H - 2}" text-anchor="end" class="sub">${esc(xLabel)}</text></svg>`;
 }
 
+// 縦棒グラフ(値のラベルつき)。rows: [{label, value, on?}]
+export function vbar(rows, { color = "var(--accent)", max = null, fmt = (v) => v } = {}) {
+  const W = 300, H = 230, L = 8, R = 8, T = 26, B = 28;
+  const top = max ?? Math.max(...rows.map((r) => r.value), 1e-9);
+  const slot = (W - L - R) / rows.length;
+  const y = (v) => T + (1 - v / top) * (H - T - B);
+  const grid = [0.5, 1].map((t) => `<line x1="${L}" x2="${W - R}" y1="${y(top * t)}" y2="${y(top * t)}" class="axis"/>`).join("");
+  const bars = rows.map((r, i) => {
+    const x = L + slot * i + slot * 0.15, h = Math.max(y(0) - y(r.value), 1.5);
+    return `<rect x="${x}" y="${y(0) - h}" width="${slot * 0.7}" height="${h}" rx="4" fill="${color}" opacity="${r.on ? 1 : 0.5}"/>
+      <text x="${x + slot * 0.35}" y="${y(0) - h - 6}" text-anchor="middle" class="vb-v${r.on ? " on" : ""}">${esc(fmt(r.value))}</text>
+      <text x="${x + slot * 0.35}" y="${H - 8}" text-anchor="middle" class="${r.on ? "vb-l on" : "vb-l sub"}">${esc(r.label)}</text>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" role="img">${grid}<line x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--sub)"/>${bars}</svg>`;
+}
+
 export { esc };

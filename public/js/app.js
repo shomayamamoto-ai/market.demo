@@ -6,8 +6,9 @@ import {
   reweightForYear, inTarget, MARKET_ASSUMPTIONS,
 } from "./market.js";
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
-import { hbar, pyramid, line, combo, multiLine, esc } from "./charts.js";
+import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
+import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
 import { makeRng } from "./rng.js";
 import { PURPOSES, buildReport } from "./report.js";
@@ -60,6 +61,12 @@ async function init() {
   $("o-preset").innerHTML = Object.entries(PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("o-preset").value = "fixedPush";
   $("o-preset").onchange = () => ($("o-push").value = Math.round(PRESETS[$("o-preset").value].rules.push * 100));
+  $("c-preset").innerHTML = Object.entries(CHAIN_PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+  $("c-preset").value = "shortcut";
+  $("c-preset").onchange = () => { const r = CHAIN_PRESETS[$("c-preset").value].rules; $("c-layers").value = r.layers; $("c-rate").value = Math.round(r.rate * 100); };
+  $("c-run").onclick = () => busy("c-msg", chainRun);
+  $("c-compare").onclick = () => busy("c-msg", chainCompare);
+  $("c-sweep").onclick = () => busy("c-msg", chainSweep);
   $("t-preset").innerHTML = Object.entries(SOCIETY_PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("t-preset").value = "heavy";
   $("t-preset").onchange = () => ($("t-tax").value = Math.round(SOCIETY_PRESETS[$("t-preset").value].rules.tax * 100));
@@ -70,7 +77,9 @@ async function init() {
   $("o-compare").onclick = () => busy("o-msg", orgCompare);
   $("o-sweep").onclick = () => busy("o-msg", orgSweep);
   $("v-set").onclick = () => gatherCrowd();
-  $("v-start").onclick = () => { if (state.visual?.phase !== "wander") gatherCrowd(); state.visual?.start(); };
+  // 入力を変えたら、その場で人を集め直す(古い条件のまま走らないようにする)
+  $("v-start").onclick = () => { if (state.visual?.phase !== "wander" || state.visualKey !== visualKey()) gatherCrowd(); state.visual?.start(); };
+  for (const id of ["v-price-b", "v-per-b", "v-n"]) $(id).onchange = $(id).oninput = () => { clearTimeout(state.vTimer); state.vTimer = setTimeout(gatherCrowd, 400); };
   $("v-speed").onchange = () => state.visual?.setSpeed(Number($("v-speed").value));
   $("v-ab").onchange = () => {
     $("v-price-b").disabled = $("v-per-b").disabled = !$("v-ab").checked;
@@ -109,7 +118,7 @@ const NAV = [
   { key: "home", label: "はじめに", tabs: [["home", "はじめに"]] },
   { key: "japan", label: "仮想の日本", tabs: [["people", "人口とペルソナ"], ["market", "市場の規模感"]] },
   { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
-  { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"]] },
+  { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
   { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
 ];
 function buildNav() {
@@ -523,7 +532,7 @@ function orgRun() {
   const one = runOrg(config, rules, years); // 画面で1人ずつ見せる代表例
   const S = t.series;
   const advice = orgAdvice(t, rules, { ace: config.mix.ace, n: config.n });
-  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = $("c-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>${esc(presetLabel)}を${runs}回検証</h2>
       <p class="a-sub">${num(config.n)}人の職場で、早い人に回す割合 ${pct(rules.push, 0)}、${years}年後までを計算</p>
       <div class="a-cards">
@@ -565,7 +574,7 @@ function orgCompare() {
   const rows = Object.values(PRESETS).map((p) => ({ label: p.label, t: trialOrg(config, p.rules, years, runs), push: p.rules.push }));
   const best = rows.reduce((a, b) => (b.t.productivity > a.t.productivity ? b : a));
   const calm = rows.reduce((a, b) => (b.t.hours < a.t.hours ? b : a));
-  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = $("c-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>4つのルールを${runs}回ずつ検証</h2>
       <p class="a-sub">${num(config.n)}人の職場、${years}年後。それぞれのルールの標準の設定で比べています</p>
       <div class="table-scroll"><table><tr><th>ルール</th><th class="num">生産力</th><th class="num">エースの割合</th><th class="num">エース全滅</th><th class="num">労働時間</th><th class="num">過労の離脱</th><th class="num">転職</th></tr>
@@ -583,7 +592,7 @@ function orgSweep() {
   const safe = sw.filter((s) => s.wiped === 0), all = sw.filter((s) => s.wiped === runs), mid = sw.filter((s) => s.wiped > 0 && s.wiped < runs);
   const range = (list) => (list.length ? (list.length > 1 ? `${pct(list[0].value, 0)}〜${pct(list[list.length - 1].value, 0)}` : pct(list[0].value, 0)) : "―");
   const edge = safe.length && safe.length < sw.length ? safe[safe.length - 1].value : null;
-  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = $("c-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>「早い人に回す割合」を変えて${runs}回ずつ検証</h2>
       <p class="a-sub">${esc(presetLabel)}のルールで、早く終わった人へ回す割合だけを0〜100%に変えた(${years}年後)</p>
       <p class="a-key">エースが全滅した回数(棒)と、${years}年後のエースの割合・生産力(線)</p>
@@ -621,7 +630,7 @@ function socRun() {
   const t = trialSociety(config, rules, years, runs), L = t.last, S = t.series;
   const one = runSociety(config, rules, years);
   const advice = socAdvice(L, S[0], rules);
-  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = $("c-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>${esc(label.slice(2))}を${runs}回検証</h2>
       <p class="a-sub">${num(config.n)}人の村、税率 ${pct(rules.tax, 0)}${rules.rebuildAt != null ? `(${rules.rebuildAt}年目に立て直し策を実施)` : ""}、${years}年後までを計算</p>
       <div class="a-cards">
@@ -660,7 +669,7 @@ function socCompare() {
   const colors = ["#8b93a7", "#1a8f5a", "#e2574c", "#f2a53c", "#b277d9", "#2f6fe4"];
   const rows = Object.values(SOCIETY_PRESETS).map((p) => ({ label: p.label, t: trialSociety(config, p.rules, years, runs) }));
   const best = rows.reduce((a, b) => (b.t.last.productivity > a.t.last.productivity ? b : a));
-  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = $("c-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>6つの制度を${runs}回ずつ検証</h2>
       <p class="a-sub">${num(config.n)}人の村、${years}年後。Fは8年目に立て直し策(税率20%へ減税・管理の簡素化・挑戦への還元)を実施</p>
       <div class="table-scroll"><table><tr><th>制度</th><th class="num">生産力</th><th class="num">森に挑戦</th><th class="num">自分の畑だけ</th><th class="num">税収/人</th><th class="num">人口</th><th class="num">助け合いの支払い</th></tr>
@@ -677,7 +686,7 @@ function socSweep() {
   const top = sw.reduce((a, b) => (b.last.productivity > a.last.productivity ? b : a));
   const rev = sw.reduce((a, b) => (b.last.revenue > a.last.revenue ? b : a));
   const fall = sw.find((s) => s.value > top.value && s.last.productivity < top.last.productivity * 0.8);
-  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = $("c-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>税率を変えて${runs}回ずつ検証</h2>
       <p class="a-sub">${esc(label.slice(2))}の条件で、税率だけを0〜80%に変えた(${years}年後)</p>
       <p class="a-key">1人あたりの税収(棒)と、${years}年後の生産力・森に挑戦する人の割合(線)</p>
@@ -691,17 +700,108 @@ function socSweep() {
       <p class="a-note">${fall ? `このモデルの条件では、税率${pct(fall.value, 0)}で生産力が最大時の8割を下回ります。` : ""}税率を上げても、ある所から税収は増えなくなります(ラッファー曲線と呼ばれる形)。山の位置は「出典と仮定」の係数で変わり、現実の税率の目安を示すものではありません。</p></div>`;
 }
 
+// ---------- ⑧-3 多重下請け ----------
+function chainConfig() {
+  const { config, runs } = orgConfig();
+  const v = (id, lo, hi, d) => Math.min(hi, Math.max(lo, Number($(id).value) || d));
+  const preset = CHAIN_PRESETS[$("c-preset").value];
+  return { config: { n: Math.min(config.n, 2000), ages: config.ages, seed: config.seed }, runs: Math.min(runs, 100), days: Math.round(v("c-days", 10, 120, 30)), label: preset.label,
+    rules: { ...preset.rules, layers: Math.round(v("c-layers", 0, 6, 0)), rate: v("c-rate", 0, 90, 0) / 100 } };
+}
+const chainOut = (html) => { $("o-out").innerHTML = $("t-out").innerHTML = ""; $("c-out").innerHTML = html; };
+function relayTable(n, rules) {
+  const r = relay(n, rules);
+  return `<div class="table-scroll"><table><tr><th>予算の流れ</th><th class="num">1日あたり</th></tr><tr><td>発注者が出す予算</td><td class="num">${num(n)}個</td></tr>${
+    r.steps.map((s) => `<tr><td>${s.label}の取り分</td><td class="num">−${num(s.take, 1)}個</td></tr>`).join("")}<tr><td><b>現場に届く</b></td><td class="num"><b>${num(r.delivered, 1)}個(${pct(r.delivered / n, 0)})</b></td></tr></table></div>`;
+}
+function chainRun() {
+  const { config, runs, days, rules, label } = chainConfig();
+  const t = trialChain(config, rules, days, runs), S = t.series;
+  const one = runChain(config, rules, days);
+  const advice = [];
+  if (t.delivered < 0.7) advice.push(`予算の${pct(1 - t.delivered, 0)}が途中で抜かれ、現場には${pct(t.delivered, 0)}しか届いていません。現場で働き続けられる人数は、届く食料の量でほぼ決まります。`);
+  if (t.survivors < 0.8) advice.push(`職人の${pct(1 - t.survivors, 0)}が倒れて現場を離れました。人が減ると工事が遅れ、遅れがさらに無理と手抜きを呼びます。`);
+  if (t.collapsed > 0) advice.push(`${runs}回のうち${t.collapsed}回で、引き渡した後に崩れました。納期を数だけ合わせて守った結果、やり直しの費用が発注者に返ってきます。`);
+  if (t.complete === 0 && t.progress < 1) advice.push(`工期内に引き渡せませんでした(進み具合 ${pct(t.progress, 0)})。`);
+  if (rules.open) advice.push("横流しだけの段階が消え、実作業を担う業者だけが残っています。取り分は残りますが、支援によって現場の作業は速くなります。");
+  if (!rules.open && rules.layers > 0) advice.push("価値を加えずに手数料だけを取る段階があるかを、元の予算と各段階の取り分を公開して確かめてください(条件Dで効果を試せます)。");
+  chainOut(`<div class="analysis">
+      <h2>${esc(label.slice(2))}を${runs}回検証</h2>
+      <p class="a-sub">${num(config.n)}人の現場、${rules.open ? "透明化後" : `${rules.layers}段階で${pct(rules.rate, 0)}ずつ`}、工期${days}日</p>
+      <div class="a-cards">
+        ${aCard("現場に届く予算", pct(t.delivered, 0), "発注者の予算に対して")}
+        ${aCard(`${days}日目に働いている人`, pct(t.survivors, 0), `${num(config.n * t.survivors)}人`)}
+        ${aCard("工事の進み具合", pct(t.progress, 0), t.doneDay ? `平均${num(t.doneDay, 0)}日で完成` : "工期内に完成せず")}
+        ${aCard("できあがりの強度", pct(t.strength, 0), "正規の材料で完成 = 100%")}
+        ${aCard("引き渡し後に崩れた回数", `${t.collapsed}`, `/ ${runs}回`)}
+      </div><p class="a-note">数字は${runs}回の試行の平均です。</p></div>
+    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["予算がそのまま現場に届き、工期どおりに正規の強度で完成しました。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="grid2" style="margin:0"><div><h3>予算のリレー</h3>${relayTable(config.n, rules)}</div>
+      <div><h3>現場の推移</h3>${multiLine([{ name: "働いている人", color: "#4a7fb5", points: S.map((s, i) => ({ x: i + 1, y: s.alive })) }, { name: "進み具合", color: "#2f8f6b", points: S.map((s, i) => ({ x: i + 1, y: s.progress })) }, { name: "強度", color: "#b4473b", points: S.map((s, i) => ({ x: i + 1, y: s.strength })) }, { name: "手抜きをした人", color: "#c9a45c", points: S.map((s, i) => ({ x: i + 1, y: s.cut })) }], { xLabel: "日" })}</div></div>
+      <h3>職人1人ずつの様子(代表例:${runs}回のうちの1回)</h3>
+      <div class="o-play"><button id="o-playbtn">再生</button><input id="o-year" type="range" min="0" max="${days - 1}" value="0"><b id="o-year-label"></b></div>
+      <div id="o-people" class="o-grid"></div>
+      <p class="note">■ 青=働いている人 ■ 灰=倒れて現場を離れた人(最大1,000人まで表示)。</p></div>`);
+  playGrid(days - 1, (d) => { const h = one.history[d]; return { label: `${h.day}日目 働いている人 ${pct(h.alive, 0)}・進み具合 ${pct(h.progress, 0)}`, cells: h.cells.slice(0, 1000).map((c) => (c === "ok" ? "#4a7fb5" : "#56423e")) }; });
+}
+function chainCompare() {
+  const { config, runs, days } = chainConfig();
+  const rows = Object.values(CHAIN_PRESETS).map((p) => ({ label: p.label, t: trialChain(config, p.rules, days, runs) }));
+  const colors = ["#2f8f6b", "#c9a45c", "#b4473b", "#4a7fb5"];
+  chainOut(`<div class="analysis">
+      <h2>4つの条件を${runs}回ずつ検証</h2>
+      <p class="a-sub">${num(config.n)}人の現場、工期${days}日。それぞれの条件の標準の設定で比べています</p>
+      <div class="table-scroll"><table><tr><th>条件</th><th class="num">現場に届く予算</th><th class="num">働いている人</th><th class="num">進み具合</th><th class="num">強度</th><th class="num">崩れた回数</th></tr>
+      ${rows.map((r) => `<tr><td>${esc(r.label)}</td><td class="num">${pct(r.t.delivered, 0)}</td><td class="num">${pct(r.t.survivors, 0)}</td><td class="num">${pct(r.t.progress, 0)}</td><td class="num">${pct(r.t.strength, 0)}</td><td class="num">${r.t.collapsed} / ${runs}回</td></tr>`).join("")}</table></div>
+      <p class="a-note">強度は、正規の材料で工期どおりに完成した場合を100%とした値です。進み具合が80%以上なら、見かけ上は完成として引き渡される想定です。</p></div>
+    <div class="card"><h3>働いている人の推移</h3>${multiLine(rows.map((r, i) => ({ name: r.label.slice(0, 1), color: colors[i], points: r.t.series.map((s, d) => ({ x: d + 1, y: s.alive })) })), { xLabel: "日" })}
+      <h3>強度の推移</h3>${multiLine(rows.map((r, i) => ({ name: r.label.slice(0, 1), color: colors[i], points: r.t.series.map((s, d) => ({ x: d + 1, y: s.strength })) })), { xLabel: "日" })}</div>`);
+}
+function chainSweep() {
+  const { config, runs, days, rules } = chainConfig();
+  const sw = sweepLayers(config, { ...rules, open: false }, [0, 1, 2, 3, 4, 5], days, runs);
+  const on = (s) => s.value === rules.layers;
+  const rows = (f) => sw.map((s) => ({ label: `${s.value}段`, value: f(s), on: on(s) }));
+  const cur = sw.find(on) ?? sw[3], R = CHAIN_REFERENCE;
+  // 参考にした実験と同じ条件(100人・30日・30%・手抜きあり)のときだけ、数字を並べて見せる
+  const same = config.n === 100 && days === 30 && Math.abs(rules.rate - 0.3) < 1e-9 && rules.shortcut;
+  const refTable = same ? `<h3>参考にした実験の値との比較</h3><div class="table-scroll"><table><tr><th>段数</th>${sw.map((s) => `<th class="num">${s.value}段</th>`).join("")}</tr>
+      <tr><td>働いている人:このモデル</td>${sw.map((s) => `<td class="num">${num(s.survivors * 100)}人</td>`).join("")}</tr><tr><td>働いている人:参考値</td>${R.survivors.map((v) => `<td class="num">${v}人</td>`).join("")}</tr>
+      <tr><td>強度:このモデル</td>${sw.map((s) => `<td class="num">${pct(s.strength, 0)}</td>`).join("")}</tr><tr><td>強度:参考値</td>${R.strength.map((v) => `<td class="num">${v}%</td>`).join("")}</tr>
+      <tr><td>崩れた回数:このモデル</td>${sw.map((s) => `<td class="num">${num((s.collapsed / runs) * 100)}回</td>`).join("")}</tr><tr><td>崩れた回数:参考値</td>${R.collapsed.map((v) => `<td class="num">${v}回</td>`).join("")}</tr></table></div>
+      <p class="note">崩れた回数は100回あたりに直した値です。係数は、この参考値に近づくよう調整しています。</p>` : `<p class="note">人数100人・工期30日・1段階30%・手抜きあり(条件C)にすると、参考にした実験の値と並べて比べられます。</p>`;
+  chainOut(`<div class="card">
+      <h2>中抜きの段数を変えて 各${runs}回</h2>
+      <p class="note">職人${num(config.n)}人・予算${num(config.n)}個/日・1段階で${pct(rules.rate, 0)}・工期${days}日${rules.shortcut ? "・手抜きあり" : "・手抜きなし"}。濃い棒は、いま選んでいる段数です。</p>
+      <div class="tri">
+        <div><h3>働いている人 <small>単位:%</small></h3>${vbar(rows((s) => Math.round(s.survivors * 100)), { color: "var(--male)", max: 100 })}</div>
+        <div><h3>できあがりの強度 <small>単位:%</small></h3>${vbar(rows((s) => Math.round(s.strength * 100)), { color: "var(--good)", max: Math.max(100, ...sw.map((s) => s.strength * 100)) })}</div>
+        <div><h3>${runs}回中 崩れた回数 <small>単位:回</small></h3>${vbar(rows((s) => s.collapsed), { color: "var(--accent)", max: runs })}</div>
+      </div>
+      <div class="kpis">
+        ${kpi(`${cur.value}段で現場に届く予算`, pct(cur.delivered, 0))}
+        ${kpi(`${cur.value}段で働いている人`, pct(cur.survivors, 0))}
+        ${kpi(`${cur.value}段の強度`, pct(cur.strength, 0))}
+        ${kpi(`${cur.value}段で崩れた回数`, `${cur.collapsed}回`, `${runs}回中`)}
+      </div>
+      <p class="note">段数が増えるほど現場に届く予算が減り、働ける人が減ります。${rules.shortcut ? "人が減っても納期は変わらないため、泥ブロックで数を合わせるようになり、強度が下がって崩れやすくなります。" : "手抜きをしない場合は崩れませんが、工期内に完成しません。"}</p>
+      ${refTable}</div>`);
+}
+
 // ---------- ⑦ 3Dビジュアル ----------
 function openVisual() {
   if (!state.visual) {
     state.visual = createVisual($("visual"), { fmtYen, fmtPeople, pct, num, esc });
     if (!state.visual) return;
     gatherCrowd();
-  }
+  } else if (state.visualKey !== visualKey()) gatherCrowd();
   state.visual.run(true);
 }
+// いまの入力内容(商品の条件・B案・人数)を1つの文字列にしたもの。変わっていたら集め直す
+const visualKey = () => JSON.stringify([currentProduct(), $("v-ab").checked, $("v-price-b").value, $("v-per-b").value, $("v-n").value, $("year").value]);
 function gatherCrowd() {
   if (!state.visual) return;
+  state.visualKey = visualKey();
   const productA = currentProduct();
   const productB = $("v-ab").checked
     ? { ...productA, price: Math.max(0, Number($("v-price-b").value) || 0), perYear: Math.max(0.1, Number($("v-per-b").value) || productA.perYear) }
@@ -783,6 +883,7 @@ function renderSources() {
   add("普及シミュレーション", DIFFUSION_ASSUMPTIONS);
   add("組織シミュレーター", ORG_ASSUMPTIONS);
   add("税率と助け合い", SOCIETY_ASSUMPTIONS);
+  add("多重下請け", CHAIN_ASSUMPTIONS);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");
