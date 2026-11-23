@@ -6,8 +6,9 @@ import { buyProbability, stratifiedSample } from "./market.js";
 import { describePersona } from "./personas.js";
 import { buildProp } from "./stage3d.js";
 
-const BLUE = 0x2f6fe4, RED = 0xe2574c;
-const GATE_X = 31, ISLAND = 106, COLS = 30, GAP = 1.9, SIZE = 1.45;
+const ISLAND = 106, SIZE = 1.45;
+// ゲートの数ごとの横の位置と、後ろに並ぶ列の数・間隔
+const LAYOUT = { 2: { xs: [-31, 31], cols: 30, gap: 1.9 }, 3: { xs: [-46, 0, 46], cols: 22, gap: 1.8 }, 4: { xs: [-57, -19, 19, 57], cols: 19, gap: 1.7 } };
 
 // 統計モードでの「その人がそう選んだ理由」
 function reasonOf(p, product, bought) {
@@ -28,17 +29,22 @@ function reasonOf(p, product, bought) {
   return "今の暮らしで足りており、必要を感じない";
 }
 
-// 1人ずつの選択を決める。B案があれば A/B/どちらも買わない、無ければ 買う/買わない
-export function decide(sample, productA, productB, seed) {
+// ゲートの色(最大4つ)
+export const GATE_COLORS = [{ key: "blue", name: "青", hex: 0x2f6fe4 }, { key: "red", name: "赤", hex: 0xe2574c }, { key: "green", name: "緑", hex: 0x2f9a5f }, { key: "yellow", name: "黄", hex: 0xd9a21b }];
+
+// 1人ずつの選択を決める。選択肢が1つなら「買う(0)/買わない(1)」。2つ以上なら、どれか1つ(0〜)か、どれも買わない("none")
+export function decide(sample, options, seed) {
   const rng = makeRng(seed);
   return sample.map((p) => {
-    const pa = buyProbability(p, productA), pb = productB ? buyProbability(p, productB) : 0;
+    const probs = options.map((o) => buyProbability(p, o)), top = Math.max(...probs), total = probs.reduce((a, b) => a + b, 0);
     const u = rng.next();
-    let choice;
-    if (productB) choice = u < Math.max(pa, pb) ? (rng.next() < pa / Math.max(pa + pb, 1e-9) ? "blue" : "red") : "none";
-    else choice = u < pa ? "blue" : "red";
-    const bought = productB ? choice !== "none" : choice === "blue";
-    const chosen = choice === "red" && productB ? productB : productA;
+    let choice, bought, chosen = options[0];
+    if (options.length === 1) { bought = u < probs[0]; choice = bought ? 0 : 1; }
+    else if (u < top) { // 買う人は、買いたい気持ちの強さに比例して1つを選ぶ
+      let r = rng.next() * Math.max(total, 1e-9); choice = options.length - 1;
+      for (let k = 0; k < options.length; k++) { r -= probs[k]; if (r <= 0) { choice = k; break; } }
+      bought = true; chosen = options[choice];
+    } else { choice = "none"; bought = false; chosen = options[probs.indexOf(top)]; }
     return { p, choice, bought, reason: reasonOf(p, chosen, bought) };
   });
 }
@@ -92,22 +98,31 @@ export function createVisual(root, fmt) {
     }
   }
   // ---- ゲート(2本の柱とアーチ) ----
+  let gateMeshes = [];
   const gate = (x, color) => {
     const g = new THREE.Group(), m = mat(color);
     for (const s of [-1, 1]) { const post = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 8, 12), m); post.position.set(s * 4, 4, 0); g.add(post); }
     const arch = new THREE.Mesh(new THREE.TorusGeometry(4, 0.55, 10, 24, Math.PI), m); arch.position.y = 8; g.add(arch);
     const sign = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.3, 0.3), mat(0xffffff)); sign.position.y = 7.2; g.add(sign);
-    g.position.set(x, 0, 0); g.scale.setScalar(1.6); scene.add(g);
+    g.position.set(x, 0, 0); g.scale.setScalar(1.6); scene.add(g); gateMeshes.push(g);
   };
-  gate(-GATE_X, BLUE); gate(GATE_X, RED);
+  // 選択肢の数に合わせてゲートを建て直す
+  let gates = [], layout = LAYOUT[2];
+  const buildGates = (list) => {
+    for (const g of gateMeshes) { scene.remove(g); g.traverse((o) => { o.geometry?.dispose(); }); }
+    gateMeshes = []; layout = LAYOUT[list.length] ?? LAYOUT[2];
+    gates = list.map((g, k) => ({ ...GATE_COLORS[k], ...g, x: layout.xs[k] }));
+    for (const g of gates) gate(g.x, g.hex);
+  };
+  buildGates([{ label: "買う" }, { label: "買わない" }]);
   // 広場の手前に、商品を売る店と屋台を置く
   const props = [];
-  for (const [kind, color, x, z, size, ry] of [["market", "#2f6fe4", -GATE_X - 13, 12, 2.4, 0.5], ["market", "#e2574c", GATE_X + 13, 12, 2.4, -0.5], ["factory", "#c9a45c", -74, 30, 2.4, Math.PI / 2], ["plaza", "#6db7e8", 0, 14, 2, 0]]) {
+  for (const [kind, color, x, z, size, ry] of [["market", "#2f6fe4", -44, 24, 2.4, 0.5], ["market", "#e2574c", 44, 24, 2.4, -0.5], ["factory", "#c9a45c", -74, 30, 2.4, Math.PI / 2], ["plaza", "#6db7e8", 0, 14, 2, 0]]) {
     const g = buildProp(THREE, kind, color); g.position.set(x, 0, z); g.scale.setScalar(size); g.rotation.y = ry; scene.add(g); props.push(g);
   }
 
   // ---- 人(まとめて描画) ----
-  let N = 0, agents = [], meshes = null, labelsText = { blue: "買う", red: "買わない" };
+  let N = 0, agents = [], meshes = null;
   const dummy = new THREE.Object3D(), col = new THREE.Color();
   function buildCrowd(n) {
     if (meshes) for (const m of Object.values(meshes)) { scene.remove(m); m.geometry.dispose(); m.material.dispose(); }
@@ -122,12 +137,12 @@ export function createVisual(root, fmt) {
     meshes.eyes.frustumCulled = false; scene.add(meshes.eyes);
   }
 
-  const state = { phase: "idle", t: 0, speed: 1, picked: -1, data: null, shown: { blue: 0, red: 0 }, captions: [], capAt: 0 };
+  const state = { phase: "idle", t: 0, speed: 1, picked: -1, data: null, shown: [], captions: [], capAt: 0 };
   const rnd = makeRng(5);
   const wanderPoint = (rMin = 6, rMax = ISLAND - 14) => { const a = rnd.next() * Math.PI * 2, r = rMin + Math.sqrt(rnd.next()) * (rMax - rMin); return [Math.cos(a) * r, Math.sin(a) * r * 0.9 - 4]; };
 
   function setCrowd(decisions, opts) {
-    labelsText = opts.labels;
+    buildGates(opts.gates);
     buildCrowd(decisions.length);
     const HAIR = [0x2b2320, 0x4a3426, 0x6b4a32];
     agents = decisions.map((d, i) => {
@@ -140,26 +155,25 @@ export function createVisual(root, fmt) {
       return a;
     });
     meshes.hair.instanceColor.needsUpdate = meshes.body.instanceColor.needsUpdate = true;
-    state.phase = "wander"; state.data = opts; state.picked = -1; cam.goal = { ...HOME }; state.shown = { blue: 0, red: 0 };
+    state.phase = "wander"; state.data = opts; state.picked = -1; cam.goal = home(); state.shown = gates.map(() => 0);
     result.hidden = tag.hidden = true;
-    cards.innerHTML = `<div class="v-card blue"><b>青ゲート</b><span>${fmt.esc(opts.cards.blue)}</span></div><div class="v-card red"><b>赤ゲート</b><span>${fmt.esc(opts.cards.red)}</span></div>`;
+    cards.innerHTML = gates.map((g) => `<div class="v-card ${g.key}"><b>${g.name}ゲート</b><span>${fmt.esc(g.card)}</span></div>`).join("");
     say([opts.intro, "「スタート」を押すと、1人ずつが自分の家計と価値観で選び、ゲートに向かいます。"]);
   }
 
   function start() {
     if (!agents.length || state.phase === "walk") return;
-    const count = { blue: 0, red: 0 };
+    const count = gates.map(() => 0), { cols, gap } = layout;
     for (const a of agents) {
-      a.arrived = false;
+      a.arrived = false; a.passed = false;
       if (a.choice === "none") { a.slot = null; continue; }
       const k = count[a.choice]++;
-      const side = a.choice === "blue" ? -1 : 1;
-      a.slot = [side * GATE_X + ((k % COLS) - (COLS - 1) / 2) * GAP, -16 - Math.floor(k / COLS) * GAP];
+      a.slot = [gates[a.choice].x + ((k % cols) - (cols - 1) / 2) * gap, -16 - Math.floor(k / cols) * gap];
       a.wait = rnd.next() * 5; // 一斉に動かないよう、出発をばらす
     }
-    state.phase = "walk"; state.t = 0; state.shown = { blue: 0, red: 0 };
+    state.phase = "walk"; state.t = 0; state.shown = gates.map(() => 0);
     result.hidden = false;
-    say([`青いゲートは「${labelsText.blue}」、赤いゲートは「${labelsText.red}」。`, ...(state.data.hasNone ? ["どちらも選ばない人は、広場の外を歩き続けます。"] : [])]);
+    say([gates.map((g) => `${g.name}いゲートは「${g.label}」`).join("、") + "。", ...(state.data.hasNone ? ["どれも選ばない人は、広場の外を歩き続けます。"] : [])]);
   }
 
   function say(lines) { state.captions = lines.filter(Boolean); state.capAt = 0; caption.textContent = state.captions[0] ?? ""; state.capT = 0; }
@@ -167,7 +181,7 @@ export function createVisual(root, fmt) {
   function finish() {
     state.phase = "done";
     const D = state.data, total = agents.length, w = D.weight;
-    const n = { blue: agents.filter((a) => a.choice === "blue").length, red: agents.filter((a) => a.choice === "red").length };
+    const n = gates.map((_, k) => agents.filter((a) => a.choice === k).length), order = gates.map((g, k) => ({ g, n: n[k] })).sort((a, b) => b.n - a.n), chose = n.reduce((a, b) => a + b, 0);
     const buyers = agents.filter((a) => a.bought);
     const band = AGE_BANDS.map((b) => { const g = agents.filter((a) => ageBandOf(a.p.age) === b.label); return { label: b.label, n: g.length, rate: g.length ? g.filter((a) => a.bought).length / g.length : 0 }; }).filter((b) => b.n >= 20).sort((a, b) => b.rate - a.rate)[0];
     const reasons = new Map();
@@ -177,13 +191,14 @@ export function createVisual(root, fmt) {
     const rate = (g) => (g.length ? g.filter((a) => a.bought).length / g.length : 0);
     say([
       D.hasNone
-        ? `青「${labelsText.blue}」が${n.blue}人、赤「${labelsText.red}」が${n.red}人。どちらも選ばなかった人は${total - n.blue - n.red}人でした。`
-        : `「${labelsText.blue}」を選んだのは${total}人のうち${n.blue}人。実際の人数に直すと約${fmt.fmtPeople(n.blue * w)}です。`,
-      D.hasNone && `多かったのは${n.blue >= n.red ? "青" : "赤"}ゲート。差は${Math.abs(n.blue - n.red)}人(約${fmt.fmtPeople(Math.abs(n.blue - n.red) * w)})です。`,
+        ? `${gates.map((g, k) => `${g.name}「${g.label}」が${n[k]}人`).join("、")}。どれも選ばなかった人は${total - chose}人でした。`
+        : `「${gates[0].label}」を選んだのは${total}人のうち${n[0]}人。実際の人数に直すと約${fmt.fmtPeople(n[0] * w)}です。`,
+      D.hasNone && `いちばん多かったのは${order[0].g.name}ゲート。2番目との差は${order[0].n - order[1].n}人(約${fmt.fmtPeople((order[0].n - order[1].n) * w)})です。`,
+      D.hasNone && `年間の売上に直すと、${gates.map((g, k) => `${g.name}は約${fmt.fmtYen(n[k] * g.price * g.perYear * w)}`).join("、")}です。人数が多い案と、売上が多い案は同じとは限りません。`,
       band && `買った人の割合が最も高い年代は${band.label}で、${fmt.pct(band.rate)}でした。`,
       old.length >= 20 && young.length >= 20 && `39歳以下では${fmt.pct(rate(young))}、65歳以上では${fmt.pct(rate(old))}。世代で反応が分かれます。`,
       top && `買わなかった理由で最も多いのは「${top[0]}」で、${top[1]}人でした。`,
-      `買った${buyers.length}人が全員、年${fmt.num(D.perYear, 1)}回買うと、年間の売上は約${fmt.fmtYen(sum(agents, (a) => (a.bought ? (a.choice === "red" && D.priceB ? D.priceB * D.perYearB : D.price * D.perYear) : 0)) * w)}です。`,
+      !D.hasNone && `買った${buyers.length}人が全員、年${fmt.num(gates[0].perYear, 1)}回買うと、年間の売上は約${fmt.fmtYen(buyers.length * gates[0].price * gates[0].perYear * w)}です。`,
       "気になる人をクリックすると、その人の事情が見られます。ドラッグで視点を回せます。",
     ]);
   }
@@ -191,6 +206,7 @@ export function createVisual(root, fmt) {
 
   // ---- 視点操作 ----
   const HOME = { az: 0, pol: 1.02, dist: 132, x: 0, y: 0, z: -22 };
+  const home = () => ({ ...HOME, ...(root.clientWidth >= 700 ? { 3: { dist: 160, x: 16 }, 4: { dist: 192, x: 26 } } : { 3: { dist: 150 }, 4: { dist: 172 } })[gates.length] }); // ゲートが多いときは、全部が入るように引く
   const cam = { ...HOME, target: new THREE.Vector3(HOME.x, HOME.y, HOME.z), goal: { ...HOME } };
   let drag = null;
   const dom = renderer.domElement;
@@ -215,15 +231,15 @@ export function createVisual(root, fmt) {
     state.picked = hit ? hit.instanceId : -1;
     tag.hidden = state.picked < 0;
     // 選んだ人に寄る。何もない所をクリックしたら全体に戻る
-    if (state.picked < 0) cam.goal = { ...HOME };
+    if (state.picked < 0) cam.goal = home();
     else cam.goal = { ...cam.goal, dist: 13, pol: 1.15 };
     if (state.picked >= 0) {
       const a = agents[state.picked];
       const decided = state.phase === "walk" || state.phase === "done";
-      const choiceText = !decided ? "まだ選んでいません" : a.choice === "none" ? "どちらも選ばない" : `${a.choice === "blue" ? "青" : "赤"}ゲート「${labelsText[a.choice]}」`;
+      const choiceText = !decided ? "まだ選んでいません" : a.choice === "none" ? "どちらも選ばない" : `${gates[a.choice].name}ゲート「${gates[a.choice].label}」`;
       tag.innerHTML = `<b>ID:${a.p.id} ${fmt.esc(describePersona(a.p))}</b>
         <span>年収 ${fmt.num(a.p.income)}万円・月の支出 ${fmt.num(a.p.spendTotal)}円</span>
-        <span class="v-choice ${decided ? a.choice : ""}">${choiceText}</span>${decided ? `<span>理由:${fmt.esc(a.reason)}</span>` : ""}`;
+        <span class="v-choice ${decided && a.choice !== "none" ? gates[a.choice].key : ""}">${choiceText}</span>${decided ? `<span>理由:${fmt.esc(a.reason)}</span>` : ""}`;
     }
   }
 
@@ -239,14 +255,14 @@ export function createVisual(root, fmt) {
     state.t += dt;
 
     let moving = 0;
-    const shown = { blue: 0, red: 0 };
+    const shown = gates.map(() => 0);
     for (const a of agents) {
       let tx = a.tx, tz = a.tz, pace = a.pace * 0.35;
       const going = (state.phase === "walk" || state.phase === "done") && a.slot;
       if (going) {
         if (state.t < a.wait) { /* 出発待ち:その場で歩く */ }
         else if (a.passed) { [tx, tz] = a.slot; pace = a.pace * 2.4; }
-        else { tx = (a.choice === "blue" ? -1 : 1) * GATE_X + ((a.i % 5) - 2) * 1.1; tz = 2; pace = a.pace * 2.4; } // まずゲートをくぐる
+        else { tx = gates[a.choice].x + ((a.i % 5) - 2) * 1.1; tz = 2; pace = a.pace * 2.4; } // まずゲートをくぐる
       }
       const dx = tx - a.x, dz = tz - a.z, dist = Math.hypot(dx, dz);
       if (dist > 0.25) {
@@ -278,9 +294,10 @@ export function createVisual(root, fmt) {
 
     if (state.phase === "walk" || state.phase === "done") {
       const total = Math.max(agents.length, 1), D = state.data;
-      const bar = (k) => `<div class="v-row ${k}"><span>${k === "blue" ? "青" : "赤"}:${fmt.esc(labelsText[k])}</span><i><u style="width:${(shown[k] / total) * 100}%"></u></i><b>${shown[k]}</b></div>`;
-      const html = `<h4>${fmt.esc(D.title)}</h4><p>${total}人(1人 = 約${fmt.fmtPeople(D.weight)})</p>${bar("blue")}${bar("red")}` +
-        (state.phase === "done" ? `<p class="v-verdict ${!D.hasNone || shown.blue >= shown.red ? "blue" : "red"}">${D.hasNone ? `${shown.blue >= shown.red ? "青" : "赤"}ゲートが優勢` : `購入率 ${fmt.pct(shown.blue / total)}`}</p>` : "");
+      const bar = (g, k) => `<div class="v-row ${g.key}"><span>${g.name}:${fmt.esc(g.label)}</span><i><u style="width:${(shown[k] / total) * 100}%"></u></i><b>${shown[k]}</b></div>`;
+      const best = shown.indexOf(Math.max(...shown));
+      const html = `<h4>${fmt.esc(D.title)}</h4><p>${total}人(1人 = 約${fmt.fmtPeople(D.weight)})</p>${gates.map(bar).join("")}` +
+        (state.phase === "done" ? `<p class="v-verdict ${D.hasNone ? gates[best].key : "blue"}">${D.hasNone ? `${gates[best].name}ゲートが優勢` : `購入率 ${fmt.pct(shown[0] / total)}`}</p>` : "");
       if (result.innerHTML !== html) result.innerHTML = html;
       if (state.phase === "walk" && state.t > 6 && moving === 0) finish();
     }
@@ -314,19 +331,20 @@ export function createVisual(root, fmt) {
   };
 }
 
-// 画面から呼ぶ:対象者を選び、選択を決めて、群衆を配置する
-export function prepareCrowd(visual, { personas, productA, productB, n, seed, fmt }) {
-  const sample = stratifiedSample(personas, productA.target, n, seed);
+// 画面から呼ぶ:対象者を選び、選択を決めて、群衆を配置する。options は1〜4個の商品案({name, price, perYear, ...})
+export function prepareCrowd(visual, { personas, options, n, seed, fmt }) {
+  const first = options[0];
+  const sample = stratifiedSample(personas, first.target, n, seed);
   if (!sample.length) return null;
-  const decisions = decide(sample, productA, productB, seed + 17);
+  const decisions = decide(sample, options, seed + 17);
   const weight = sample.reduce((a, p) => a + p.sampleWeight, 0) / sample.length;
   const priceText = (p) => `${fmt.num(p.price)}円 × 年${fmt.num(p.perYear, 1)}回`;
+  const gates = options.length === 1
+    ? [{ label: "買う", card: `買う(${priceText(first)})`, price: first.price, perYear: first.perYear }, { label: "買わない", card: "買わない", price: 0, perYear: 0 }]
+    : options.map((o) => ({ label: `${o.label} ${fmt.num(o.price)}円`, card: `${o.label}:${priceText(o)}`, price: o.price, perYear: o.perYear }));
   visual.setCrowd(decisions, {
-    title: productA.name, weight, hasNone: Boolean(productB),
-    price: productA.price, perYear: productA.perYear, priceB: productB?.price, perYearB: productB?.perYear,
-    labels: productB ? { blue: `A案 ${fmt.num(productA.price)}円`, red: `B案 ${fmt.num(productB.price)}円` } : { blue: "買う", red: "買わない" },
-    cards: productB ? { blue: `A案:${priceText(productA)}`, red: `B案:${priceText(productB)}` } : { blue: `買う(${priceText(productA)})`, red: "買わない" },
-    intro: `「${productA.name}」の対象者から${sample.length}人を選びました。1人が約${fmt.fmtPeople(weight)}を代表します。`,
+    title: first.name, weight, hasNone: options.length > 1, gates,
+    intro: `「${first.name}」の対象者から${sample.length}人を選びました。1人が約${fmt.fmtPeople(weight)}を代表します。`,
   });
   return { sample, decisions };
 }

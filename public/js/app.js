@@ -96,13 +96,18 @@ async function init() {
   $("v-set").onclick = () => gatherCrowd();
   // 入力を変えたら、その場で人を集め直す(古い条件のまま走らないようにする)
   $("v-start").onclick = () => { if (state.visual?.phase !== "wander" || state.visualKey !== visualKey()) gatherCrowd(); state.visual?.start(); };
-  for (const id of ["v-price-b", "v-per-b", "v-n"]) $(id).onchange = $(id).oninput = () => { clearTimeout(state.vTimer); state.vTimer = setTimeout(gatherCrowd, 400); };
-  $("v-speed").onchange = () => state.visual?.setSpeed(Number($("v-speed").value));
-  $("v-ab").onchange = () => {
-    $("v-price-b").disabled = $("v-per-b").disabled = !$("v-ab").checked;
-    if ($("v-ab").checked && !$("v-price-b").value) { $("v-price-b").value = Math.round(currentProduct().price * 0.7); $("v-per-b").value = currentProduct().perYear; }
-    gatherCrowd();
+  $("v-n").onchange = () => gatherCrowd();
+  $("v-opt-add").onclick = () => { const o = visualOptions(); if (o.length >= 4) return; const last = o[o.length - 1]; state.vOpts = [...o.map((x) => ({ ...x })), { price: Math.round(last.price * 0.7), perYear: last.perYear }]; renderOptions(); gatherCrowd(); };
+  $("v-opt-reset").onclick = () => { state.vOpts = null; renderOptions(); gatherCrowd(); };
+  $("v-opts").oninput = (e) => {
+    const row = e.target.closest("[data-opt]"); if (!row) return;
+    state.vOpts ??= visualOptions().map((x) => ({ ...x }));
+    const k = Number(row.dataset.opt), o = state.vOpts[k];
+    o.price = Math.max(0, Number(row.querySelector(".o-price").value) || 0); o.perYear = Math.max(0.1, Number(row.querySelector(".o-per").value) || 1);
+    clearTimeout(state.vTimer); state.vTimer = setTimeout(gatherCrowd, 400);
   };
+  $("v-opts").onclick = (e) => { const b = e.target.closest(".o-del"); if (!b || !state.vOpts) return; state.vOpts.splice(Number(b.closest("[data-opt]").dataset.opt), 1); renderOptions(); gatherCrowd(); };
+  $("v-speed").onchange = () => state.visual?.setSpeed(Number($("v-speed").value));
   $("regen").onclick = regenerate;
   $("year").onchange = applyYear;
   $("shuffle").onclick = () => renderPersonaList(Math.floor(Math.random() * 1e9));
@@ -541,7 +546,7 @@ function orgConfig() {
   const ages = [{ min: 22, max: 34, share: v("o-young") }, { min: 35, max: 49, share: v("o-mid") }, { min: 50, max: 64, share: v("o-old") }];
   if (!ages.some((a) => a.share > 0)) throw new Error("年齢構成を入力してください。");
   return {
-    config: { n: clampInt(v("o-n"), 20, 5000), ages, mix: { ace, std: 1 - ace - low, low }, seed: Number($("seed").value) || 1 },
+    config: { n: clampInt(v("o-n"), 20, 5000), ages, mix: { ace, std: 1 - ace - low, low }, seed: Number($("seed").value) || 1, natural: v("o-natural") >= 1 },
     years: clampInt(v("o-years"), 5, 100), runs: clampInt(v("o-runs"), 5, 200),
     rules: { ...PRESETS[$("o-preset").value].rules, push: Math.min(100, v("o-push")) / 100 },
     presetLabel: PRESETS[$("o-preset").value].label,
@@ -577,9 +582,9 @@ function orgRun() {
         ${aCard(`${years}年後の生産力`, pct(t.productivity, 0), "最初を100%として")}
         ${aCard("エースの割合", pct(t.ace), `最初は${pct(config.mix.ace, 0)}`)}
         ${aCard("エースが全滅した回数", `${t.wiped}`, `/ ${runs}回`)}
-        ${aCard("平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり")}
+        ${aCard("平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり。実績は一般労働者で8.4時間(月160.5時間÷19.2日、毎月勤労統計2025)")}
         ${aCard("過労による離脱", `${num(t.burnout)}人`, `期間中の延べ人数(年${pct(t.burnout / years / config.n)})`)}
-        ${aCard("世間並みの離職", `年${pct(nationalSeparation(config.ages))}`, `この年齢構成なら年${num(nationalSeparation(config.ages) * config.n)}人。雇用動向調査2025`)}
+        ${config.natural ? aCard("世間並みの入れ替わり", `年${num(t.natural / years)}人`, `年${pct(t.natural / years / config.n)}。年齢別の離職率の実績(雇用動向調査2025)を毎年当てはめた結果`) : aCard("世間並みの離職(参考)", `年${pct(nationalSeparation(config.ages))}`, `この年齢構成なら年${num(nationalSeparation(config.ages) * config.n)}人。計算には入れていません`)}
       </div>
       <p class="a-headline">${esc(advice[0] ?? "このルールでは、働き方と生産力に大きな変化は出ませんでした。")}</p>
       <p class="a-note">数字は${runs}回の試行の平均です。</p></div>
@@ -995,16 +1000,31 @@ function openVisual() {
   state.visual.run(true);
 }
 // いまの入力内容(商品の条件・B案・人数)を1つの文字列にしたもの。変わっていたら集め直す
-const visualKey = () => JSON.stringify([currentProduct(), $("v-ab").checked, $("v-price-b").value, $("v-per-b").value, $("v-n").value, $("year").value]);
+const visualKey = () => JSON.stringify([currentProduct(), state.vOpts, $("v-n").value, $("year").value]);
+// 3Dの選択肢(1〜4個)。まだ触っていなければ、「お題と市場規模」の価格と回数を1つ目に入れる
+const OPT_NAMES = ["A案", "B案", "C案", "D案"], OPT_COLORS = ["青", "赤", "緑", "黄"], OPT_KEYS = ["blue", "red", "green", "yellow"];
+function visualOptions() {
+  if (state.vOpts) return state.vOpts;
+  const p = currentProduct(); return [{ price: p.price, perYear: p.perYear }]; // 3Dで書き換えるまでは、お題の値にそのまま従う
+}
+function renderOptions() {
+  const o = visualOptions();
+  $("v-opts").innerHTML = o.map((x, k) => `<div class="v-opt ${OPT_KEYS[k]}" data-opt="${k}">
+      <b>${OPT_COLORS[k]}ゲート<small>${o.length === 1 ? "買う" : OPT_NAMES[k]}</small></b>
+      <label>価格(円) <input class="o-price" type="number" min="0" value="${x.price}"></label>
+      <label>年間の回数 <input class="o-per" type="number" min="0.1" step="0.1" value="${x.perYear}"></label>
+      ${k > 0 ? `<button type="button" class="o-del" aria-label="${OPT_NAMES[k]}を削除">削除</button>` : `<span></span>`}</div>`).join("")
+    + (o.length === 1 ? `<div class="v-opt red"><b>赤ゲート<small>買わない</small></b><span class="o-fixed">選択肢を追加すると、赤ゲートはB案になります。</span></div>` : "");
+  $("v-opt-add").disabled = o.length >= 4;
+}
 function gatherCrowd() {
   if (!state.visual) return;
   state.visualKey = visualKey();
-  const productA = currentProduct();
-  const productB = $("v-ab").checked
-    ? { ...productA, price: Math.max(0, Number($("v-price-b").value) || 0), perYear: Math.max(0.1, Number($("v-per-b").value) || productA.perYear) }
-    : null;
+  const product = currentProduct();
+  if (!$("v-opts").contains(document.activeElement)) renderOptions(); // 入力中は書き換えない
+  const options = visualOptions().map((x, k) => ({ ...product, price: x.price, perYear: x.perYear, label: OPT_NAMES[k] }));
   const ok = prepareCrowd(state.visual, {
-    personas: state.personas, productA, productB, n: Number($("v-n").value), seed: Number($("seed").value) || 1,
+    personas: state.personas, options, n: Number($("v-n").value), seed: Number($("seed").value) || 1,
     fmt: { fmtYen, fmtPeople, pct, num, esc },
   });
   if (!ok) $("visual").insertAdjacentHTML("beforeend", `<div class="v-caption">対象条件に合うペルソナがいません。「お題と市場規模」の条件を見直してください。</div>`);

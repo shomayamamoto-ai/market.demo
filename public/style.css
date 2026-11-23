@@ -220,3 +220,12 @@ html.stage-big{overflow:hidden}
 .finder-out{display:grid;gap:8px;margin-top:12px}.found{display:grid;gap:2px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--ink);background:var(--bg);min-width:0}
 .found b{font-family:var(--display);font-size:16px}.found span{color:var(--sub);font-size:14px;overflow-wrap:anywhere}.found em{font-style:normal;font-size:12px;color:var(--gold-ink,var(--sub))}.found:hover{border-color:var(--accent)}
 .hero h1 mark{white-space:nowrap}
+.v-card.green{border-color:#2f9a5f;color:#1f7446;background:#e9f7eff0}.v-card.yellow{border-color:#d9a21b;color:#8a6408;background:#fff7e0f0}
+.v-row.green{color:#2f9a5f}.v-row.yellow{color:#b98a12}.v-row.green u{background:#2f9a5f}.v-row.yellow u{background:#d9a21b}
+.v-verdict.green{background:#2f9a5f}.v-verdict.yellow{background:#b98a12}.v-tag .v-choice.green{color:#9fe0bd}.v-tag .v-choice.yellow{color:#ffd978}
+.v-cards{flex-wrap:wrap}.v-card{flex:1 1 110px}
+.v-options h3{margin-top:0}.v-opt{display:grid;grid-template-columns:minmax(84px,auto) 1fr 1fr auto;gap:8px 12px;align-items:end;padding:10px 12px;margin-bottom:8px;border:1px solid var(--line);border-left:5px solid;border-radius:6px;background:var(--surface);min-width:0}
+.v-opt.blue{border-left-color:#2f6fe4}.v-opt.red{border-left-color:#e2574c}.v-opt.green{border-left-color:#2f9a5f}.v-opt.yellow{border-left-color:#d9a21b}
+.v-opt b{font-family:var(--display);align-self:center}.v-opt b small{display:block;font-weight:400;color:var(--sub);font-size:12px}.v-opt label{min-width:0}.v-opt input{width:100%;min-width:0}
+.v-opt .o-fixed{grid-column:2/-1;color:var(--sub);font-size:13px;align-self:center}.v-opt .o-del{min-height:44px}
+@media (max-width:560px){.v-opt{grid-template-columns:1fr 1fr}.v-opt b{grid-column:1/-1}.v-opt .o-del{grid-column:1/-1}.v-opt .o-fixed{grid-column:1/-1}}

@@ -19,6 +19,7 @@ export const ORG_ASSUMPTIONS = {
   imitate: { value: 0.5, note: "周りの3人と比べ、手取りが多い人の働き方に乗り換える確率" },
   threshold: { value: 0.12, note: "乗り換えを考え始める手取りの差(リンゴ)" },
   burnout: { value: 0.35, note: "手取りが生活ライン(リンゴ1個)を下回った人が、その年に離脱する確率" },
+  natural: { value: "年齢別の実績", note: "「世間並みの入れ替わり」を入れたとき、ルールに関係なく毎年やめる人の割合。厚生労働省「令和7年雇用動向調査」の年齢階級別の離職者数÷常用労働者数(20〜24歳25.1%、30〜34歳14.6%、45〜49歳8.2%、60〜64歳17.1%)。代わりに入る人の年齢も、同じ調査の入職者の年齢分布から決める" },
   retireAge: { value: 65, note: "定年。退職者は22〜30歳の新人に入れ替わる" },
   switchCost: { value: 0.5, note: "転職にともなう負担(リンゴ換算)。隣の職場の手取りからこの分を引いて比べる" },
   quitYouth: { value: 0.3, note: "隣の職場のほうが得なエースが、その年に転職する確率(35歳未満は1.5倍)" },
@@ -32,7 +33,9 @@ export const PRESETS = {
 };
 
 // 社員をつくる。ages: [{min,max,share}]、mix: {ace,std,low} の初期比率
-export function createOrg({ n, ages, mix, seed }) {
+// 入職者の年齢の分布(千人)。同じ調査の第6-1表。新しく入る人の年齢を決めるのに使う(20〜59歳)
+export const ENTRANT_AGES = [[20, 24, 1591.0], [25, 29, 865.9], [30, 34, 632.5], [35, 39, 486.8], [40, 44, 565.7], [45, 49, 561.4], [50, 54, 524.6], [55, 59, 446.4]];
+export function createOrg({ n, ages, mix, seed, natural = false }) {
   const rng = makeRng(seed);
   const people = [];
   for (let i = 0; i < n; i++) {
@@ -42,7 +45,7 @@ export function createOrg({ n, ages, mix, seed }) {
     people.push({ id: i + 1, age: band.min + Math.floor(rng.next() * (band.max - band.min + 1)), ability: MODES[mode].boxes, mode, net: 0, hours: 8, boxes: 0 });
   }
   const demand = people.reduce((a, p) => a + MODES[p.mode].boxes, 0); // 最初の生産量=100%
-  return { people, demand, rng, year: 0, history: [], exits: { burnout: 0, quit: 0, retire: 0 } };
+  return { people, demand, rng, natural, year: 0, history: [], exits: { burnout: 0, quit: 0, retire: 0, natural: 0 } };
 }
 
 // 1年(1世代)進める
@@ -128,13 +131,16 @@ export function stepOrg(org, rules, A = ORG_ASSUMPTIONS) {
     if (p.net < 1 && rng.next() < A.burnout.value) leave = "burnout";
     else if (p.mode === "ace" && outsideNet(p) > p.net && rng.next() < A.quitYouth.value * (p.age < 35 ? 1.5 : 1)) leave = "quit";
     else if (p.age >= A.retireAge.value) leave = "retire";
+    // 世間並みの入れ替わり:ルールに関係なく、年齢ごとの実際の離職率で人が入れ替わる(実データ)
+    else if (org.natural && rng.next() < separationAt(p.age)) leave = "natural";
     if (leave) {
       org.exits[leave]++;
       let model = people[Math.floor(rng.next() * people.length)];
       for (let j = 0; j < 4; j++) { const q = people[Math.floor(rng.next() * people.length)]; if (q.net > model.net) model = q; }
       const r = rng.next();
       p.ability = r < 0.2 ? 5 : r < 0.7 ? 2 : 1; // 新人の素の能力は最初の比率と同じ
-      p.age = 22 + Math.floor(rng.next() * 9);
+      if (org.natural) { const b = rng.pick(ENTRANT_AGES, (x) => x[2]); p.age = Math.max(22, b[0] + Math.floor(rng.next() * (b[1] - b[0] + 1))); } // 入ってくる人の年齢も、実際の入職者の分布から
+      else p.age = 22 + Math.floor(rng.next() * 9);
       p.mode = expected(p, model.mode) >= expected(p, "low") ? model.mode : "low"; // 無理な働き方は選ばない
     } else {
       p.mode = next[i];
@@ -166,14 +172,14 @@ export function nationalSeparation(ages) {
 // 同じ条件で何回も試し、最終年の平均と「エースが全滅した回数」を出す
 export function trialOrg(config, rules, years, runs) {
   let wiped = 0;
-  const acc = { ace: 0, productivity: 0, hours: 0, burnout: 0, quit: 0 };
+  const acc = { ace: 0, productivity: 0, hours: 0, burnout: 0, quit: 0, natural: 0 };
   const series = Array.from({ length: years + 1 }, () => ({ ace: 0, std: 0, low: 0, productivity: 0, hours: 0 }));
   for (let r = 0; r < runs; r++) {
     const org = runOrg({ ...config, seed: config.seed * 1000 + r }, rules, years);
     const last = org.history[org.history.length - 1];
     if (last.share.ace < 0.005) wiped++;
     acc.ace += last.share.ace; acc.productivity += last.productivity; acc.hours += last.hours;
-    acc.burnout += org.exits.burnout; acc.quit += org.exits.quit;
+    acc.burnout += org.exits.burnout; acc.quit += org.exits.quit; acc.natural += org.exits.natural;
     org.history.forEach((h, y) => { const s = series[y]; s.ace += h.share.ace; s.std += h.share.std; s.low += h.share.low; s.productivity += h.productivity; s.hours += h.hours; });
   }
   for (const k of Object.keys(acc)) acc[k] /= runs;
