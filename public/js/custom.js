@@ -14,6 +14,7 @@ export const CUSTOM_ASSUMPTIONS = {
   time: { value: { hours: 4.3, share: 0.33 }, note: "手間1点 = 週に1時間(月4.3時間)の手間と数え、その人の時給 × share の金額に直す。自由な時間の価値は賃金の1/3〜1/2とされる(米国運輸省の指針50%、欧州のメタ分析 約33%)ので、その幅の下の端の0.33を使う(週休3日制の利用意向の調査と比べると、高いほうの値では動く人が多く出すぎるため)。働いていない人は、働いている人の平均時給を使う" },
   risk: { value: 500, note: "不安1点を、月何円の損と同じとみなすか。日本の選択実験では「まれな停電」が月約900円、いちばん嫌われた属性が月約2,400円に相当した(森田・馬奈木 2013)。10点で月5,000円とした。点数との対応は仮定" },
   riskAge: { value: 0.004, note: "不安の重みの年齢差。45歳を1として、1歳ごとにこの割合だけ増える。低所得の層は+0.3。年齢が高いほどリスクを避ける向きは実証されている(Dohmen ら 2011)が、傾きの大きさは文献で確認できなかった。支払い方法の年代差(財務省の調査)が大きく出すぎないよう、小さめに置いた" },
+  online: { value: "統計の利用率", note: "「ネットを使う人だけ」「ネットで買い物をする人だけ」と指定した選択肢は、その人がそうである場合にしか選べない。年代ごとの割合は、総務省「通信利用動向調査」に合わせてペルソナに入れてある。年代による差を、気持ち(新しもの好き)と、できるかどうか(ネットでの買い物の経験)の2つに分けて表す" },
   purse: { value: "月のお金 ÷ 25万円", note: "不安・新しさ・安心を金額に直すとき、その人の月のお金に比例させる。同じ安心でも、懐に余裕のある人ほど多く払ってよいと考えるため。動画配信の利用率が収入の高い世帯ほど高い(総務省の調査)ことと向きが合う。比例の度合いは仮定" },
   novelty: { value: 1000, note: "新しさ1点を月何円とみなすか ×(その人の新しもの好き度 − 0.5)× 2。新しいものが苦手な人にはマイナスに働く。仮定" },
   quality: { value: 1000, note: "安心・品質1点を月何円とみなすか ×(0.3 + 品質重視度)。仮定" },
@@ -72,7 +73,7 @@ export function runCustom(personas, config, seed = 1, keep = false) {
   const gumbel = () => -Math.log(-Math.log(clamp(rng.next(), 1e-9, 1 - 1e-9)));
   const lognorm = () => Math.exp(A.spread.value * rng.normal() - A.spread.value ** 2 / 2); // 平均1の個人差
   const people = sample.map((p) => { const k = { effort: lognorm(), risk: lognorm() }, yen = config.options.map((o) => yenValue(p, o, k)); return ({ p, base: yen.map((y) => weigh(p, y - yen[0])), taste: config.options.map(() => gumbel()), // その人だけの好み(期間中は変わらない)
-    aware: config.options.map((_, k) => k === 0 || rng.next() < config.aware / 100), can: config.options.map((o) => !o.online || p.internet), choice: 0 }); }); // ネットが必要な選択肢は、ネットを使っている人しか選べない
+    aware: config.options.map((_, k) => k === 0 || rng.next() < config.aware / 100), can: config.options.map((o) => (o.online === 2 ? p.ec : o.online === 1 ? p.internet : true)), choice: 0 }); }); // ネットが必要な選択肢は、ネットを使っている人(または、ネットで買い物をしている人)しか選べない
   const W = people.reduce((a, x) => a + x.p.sampleWeight, 0);
   const shareOf = () => { const s = Array(K).fill(0); for (const x of people) s[x.choice] += x.p.sampleWeight / W; return s; };
   const series = [{ x: 0, shares: shareOf() }];
@@ -158,7 +159,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     $("x-opts").innerHTML = options.map((o, k) => `<div class="x-opt" data-k="${k}" style="border-left-color:${COLORS[k]}">
         <label class="x-name">${k === 0 ? "今のまま" : `選択肢${k + 1}`} <input data-f="name" type="text" value="${esc(o.name)}"></label>
         ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f]}"></label>`).join("")}
-        ${k >= 1 ? `<label>ネットが必要 <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いいえ</option><option value="1"${o.online ? " selected" : ""}>はい</option></select></label>` : ""}
+        ${k >= 1 ? `<label>ネットが必要か <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いらない</option><option value="1"${o.online === 1 ? " selected" : ""}>ネットを使う人だけ</option><option value="2"${o.online === 2 ? " selected" : ""}>ネットで買い物をする人だけ</option></select></label>` : ""}
         ${k >= 2 ? `<button type="button" class="x-del">削除</button>` : ""}</div>`).join("");
     $("x-add").disabled = options.length >= 4;
   };
@@ -245,10 +246,10 @@ export function customChecks(personas, seed = 1) {
   add("有料の動画配信:利用する人", share(video, (t) => 1 - t.mean[0]), 0.537, "同上の調査(動画配信サービスの利用率 53.7%。確かさ:高)", 10);
   const cash = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: TEMPLATES.cashless.options };
   add("現金で払う人:30代 ÷ 60代", share(cash, (t) => (band(t, "30代") && band(t, "60代") ? band(t, "30代").shares[0] / band(t, "60代").shares[0] : null)), 65.2 / 72.2, "財務省 通貨に関する実態調査 令和2年度(1,000円未満の支払いで現金を主に使う人 30代65.2%、60代72.2%。確かさ:高)", 10);
-  // ここから下は、係数や入力を決めたあとで取得した調査(消費者庁)。係数の見直しには一度も使っていない
+  // ここから下は、係数を決めたあとで取得した調査(消費者庁)。係数の見直しには使っていない。ただし「ネットで買い物をする人だけ」という条件は、この照合で年代差が出ないことを見てから加えた
   const net = personas.filter((p) => p.internet), caa = "消費者庁 消費者意識基本調査 令和4年度 集計表(インターネットを利用している人が対象。確かさ:高)";
-  const shop = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: [opt("店で買う", 0, 2, 0, 0, 5), opt("ネットで予約・購入する", 300, 0.5, 3, 3, 4, 1)] };
-  const flea = { ...stated, target: shop.target, options: [opt("使わない", 0, 0, 0, 0, 5), opt("フリマサイトで買う", 1000, 1, 6, 6, 2, 1)] };
+  const shop = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: [opt("店で買う", 0, 2, 0, 0, 5), opt("ネットで予約・購入する", 300, 0.5, 3, 3, 4, 2)] };
+  const flea = { ...stated, target: shop.target, options: [opt("使わない", 0, 0, 0, 0, 5), opt("フリマサイトで買う", 1000, 1, 6, 6, 2, 2)] };
   const on = (config, pick) => { const t = trialCustom(net, config, 4, seed); return t ? pick(t) : null; };
   const hold = (label, model, real, source, tol) => { const before = rows.length; add(label, model, real, source, tol); if (rows.length > before) rows[rows.length - 1].holdout = true; };
   hold("ネットで予約・購入する人", on(shop, (t) => t.mean[1]), 0.746, caa, 10);
