@@ -15,6 +15,7 @@ import { town } from "./town.js";
 import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
+import { labor } from "./labor.js";
 import { queue, spreadModel, schelling, newsvendor, laffer } from "./theory.js";
 import { threshold, tournament, commons, split } from "./experiments.js";
 import { future } from "./future.js";
@@ -147,7 +148,7 @@ const NAV = [
   { key: "experiment", label: "実験と比べる", tabs: [] },
   { key: "source", label: "精度と出典", tabs: [["score", "精度の成績表"], ["source", "出典と仮定"]] },
 ];
-const LABS = [economy, town, island, council, climb];
+const LABS = [economy, labor, town, island, council, climb];
 const THEORY_LABS = [queue, spreadModel, schelling, newsvendor, laffer];
 const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {

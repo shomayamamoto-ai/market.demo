@@ -262,3 +262,23 @@ test("精度の成績表:理論・公式推計との照合は、ほぼすべて5
   const strict = rows.filter((r) => r.basis === "理論" || r.basis === "公式推計"), bad = strict.filter((r) => !(Math.abs(r.diff) <= 0.05 || Math.abs(r.points ?? 9) <= 0.5));
   assert.ok(strict.length > 40 && bad.length <= 1, bad.map((r) => `${r.model} ${r.label} ${r.diff}`).join("; "));
 });
+
+import { labor } from "../public/js/labor.js";
+import { decide } from "../public/js/visual.js";
+test("人手不足:報酬と体力の引き算で、人が集まるかどうかが決まる", () => {
+  const f = (k) => trial(labor, labor.presets[k].rules, 20, 1, 40).summary;
+  const market = f("market"), fixed = f("fixed"), helper = f("helper"), auto = f("auto");
+  assert.ok(market.shortage < 0.05 && Math.abs(market.productivity - 1.84) < 0.12, `自由競争 ${market.productivity}`);
+  assert.ok(fixed.shortage > 0.95 && Math.abs(fixed.productivity - 0.215) < 0.04, `固定 ${fixed.productivity}`);
+  assert.ok(helper.alive < 4 && helper.uturn > 100, `助っ人 残った工場 ${helper.alive}`);
+  assert.ok(auto.shortage < 0.05 && auto.workers < market.workers / 3 && auto.productivity > market.productivity, `自動 ${auto.productivity}`);
+});
+test("3D:選択肢が1つなら買う/買わない、4つならどれか1つか、どれも買わない", () => {
+  const sample = P.slice(0, 600), base = { category: "food", price: 3000, perYear: 12, target: {}, appeal: {}, baseInterest: 0.12 };
+  const one = decide(sample, [base], 1);
+  assert.ok(one.every((d) => d.choice === 0 || d.choice === 1) && one.filter((d) => d.bought).every((d) => d.choice === 0));
+  const four = decide(sample, [3000, 2000, 1000, 500].map((price) => ({ ...base, price })), 1);
+  assert.ok(four.every((d) => d.choice === "none" || (d.choice >= 0 && d.choice <= 3)));
+  const n = (k) => four.filter((d) => d.choice === k).length;
+  assert.ok(n(3) > n(0), "安い案を選ぶ人のほうが多い");
+});
