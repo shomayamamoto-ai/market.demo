@@ -57,4 +57,44 @@ export function line(series, { fmt = (v) => v, xLabel = "", color = "var(--accen
     <text x="${W - R}" y="${H - 2}" text-anchor="end" class="sub">${esc(xLabel)}</text></svg>`;
 }
 
+// 棒(右の目盛り)と折れ線2本(左の目盛り・%)を重ねたグラフ
+// rows: [{label, bar, a, b}]、a・b は 0〜1 の割合
+export function combo(rows, { barMax, barUnit = "回", legend, xLabel = "" }) {
+  const W = 900, H = 380, L = 56, R = 60, T = 46, B = 56;
+  const top = Math.max(1.1, ...rows.flatMap((r) => [r.a, r.b])) > 1.1 ? Math.ceil(Math.max(...rows.flatMap((r) => [r.a, r.b])) * 5) / 5 : 1.1;
+  const slot = (W - L - R) / rows.length;
+  const x = (i) => L + slot * (i + 0.5);
+  const y = (v) => T + (1 - v / top) * (H - T - B);
+  const yb = (v) => T + (1 - (v / barMax) * (1 / top)) * (H - T - B);
+  const grid = [];
+  for (let v = 0; v <= top + 1e-9; v += 0.2) {
+    grid.push(`<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="c-grid"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${Math.round(v * 100)}%</text>`);
+    if (v <= 1 + 1e-9) grid.push(`<text x="${W - R + 8}" y="${y(v) + 4}" class="c-bar-t">${Math.round(v * barMax)}${barUnit}</text>`);
+  }
+  const bars = rows.map((r, i) => (r.bar > 0 ? `<rect x="${x(i) - slot * 0.36}" y="${yb(r.bar)}" width="${slot * 0.72}" height="${y(0) - yb(r.bar)}" class="c-bar"/>` : "")).join("");
+  const path = (k, cls) => `<path d="${rows.map((r, i) => `${i ? "L" : "M"}${x(i)},${y(r[k])}`).join("")}" class="${cls}" fill="none"/>` + rows.map((r, i) => `<circle cx="${x(i)}" cy="${y(r[k])}" r="5" class="${cls}-dot"/>`).join("");
+  const lg = [["c-a-key", legend.a], ["c-b-key", legend.b], ["c-bar-key", legend.bar]];
+  let lx = L;
+  const legendHtml = lg.map(([cls, text]) => { const out = `<rect x="${lx}" y="12" width="34" height="14" rx="2" class="${cls}"/><text x="${lx + 40}" y="24" class="c-legend">${esc(text)}</text>`; lx += 60 + text.length * 14; return out; }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" class="combo">${legendHtml}${grid.join("")}${bars}${path("a", "c-a")}${path("b", "c-b")}
+    ${rows.map((r, i) => `<text x="${x(i)}" y="${H - B + 22}" text-anchor="middle" class="c-x">${esc(r.label)}</text>`).join("")}
+    <text x="${(L + W - R) / 2}" y="${H - 10}" text-anchor="middle">${esc(xLabel)}</text></svg>`;
+}
+
+// 複数の折れ線 series: [{name, color, points:[{x,y}]}]、y は 0〜の割合
+export function multiLine(series, { xLabel = "", fmt = (v) => `${Math.round(v * 100)}%` } = {}) {
+  const W = 640, H = 260, L = 52, R = 14, T = 30, B = 34;
+  const all = series.flatMap((s) => s.points);
+  const xs = all.map((p) => p.x), hi = Math.max(1, ...all.map((p) => p.y)) * 1.05;
+  const x = (v) => L + ((v - Math.min(...xs)) / Math.max(Math.max(...xs) - Math.min(...xs), 1)) * (W - L - R);
+  const y = (v) => T + (1 - v / hi) * (H - T - B);
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => `<line x1="${L}" x2="${W - R}" y1="${y(hi * t)}" y2="${y(hi * t)}" class="axis"/><text x="${L - 6}" y="${y(hi * t) + 4}" text-anchor="end" class="sub">${esc(fmt(hi * t))}</text>`).join("");
+  let lx = L;
+  const legend = series.map((s) => { const out = `<rect x="${lx}" y="6" width="14" height="10" rx="2" fill="${s.color}"/><text x="${lx + 18}" y="15">${esc(s.name)}</text>`; lx += 34 + s.name.length * 12; return out; }).join("");
+  const lines = series.map((s) => `<path d="${s.points.map((p, i) => `${i ? "L" : "M"}${x(p.x).toFixed(1)},${y(p.y).toFixed(1)}`).join("")}" fill="none" stroke="${s.color}" stroke-width="2.5"/>`).join("");
+  const maxX = Math.max(...xs), step = Math.max(1, Math.ceil(maxX / 8));
+  const xt = []; for (let v = 0; v <= maxX; v += step) xt.push(`<text x="${x(v)}" y="${H - 14}" text-anchor="middle" class="sub">${v}</text>`);
+  return `<svg viewBox="0 0 ${W} ${H}" role="img">${legend}${ticks}${lines}${xt.join("")}<text x="${W - R}" y="${H - 2}" text-anchor="end" class="sub">${esc(xLabel)}</text></svg>`;
+}
+
 export { esc };

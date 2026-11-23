@@ -22,6 +22,7 @@
     <button data-tab="game">⑤ 経営ゲーム</button>
     <button data-tab="report">⑥ 用途別レポート</button>
     <button data-tab="visual">⑦ 3Dで見る</button>
+    <button data-tab="org">⑧ 組織シミュレーター</button>
     <button data-tab="source">出典と仮定</button>
   </nav>
 </header>
@@ -229,6 +230,37 @@
     <div id="visual" class="visual"></div>
     <p class="note">統計モードの購入確率で選択を決めています。AIインタビューの結果は、この画面にはまだ反映していません。</p>
   </div>
+</section>
+
+<!-- ⑧ 組織シミュレーター -->
+<section id="tab-org" class="tab">
+  <div class="card">
+    <h2>評価と仕事の回し方のルールを試す</h2>
+    <p class="note">人数と年齢構成を入れると、給与や仕事の回し方のルールが、社員の働き方と生産力をどう変えるかを試せます。<br>
+      社員は「報酬 − 疲れ + やりがい」を周りと比べ、得な働き方に乗り換える、という仮定で動きます。1世代は1年です。</p>
+    <div class="form-grid">
+      <label>人数 <input id="o-n" type="number" value="1000" min="20" max="5000"></label>
+      <label>34歳以下(%) <input id="o-young" type="number" value="35" min="0" max="100"></label>
+      <label>35〜49歳(%) <input id="o-mid" type="number" value="40" min="0" max="100"></label>
+      <label>50歳以上(%) <input id="o-old" type="number" value="25" min="0" max="100"></label>
+      <label>エースの割合(%) <input id="o-ace" type="number" value="20" min="0" max="100"></label>
+      <label>省エネの割合(%) <input id="o-low" type="number" value="30" min="0" max="100"></label>
+      <label>期間(年) <input id="o-years" type="number" value="30" min="5" max="100"></label>
+      <label>試行回数 <input id="o-runs" type="number" value="100" min="5" max="200"></label>
+    </div>
+    <div class="form-grid">
+      <label>ルール <select id="o-preset"></select></label>
+      <label>早い人に回す割合(%) <input id="o-push" type="number" value="50" min="0" max="100" step="5"></label>
+    </div>
+    <p class="note">エースは1日5箱、標準は2箱、省エネは1箱を処理します。年齢の合計が100%でない場合は、比率として扱います。</p>
+    <div class="form-row">
+      <button id="o-run" class="primary">このルールで試す</button>
+      <button id="o-compare">4つのルールを比べる</button>
+      <button id="o-sweep">回す割合を変えて検証する</button>
+      <span id="o-msg" class="msg"></span>
+    </div>
+  </div>
+  <div id="o-out"></div>
 </section>
 
 <!-- 出典と仮定 -->

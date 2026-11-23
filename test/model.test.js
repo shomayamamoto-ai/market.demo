@@ -72,3 +72,20 @@ test("将来人口:2050年は総人口が減り、推計値と合う", () => {
   const expect = sum(D.projection.years["2050"], (g) => g.male + g.female);
   assert.ok(Math.abs(total - expect) / expect < 0.01, `${total} vs ${expect}`);
 });
+
+// ---- 組織シミュレーター ----
+import { PRESETS, trialOrg } from "../public/js/org.js";
+const ORG = { n: 300, ages: [{ min: 22, max: 34, share: 35 }, { min: 35, max: 49, share: 40 }, { min: 50, max: 64, share: 25 }], mix: { ace: 0.2, std: 0.5, low: 0.3 }, seed: 1 };
+
+test("組織:定額給で仕事を回しすぎるとエースがいなくなり、回さなければ残る", () => {
+  const heavy = trialOrg(ORG, { ...PRESETS.fixedPush.rules, push: 0.8 }, 30, 10);
+  const none = trialOrg(ORG, { ...PRESETS.fixedPush.rules, push: 0 }, 30, 10);
+  assert.equal(heavy.wiped, 10);
+  assert.equal(none.wiped, 0);
+  assert.ok(none.productivity > heavy.productivity);
+});
+
+test("組織:歩合制ではエースが減らず、生産力が100%を下回らない", () => {
+  const t = trialOrg(ORG, PRESETS.piece.rules, 30, 10);
+  assert.ok(t.ace >= 0.19 && t.productivity >= 1);
+});

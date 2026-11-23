@@ -6,7 +6,8 @@ import {
   reweightForYear, inTarget, MARKET_ASSUMPTIONS,
 } from "./market.js";
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
-import { hbar, pyramid, line, esc } from "./charts.js";
+import { hbar, pyramid, line, combo, multiLine, esc } from "./charts.js";
+import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
 import { makeRng } from "./rng.js";
 import { PURPOSES, buildReport } from "./report.js";
 import JAPAN from "./japan-data.js";
@@ -60,6 +61,12 @@ async function init() {
     if (b.dataset.tab === "visual") openVisual();
     else state.visual?.run(false);
   }));
+  $("o-preset").innerHTML = Object.entries(PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+  $("o-preset").value = "fixedPush";
+  $("o-preset").onchange = () => ($("o-push").value = Math.round(PRESETS[$("o-preset").value].rules.push * 100));
+  $("o-run").onclick = () => busy("o-msg", orgRun);
+  $("o-compare").onclick = () => busy("o-msg", orgCompare);
+  $("o-sweep").onclick = () => busy("o-msg", orgSweep);
   $("v-set").onclick = () => gatherCrowd();
   $("v-start").onclick = () => { if (state.visual?.phase !== "wander") gatherCrowd(); state.visual?.start(); };
   $("v-speed").onchange = () => state.visual?.setSpeed(Number($("v-speed").value));
@@ -436,6 +443,120 @@ function runReport() {
   }, 30);
 }
 
+// ---------- ⑧ 組織シミュレーター ----------
+function busy(msgId, fn) {
+  setMsg(msgId, "計算中です…");
+  setTimeout(() => { try { fn(); setMsg(msgId, ""); } catch (err) { setMsg(msgId, err.message, true); } }, 30);
+}
+function orgConfig() {
+  const v = (id) => Math.max(0, Number($(id).value) || 0);
+  const ace = Math.min(100, v("o-ace")) / 100, low = Math.min(100 - ace * 100, v("o-low")) / 100;
+  const ages = [{ min: 22, max: 34, share: v("o-young") }, { min: 35, max: 49, share: v("o-mid") }, { min: 50, max: 64, share: v("o-old") }];
+  if (!ages.some((a) => a.share > 0)) throw new Error("年齢構成を入力してください。");
+  return {
+    config: { n: clampInt(v("o-n"), 20, 5000), ages, mix: { ace, std: 1 - ace - low, low }, seed: Number($("seed").value) || 1 },
+    years: clampInt(v("o-years"), 5, 100), runs: clampInt(v("o-runs"), 5, 200),
+    rules: { ...PRESETS[$("o-preset").value].rules, push: Math.min(100, v("o-push")) / 100 },
+    presetLabel: PRESETS[$("o-preset").value].label,
+  };
+}
+const clampInt = (x, lo, hi) => Math.round(Math.min(hi, Math.max(lo, x)));
+const aCard = (label, value, sub = "") => `<div class="a-card"><small>${label}</small><b>${value}</b> <i>${sub}</i></div>`;
+
+function orgAdvice(t, rules, start) {
+  const out = [];
+  if (t.wiped / t.runs >= 0.5) out.push("このルールでは、エースの働き方が損になり、ほとんどの試行でエースがいなくなりました。本人の怠慢ではなく、ルールに対する合理的な選択の結果です。");
+  else if (t.ace < start.ace * 0.7) out.push("エースの割合が、最初より3割以上減っています。頑張るほど損をする場面が残っている可能性があります。");
+  else if (t.ace > start.ace * 1.3) out.push("エースの働き方を選ぶ人が増えています。成果が本人に返る仕組みが働いています。");
+  if (rules.pay === "fixed" && rules.push > 0 && !rules.helpPay) out.push("定額給のまま仕事だけが早い人へ回っています。回す割合を下げるか、引き受けた分をその場で報いる仕組みを検討してください(「回す割合を変えて検証する」で、崩れ始める境目を確認できます)。");
+  if (t.productivity < 0.9) out.push(`生産力は最初の${pct(t.productivity, 0)}まで下がりました。`);
+  if (t.productivity > 1.1) out.push(`生産力は最初の${pct(t.productivity, 0)}まで伸びました。`);
+  if (t.hours > 8.5) out.push(`平均の労働時間が1日${num(t.hours, 1)}時間に延びています。生産力が伸びていても、疲れの蓄積と離脱に注意が必要です。`);
+  if (t.burnout / Math.max(1, 1) > 0 && t.burnout > 0.05 * start.n) out.push(`過労による離脱が、期間中に延べ${num(t.burnout)}人出ました。`);
+  if (t.quit > 0.02 * start.n) out.push(`より条件の良い職場への転職が、延べ${num(t.quit)}人出ました。表彰だけでは引き止められていません。`);
+  return out;
+}
+
+function orgRun() {
+  const { config, years, runs, rules, presetLabel } = orgConfig();
+  const t = trialOrg(config, rules, years, runs);
+  const one = runOrg(config, rules, years); // 画面で1人ずつ見せる代表例
+  const S = t.series;
+  const advice = orgAdvice(t, rules, { ace: config.mix.ace, n: config.n });
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>${esc(presetLabel)}を${runs}回検証</h2>
+      <p class="a-sub">${num(config.n)}人の職場で、早い人に回す割合 ${pct(rules.push, 0)}、${years}年後までを計算</p>
+      <div class="a-cards">
+        ${aCard(`${years}年後の生産力`, pct(t.productivity, 0), "最初を100%として")}
+        ${aCard("エースの割合", pct(t.ace), `最初は${pct(config.mix.ace, 0)}`)}
+        ${aCard("エースが全滅した回数", `${t.wiped}`, `/ ${runs}回`)}
+        ${aCard("平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり")}
+        ${aCard("過労による離脱", `${num(t.burnout)}人`, "期間中の延べ人数")}
+      </div>
+      <p class="a-note">数字は${runs}回の試行の平均です。</p></div>
+    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["このルールでは、働き方と生産力に大きな変化は出ませんでした。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="grid2" style="margin:0"><div><h3>働き方の割合</h3>${multiLine(["ace", "std", "low"].map((m) => ({ name: MODES[m].label, color: MODES[m].color, points: S.map((s, x) => ({ x, y: s[m] })) })), { xLabel: "年" })}</div>
+      <div><h3>生産力(最初 = 100%)</h3>${multiLine([{ name: "生産力", color: "#1a8f5a", points: S.map((s, x) => ({ x, y: s.productivity })) }], { xLabel: "年" })}</div></div>
+      <h3>1人ずつの働き方(代表例:${runs}回のうちの1回)</h3>
+      <div class="o-play"><button id="o-playbtn">再生</button><input id="o-year" type="range" min="0" max="${years}" value="0"><b id="o-year-label"></b></div>
+      <div id="o-people" class="o-grid"></div>
+      <p class="note">■ 青=エース ■ 水色=標準 ■ 黄=省エネ。四角1つが社員1人です(最大1,000人まで表示)。</p></div>`;
+  const draw = () => {
+    const y = Number($("o-year").value), h = one.history[y];
+    $("o-year-label").textContent = `${y}年目 エース ${pct(h.share.ace)}・生産力 ${pct(h.productivity, 0)}`;
+    $("o-people").innerHTML = h.modes.slice(0, 1000).map((m) => `<i style="background:${MODES[m].color}"></i>`).join("");
+  };
+  $("o-year").oninput = draw;
+  let timer = null;
+  $("o-playbtn").onclick = () => {
+    if (timer) { clearInterval(timer); timer = null; $("o-playbtn").textContent = "再生"; return; }
+    if (Number($("o-year").value) >= years) $("o-year").value = 0;
+    $("o-playbtn").textContent = "停止";
+    timer = setInterval(() => {
+      if (!document.getElementById("o-year") || Number($("o-year").value) >= years) { clearInterval(timer); timer = null; if ($("o-playbtn")) $("o-playbtn").textContent = "再生"; return; }
+      $("o-year").value = Number($("o-year").value) + 1; draw();
+    }, 350);
+  };
+  draw();
+}
+
+function orgCompare() {
+  const { config, years, runs } = orgConfig();
+  const rows = Object.values(PRESETS).map((p) => ({ label: p.label, t: trialOrg(config, p.rules, years, runs), push: p.rules.push }));
+  const best = rows.reduce((a, b) => (b.t.productivity > a.t.productivity ? b : a));
+  const calm = rows.reduce((a, b) => (b.t.hours < a.t.hours ? b : a));
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>4つのルールを${runs}回ずつ検証</h2>
+      <p class="a-sub">${num(config.n)}人の職場、${years}年後。それぞれのルールの標準の設定で比べています</p>
+      <div class="table-scroll"><table><tr><th>ルール</th><th class="num">生産力</th><th class="num">エースの割合</th><th class="num">エース全滅</th><th class="num">労働時間</th><th class="num">過労の離脱</th><th class="num">転職</th></tr>
+      ${rows.map((r) => `<tr><td>${esc(r.label)}</td><td class="num">${pct(r.t.productivity, 0)}</td><td class="num">${pct(r.t.ace)}</td><td class="num">${r.t.wiped} / ${runs}回</td><td class="num">${num(r.t.hours, 1)}時間</td><td class="num">${num(r.t.burnout)}人</td><td class="num">${num(r.t.quit)}人</td></tr>`).join("")}</table></div>
+      <div class="a-cards">${aCard("生産力が最も高い", pct(best.t.productivity, 0), esc(best.label))}${aCard("労働時間が最も短い", `${num(calm.t.hours, 1)}時間`, esc(calm.label))}</div>
+      <p class="a-note">生産力は最初を100%とした値、離脱と転職は期間中の延べ人数(${runs}回の平均)です。</p></div>
+    <div class="card"><h3>生産力の推移</h3>${multiLine(rows.map((r, i) => ({ name: r.label.slice(0, 1), color: ["#2f6fe4", "#e2574c", "#f2a53c", "#1a8f5a"][i], points: r.t.series.map((s, x) => ({ x, y: s.productivity })) })), { xLabel: "年" })}
+      <h3>エースの割合の推移</h3>${multiLine(rows.map((r, i) => ({ name: r.label.slice(0, 1), color: ["#2f6fe4", "#e2574c", "#f2a53c", "#1a8f5a"][i], points: r.t.series.map((s, x) => ({ x, y: s.ace })) })), { xLabel: "年" })}</div>`;
+}
+
+function orgSweep() {
+  const { config, years, runs, rules, presetLabel } = orgConfig();
+  const values = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+  const sw = sweepOrg(config, rules, "push", values, years, runs);
+  const safe = sw.filter((s) => s.wiped === 0), all = sw.filter((s) => s.wiped === runs), mid = sw.filter((s) => s.wiped > 0 && s.wiped < runs);
+  const range = (list) => (list.length ? (list.length > 1 ? `${pct(list[0].value, 0)}〜${pct(list[list.length - 1].value, 0)}` : pct(list[0].value, 0)) : "―");
+  const edge = safe.length && safe.length < sw.length ? safe[safe.length - 1].value : null;
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>「早い人に回す割合」を変えて${runs}回ずつ検証</h2>
+      <p class="a-sub">${esc(presetLabel)}のルールで、早く終わった人へ回す割合だけを0〜100%に変えた(${years}年後)</p>
+      <p class="a-key">エースが全滅した回数(棒)と、${years}年後のエースの割合・生産力(線)</p>
+      ${combo(sw.map((s) => ({ label: pct(s.value, 0), bar: s.wiped, a: s.productivity, b: s.ace })), { barMax: runs, legend: { a: "生産力(平均)", b: "エースの割合(平均)", bar: `エースが全滅した回数(${runs}回中)` }, xLabel: "早い人に回す割合(終わらない箱を、早く終わった人へ回す割合)" })}
+      <div class="a-cards">
+        ${aCard(`回す割合 ${range(safe)}`, safe.length ? "全滅 0" : "―", `/ ${runs}回`)}
+        ${mid.map((s) => aCard(`回す割合 ${pct(s.value, 0)}`, `全滅 ${s.wiped}`, `/ ${runs}回`)).slice(0, 2).join("")}
+        ${aCard(`回す割合 ${range(all)}`, all.length ? `全滅 ${runs}` : "―", `/ ${runs}回`)}
+        ${aCard("回す割合100%の生産力", `平均${pct(sw[sw.length - 1].productivity)}`)}
+      </div>
+      <p class="a-note">${edge != null ? `このモデルの条件では、回す割合が${pct(edge, 0)}までならエースは残り、それを超えると崩れ始めます。` : safe.length ? "このルールでは、回す割合を100%にしてもエースは残りました。" : "このルールでは、回す割合が0%でもエースがいなくなる試行がありました。"}境目の位置は、「出典と仮定」にある係数で変わります。</p></div>`;
+}
+
 // ---------- ⑦ 3Dビジュアル ----------
 function openVisual() {
   if (!state.visual) {
@@ -526,6 +647,7 @@ function renderSources() {
   add("ペルソナ生成", ASSUMPTIONS);
   add("市場規模", MARKET_ASSUMPTIONS);
   add("普及シミュレーション", DIFFUSION_ASSUMPTIONS);
+  add("組織シミュレーター", ORG_ASSUMPTIONS);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");
