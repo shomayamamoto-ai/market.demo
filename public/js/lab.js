@@ -89,6 +89,9 @@ export function mountLab(def, { seedOf }) {
     else stage.setFrames(scene.frames, { ...scene.opts, title });
   });
 
+  // 初めて開いたときに、標準の条件の結果を出しておく(空の画面で待たせない)
+  el.addEventListener("lab:open", () => { if (!$("out").innerHTML) $("run").click(); });
+
   $("compare").onclick = () => busy(() => {
     const { runs } = read();
     const rows = Object.entries(def.presets).map(([key, p]) => ({ key, p, t: trial(def, p.rules, runs, seedOf(), p.years ?? def.years) }));

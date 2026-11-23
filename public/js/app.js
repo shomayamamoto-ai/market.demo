@@ -23,7 +23,7 @@ import JAPAN from "./japan-data.js";
 import { createVisual, prepareCrowd } from "./visual.js";
 
 const $ = (id) => document.getElementById(id);
-const state = { D: null, base: [], personas: [], llm: false, materials: [], brief: null, ai: null, game: null };
+const state = { opened: {}, D: null, base: [], personas: [], llm: false, materials: [], brief: null, ai: null, game: null };
 
 // ---------- 数字の表示 ----------
 const num = (v, d = 0) => v.toLocaleString("ja-JP", { maximumFractionDigits: d, minimumFractionDigits: d });
@@ -154,6 +154,13 @@ function showTab() {
   const slot = document.querySelector(`#tab-${tab} .slot`);
   if (slot) { slot.appendChild($("org-common")); $("org-common").hidden = false; }
   if (tab === "visual") openVisual(); else state.visual?.run(false);
+  // 初めて開いた画面は、標準の条件で結果を出しておく
+  if (!state.opened[tab]) {
+    state.opened[tab] = true;
+    document.getElementById(`tab-${tab}`)?.dispatchEvent(new Event("lab:open"));
+    const first = { sim: "run-stat", spread: "run-spread", org: "o-run", tax: "t-run", chain: "c-run", report: "run-report" }[tab];
+    if (first) $(first).click();
+  }
   if (document.activeElement?.blur && id) window.scrollTo({ top: 0 });
 }
 

@@ -7,7 +7,7 @@ import { esc } from "./charts.js";
 const MAX = 720; // 一度に描く人の上限
 
 // ---- 建物の部品(低ポリゴン)。どれも幅6〜8ほどの大きさで、原点が足もと ----
-function buildProp(THREE, kind, color = "#b4473b") {
+export function buildProp(THREE, kind, color = "#b4473b") {
   const g = new THREE.Group();
   const M = (c) => new THREE.MeshLambertMaterial({ color: c });
   const add = (geo, c, x = 0, y = 0, z = 0, ry = 0) => { const m = new THREE.Mesh(geo, M(c)); m.position.set(x, y, z); m.rotation.y = ry; g.add(m); return m; };

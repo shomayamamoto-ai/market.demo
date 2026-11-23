@@ -95,7 +95,7 @@ export const council = {
       }
       const moves = [];
       if (rules.war) v.forEach((a, i) => {
-        if (!a.alive || rng.next() > 0.035) return;
+        if (!a.alive || rng.next() > 0.06) return;
         const S = A.speed.value;
         const targets = [v[(i + n - 1) % n], v[(i + 1) % n]].filter((b) => b.alive && b.type !== a.type);
         for (const b of targets.sort((x, y) => y.pop - x.pop)) {

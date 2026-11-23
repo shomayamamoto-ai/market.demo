@@ -6,14 +6,14 @@ export const CLIMB_ASSUMPTIONS = {
   step: { value: 0.05, note: "数をこなす人が1日に試す範囲(山の幅 = 1)。8%の確率で、まったく別の場所へ跳ぶ" },
   reflectDays: { value: 4, note: "ふり返る人が、失敗のあとに登り坂の向きを調べる日数。その間は進まない" },
   stride: { value: 0.022, note: "ふり返る人が、調べた向きへ1日に進む距離" },
-  noise: { value: 35, note: "「運が混ざる山」で、結果に混ざるブレの大きさ(点)" },
-  bumps: { value: 45, note: "「でこぼこの山」にある小さな頂上の数(高さ8〜40点)" },
+  noise: { value: 48, note: "「運が混ざる山」で、結果に混ざるブレの大きさ(点)" },
+  bumps: { value: 45, note: "「でこぼこの山」にある小さな頂上の数(高さ6〜26点)" },
   streak: { value: 3, note: "混ぜた人が、ふり返りに切り替える連続失敗の回数" },
 };
 
 function makeHill(kind, rng) {
   const peaks = [];
-  if (kind === "rugged") for (let i = 0; i < CLIMB_ASSUMPTIONS.bumps.value; i++) peaks.push({ x: rng.next(), y: rng.next(), h: 8 + rng.next() * 32, w: 0.004 + rng.next() * 0.006 });
+  if (kind === "rugged") for (let i = 0; i < CLIMB_ASSUMPTIONS.bumps.value; i++) peaks.push({ x: rng.next(), y: rng.next(), h: 6 + rng.next() * 20, w: 0.004 + rng.next() * 0.006 });
   const main = { x: 0.75, y: 0.7 };
   return (x, y, day = 0) => {
     const mx = kind === "moving" ? 0.5 + 0.28 * Math.cos(day / 60) : main.x, my = kind === "moving" ? 0.5 + 0.28 * Math.sin(day / 60) : main.y;

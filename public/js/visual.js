@@ -4,6 +4,7 @@ import { makeRng, clamp } from "./rng.js";
 import { CATEGORY_LABEL, ageBandOf, AGE_BANDS } from "./constants.js";
 import { buyProbability, stratifiedSample } from "./market.js";
 import { describePersona } from "./personas.js";
+import { buildProp } from "./stage3d.js";
 
 const BLUE = 0x2f6fe4, RED = 0xe2574c;
 const GATE_X = 31, ISLAND = 106, COLS = 30, GAP = 1.9, SIZE = 1.45;
@@ -99,6 +100,11 @@ export function createVisual(root, fmt) {
     g.position.set(x, 0, 0); g.scale.setScalar(1.6); scene.add(g);
   };
   gate(-GATE_X, BLUE); gate(GATE_X, RED);
+  // 広場の手前に、商品を売る店と屋台を置く
+  const props = [];
+  for (const [kind, color, x, z, size, ry] of [["market", "#2f6fe4", -GATE_X - 13, 12, 2.4, 0.5], ["market", "#e2574c", GATE_X + 13, 12, 2.4, -0.5], ["factory", "#c9a45c", -74, 30, 2.4, Math.PI / 2], ["plaza", "#6db7e8", 0, 14, 2, 0]]) {
+    const g = buildProp(THREE, kind, color); g.position.set(x, 0, z); g.scale.setScalar(size); g.rotation.y = ry; scene.add(g); props.push(g);
+  }
 
   // ---- 人(まとめて描画) ----
   let N = 0, agents = [], meshes = null, labelsText = { blue: "買う", red: "買わない" };
@@ -268,6 +274,7 @@ export function createVisual(root, fmt) {
       }
     }
     if (meshes) for (const m of Object.values(meshes)) m.instanceMatrix.needsUpdate = true;
+    for (const g of props) g.userData.tick?.(state.t, state.phase !== "wander");
 
     if (state.phase === "walk" || state.phase === "done") {
       const total = Math.max(agents.length, 1), D = state.data;
