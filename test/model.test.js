@@ -249,3 +249,16 @@ test("実データ:給付金の消費割合と離職率", () => {
   near(nationalSeparation([{ min: 22, max: 64, share: 1 }]), 0.12, 0.03, "22〜64歳の離職率");
   assert.ok(nationalSeparation([{ min: 22, max: 29, share: 1 }]) > nationalSeparation([{ min: 40, max: 49, share: 1 }]));
 });
+
+import { CATALOG, findScreens, scoreboard } from "../public/js/guide.js";
+test("お題から探す:言葉から合う画面が見つかる", () => {
+  const top = (q) => findScreens(q)[0]?.tab;
+  assert.equal(top("優秀な人が辞めていく"), "org"); assert.equal(top("レジの待ち時間"), "queue");
+  assert.equal(top("2050年の人手不足"), "future"); assert.equal(top("在庫の廃棄を減らしたい"), "stock");
+  assert.equal(new Set(CATALOG.map((c) => c.tab)).size, CATALOG.length);
+});
+test("精度の成績表:理論・公式推計との照合は、ほぼすべて5%以内", () => {
+  const rows = scoreboard(D, P, [{ basis: "理論", defs: [queue, spreadModel, newsvendor, laffer] }, { basis: "公式推計", defs: [future] }]);
+  const strict = rows.filter((r) => r.basis === "理論" || r.basis === "公式推計"), bad = strict.filter((r) => !(Math.abs(r.diff) <= 0.05 || Math.abs(r.points ?? 9) <= 0.5));
+  assert.ok(strict.length > 40 && bad.length <= 1, bad.map((r) => `${r.model} ${r.label} ${r.diff}`).join("; "));
+});

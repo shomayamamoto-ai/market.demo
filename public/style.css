@@ -215,3 +215,8 @@ html.stage-big{overflow:hidden}
 @media (max-width:640px){.s-bar{gap:5px}.s-bar button,.s-bar select{padding:4px 9px;font-size:12px}}
 .town-map{display:grid;grid-template-columns:repeat(30,1fr);gap:1px;max-width:420px;margin:6px 0}.town-map i{aspect-ratio:1;display:block;border-radius:1px}
 .verify td:first-child,.verify th:first-child{white-space:normal;min-width:7.5em}.verify td,.verify th{padding-inline:6px}.verify small{display:block;color:var(--sub);line-height:1.5}
+.finder input{width:100%;min-height:48px;font-size:16px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{min-height:36px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--sub);font-size:13px;cursor:pointer}.chip:hover{color:var(--ink);border-color:var(--sub)}
+.finder-out{display:grid;gap:8px;margin-top:12px}.found{display:grid;gap:2px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;text-decoration:none;color:var(--ink);background:var(--bg);min-width:0}
+.found b{font-family:var(--display);font-size:16px}.found span{color:var(--sub);font-size:14px;overflow-wrap:anywhere}.found em{font-style:normal;font-size:12px;color:var(--gold-ink,var(--sub))}.found:hover{border-color:var(--accent)}
+.hero h1 mark{white-space:nowrap}

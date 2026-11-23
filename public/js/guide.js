@@ -1,0 +1,71 @@
+// 「お題から探す」の目次と、「精度の成績表」(このツールの計算を、統計・理論・実験と照らし合わせた一覧)。
+import { trial, formatMetric } from "./lab.js";
+import { validate } from "./personas.js";
+
+// 画面ごとの「何を確かめる道具か」と、探すときの言葉。basis は数字の根拠の種類
+export const CATALOG = [
+  { tab: "people", title: "人口とペルソナ", desc: "年齢・就業・年収・支出まで、仮想の1人ずつを見る", basis: "公的統計", words: "人口 年齢 世帯 年収 所得 ペルソナ 顧客像 ターゲット 高齢 若者 単身 地域 都道府県" },
+  { tab: "market", title: "市場の規模感", desc: "費目別・年代別に、家計が毎月いくら使っているかを見る", basis: "公的統計", words: "市場規模 支出 家計 消費 業界 売上 食費 教育 医療 娯楽 需要" },
+  { tab: "future", title: "将来の人口を計算する", desc: "出生率や外国人の受け入れを変えて、2070年までの人口を計算する", basis: "公式推計", words: "将来 人口減少 少子化 高齢化 出生率 移民 外国人 労働力 人手不足 2050 2070 見通し" },
+  { tab: "sim", title: "お題と市場規模", desc: "商品の価格とターゲットから、買う人数と市場規模を試算する", basis: "公的統計", words: "新商品 企画 価格 値段 サービス 売れる 買う 市場規模 ターゲット 事業計画 新規事業 サブスク" },
+  { tab: "spread", title: "発売後の広がり", desc: "発売から利用者がどう増えるかを、広告費や口コミを変えて試す", basis: "仮定", words: "発売 普及 広告 口コミ 利用者 成長 売上予測 損益 黒字 マーケティング 販促" },
+  { tab: "visual", title: "3Dで見る", desc: "1人ずつが歩いて選ぶ様子を、3Dの島で眺める", basis: "仮定", words: "3D 動き 見る 比較 AB テスト プレゼン デモ" },
+  { tab: "game", title: "経営ゲーム", desc: "価格・広告・品質を毎期決めて、会社を経営してみる", basis: "仮定", words: "経営 ゲーム 意思決定 価格 広告 練習 研修" },
+  { tab: "report", title: "レポート", desc: "企画検討・社内・金融機関・投資家向けに、結果を文書にまとめる", basis: "仮定", words: "レポート 資料 事業計画書 融資 銀行 投資家 社内 稟議 提案書 返済" },
+  { tab: "org", title: "職場のルール", desc: "給与の決め方と仕事の回し方が、エースの働き方をどう変えるか", basis: "動画の実験値", words: "人事 評価 給与 歩合 定額 残業 離職 退職 エース 優秀 やる気 モチベーション 組織 働き方 コンサル 不公平" },
+  { tab: "tax", title: "税率と助け合い", desc: "税率と再分配の仕組みが、挑戦する人の数をどう変えるか", basis: "動画の実験値", words: "税 再分配 福祉 保険 補助金 挑戦 リスク 社会保障 負担 手数料" },
+  { tab: "chain", title: "多重下請け", desc: "予算が現場に届くまでに抜かれる段階の数が、品質をどう変えるか", basis: "動画の実験値", words: "下請け 中抜き 外注 委託 マージン 建設 IT 品質 納期 手抜き 代理店 予算" },
+  { tab: "economy", title: "物価と賃金", desc: "物価と賃金のずれが、消費と雇用をどう変えるか", basis: "動画の実験値", words: "物価 インフレ 賃金 賃上げ 給料 失業 不景気 給付金 消費 節約 景気" },
+  { tab: "town", title: "貯金と町", desc: "みんなが貯めると町の仕事がどうなるか", basis: "動画の実験値", words: "貯金 貯蓄 節約 消費 銀行 投資 景気 地域 商店街 お金の流れ" },
+  { tab: "island", title: "交換と略奪", desc: "交換・略奪・仕返しのどれが、長い目で栄えるか", basis: "動画の実験値", words: "取引 交渉 競争 協力 奪う 信頼 仕返し 貿易 提携 パートナー" },
+  { tab: "council", title: "村の決め方", desc: "1人で決める、話し合う、選挙で選ぶ。どれが当たりやすいか", basis: "理論", words: "意思決定 会議 多数決 トップダウン 合議 選挙 リーダー 社長 ガバナンス 噂 決め方" },
+  { tab: "climb", title: "学び方", desc: "試し方・振り返り方の違いで、どこまで上達するか", basis: "動画の実験値", words: "学習 成長 練習 改善 PDCA 試行錯誤 振り返り 研修 上達 スキル" },
+  { tab: "queue", title: "窓口の待ち行列", desc: "窓口や担当者を1人変えると、待ち時間がどう変わるか", basis: "理論", words: "待ち時間 行列 窓口 レジ コールセンター 受付 人員 シフト 混雑 予約 店舗 病院" },
+  { tab: "contagion", title: "口コミと感染の広がり", desc: "1人が何人に伝えると、全体に広がるか", basis: "理論", words: "口コミ バズ 拡散 SNS 感染 流行 紹介 噂 バイラル" },
+  { tab: "schelling", title: "住み分け", desc: "弱い好みでも、集団がはっきり分かれてしまう仕組み", basis: "理論", words: "分断 住み分け 派閥 部署 グループ 偏り 多様性 似た者" },
+  { tab: "stock", title: "仕入れ量", desc: "売れ残りと売り逃しを比べて、いちばん得な仕入れ量を出す", basis: "理論", words: "在庫 仕入れ 発注 廃棄 ロス 売り切れ 欠品 食品 小売 需要予測" },
+  { tab: "laffer", title: "税率と税収", desc: "税率を上げると、税収がどこで頭打ちになるか", basis: "理論", words: "税率 税収 増税 減税 手数料率 料率 取り分 働く意欲" },
+  { tab: "commons", title: "みんなで出し合う", desc: "ただ乗りで協力が崩れる仕組みと、それを防ぐ仕組み", basis: "実験", words: "協力 ただ乗り フリーライダー 共同 チーム 罰 評価 相互チェック 共有 貢献" },
+  { tab: "split", title: "分け前の交渉", desc: "立場に差がある交渉で、どんな提案が通るか", basis: "実験", words: "交渉 値引き 単価 取り分 配分 公平 決裂 提案 条件" },
+  { tab: "tournament", title: "協力か裏切りか", desc: "長い付き合いで、どんな方針が最後に得をするか", basis: "実験", words: "取引先 長期 信頼 裏切り 協力 競合 価格競争 報復 関係" },
+  { tab: "threshold", title: "みんながやるなら自分も", desc: "新しい制度や商品が、全体に広がるかどうかの分かれ目", basis: "実験", words: "導入 浸透 定着 社内展開 流行 同調 様子見 新制度 ツール 変革" },
+];
+export const BASIS_NOTE = {
+  公的統計: "国の統計と照合", 公式推計: "国の公式推計と照合", 理論: "数式の理論値と照合", 実験: "論文の実験結果と照合",
+  動画の実験値: "参考にした実験動画の値に合わせて調整(現実との照合ではない)", 仮定: "仮定にもとづく試算(照合先なし)",
+};
+
+// お題の文章から、合いそうな画面を探す(言葉が含まれているかを数えるだけの単純な方法)
+export function findScreens(text) {
+  const q = text.trim().toLowerCase();
+  if (!q) return [];
+  return CATALOG.map((c) => {
+    let score = 0;
+    for (const w of `${c.words} ${c.title}`.toLowerCase().split(/\s+/)) if (w && q.includes(w)) score += w.length;
+    for (const part of q.split(/[\s、。,.・/]+/)) if (part.length >= 2 && `${c.words}${c.title}${c.desc}`.toLowerCase().includes(part)) score += part.length;
+    return { ...c, score };
+  }).filter((c) => c.score > 0).sort((a, b) => b.score - a.score).slice(0, 5);
+}
+
+// 精度の成績表:全モデルの照合を一度に走らせ、1行ずつ返す
+export function scoreboard(D, personas, groups, seed = 1) {
+  const rows = [];
+  for (const t of validate(D, personas)) { const f = (v) => (Math.abs(v) < 1 ? `${(v * 100).toFixed(1)}%` : Math.round(v).toLocaleString("ja-JP")); rows.push({ basis: "公的統計", model: "人口とペルソナ", label: t.label, a: f(t.model), b: f(t.value), diff: t.error }); }
+  for (const { basis, defs } of groups) for (const def of defs) for (const [key, p] of Object.entries(def.presets)) {
+    const years = p.years ?? def.years, summary = trial(def, p.rules, basis === "動画の実験値" ? Math.min(def.runs ?? 30, 10) : def.runs ?? 20, seed, years).summary;
+    for (const v of def.verify?.(summary, p.rules) ?? []) {
+      if (v.label.startsWith("参考")) continue;
+      const row = { basis: def.verifyHead === "公式推計" ? "公式推計" : def.verifyHead ? "実験" : "理論", model: `${def.title}:${p.label}`, label: v.label, a: formatMetric(v, v.model), b: v.theoryText ?? formatMetric(v, v.theory) };
+      if (v.range) row.inRange = v.model >= v.range[0] && v.model <= v.range[1];
+      else if (Number.isFinite(v.theory) && Math.abs(v.theory) > 1e-9) { row.diff = v.model / v.theory - 1; if (v.fmt.startsWith("pct")) row.points = (v.model - v.theory) * 100; }
+      else continue;
+      rows.push(row);
+    }
+    const ref = def.reference?.[key];
+    if (ref && basis === "動画の実験値") for (const [k, target] of Object.entries(ref)) {
+      const m = def.metrics.find((x) => x.key === k); if (!m || summary[k] == null || !target) continue;
+      rows.push({ basis, model: `${def.title}:${p.label}`, label: m.label, a: formatMetric(m, summary[k]), b: formatMetric(m, target), diff: summary[k] / target - 1 });
+    }
+  }
+  return rows;
+}

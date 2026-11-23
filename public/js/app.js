@@ -19,6 +19,7 @@ import { queue, spreadModel, schelling, newsvendor, laffer } from "./theory.js";
 import { threshold, tournament, commons, split } from "./experiments.js";
 import { future } from "./future.js";
 import LITERATURE from "./literature-data.js";
+import { CATALOG, BASIS_NOTE, findScreens, scoreboard } from "./guide.js";
 import COHORT from "./cohort-data.js";
 import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
@@ -126,6 +127,7 @@ async function init() {
   regenerate();
   renderMarket();
   renderSources();
+  buildGuide();
   buildNav();
 }
 
@@ -138,7 +140,7 @@ const NAV = [
   { key: "behavior", label: "経済と行動", tabs: [] },
   { key: "theory", label: "理論で確かめる", tabs: [] },
   { key: "experiment", label: "実験と比べる", tabs: [] },
-  { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
+  { key: "source", label: "精度と出典", tabs: [["score", "精度の成績表"], ["source", "出典と仮定"]] },
 ];
 const LABS = [economy, town, island, council, climb];
 const THEORY_LABS = [queue, spreadModel, schelling, newsvendor, laffer];
@@ -1067,6 +1069,36 @@ function renderGame() {
 }
 
 // ---------- 出典と仮定 ----------
+// ---------- お題から探す・精度の成績表 ----------
+function buildGuide() {
+  const item = (c) => `<a class="found" href="#${c.tab}"><b>${esc(c.title)}</b><span>${esc(c.desc)}</span><em>${esc(BASIS_NOTE[c.basis])}</em></a>`;
+  const show = () => { const q = $("finder-q").value, hits = findScreens(q); $("finder-out").innerHTML = !q.trim() ? "" : hits.length ? hits.map(item).join("") : `<p class="note">合う画面が見つかりませんでした。「離職」「価格」「待ち時間」のような短い言葉で試してください。</p>`; };
+  $("finder-q").oninput = show;
+  $("finder-chips").innerHTML = ["優秀な人が辞めていく", "新商品の価格を決めたい", "値引き交渉", "レジの待ち時間", "2050年の人手不足", "新しい制度が社内に広がらない", "外注の中抜き", "在庫の廃棄を減らしたい"].map((x) => `<button type="button" class="chip">${esc(x)}</button>`).join("");
+  $("finder-chips").onclick = (e) => { if (e.target.classList.contains("chip")) { $("finder-q").value = e.target.textContent; show(); } };
+  const order = ["公的統計", "公式推計", "理論", "実験", "動画の実験値", "仮定"];
+  $("score-basis").innerHTML = `<table><tr><th>数字の根拠</th><th>画面</th></tr>${order.map((b) => `<tr><td>${esc(BASIS_NOTE[b])}</td><td>${CATALOG.filter((c) => c.basis === b).map((c) => `<a href="#${c.tab}">${esc(c.title)}</a>`).join("、")}</td></tr>`).join("")}</table>`;
+  $("score-run").onclick = () => {
+    $("score-msg").textContent = "計算しています…";
+    setTimeout(() => {
+      try {
+        const rows = scoreboard(state.D, state.base, [{ basis: "動画の実験値", defs: LABS }, { basis: "理論", defs: THEORY_LABS }, { basis: "実験", defs: EXPERIMENT_LABS }, { basis: "公式推計", defs: [future] }], Number($("seed").value) || 1);
+        const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= 0.5)), order2 = ["公的統計", "公式推計", "理論", "実験", "動画の実験値"];
+        const cell = (r) => (r.inRange != null ? (r.inRange ? "範囲内" : "範囲外") : `${r.diff >= 0 ? "+" : ""}${(r.diff * 100).toFixed(1)}%`);
+        const med = (list) => { const v = list.filter((r) => r.diff != null).map((r) => Math.abs(r.diff)).sort((a, b) => a - b); return v.length ? v[Math.floor(v.length / 2)] : 0; };
+        $("score-out").innerHTML = `<div class="analysis"><h2>${rows.length}項目を照合しました</h2>
+          <div class="a-cards">${order2.map((b) => { const list = rows.filter((r) => r.basis === b); return aCard(BASIS_NOTE[b].replace(/\(.*/, ""), `${list.filter(ok).length} / ${list.length}`, `ずれ5%以内の項目。中央のずれ ${(med(list) * 100).toFixed(1)}%`); }).join("")}</div>
+          <p class="a-headline">ずれが5%以内の項目は、${rows.length}項目のうち${rows.filter(ok).length}項目です。</p>
+          <p class="a-note">割合(%)の項目は、差が0.5ポイント以内なら「5%以内」と同じ扱いにしています(0.3%と0.4%のような小さな数どうしの比較のため)。赤字は、それを超えた項目です。</p>
+          <p class="a-note">「動画の実験値」は、参考にした実験動画の数字に合わせて係数を調整したもので、現実との照合ではありません。</p></div>
+          ${order2.map((b) => { const list = rows.filter((r) => r.basis === b).sort((x, y) => Math.abs(y.diff ?? 0) - Math.abs(x.diff ?? 0)); return `<div class="card"><h2>${esc(BASIS_NOTE[b])}(${list.length}項目)</h2><div class="table-scroll"><table class="verify"><tr><th>モデル・条件</th><th>項目</th><th class="num">この計算</th><th class="num">基準</th><th class="num">ずれ</th></tr>${
+            list.map((r) => `<tr><td>${esc(r.model)}</td><td>${esc(r.label)}</td><td class="num">${r.a ?? ""}</td><td class="num">${esc(r.b ?? "")}</td><td class="num ${ok(r) ? "" : "bad"}">${cell(r)}</td></tr>`).join("")}</table></div></div>`; }).join("")}`;
+        $("score-msg").textContent = "";
+      } catch (e) { $("score-msg").textContent = `計算できませんでした:${e.message}`; }
+    }, 30);
+  };
+}
+
 function renderSources() {
   $("sources").innerHTML = `<table><tr><th>データ</th><th>年次</th><th>出典</th><th>確かさ</th></tr>${
     state.D.sources.map((s) => `<tr><td>${esc(s.use)}</td><td>${esc(s.year)}</td><td>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</td><td>${esc(s.quality)}</td></tr>`).join("")

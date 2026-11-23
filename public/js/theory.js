@@ -30,6 +30,7 @@ export const queue = {
   assumptions: {
     arrival: { value: "ポアソン到着", note: "客が来る間隔は指数分布(平均だけが決まり、互いに無関係に来る)" },
     service: { value: "指数分布", note: "1人の対応にかかる時間も指数分布。現実は、これよりばらつきが小さいことが多い" },
+    people: { value: "1回の試行で6万人", note: "集計する客の数。混み具合が高いと待ち時間のぶれが大きいため、多めに取る" },
     warmup: { value: "最初の2,000人", note: "空の状態から始まる影響を除くため、集計から外す人数" },
     theory: { value: "アーランC式", note: "待たされる割合と平均の待ち時間の理論値。A. K. Erlang (1917) による" },
   },
@@ -71,7 +72,7 @@ export const queue = {
   run(r, seed, years, withTrace = false) {
     const rng = makeRng(seed), lam = r.rate / 60, mu = 1 / r.minutes, c = Math.round(r.desks);
     const exp = (rate) => -Math.log(Math.max(rng.next(), 1e-12)) / rate;
-    const N = withTrace ? 400 : 12000, warm = withTrace ? 0 : 2000;
+    const N = withTrace ? 400 : 60000, warm = withTrace ? 0 : 2000;
     const free = Array(c).fill(0); // 各窓口が空く時刻
     let t = 0, waitSum = 0, waited = 0, over10 = 0, busyTime = 0, n = 0;
     const events = [];

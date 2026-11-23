@@ -36,6 +36,13 @@
     <h1>企画やルールを、<wbr><mark>仮想の日本</mark>で<wbr>先に試す。</h1>
     <p class="hero-lead">国の統計に合わせて組み立てた仮想の生活者に、商品や制度をぶつけます。<br>誰が動き、誰が動かないかを、数字と動きで確かめられます。</p>
   </div>
+  <div class="card finder">
+    <h2>お題から探す</h2>
+    <p class="note">確かめたいことを、ふだんの言葉で入れてください。合いそうな画面を挙げます。</p>
+    <input id="finder-q" type="search" placeholder="例:優秀な人が辞めていく / 値引き交渉 / レジの待ち時間 / 2050年の人手不足" autocomplete="off">
+    <div id="finder-chips" class="chips"></div>
+    <div id="finder-out" class="finder-out"></div>
+  </div>
   <div class="routes">
     <a class="route" href="#people"><div class="stage">
       <svg viewBox="0 0 120 68" class="mini" aria-hidden="true"><g class="m-pyr"><rect x="34" y="7" width="22" height="7"/><rect x="26" y="18" width="30" height="7"/><rect x="16" y="29" width="40" height="7"/><rect x="22" y="40" width="34" height="7"/><rect x="30" y="51" width="26" height="7"/></g><g class="m-pyr f"><rect x="64" y="7" width="28" height="7"/><rect x="64" y="18" width="34" height="7"/><rect x="64" y="29" width="42" height="7"/><rect x="64" y="40" width="32" height="7"/><rect x="64" y="51" width="24" height="7"/></g></svg></div>
@@ -374,6 +381,16 @@
 </section>
 
 <!-- 出典と仮定 -->
+<section id="tab-score" class="tab">
+  <div class="page-head"><h1>精度の成績表</h1><p>このツールの計算を、国の統計・公式推計・数式の理論値・論文の実験結果と照らし合わせた一覧です。</p></div>
+  <div class="card">
+    <p class="note">すべてのモデルを、その場で計算し直して照合します(数秒かかります)。<br>「ずれ」が小さいほど、基準の値に近いことを示します。基準が無いモデルは、正直に「照合先なし」と表示します。</p>
+    <div class="form-row"><button id="score-run" class="primary">照合を実行する</button></div>
+    <p id="score-msg" class="msg"></p>
+  </div>
+  <div id="score-out"></div>
+  <div class="card"><h2>画面ごとの、数字の根拠</h2><div id="score-basis" class="table-scroll"></div></div>
+</section>
 <section id="tab-source" class="tab">
   <div class="page-head"><h1>出典と仮定</h1><p>使っているデータの出どころと、統計に無い部分をどう補ったかの一覧です。</p></div>
   <div class="card"><h2>データの出典</h2><div id="sources" class="table-scroll"></div></div>
