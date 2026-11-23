@@ -158,21 +158,24 @@ census_rows = sorted(({"label": v["label"], "sales": v["sales"]} for v in CS["by
 ec_rows = [{"label": "物販:" + v["label"], "value": v["value"]} for v in EC["btoc_physical_goods"]["categories"].values() if v["value"]]
 ec_rows += [{"label": "サービス:" + v["label"], "value": v["value"]} for v in EC["btoc_services"]["categories"].values() if v["value"]]
 ec_rows += [{"label": "デジタル:" + v["label"], "value": v["value"]} for v in EC["btoc_digital"]["categories"].values() if v["value"]]
+NA = ind["national_accounts_household_consumption"]["data"]
 industry = {
     "unit": "億円",
     "census": {"total": CS["total"]["sales"], "rows": census_rows, "yearNote": "経済センサス-活動調査 2021年調査、売上は2020年の1年間",
-               "note": "売上が確認できた11産業のみ表示しています(全体の約93%)。"},
+               "note": "産業大分類の全17産業を表示しています。"},
     "corporate": {"sales": CP["sales"]["value"],
-                  "note": f"法人企業統計 2025年度の全産業(金融・保険を除く)売上高は約{CP['sales']['value'] / 10000:,.0f}兆円(二次情報のみで確認、要照合)。"},
+                  "note": f"法人企業統計 2025年度の全産業(金融・保険を除く)売上高は約{CP['sales']['value'] / 10000:,.0f}兆円(財務省の発表資料が画像形式のため、目視で確認)。"},
     "retail": {"total": RT["retail_total"]["value"], "yearNote": "商業動態統計 2025年",
                "rows": [{"label": RT["by_format"][k]["label"].split("(")[0], "value": RT["by_format"][k]["value"]}
-                        for k in ["supermarkets", "convenience_stores", "drugstores", "department_stores"]]},
+                        for k in ["supermarkets", "convenience_stores", "drugstores", "department_stores", "large_electronics_stores", "home_centers"]],
+               "industryRows": sorted(({"label": v["label"], "value": v["value"]} for v in RT["by_industry"].values() if v.get("value")), key=lambda r: -r["value"])},
     "ec": {"total": EC["btoc_total"]["value"], "yearNote": "電子商取引に関する市場調査 2025年", "rows": sorted(ec_rows, key=lambda r: -r["value"]),
            "note": f"物販のEC化率は{EC['btoc_physical_goods']['ec_ratio_pct']}%。BtoB-ECは約{EC['btob_ec']['value'] / 10000:,.0f}兆円。"},
     "householdConsumption": {
-        "label": "2024年の名目個人消費(厚生労働省「労働経済の分析」の記述)",
-        "value": ind["national_accounts_household_consumption"]["data"]["household_final_consumption_total"]["reference_candidate_okuyen"],
-        "note": "国の統計は持ち家の家賃相当分なども含むため、家計調査をもとにしたこのモデルの合計より大きくなります。差が大きすぎないかの目安として見てください。",
+        "label": "家計最終消費支出(2024年・名目、国民経済計算)",
+        "value": NA["household_final_consumption_total"]["value"],
+        "rows": sorted(({"label": v["label"], "value": v["value"]} for v in NA["by_purpose"].values() if v.get("value")), key=lambda r: -r["value"]),
+        "note": "国の統計は、持ち家の家賃相当分(帰属家賃)や、医療・保険などの扱いが家計調査と異なるため、家計調査をもとにしたこのモデルの合計より大きくなります。",
     },
 }
 
@@ -187,8 +190,9 @@ sources = [
     {"use": "将来推計人口(5歳階級×性別)", "year": "令和5年推計", "name": "国立社会保障・人口問題研究所「日本の将来推計人口」出生中位・死亡中位(厚生労働省「令和6年財政検証」の入力データとして公開されたファイルから取得。総数は日本統計年鑑の転載値と一致)",
      "url": fut["population_projection"]["five_year_source"]["source_url"], "quality": "公的機関のファイルから直接取得(社人研の原表とは未照合)"},
     src("年代別のテレビ・ネット利用時間", fut["media_usage_time"], DIRECT),
-    src("産業別の売上", ind["economic_census_2021"], SEARCH), src("全産業の売上高", ind["corporate_statistics"], SEARCH),
-    src("小売の業態別販売額", ind["retail_trade_statistics"], SEARCH), src("ネット通販の市場規模", ind["ecommerce_market_survey"], SEARCH),
+    src("産業別の売上", ind["economic_census_2021"], DIRECT), src("全産業の売上高", ind["corporate_statistics"], "財務省の発表資料(画像形式)を目視で確認"),
+    src("小売の業種別・業態別販売額", ind["retail_trade_statistics"], DIRECT), src("家計最終消費支出", ind["national_accounts_household_consumption"], DIRECT),
+    src("ネット通販の市場規模", ind["ecommerce_market_survey"], SEARCH),
     {"use": "採用者の5区分", "year": "2003", "name": fut["diffusion_models"]["data"]["rogers_adopter_categories"]["citation"], "url": None, "quality": "書誌情報を確認(比率は解説ページで確認)"},
     {"use": "普及モデルと係数 p・q", "year": "1969 / 1990", "name": fut["diffusion_models"]["data"]["bass_model"]["citation"] + " / Sultan, Farley & Lehmann (1990) Journal of Marketing Research 27, 70-77",
      "url": fut["diffusion_models"]["source_url"], "quality": "係数の平均値は引用している後続論文で確認"},
@@ -213,7 +217,7 @@ out = {
         "価値観(価格への敏感さ、新しもの好きなど)は公的統計に無いため、仮定で付けています。",
         "AIインタビューは、AIがその人になりきって答えたものです。実際の人への調査の代わりにはならず、好意的な答えに偏る可能性があります。",
         "普及シミュレーションの係数は過去の耐久消費財などの平均値で、個別の商品に当てはまる保証はありません。",
-        "産業別の売上など一部の数値は、検索結果の抜粋から取っており、原表との照合が済んでいません(「出典」の「確かさ」欄を参照)。",
+        "ネット通販の市場規模は、検索結果の抜粋から取っており、原表との照合が済んでいません(「出典」の「確かさ」欄を参照)。",
         "結果は「桁の感覚」と「条件を変えたときの差」を見るためのものです。売上の予測値としてそのまま使わないでください。",
     ],
 }

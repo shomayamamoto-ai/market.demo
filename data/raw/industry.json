@@ -1,18 +1,16 @@
 {
   "_meta": {
     "created": "2026-11-23",
-    "collection_method": "このセッションでは WebFetch/curl が全ホストで名前解決不可(ネットワーク許可外)だったため、原資料PDF/Excelを直接は開けていない。値はすべて WebSearch の検索結果要約(原資料または転載ページの本文抜粋)から採取。記憶による補完はしていない。本番利用前に source_url の原表で照合を推奨。",
+    "collection_method": "v2: 政府サイトの原表(Excel/PDF)を curl でダウンロードし、openpyxl / pdftotext で機械抽出した値に置換(confidence \"S\")。取得できなかった値は v1(WebSearch 抜粋)の値と confidence を残置。v1: このセッションでは WebFetch/curl が全ホストで名前解決不可(ネットワーク許可外)だったため、原資料PDF/Excelを直接は開けていない。値はすべて WebSearch の検索結果要約(原資料または転載ページの本文抜粋)から採取。記憶による補完はしていない。本番利用前に source_url の原表で照合を推奨。",
     "confidence_legend": {
       "A": "政府一次資料(PDF/公式ページ)の本文抜粋として検索結果に出た値",
       "B": "一次資料を引用する二次ページ(報道・解説)経由の値。複数ページで一致したものを含む",
-      "C": "単一の二次ページのみ・要照合"
+      "C": "単一の二次ページのみ・要照合",
+      "S": "政府サイトからダウンロードした原表(Excel/PDF)から機械抽出した値",
+      "V": "原資料PDF(画像のみ)を目視で読み取り検算した値。機械抽出ではない(追加ブロック fy2025_press_release_visual_read のみで使用)"
     },
     "hosts_blocked": [
-      "www.mof.go.jp",
-      "www.meti.go.jp",
-      "www.esri.cao.go.jp",
-      "www.stat.go.jp",
-      "www.e-stat.go.jp",
+      "www.meti.go.jp (オリジンが 403 を返す。プロキシは通過)",
       "netshop.impress.co.jp",
       "www.nint.jp"
     ],
@@ -25,7 +23,8 @@
       "ec_physical_known7_sum": {
         "sum": 150244,
         "total": 158233,
-        "residual_for_2_null_categories": 7989
+        "residual_for_2_null_categories": 7989,
+        "note": "v2 でも METI 取得不可のため未更新"
       },
       "ec_services_sum": {
         "sum": 89361,
@@ -38,17 +37,23 @@
         "diff": 0
       },
       "census_known11_sum": {
-        "sum": 15707001,
+        "sum": 15748695,
         "total": 16933126,
-        "residual_for_6_null_industries": 1226125,
-        "known_share_pct": 92.8
+        "residual_for_6_null_industries": 1184431,
+        "known_share_pct": 93.0,
+        "six_formerly_null_industries_sum": 1184433,
+        "note": "v2: 6産業も原表から取得済み。残差と6産業計の差は億円丸め"
       },
       "retail_dept_plus_super": {
-        "sum": 230230,
-        "reported": 230230
+        "sum": 230150,
+        "reported": 230150,
+        "sum_million_yen": 23015022,
+        "reported_million_yen": 23015021,
+        "diff_million_yen": 1
       },
       "retail_formats_known_sum_vs_retail_total": {
-        "sum_dept_super_cvs_drug": 457571,
+        "sum_dept_super_cvs_drug": 457492,
+        "sum_6formats": 540622,
         "retail_total": 1575080,
         "note": "業態別は小売業計の内訳ではない(重複・非網羅)ため一致は期待しない"
       },
@@ -56,8 +61,99 @@
         "sum": 1248313,
         "total": 1248313,
         "diff": 0
+      },
+      "census_17_industries_sum_vs_total": {
+        "sum_million_yen": 1693312590,
+        "total_million_yen": 1693312591,
+        "diff": -1,
+        "enterprises_sum": 3684049,
+        "enterprises_total": 3684049,
+        "enterprises_diff": 0,
+        "employees_sum": 55168678,
+        "employees_total": 55168678,
+        "employees_diff": 0
+      },
+      "corporate_fy2024_r6": {
+        "sales_mfg_plus_nonmfg": 16924018,
+        "sales_total": 16924018,
+        "sales_mfg_listed11_sum": 3755393,
+        "sales_mfg_total": 4677952,
+        "sales_nonmfg_listed8_sum": 12076244,
+        "sales_nonmfg_total": 12246066,
+        "op_mfg_plus_nonmfg": 848029,
+        "op_total": 848029,
+        "note": "製造業11業種・非製造業8業種は公表業種のみで網羅的でないため小計は合計未満で正常"
+      },
+      "corporate_fy2025_visual_read": {
+        "growth_rate_mismatches": [],
+        "sales_mfg_plus_nonmfg_minus_total": 0,
+        "op_mfg_plus_nonmfg_minus_total": 0,
+        "sales_capital_classes_sum_minus_total": 0,
+        "op_capital_classes_sum_minus_total": 0
+      },
+      "retail_9_industries_sum_vs_retail_total": {
+        "sum": 1575080,
+        "total": 1575080,
+        "diff": 0,
+        "note": "原表10億円単位のため丸め差あり得る"
+      },
+      "sna_by_purpose_sum_vs_domestic_total": {
+        "sum": 3310164,
+        "domestic_total": 3310163,
+        "diff": 1,
+        "national_concept_total": 3251896,
+        "identity_check_diff": 0
       }
-    }
+    },
+    "updated": "2026-11-23",
+    "hosts_reached": [
+      "www.mof.go.jp",
+      "www.esri.cao.go.jp",
+      "www.stat.go.jp",
+      "www.e-stat.go.jp"
+    ],
+    "changes_vs_v1": [
+      {
+        "path": "census.academic_professional.sales",
+        "old": 463668,
+        "new": 480290
+      },
+      {
+        "path": "census.living_related_amusement.sales",
+        "old": 297551,
+        "new": 304613
+      },
+      {
+        "path": "census.accommodation_food.sales",
+        "old": 189824,
+        "new": 207834
+      },
+      {
+        "path": "retail.commercial_sales_total",
+        "old": 6349740,
+        "new": 6350350
+      },
+      {
+        "path": "retail.by_format.department_stores_and_supermarkets.yoy_pct",
+        "old": 2.9,
+        "new": 2.8
+      },
+      {
+        "path": "retail.by_format.department_stores_and_supermarkets",
+        "old": 230230,
+        "new": 230150
+      },
+      {
+        "path": "retail.by_format.department_stores",
+        "old": 62129,
+        "new": 62124
+      },
+      {
+        "path": "retail.by_format.supermarkets",
+        "old": 168101,
+        "new": 168026
+      }
+    ]
   },
   "corporate_statistics": {
     "title": "法人企業統計調査 年次別調査(金融業・保険業を除く全産業)",
@@ -71,7 +167,7 @@
           "label": "売上高",
           "value": 17202560,
           "via": "https://www.yutaka-trusty.co.jp/market/blog_oogo/ (財務省9/1発表の引用記事)",
-          "note": "前年度比+1.6%、5年連続増収・過去最高",
+          "note": "前年度比+1.6%、5年連続増収・過去最高 / r7.pdf 第1表の目視読取り値(17,202,560)と一致(機械抽出不可のため confidence 据え置き)",
           "confidence": "C"
         },
         "ordinary_profit": {
@@ -83,13 +179,15 @@
         },
         "operating_profit": {
           "label": "営業利益",
-          "value": null
+          "value": null,
+          "note": "機械抽出不可のため null のまま。目視読取り値は fy2025_press_release_visual_read を参照"
         },
         "operating_margin_pct": {
           "label": "売上高営業利益率(%)",
           "value": 5.4,
           "via": "https://www.issoh.co.jp/column/details/17876/ (報道発表資料 第4表の引用)",
-          "confidence": "C"
+          "confidence": "C",
+          "note": "目視読取り値からの計算 934,685/17,202,560=5.43% と整合"
         },
         "retained_earnings": {
           "label": "利益剰余金",
@@ -317,283 +415,714 @@
           "sales": 588245,
           "operating_profit": 71742,
           "operating_margin_pct": 12.2,
-          "via": "https://yotsuyagakuin-tsushin.com/blog_takkenshiken/r6kigyotoukei2026/ (令和6年度結果の引用)",
+          "via": "https://www.mof.go.jp/pri/reference/ssc/results/r6.pdf 第1表・第2表",
           "note": "売上+4.2%、営業利益+12.9%(前年度63,566億円)",
-          "confidence": "C"
+          "confidence": "S"
+        }
+      },
+      "fy2024_machine_extracted": {
+        "_note": "令和6年度年次別調査 報道発表資料 r6.pdf 第1表・第2表から pdftotext で機械抽出。公表区分のまま(卸売・小売は合算、サービス業は集約)。法人数は報道発表資料に非掲載。",
+        "source_url": "https://www.mof.go.jp/pri/reference/ssc/results/r6.pdf",
+        "unit": "億円",
+        "all_industries_ex_finance": {
+          "label": "全産業(金融業、保険業を除く)",
+          "sales": 16924018,
+          "operating_profit": 848029,
+          "confidence": "S"
+        },
+        "manufacturing": {
+          "label": "製造業",
+          "sales": 4677952,
+          "operating_profit": 252140,
+          "confidence": "S"
+        },
+        "non_manufacturing": {
+          "label": "非製造業",
+          "sales": 12246066,
+          "operating_profit": 595889,
+          "confidence": "S"
+        },
+        "by_industry": {
+          "food": {
+            "label": "食料品",
+            "sales": 525510,
+            "operating_profit": 19168,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "chemicals": {
+            "label": "化学",
+            "sales": 496078,
+            "operating_profit": 42123,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "petroleum_coal": {
+            "label": "石油・石炭",
+            "sales": 130130,
+            "operating_profit": 803,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "iron_steel": {
+            "label": "鉄鋼",
+            "sales": 198963,
+            "operating_profit": 7311,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "metal_products": {
+            "label": "金属製品",
+            "sales": 204786,
+            "operating_profit": 8270,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "general_machinery": {
+            "label": "はん用機械",
+            "sales": 76395,
+            "operating_profit": 5154,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "production_machinery": {
+            "label": "生産用機械",
+            "sales": 286734,
+            "operating_profit": 22474,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "business_machinery": {
+            "label": "業務用機械",
+            "sales": 146556,
+            "operating_profit": 13395,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "electrical_machinery": {
+            "label": "電気機械",
+            "sales": 317168,
+            "operating_profit": 22418,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "info_comm_machinery": {
+            "label": "情報通信機械",
+            "sales": 368716,
+            "operating_profit": 23370,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "transport_machinery": {
+            "label": "輸送用機械",
+            "sales": 1004357,
+            "operating_profit": 51587,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "construction": {
+            "label": "建設業",
+            "sales": 1542685,
+            "operating_profit": 68755,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "wholesale_retail": {
+            "label": "卸売業、小売業",
+            "sales": 5636628,
+            "operating_profit": 136142,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "real_estate": {
+            "label": "不動産業",
+            "sales": 588245,
+            "operating_profit": 71742,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "goods_rental": {
+            "label": "物品賃貸業",
+            "sales": 179286,
+            "operating_profit": 12251,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "info_comm": {
+            "label": "情報通信業",
+            "sales": 874138,
+            "operating_profit": 71350,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "transport_postal": {
+            "label": "運輸業、郵便業",
+            "sales": 731928,
+            "operating_profit": 38787,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "electricity": {
+            "label": "電気業",
+            "sales": 425057,
+            "operating_profit": 22236,
+            "number_of_corporations": null,
+            "confidence": "S"
+          },
+          "services_total": {
+            "label": "サービス業",
+            "sales": 2098277,
+            "operating_profit": 170001,
+            "number_of_corporations": null,
+            "confidence": "S"
+          }
+        }
+      },
+      "fy2025_press_release_visual_read": {
+        "_note": "r7.pdf(令和7年度年次別調査 報道発表資料)はフォント情報のない画像PDFで pdftotext/pypdf ではテキストを取り出せない。ここは同PDF第1表・第2表(3-4頁)を画像化して目視で読み取った値で、機械抽出ではない(confidence \"V\")。検算: (a)各行の FY2025/FY2024(r6.pdf機械抽出値)-1 が表記載の増加率と小数1位で一致、(b)製造業+非製造業=全産業、(c)資本金4階層計=全産業。",
+        "source_url": "https://www.mof.go.jp/pri/reference/ssc/results/r7.pdf",
+        "unit": "億円",
+        "validation": {
+          "growth_rate_mismatches": [],
+          "sales_mfg_plus_nonmfg_minus_total": 0,
+          "op_mfg_plus_nonmfg_minus_total": 0,
+          "sales_capital_classes_sum_minus_total": 0,
+          "op_capital_classes_sum_minus_total": 0
+        },
+        "all_industries_ex_finance": {
+          "sales": 17202560,
+          "operating_profit": 934685,
+          "operating_margin_pct_calc": 5.43,
+          "confidence": "V"
+        },
+        "manufacturing": {
+          "sales": 4770130,
+          "operating_profit": 262092,
+          "operating_margin_pct_calc": 5.49,
+          "confidence": "V"
+        },
+        "non_manufacturing": {
+          "sales": 12432430,
+          "operating_profit": 672593,
+          "operating_margin_pct_calc": 5.41,
+          "confidence": "V"
+        },
+        "by_industry": {
+          "food": {
+            "label": "食料品",
+            "sales": 573921,
+            "operating_profit": 19718,
+            "sales_yoy_pct": 9.2,
+            "confidence": "V"
+          },
+          "chemicals": {
+            "label": "化学",
+            "sales": 499385,
+            "operating_profit": 44999,
+            "sales_yoy_pct": 0.7,
+            "confidence": "V"
+          },
+          "petroleum_coal": {
+            "label": "石油・石炭",
+            "sales": 125089,
+            "operating_profit": 2808,
+            "sales_yoy_pct": -3.9,
+            "confidence": "V"
+          },
+          "iron_steel": {
+            "label": "鉄鋼",
+            "sales": 184632,
+            "operating_profit": 4866,
+            "sales_yoy_pct": -7.2,
+            "confidence": "V"
+          },
+          "metal_products": {
+            "label": "金属製品",
+            "sales": 212367,
+            "operating_profit": 8139,
+            "sales_yoy_pct": 3.7,
+            "confidence": "V"
+          },
+          "general_machinery": {
+            "label": "はん用機械",
+            "sales": 83303,
+            "operating_profit": 6750,
+            "sales_yoy_pct": 9.0,
+            "confidence": "V"
+          },
+          "production_machinery": {
+            "label": "生産用機械",
+            "sales": 292214,
+            "operating_profit": 20954,
+            "sales_yoy_pct": 1.9,
+            "confidence": "V"
+          },
+          "business_machinery": {
+            "label": "業務用機械",
+            "sales": 145305,
+            "operating_profit": 11870,
+            "sales_yoy_pct": -0.9,
+            "confidence": "V"
+          },
+          "electrical_machinery": {
+            "label": "電気機械",
+            "sales": 349205,
+            "operating_profit": 26978,
+            "sales_yoy_pct": 10.1,
+            "confidence": "V"
+          },
+          "info_comm_machinery": {
+            "label": "情報通信機械",
+            "sales": 358177,
+            "operating_profit": 36562,
+            "sales_yoy_pct": -2.9,
+            "confidence": "V"
+          },
+          "transport_machinery": {
+            "label": "輸送用機械",
+            "sales": 982625,
+            "operating_profit": 33248,
+            "sales_yoy_pct": -2.2,
+            "confidence": "V"
+          },
+          "construction": {
+            "label": "建設業",
+            "sales": 1550941,
+            "operating_profit": 88118,
+            "sales_yoy_pct": 0.5,
+            "confidence": "V"
+          },
+          "wholesale_retail": {
+            "label": "卸売業、小売業",
+            "sales": 5581759,
+            "operating_profit": 142628,
+            "sales_yoy_pct": -1.0,
+            "confidence": "V"
+          },
+          "real_estate": {
+            "label": "不動産業",
+            "sales": 586809,
+            "operating_profit": 67590,
+            "sales_yoy_pct": -0.2,
+            "confidence": "V"
+          },
+          "goods_rental": {
+            "label": "物品賃貸業",
+            "sales": 198513,
+            "operating_profit": 15786,
+            "sales_yoy_pct": 10.7,
+            "confidence": "V"
+          },
+          "info_comm": {
+            "label": "情報通信業",
+            "sales": 941497,
+            "operating_profit": 78994,
+            "sales_yoy_pct": 7.7,
+            "confidence": "V"
+          },
+          "transport_postal": {
+            "label": "運輸業、郵便業",
+            "sales": 784648,
+            "operating_profit": 39022,
+            "sales_yoy_pct": 7.2,
+            "confidence": "V"
+          },
+          "electricity": {
+            "label": "電気業",
+            "sales": 390430,
+            "operating_profit": 22299,
+            "sales_yoy_pct": -8.1,
+            "confidence": "V"
+          },
+          "services_total": {
+            "label": "サービス業",
+            "sales": 2223582,
+            "operating_profit": 210626,
+            "sales_yoy_pct": 6.0,
+            "confidence": "V"
+          }
         }
       }
     },
     "unverified": [
-      "FY2025 全産業の売上高・経常利益・利益剰余金は財務省発表を引用する民間ブログ1件のみで確認(財務省PDF r7.pdf は未読)。要照合。",
-      "FY2025 営業利益(金額): 未確認→null。参考: 売上高1,720兆2,560億円×営業利益率5.4% ≒ 約93兆円という算術上の目安のみ(公表値ではない)。",
-      "製造業・非製造業の売上高、業種別(製造業中分類・非製造業各業種)の売上高/営業利益/法人数: 検索結果に数値が出ず全て null。原表は財務省『法人企業統計調査 時系列データ』または e-Stat(toukei=00350600)。",
-      "母集団法人数: 未確認→null。",
-      "keizai-marumie.com の『年次』値は四半期値と混同の疑いがあり不採用。"
+      "FY2025(令和7年度): 財務省 r7.pdf(6.9MB)はダウンロードできたが、フォント埋め込みのない画像PDFでテキスト抽出不可。OCRエンジン(tesseract)は環境に無く、導入は権限上不可。よって既存キーの FY2025 値は従来値・従来 confidence のまま(null は null のまま)。",
+      "FY2025 の第1表(売上高)・第2表(営業利益)は目視読取り値を data.fy2025_press_release_visual_read に別掲(confidence \"V\"、検算済み)。既存の全産業売上高 17,202,560 は目視値と一致。経常利益・利益剰余金は未照合。",
+      "FY2024(令和6年度)は r6.pdf から機械抽出し data.fy2024_machine_extracted に格納(S)。",
+      "業種別の法人数(母集団)、および小売/卸売の分離・宿泊・飲食・生活関連・医療福祉・教育等の細分業種は報道発表資料に無い(公表区分は製造業11業種+建設・卸小売・不動産・物品賃貸・情報通信・運輸郵便・電気・サービス業)。これらは e-Stat 時系列データ(DB形式のみ: dbview sid=0003060791、ファイル提供なし)にあるが、DBのAPI呼び出し(POST)は権限上実行できず未取得。by_industry_fy2025 は全て null のまま。",
+      "財政金融統計月報「法人企業統計年報特集」は mof.go.jp 上で令和4年度(859号)までしか確認できず。"
+    ],
+    "source_urls": [
+      "https://www.mof.go.jp/pri/reference/ssc/results/r7.pdf",
+      "https://www.mof.go.jp/pri/reference/ssc/results/r6.pdf"
     ]
   },
   "economic_census_2021": {
     "title": "令和3年経済センサス-活動調査 産業横断的集計(確報)企業等に関する集計 産業大分類別",
     "year": "調査時点2021-06-01、売上(収入)金額は2020年1年間",
     "unit": "売上=億円、企業等数=企業、従業者数=人",
-    "source_name": "総務省・経済産業省 令和3年経済センサス‐活動調査 産業横断的集計 結果の要約/概要(2023-06-27公表)",
-    "source_url": "https://www.stat.go.jp/data/e-census/2021/kekka/pdf/k3_summary.pdf",
+    "source_name": "総務省・経済産業省 令和3年経済センサス‐活動調査 産業横断的集計 企業等に関する集計 経理事項等 第3表(h2_003.xlsx, e-Stat) / 結果の要約 k3_summary.pdf 表1",
+    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040067986&fileKind=0",
     "data": {
       "total": {
         "label": "全産業",
         "sales": 16933126,
         "enterprises": 3684049,
-        "employees": null,
+        "employees": 55168678,
         "net_value_added": 3362595,
-        "confidence": "A"
+        "confidence": "S",
+        "sales_million_yen": 1693312591,
+        "enterprises_with_accounting_data": 3507118,
+        "note": "enterprises=全企業等(k3_summary.pdf 表1)。employees・enterprises_with_accounting_data は売上等の必要事項が得られた企業等ベース(h2_003.xlsx)。"
       },
       "by_industry": {
         "wholesale_retail": {
           "label": "卸売業,小売業",
           "sales": 4801679,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 741239,
+          "employees": 10454775,
+          "confidence": "S",
+          "sales_million_yen": 480167887,
+          "enterprises_with_accounting_data": 710012,
+          "net_value_added": 475639
         },
         "manufacturing": {
           "label": "製造業",
           "sales": 3870606,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 339738,
+          "employees": 9423315,
+          "confidence": "S",
+          "sales_million_yen": 387060638,
+          "enterprises_with_accounting_data": 327913,
+          "net_value_added": 648055
         },
         "medical_welfare": {
           "label": "医療,福祉",
           "sales": 1733369,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 298517,
+          "employees": 7579497,
+          "confidence": "S",
+          "sales_million_yen": 173336912,
+          "enterprises_with_accounting_data": 286308,
+          "net_value_added": 711144
         },
         "construction": {
           "label": "建設業",
           "sales": 1200310,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 426155,
+          "employees": 3654583,
+          "confidence": "S",
+          "sales_million_yen": 120030992,
+          "enterprises_with_accounting_data": 410186,
+          "net_value_added": 239831
         },
         "finance_insurance": {
           "label": "金融業,保険業",
           "sales": 1177681,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 30995,
+          "employees": 1472760,
+          "confidence": "S",
+          "sales_million_yen": 117768068,
+          "enterprises_with_accounting_data": 29305,
+          "net_value_added": 187589
         },
         "info_comm": {
           "label": "情報通信業",
           "sales": 754999,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 56599,
+          "employees": 1884650,
+          "confidence": "S",
+          "sales_million_yen": 75499894,
+          "enterprises_with_accounting_data": 52620,
+          "net_value_added": 194970
         },
         "transport_postal": {
           "label": "運輸業,郵便業",
           "sales": 621993,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 66831,
+          "employees": 3096800,
+          "confidence": "S",
+          "sales_million_yen": 62199305,
+          "enterprises_with_accounting_data": 63997,
+          "net_value_added": 125374
         },
         "real_estate_goods_rental": {
           "label": "不動産業,物品賃貸業",
           "sales": 595321,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "A"
+          "enterprises": 328329,
+          "employees": 1507052,
+          "confidence": "S",
+          "sales_million_yen": 59532063,
+          "enterprises_with_accounting_data": 312755,
+          "net_value_added": 122178
         },
         "academic_professional": {
           "label": "学術研究,専門・技術サービス業",
-          "sales": 463668,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "B"
+          "sales": 480290,
+          "enterprises": 214724,
+          "employees": 1808622,
+          "confidence": "S",
+          "sales_million_yen": 48029003,
+          "enterprises_with_accounting_data": 203776,
+          "net_value_added": 202959
         },
         "living_related_amusement": {
           "label": "生活関連サービス業,娯楽業",
-          "sales": 297551,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "B"
+          "sales": 304613,
+          "enterprises": 334668,
+          "employees": 1955659,
+          "confidence": "S",
+          "sales_million_yen": 30461302,
+          "enterprises_with_accounting_data": 318800,
+          "net_value_added": 49062
         },
         "accommodation_food": {
           "label": "宿泊業,飲食サービス業",
-          "sales": 189824,
-          "enterprises": null,
-          "employees": null,
-          "confidence": "B"
+          "sales": 207834,
+          "enterprises": 426575,
+          "employees": 4113358,
+          "confidence": "S",
+          "sales_million_yen": 20783408,
+          "enterprises_with_accounting_data": 390661,
+          "net_value_added": 61125
         },
         "agriculture_forestry_fishery": {
           "label": "農林漁業(個人経営を除く)",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 59331,
+          "enterprises": 35301,
+          "employees": 426591,
+          "confidence": "S",
+          "sales_million_yen": 5933071,
+          "enterprises_with_accounting_data": 34185,
+          "net_value_added": 11419
         },
         "mining": {
           "label": "鉱業,採石業,砂利採取業",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 15032,
+          "enterprises": 1428,
+          "employees": 21019,
+          "confidence": "S",
+          "sales_million_yen": 1503162,
+          "enterprises_with_accounting_data": 1341,
+          "net_value_added": 3998
         },
         "electricity_gas_water": {
           "label": "電気・ガス・熱供給・水道業",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 362325,
+          "enterprises": 5496,
+          "employees": 211405,
+          "confidence": "S",
+          "sales_million_yen": 36232504,
+          "enterprises_with_accounting_data": 5276,
+          "net_value_added": 40926
         },
         "education": {
           "label": "教育,学習支援業",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 173905,
+          "enterprises": 109004,
+          "employees": 2026030,
+          "confidence": "S",
+          "sales_million_yen": 17390454,
+          "enterprises_with_accounting_data": 102643,
+          "net_value_added": 80197
         },
         "compound_services": {
           "label": "複合サービス事業",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 89236,
+          "enterprises": 5445,
+          "employees": 655765,
+          "confidence": "S",
+          "sales_million_yen": 8923555,
+          "enterprises_with_accounting_data": 5351,
+          "net_value_added": 36805
         },
         "other_services": {
           "label": "サービス業(他に分類されないもの)",
-          "sales": null,
-          "enterprises": null,
-          "employees": null,
-          "confidence": null
+          "sales": 484604,
+          "enterprises": 263005,
+          "employees": 4876797,
+          "confidence": "S",
+          "sales_million_yen": 48460372,
+          "enterprises_with_accounting_data": 251989,
+          "net_value_added": 171326
         }
       }
     },
     "unverified": [
-      "産業大分類別の企業等数・従業者数: 確報値を取得できず全て null(速報値の建設業42.4万、宿泊・飲食42.3万等は確報と異なるため不採用)。全産業の従業者数も null。",
-      "農林漁業・鉱業・電気ガス熱供給水道・教育学習支援・複合サービス・サービス業(他に分類されないもの)の売上: 確報値未確認→null。速報値(農林漁業59,616億円、鉱業13,306億円、教育172,119億円)と『複合サービス89,235億円(対象範囲不明)』は見つかったが確報でない/定義不明のため不採用。",
-      "学術研究・生活関連・宿泊飲食の3値は経産省『サービス関連産業に関する集計 結果の概要』の抜粋経由(企業等ベースの確報値と同一かは原表で要照合)。",
-      "建設業〜不動産業の5値は k3_summary.pdf の百万円表記(例: 建設業120,030,992百万円)を億円に四捨五入。"
+      "従業者数は「経理事項等」第3表(売上等の必要事項が得られた企業等 3,507,118 企業ベース)の値。全企業等(3,684,049)ベースの従業者数は別表(企業等数、従業者数)で未取得。",
+      "企業等数は k3_summary.pdf 表1(全企業等ベース)。売上集計対象の企業等数は enterprises_with_accounting_data に併記。",
+      "金融業，保険業の売上は「経常収益」。農林漁業は個人経営を除く。"
+    ],
+    "source_urls": [
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040067986&fileKind=0",
+      "https://www.stat.go.jp/data/e-census/2021/kekka/pdf/k3_summary.pdf"
     ]
   },
   "retail_trade_statistics": {
     "title": "商業動態統計 小売業販売額(年間)",
     "year": "2025年(暦年)",
     "unit": "億円",
-    "source_name": "経済産業省 商業動態統計(2025年12月分速報 2026-01-30、および経済解析室『2025年小売業販売を振り返る』2026-04-14)",
-    "source_url": "https://www.meti.go.jp/statistics/toppage/report/minikeizai/kako/20260414minikeizai.html",
+    "source_name": "経済産業省 商業動態統計 時系列データ(e-Stat 掲載 Excel、2026-11-16更新): 業種別商業販売額 h2slt11j.xlsx / 百貨店・スーパー h2slt31j / コンビニ h2slt41j / 家電大型専門店 h2slt42j / ドラッグストア h2slt43j / ホームセンター h2slt44j",
+    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
     "data": {
       "commercial_sales_total": {
         "label": "商業販売額(卸売+小売)",
-        "value": 6349740,
-        "via": "https://www.meti.go.jp/statistics/tyo/syoudou/result/pdf/202512S.pdf",
-        "note": "前年比+1.3%(速報)",
-        "confidence": "A"
+        "value": 6350350,
+        "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+        "note": "確報・時系列表。原表単位10億円。前年比はリンク係数調整後",
+        "confidence": "S",
+        "yoy_pct": 1.3
       },
       "retail_total": {
         "label": "小売業販売額",
         "value": 1575080,
-        "via": "METI『2025年小売業販売を振り返る』",
-        "note": "前年比+1.4%、5年連続増。飲食料品・燃料を除くと+2.2%",
-        "confidence": "A"
+        "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+        "note": "原表単位10億円。2025年1月に「水準の調整」があり2024年以前の金額(2024年=1,671,530億円)と断層。前年比はリンク係数調整後",
+        "confidence": "S",
+        "yoy_pct": 1.4
       },
       "by_industry": {
         "general_merchandise": {
           "label": "各種商品小売業",
-          "value": null
+          "value": 88710,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": -2.4
         },
         "fabrics_apparel": {
           "label": "織物・衣服・身の回り品小売業",
-          "value": null
+          "value": 74470,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 1.3
         },
         "food_beverage": {
           "label": "飲食料品小売業",
-          "value": null
+          "value": 440490,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 0.7
         },
         "motor_vehicles": {
           "label": "自動車小売業",
-          "value": null
+          "value": 181650,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 2.0
         },
         "machinery_equipment": {
           "label": "機械器具小売業",
-          "value": null
+          "value": 104140,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 5.1
         },
         "fuel": {
           "label": "燃料小売業",
-          "value": null
+          "value": 142030,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": -1.7
         },
         "medicine_cosmetics": {
           "label": "医薬品・化粧品小売業",
-          "value": null
+          "value": 159970,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 3.7
         },
         "others": {
           "label": "その他小売業",
-          "value": null
+          "value": 230160,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": 4.2
         },
         "non_store": {
           "label": "無店舗小売業",
-          "value": null
+          "value": 153460,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+          "yoy_pct": -1.3
         }
       },
       "by_format": {
         "department_stores": {
           "label": "百貨店",
-          "value": 62129,
-          "via": "METI 202512S.pdf(速報)",
-          "note": "前年比-1.8%、5年ぶり減。二次サイト(kashikapedia)は62,124億円(改定値の可能性)",
-          "confidence": "A",
-          "yoy_pct": -1.8
+          "value": 62124,
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387994&fileKind=0",
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "confidence": "S",
+          "yoy_pct": -1.8,
+          "value_million_yen": 6212441
         },
         "supermarkets": {
           "label": "スーパー",
-          "value": 168101,
-          "via": "METI 202512S.pdf(速報)",
-          "note": "前年比+4.7%。二次サイトは168,026億円(改定値の可能性)",
-          "confidence": "A",
-          "yoy_pct": 4.7
+          "value": 168026,
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387994&fileKind=0",
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "confidence": "S",
+          "yoy_pct": 4.7,
+          "value_million_yen": 16802581
         },
         "department_stores_and_supermarkets": {
           "label": "百貨店・スーパー計",
-          "value": 230230,
-          "via": "METI 202512S.pdf(速報)",
-          "note": "前年比+2.9%",
-          "confidence": "A",
-          "yoy_pct": 2.9
+          "value": 230150,
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387994&fileKind=0",
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "confidence": "S",
+          "yoy_pct": 2.8,
+          "value_million_yen": 23015021
         },
         "convenience_stores": {
           "label": "コンビニエンスストア(商品販売額+サービス売上高)",
           "value": 133212,
-          "via": "https://journal.meti.go.jp/statistics/45606/ ほか",
-          "note": "前年比+3.4%",
-          "confidence": "A",
-          "yoy_pct": 3.4
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387995&fileKind=0",
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "confidence": "S",
+          "yoy_pct": 3.4,
+          "value_million_yen": 13321232
         },
         "drugstores": {
           "label": "ドラッグストア",
           "value": 94129,
-          "via": "https://journal.meti.go.jp/statistics/45606/",
-          "note": "前年比+5.5%",
-          "confidence": "A",
-          "yoy_pct": 5.5
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387997&fileKind=0",
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "confidence": "S",
+          "yoy_pct": 5.5,
+          "value_million_yen": 9412899
         },
         "large_electronics_stores": {
           "label": "家電大型専門店",
-          "value": null,
-          "note": "前年比+4.1%のみ確認",
-          "yoy_pct": 4.1
+          "value": 49214,
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "yoy_pct": 4.1,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387996&fileKind=0",
+          "value_million_yen": 4921363
         },
         "home_centers": {
           "label": "ホームセンター",
-          "value": null,
-          "note": "前年比-0.2%のみ確認(2年ぶり減)",
-          "yoy_pct": -0.2
+          "value": 33917,
+          "note": "確報・時系列表(年計)。前年比は年計値の単純比",
+          "yoy_pct": -0.2,
+          "confidence": "S",
+          "via": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387998&fileKind=0",
+          "value_million_yen": 3391733
         }
       }
     },
     "unverified": [
-      "業種別(各種商品〜無店舗の9区分)の年間販売額: 検索結果に数値が出ず全て null。定性情報のみ(増加寄与1位=医薬品・化粧品、2位=機械器具)。原表は商業動態統計 時系列データ/202512S.pdf の年計表。",
-      "家電大型専門店: 金額未確認→null。検索要約に『4兆9,214億円』が1度だけ出典不明で出現したが再検索で裏付けできず不採用。",
-      "ホームセンター: 金額未確認→null。",
-      "百貨店・スーパーは速報値を採用。確報(年間補正後)では数億〜数十億円単位で改定されている可能性。小売業計157兆5,080億円は2026年4月レポートの値で、速報との版差があり得る。"
+      "www.meti.go.jp はオリジン(CloudFront/S3)が全URLで 403 を返し取得不可(30秒後に再試行しても同じ)。同一の時系列 Excel を e-Stat(toukei=00550030 ■時系列データ)から取得した。",
+      "業種別販売額は原表が10億円単位のため億円表記は下1桁が常に0。",
+      "2025年1月分で「水準の調整」が行われ、業種別販売額は2024年以前と金額水準に断層(小売業計リンク係数0.929)。前年比(yoy_pct)は原表のリンク係数調整済み前年比。業態別は断層なし。"
+    ],
+    "source_urls": [
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387992&fileKind=0",
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387994&fileKind=0",
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387995&fileKind=0",
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387996&fileKind=0",
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387997&fileKind=0",
+      "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031387998&fileKind=0"
     ]
   },
   "ecommerce_market_survey": {
@@ -747,6 +1276,7 @@
       }
     },
     "unverified": [
+      "【今回も原表照合不可】www.meti.go.jp は全URL(トップ、press、statistics、robots.txt 含む)でオリジン側が HTTP 403(CloudFront: \"Error from cloudfront\"、S3 エラーページ)を返し、30秒後の再試行でも同じ。プロキシの拒否ではなくサイト側の拒否。報告書PDFは e-Stat 等の許可ホストに無いため、全値を従来値・従来 confidence のまま残した。",
       "物販系『事務用品、文房具』『その他』の金額・EC化率: 未確認→null。残差(物販系計−判明7カテゴリ)は2項目合計で7,989億円(算術値)。",
       "物販系カテゴリ値は報道・解説ページ(ネットショップ担当者フォーラム、Nint、コマースピック等)経由。経産省報告書PDF本体は未読。",
       "BtoB-EC: ecbeing の記事に145兆742億円/EC化率43.9%という別数値があったが、他2ソース(560兆870億円、45.9%)と不一致のため不採用(別集計か旧年の可能性)。",
@@ -755,77 +1285,112 @@
   },
   "national_accounts_household_consumption": {
     "title": "国民経済計算 家計最終消費支出(目的別)",
-    "year": "2024年(暦年)を目標としたが目的別内訳は未取得",
+    "year": "2024年(暦年)・名目",
     "unit": "億円",
-    "source_name": "内閣府 経済社会総合研究所 2024年度国民経済計算年次推計(2020年基準・2008SNA)フロー編 付表(12)家計の目的別最終消費支出の構成",
-    "source_url": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/2024_kaku_top.html",
+    "source_name": "内閣府 経済社会総合研究所 2024年度国民経済計算年次推計(2020年基準・2008SNA)フロー編 付表(12)家計の目的別最終消費支出の構成(名目) / 付表(11)家計の形態別最終消費支出の構成(名目)",
+    "source_url": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx",
     "data": {
       "household_final_consumption_total": {
         "label": "家計最終消費支出 総額(名目)",
-        "value": null,
-        "note": "参考: 厚労省『令和7年版 労働経済の分析』に『2024年の名目個人消費は326.9兆円(前年差+9.0兆円、+2.8%)』の記述(https://www.mhlw.go.jp/wp/hakusyo/roudou/25/dl/25-1-1-1.pdf)。ただし2020年基準改定(2025-12)前の値で、家計/民間の定義も未特定のため value には入れていない。",
-        "reference_candidate_okuyen": 3269000
+        "value": 3251896,
+        "note": "2024暦年・名目。家計最終消費支出(国民概念)=国内家計最終消費支出+居住者家計の海外での直接購入−非居住者家計の国内での直接購入。目的別内訳の合計は国内家計最終消費支出(domestic_total)に一致する。原表単位10億円(小数1位)",
+        "reference_candidate_okuyen": 3269000,
+        "confidence": "S",
+        "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s11n_jp.xlsx",
+        "domestic_total": 3310163,
+        "direct_purchases_abroad_by_residents": 18584,
+        "direct_purchases_in_domestic_market_by_nonresidents": 76851,
+        "imputed_rent_of_owner_occupied": 582336
       },
       "by_purpose": {
         "food_non_alcoholic": {
-          "label": "食料・非アルコール飲料",
-          "value": null
+          "label": "食料・非アルコール",
+          "value": 540695,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "alcohol_tobacco": {
           "label": "アルコール飲料・たばこ",
-          "value": null
+          "value": 73754,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "clothing_footwear": {
           "label": "被服・履物",
-          "value": null
+          "value": 103709,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "housing_utilities": {
-          "label": "住居・電気・ガス・水道",
-          "value": null
+          "label": "住宅・電気・ガス・水道",
+          "value": 883536,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "furnishings_household_equipment": {
           "label": "家具・家庭用機器・家事サービス",
-          "value": null
+          "value": 106507,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "health": {
           "label": "保健・医療",
-          "value": null
+          "value": 120383,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "transport": {
           "label": "交通",
-          "value": null
+          "value": 310783,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "communication": {
           "label": "情報・通信",
-          "value": null
+          "value": 224781,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "recreation_culture": {
           "label": "娯楽・スポーツ・文化",
-          "value": null
+          "value": 198412,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "education": {
           "label": "教育サービス",
-          "value": null
+          "value": 70064,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "restaurants_hotels": {
           "label": "外食・宿泊サービス",
-          "value": null
+          "value": 225352,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "insurance_financial": {
           "label": "保険・金融サービス",
-          "value": null
+          "value": 203871,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         },
         "personal_care_misc": {
           "label": "個別ケア・社会保護・その他",
-          "value": null
+          "value": 248317,
+          "confidence": "S",
+          "via": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx"
         }
       }
     },
     "unverified": [
-      "目的別内訳(全項目)と総額: 付表(12)は Excel 配布のみで検索結果に数値が出ず、全て null。",
-      "2024年度年次推計(2025-11/12公表)から 2020年基準に改定され、目的別分類が COICOP2018 準拠(116目的分類)に組み替えられた。上のキー名は COICOP2018 大分類に沿った想定ラベルで、原表の正式名称と要照合。",
-      "取得先: 上記 source_url の付表(12)名目 Excel、または e-Stat『国民経済計算年次推計 令和2年基準 2024年度 フロー編 名目暦年』(2026-01-30更新)。",
-      "UNdata に日本2024年の家計消費(対家計民間非営利団体を含む)331.8兆円という値があるが単位・版が未確認のため不採用。"
+      "目的別13分類の合計は「国内家計最終消費支出」(3,310,163億円)に一致し、「家計最終消費支出」(国民概念 3,251,896億円)とは直接購入の調整分だけ異なる。",
+      "従来 note の参考値 326.9兆円(厚労省白書・2015年基準)は基準改定前の別概念値のため reference_candidate_okuyen は参考扱いのまま残置。",
+      "2025年(暦年)値は 2025年度年次推計(2026年12月頃公表見込み)待ち。"
+    ],
+    "source_urls": [
+      "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s12n_jp.xlsx",
+      "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/tables/2024s11n_jp.xlsx"
     ]
   }
 }

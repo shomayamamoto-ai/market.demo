@@ -10,6 +10,7 @@ import { hbar, pyramid, line, esc } from "./charts.js";
 import { makeRng } from "./rng.js";
 import { PURPOSES, buildReport } from "./report.js";
 import JAPAN from "./japan-data.js";
+import { createVisual, prepareCrowd } from "./visual.js";
 
 const $ = (id) => document.getElementById(id);
 const state = { D: null, base: [], personas: [], llm: false, materials: [], brief: null, ai: null, game: null };
@@ -56,7 +57,17 @@ async function init() {
   document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
     document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("on", x === b));
     document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.id === `tab-${b.dataset.tab}`));
+    if (b.dataset.tab === "visual") openVisual();
+    else state.visual?.run(false);
   }));
+  $("v-set").onclick = () => gatherCrowd();
+  $("v-start").onclick = () => { if (state.visual?.phase !== "wander") gatherCrowd(); state.visual?.start(); };
+  $("v-speed").onchange = () => state.visual?.setSpeed(Number($("v-speed").value));
+  $("v-ab").onchange = () => {
+    $("v-price-b").disabled = $("v-per-b").disabled = !$("v-ab").checked;
+    if ($("v-ab").checked && !$("v-price-b").value) { $("v-price-b").value = Math.round(currentProduct().price * 0.7); $("v-per-b").value = currentProduct().perYear; }
+    gatherCrowd();
+  };
   $("regen").onclick = regenerate;
   $("year").onchange = applyYear;
   $("shuffle").onclick = () => renderPersonaList(Math.floor(Math.random() * 1e9));
@@ -157,6 +168,8 @@ function renderMarket() {
   $("industry-chart").innerHTML = hbar(I.census.rows.map((r) => ({ label: r.label, value: r.sales })), { fmt: okuyen, labelWidth: 210 });
   $("industry-note").innerHTML = `全産業の売上:${okuyen(I.census.total)}(${esc(I.census.yearNote)})。${esc(I.census.note)}<br>参考:${esc(I.corporate.note)}`;
   $("retail-chart").innerHTML = hbar(I.retail.rows.map((r) => ({ label: r.label, value: r.value })), { fmt: okuyen, color: "var(--good)" });
+  $("retail-ind-chart").innerHTML = hbar(I.retail.industryRows, { fmt: okuyen, color: "var(--good)", labelWidth: 210 });
+  $("sna-chart").innerHTML = hbar(I.householdConsumption.rows, { fmt: okuyen, color: "var(--sub)", labelWidth: 210 });
   $("retail-note").textContent = `小売業全体:${okuyen(I.retail.total)}(${I.retail.yearNote})`;
   $("ec-chart").innerHTML = hbar(I.ec.rows.map((r) => ({ label: r.label, value: r.value })), { fmt: okuyen, color: "var(--female)", labelWidth: 210 });
   $("ec-note").textContent = `BtoC-EC全体:${okuyen(I.ec.total)}(${I.ec.yearNote})。${I.ec.note}`;
@@ -421,6 +434,29 @@ function runReport() {
     });
     $("print-report").disabled = false;
   }, 30);
+}
+
+// ---------- ⑦ 3Dビジュアル ----------
+function openVisual() {
+  if (!state.visual) {
+    state.visual = createVisual($("visual"), { fmtYen, fmtPeople, pct, num, esc });
+    if (!state.visual) return;
+    gatherCrowd();
+  }
+  state.visual.run(true);
+}
+function gatherCrowd() {
+  if (!state.visual) return;
+  const productA = currentProduct();
+  const productB = $("v-ab").checked
+    ? { ...productA, price: Math.max(0, Number($("v-price-b").value) || 0), perYear: Math.max(0.1, Number($("v-per-b").value) || productA.perYear) }
+    : null;
+  const ok = prepareCrowd(state.visual, {
+    personas: state.personas, productA, productB, n: Number($("v-n").value), seed: Number($("seed").value) || 1,
+    fmt: { fmtYen, fmtPeople, pct, num, esc },
+  });
+  if (!ok) alert("対象条件に合うペルソナがいません。③の条件を見直してください。");
+  state.visual.setSpeed(Number($("v-speed").value));
 }
 
 // ---------- ⑤ 経営ゲーム ----------

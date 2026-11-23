@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>日本市場シミュレーター</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 <header class="top">
@@ -20,6 +21,7 @@
     <button data-tab="spread">④ 普及シミュレーション</button>
     <button data-tab="game">⑤ 経営ゲーム</button>
     <button data-tab="report">⑥ 用途別レポート</button>
+    <button data-tab="visual">⑦ 3Dで見る</button>
     <button data-tab="source">出典と仮定</button>
   </nav>
 </header>
@@ -67,12 +69,14 @@
 <section id="tab-market" class="tab">
   <div class="card"><h2>産業別の売上(企業側から見た規模)</h2><div id="industry-chart"></div><p id="industry-note" class="note"></p></div>
   <div class="grid2">
-    <div class="card"><h3>小売の業態別販売額</h3><div id="retail-chart"></div><p id="retail-note" class="note"></p></div>
+    <div class="card"><h3>小売の業種別販売額</h3><div id="retail-ind-chart"></div>
+      <h3>小売の業態別販売額</h3><div id="retail-chart"></div><p id="retail-note" class="note"></p></div>
     <div class="card"><h3>ネット通販(BtoC-EC)の市場規模</h3><div id="ec-chart"></div><p id="ec-note" class="note"></p></div>
   </div>
   <div class="card"><h2>家計の支出(生活者側から見た規模)</h2>
     <p class="note">ペルソナ全員の支出を合計した値です。国の統計と比べて、モデルのずれを確かめられます。</p>
     <div id="spend-chart"></div><div id="spend-check" class="note"></div>
+    <h3>国の統計で見た家計の消費(目的別)</h3><div id="sna-chart"></div>
     <h3>年代別・1人あたり月間支出</h3><div id="spend-age" class="table-scroll"></div>
   </div>
 </section>
@@ -204,6 +208,27 @@
     </div>
   </div>
   <div id="report-out"></div>
+</section>
+
+<!-- ⑦ 3Dビジュアル -->
+<section id="tab-visual" class="tab">
+  <div class="card">
+    <h2>ペルソナが歩いて選ぶ様子を見る</h2>
+    <p class="note">③の商品条件を使います。対象者から選んだ1人ずつが、自分の家計と価値観で選び、ゲートに並びます。<br>髪が灰色の人は65歳以上、服が青い人は男性、白い人は女性、小さい人は子どもです。<br>人をクリックすると近くに寄り、その人の事情が見られます。何もない所をクリックすると全体に戻ります。</p>
+    <div class="form-row">
+      <label>人数 <select id="v-n"><option>300</option><option selected>600</option><option>1000</option></select></label>
+      <label>速さ <select id="v-speed"><option value="0.5">ゆっくり</option><option value="1" selected>ふつう</option><option value="2.5">速い</option></select></label>
+      <label class="check"><input id="v-ab" type="checkbox"> A案とB案を比べる</label>
+      <label>B案の価格(円) <input id="v-price-b" type="number" min="0" disabled></label>
+      <label>B案の年間回数 <input id="v-per-b" type="number" min="0.1" step="0.1" disabled></label>
+    </div>
+    <div class="form-row">
+      <button id="v-set">人を集める</button>
+      <button id="v-start" class="primary">スタート</button>
+    </div>
+    <div id="visual" class="visual"></div>
+    <p class="note">統計モードの購入確率で選択を決めています。AIインタビューの結果は、この画面にはまだ反映していません。</p>
+  </div>
 </section>
 
 <!-- 出典と仮定 -->
