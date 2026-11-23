@@ -58,9 +58,17 @@ export const climb = {
     if (rules.who === "mixed") out.push("ふだんは数をこなし、失敗が続いたときだけ立ち止まってふり返ると、両方の良いところを使えます。");
     return out;
   },
-  run(rules, seed, years) {
+  frames(rules, seed, years) {
+    const hillSeed = seed * 7 + 3, paths = [];
+    for (let i = 0; i < 24; i++) { const path = []; this.run(rules, seed * 100 + i, years, { hillSeed, path }); paths.push(path); }
+    const who = { volume: "数をこなす人", reflect: "ふり返る人", mixed: "混ぜた人" }[rules.who];
+    const height = makeHill(rules.hill, makeRng(hillSeed));
+    return { terrain: { height: (x, y) => height(x, y, 0), paths, labelOf: (d) => `${d}日目`,
+      caption: (d, avg) => `${d}日目:${who}24人の平均は${Math.round(avg)}点。${rules.hill === "moving" ? "(頂上は少しずつ動いています。地形は最初の日の形です)" : ""}` } };
+  },
+  run(rules, seed, years, detail = null) {
     const rng = makeRng(seed), A = CLIMB_ASSUMPTIONS;
-    const hill = makeHill(rules.hill, rng);
+    const hill = makeHill(rules.hill, detail ? makeRng(detail.hillSeed) : rng);
     const noise = rules.hill === "noisy" ? A.noise.value : 0;
     const see = (x, y, d) => hill(x, y, d) + noise * rng.normal();
     let x = 0.12, y = 0.12, pause = 0, fails = 0, dir = [0.7, 0.7], day90 = null;
@@ -86,6 +94,7 @@ export const climb = {
       const score = hill(x, y, d);
       if (day90 == null && score >= 90) day90 = d;
       series.push({ x: d, score });
+      detail?.path.push({ x, y });
     }
     return { series, summary: { score: series[years].score, day90: day90 ?? years, reached: day90 == null ? 0 : 1 } };
   },

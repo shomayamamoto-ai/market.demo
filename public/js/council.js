@@ -1,6 +1,8 @@
 // 村の決め方のシミュレーター:「王が1人で決める村」「みんなで話し合って多数決で決める村」
 // 「読みが当たってきた人を長に選ぶ村」のどれが豊かになり、生き残るかを試す。
 import { makeRng, clamp } from "./rng.js";
+import { thin } from "./stage3d.js";
+const NAME = { king: "王", council: "寄り合い", chief: "選ばれた長" }, COLOR = { king: "#b4473b", council: "#4a7fb5", chief: "#c9a45c" };
 
 export const COUNCIL_ASSUMPTIONS = {
   skill: { value: "60〜90%", note: "村人1人が、その年に合う作物を読み当てる確率(人によって違う)" },
@@ -51,7 +53,17 @@ export const council = {
     if (rules.mix.includes("chief")) out.push("読みが当たってきた人を長に選んで素早く決めさせ、外し続けたら交代させる仕組みは、早さと賢さの両方を持てます。");
     return out;
   },
-  run(rules, seed, years) {
+  frames(rules, seed, years) {
+    const detail = [];
+    this.run(rules, seed, years, detail);
+    const frames = thin(detail.map((d, x) => ({ ...d, x }))).map((d) => {
+      const n = (t) => d.v.filter((b) => b.alive && b.type === t).length;
+      return { label: `${d.x}年目`, caption: `${d.x}年目:王の村 ${n("king")}、寄り合いの村 ${n("council")}${rules.mix.includes("chief") ? `、選ばれた長の村 ${n("chief")}` : ""}。`,
+        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: b.alive ? NAME[b.type] : "消滅", color: b.alive ? COLOR[b.type] : "#8b93a7", count: b.alive ? b.pop : 0, hideBar: true })) };
+    });
+    return { frames, opts: { layout: "ring", sub: "色は決め方(赤=王、青=寄り合い、金=選ばれた長)。", maxFigures: 420 } };
+  },
+  run(rules, seed, years, detail = null) {
     const rng = makeRng(seed), A = COUNCIL_ASSUMPTIONS, n = 12, down = rules.hard ? A.hard.value.member : 0, downKing = rules.hard ? A.hard.value.king : 0;
     const newKing = () => 0.8 + rng.next() * 0.2;
     const v = Array.from({ length: n }, (_, i) => ({
@@ -90,6 +102,7 @@ export const council = {
           if (a.pop * S[a.type] > (b.pop + friends) * S[b.type] * 1.3) { a.pop *= 0.95; b.pop *= 0.6; b.type = a.type; b.king = newKing(); b.reign = 0; break; } // 攻め取られた村は、攻めた側の決め方になる
         }
       });
+      detail?.push({ v: v.map((a) => ({ type: a.type, pop: a.pop, alive: a.alive })) });
       const row = { x: year };
       for (const t of TYPES) {
         const list = v.filter((a) => a.alive && a.type === t), K = t[0].toUpperCase() + t.slice(1);

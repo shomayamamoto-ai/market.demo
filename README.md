@@ -63,6 +63,8 @@ public/js/market.js    市場規模の計算、AIインタビュー結果の集�
 public/js/diffusion.js 普及シミュレーション(Bassモデル+採用者5区分)
 public/js/report.js    用途別レポート
 public/js/visual.js    3Dビジュアル(three.js)
+public/js/stage3d.js   結果を3Dの動きで見せる共通の舞台
+public/js/lab.js       「経済と行動」の画面を組み立てる共通の部品
 public/js/org.js       制度シミュレーター(職場)
 public/js/society.js   制度シミュレーター(税率と助け合い)
 data/raw/literature.json 係数の根拠にした文献の一覧(確度つき)

@@ -1,6 +1,7 @@
 // 貯金と町のシミュレーター:住民が「使う」か「貯める」かで、町の大きさがどう変わるかを試す。
 // 住民が店で使ったお金が、店の売上と雇用になり、また住民の収入になる、という循環を追いかける。
 import { makeRng, clamp } from "./rng.js";
+import { thin } from "./stage3d.js";
 
 export const TOWN_ASSUMPTIONS = {
   base: { value: 91, note: "町の外からの注文など、町の中の消費に関係なくある仕事の数(最初の200軒のうち)" },
@@ -50,6 +51,13 @@ export const town = {
     if (rules.leak > 0) out.push("町の外で使う割合が増えるほど、町の中の仕事が減ります。「貯めるか使うか」と同じくらい、「どこで使うか」が効きます。");
     if (!rules.ant && !rules.leak) out.push("よく使う町はふだん安定しますが、蓄えが薄いため、不景気のたびに家を失います。");
     return out;
+  },
+  frames(rules, seed, years) {
+    const frames = thin(this.run(rules, seed, years).series).map((s) => ({
+      label: `${s.x}年目`, caption: `${s.x}年目:町は${Math.round(s.houses)}軒。貯める家 ${Math.round(s.ants)}軒、使う家 ${Math.round(s.grass)}軒。`,
+      zones: [{ name: "貯める家", color: "#b4473b", count: s.ants }, { name: "使う家", color: "#4a7fb5", count: s.grass }],
+    }));
+    return { frames, opts: { unit: "軒", sub: "町を出る家は島の外へ、引っ越してくる家は外から入ります。" } };
   },
   run(rules, seed, years) {
     const rng = makeRng(seed), A = TOWN_ASSUMPTIONS;

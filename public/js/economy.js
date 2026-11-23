@@ -1,6 +1,7 @@
 // 物価と賃金のシミュレーター:物の値段と給料のルールが、消費・雇用・生産力をどう変えるかを試す。
 // 住民は「給料で買える個数」が自分の安心ラインを下回ると節約を始める、という仮定で動く。
 import { makeRng, clamp } from "./rng.js";
+import { thin } from "./stage3d.js";
 
 export const ECONOMY_ASSUMPTIONS = {
   comfort: { value: "1.2〜1.85個", note: "安心ライン。給料で買える個数がこれを下回ると、嗜好品を買わずに貯める(住民ごとに違う)" },
@@ -46,6 +47,16 @@ export const economy = {
     if (rules.reform) out.push("改革の直後は人手が余って失業が増えますが、給料が上がって安心ラインを超えると消費が戻り、拡大の循環に入ります。");
     if (!rules.collapsed && m.unemployment < 0.02 && m.productivity > 1) out.push("値段が上がっても、同じだけ給料が上がれば買える個数は変わらず、雇用と人口が伸びます。");
     return out;
+  },
+  frames(rules, seed, years) {
+    const P = (v) => `${Math.round(v * 100)}%`;
+    const frames = thin(this.run(rules, seed, years).series).map((s) => {
+      const n = 1000 * s.population, jobless = n * s.unemployment, saver = n * s.saving;
+      return { label: `${s.x}世代目`, caption: `${s.x}世代目:失業率 ${P(s.unemployment)}、生産力 ${P(s.productivity)}。1人が買う数は ${s.apples.toFixed(2)}個。`,
+        gauges: [{ label: "生産力", text: P(s.productivity), value: s.productivity / 2.5, color: "#2f8f6b" }],
+        zones: [{ name: "働いて、よく買う人", color: "#2f8f6b", count: Math.max(0, n - jobless - saver) }, { name: "働いて、節約する人", color: "#c9a45c", count: saver }, { name: "仕事を失った人", color: "#b4473b", count: jobless }] };
+    });
+    return { frames, opts: { sub: "色は暮らしぶり。" } };
   },
   run(rules, seed, years) {
     const rng = makeRng(seed), A = ECONOMY_ASSUMPTIONS;

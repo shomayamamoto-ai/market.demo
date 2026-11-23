@@ -194,3 +194,12 @@ body{background:#fff;color:#000;font-size:12px}.doc{border:0;padding:0}.kpi{bord
 .tri{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:8px 22px}.tri>div{min-width:0}
 .tri h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.tri h3 small{font-family:var(--body);font-weight:500;font-size:12px;color:var(--sub)}
 svg .vb-v{font-size:13px;font-weight:700}svg .vb-v.on{font-size:17px;font-weight:900}svg .vb-l{font-size:12px}svg .vb-l.on{font-weight:900}
+.stage3d{margin:12px 0}.stage3d .v-result .v-row span{font-size:12px}
+.s-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.s-label{position:absolute;transform:translate(-50%,-100%);background:#fffffff0;color:#3b2a27;border-radius:8px;padding:2px 8px;font-size:11.5px;line-height:1.5;white-space:nowrap;text-align:center;box-shadow:0 1px 4px #0003}
+.s-label b{display:block;font-size:12.5px}
+.s-bar{position:absolute;left:10px;right:10px;bottom:8px;display:flex;gap:8px;align-items:center}
+.s-bar button,.s-bar select{min-height:38px;padding:4px 14px;font-size:13px;background:#fffffff0;color:#3b2a27;border:1px solid #efdcd5;border-radius:999px}
+.s-bar input{flex:1;min-width:60px;min-height:30px;accent-color:#b4473b}
+.stage3d .v-caption{bottom:58px;font-size:clamp(13px,1.9vw,19px)}
+@media (max-width:640px){.s-label{font-size:10px;padding:1px 6px}.s-label b{font-size:11px}.stage3d .v-result{width:150px}}

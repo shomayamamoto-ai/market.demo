@@ -9,6 +9,7 @@ import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
 import { mountLab } from "./lab.js";
+import { showStage, thin } from "./stage3d.js";
 import { economy } from "./economy.js";
 import { town } from "./town.js";
 import { island } from "./island.js";
@@ -70,6 +71,9 @@ async function init() {
   $("c-preset").innerHTML = Object.entries(CHAIN_PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("c-preset").value = "shortcut";
   $("c-preset").onchange = () => { const r = CHAIN_PRESETS[$("c-preset").value].rules; $("c-layers").value = r.layers; $("c-rate").value = Math.round(r.rate * 100); };
+  $("o-3d").onclick = () => busy("o-msg", org3d);
+  $("t-3d").onclick = () => busy("t-msg", soc3d);
+  $("c-3d").onclick = () => busy("c-msg", chain3d);
   $("c-run").onclick = () => busy("c-msg", chainRun);
   $("c-compare").onclick = () => busy("c-msg", chainCompare);
   $("c-sweep").onclick = () => busy("c-msg", chainSweep);
@@ -613,6 +617,39 @@ function orgSweep() {
         ${aCard("回す割合100%の生産力", `平均${pct(sw[sw.length - 1].productivity)}`)}
       </div>
       <p class="a-note">${edge != null ? `このモデルの条件では、回す割合が${pct(edge, 0)}までならエースは残り、それを超えると崩れ始めます。` : safe.length ? "このルールでは、回す割合を100%にしてもエースは残りました。" : "このルールでは、回す割合が0%でもエースがいなくなる試行がありました。"}境目の位置は、「出典と仮定」にある係数で変わります。</p></div>`;
+}
+
+// ---------- 制度を試す:3Dで見る ----------
+function org3d() {
+  const { config, years, rules, presetLabel } = orgConfig();
+  const stage = showStage($("o-stage")); if (!stage) return;
+  const frames = thin(runOrg(config, rules, years).history).map((h) => ({
+    label: `${h.year}年目`, caption: `${h.year}年目:エース ${pct(h.share.ace)}、生産力 ${pct(h.productivity, 0)}、1日の労働時間 ${num(h.hours, 1)}時間。`,
+    gauges: [{ label: "生産力", text: pct(h.productivity, 0), value: h.productivity / 2.2, color: "#2f8f6b" }],
+    zones: ["ace", "std", "low"].map((m) => ({ name: MODES[m].label, note: `(1日${MODES[m].boxes}箱)`, color: MODES[m].color, count: config.n * h.share[m] })),
+  }));
+  stage.setFrames(frames, { title: presetLabel.replace(/^. /, ""), sub: "働き方を変えた人が、場所を移ります。" });
+}
+function soc3d() {
+  const { config, years, rules, label } = socConfig();
+  const stage = showStage($("t-stage")); if (!stage) return;
+  const frames = thin(runSociety(config, rules, years).history).map((h) => {
+    const n = config.n * h.population;
+    return { label: `${h.year}年目(税率 ${pct(h.tax, 0)})`, caption: `${h.year}年目:森に挑戦する人 ${pct(h.risky, 0)}、生産力 ${pct(h.productivity, 0)}、人口 ${pct(h.population, 0)}。`,
+      gauges: [{ label: "生産力", text: pct(h.productivity, 0), value: h.productivity / 2.5, color: "#2f8f6b" }, { label: "助け合いの支払い", text: pct(h.trust, 0), value: h.trust, color: "#c9a45c" }],
+      zones: ["risky", "safe", "home"].map((m) => ({ name: CHOICE[m].label.split("(")[0], color: CHOICE[m].color, count: n * h[m] })) };
+  });
+  stage.setFrames(frames, { title: label.slice(2), sub: "隣の村へ移る人は、島の外へ出ていきます。" });
+}
+function chain3d() {
+  const { config, days, rules, label } = chainConfig();
+  const stage = showStage($("c-stage")); if (!stage) return;
+  const frames = runChain(config, rules, days).history.map((h) => ({
+    label: `${h.day}日目`, caption: `${h.day}日目:働いている人 ${pct(h.alive, 0)}、進み具合 ${pct(h.progress, 0)}、強度 ${pct(h.strength, 0)}${h.cut > 0.05 ? `。${pct(h.cut, 0)}の人が泥ブロックを使っています` : ""}。`,
+    gauges: [{ label: "進み具合", text: pct(h.progress, 0), value: h.progress, color: "#4a7fb5" }, { label: "強度", text: pct(h.strength, 0), value: h.strength / 1.25, color: "#2f8f6b" }],
+    zones: [{ name: "現場で働いている人", color: "#4a7fb5", count: config.n * h.alive }, { name: "倒れて離れた人", color: "#8b93a7", count: config.n * (1 - h.alive) }],
+  }));
+  stage.setFrames(frames, { title: label.slice(2), sub: `現場に届く予算は${pct(relay(config.n, rules).delivered / config.n, 0)}。` });
 }
 
 // ---------- ⑧-2 税率と助け合い ----------

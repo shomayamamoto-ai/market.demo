@@ -1,6 +1,8 @@
 // 交換と略奪のシミュレーター:12の村が輪になって並ぶ島で、「交換する」「奪う」「仕返しする」
 // 「年貢を取って守る」といったふるまいが、島全体の人口をどう変えるかを試す。
 import { makeRng, clamp } from "./rng.js";
+import { thin } from "./stage3d.js";
+const COLOR = { self: "#8b93a7", trade: "#4a7fb5", raid: "#b4473b", tft: "#c9a45c", lord: "#8a6fb3", hungry: "#58a6a6" };
 
 export const ISLAND_ASSUMPTIONS = {
   land: { value: 142, note: "自給自足の村が養える人数(1村あたり)" },
@@ -51,7 +53,18 @@ export const island = {
     if (s.every((x) => x === "hungry")) out.push("ふだん交換している島では、凶作の年でも蓄えが厚く、襲撃は少なくて済みます。");
     return out;
   },
-  run(rules, seed, years) {
+  frames(rules, seed, years) {
+    const detail = [];
+    this.run(rules, seed, years, detail);
+    const frames = thin(detail.map((d, x) => ({ ...d, x }))).map((d) => {
+      const total = d.v.reduce((a, b) => a + b.pop, 0), raid = d.v.filter((b) => b.s === "raid").length, tft = d.v.filter((b) => b.s === "tft").length;
+      return { label: `${d.x}年目`, caption: `${d.x}年目:島の人口は${Math.round(total).toLocaleString("ja-JP")}人。略奪の村 ${raid}、仕返しの村 ${tft}。`,
+        gauges: [{ label: "島の人口", text: `${Math.round(total).toLocaleString("ja-JP")}人`, value: total / 3600, color: "#2f8f6b" }],
+        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: LABEL[b.s], color: COLOR[b.s], count: b.pop, hideBar: true })) };
+    });
+    return { frames, opts: { layout: "ring", sub: "色は村のやり方(青=交換、赤=略奪、金=仕返し、紫=年貢)。", maxFigures: 420 } };
+  },
+  run(rules, seed, years, detail = null) {
     const rng = makeRng(seed), A = ISLAND_ASSUMPTIONS, n = 12;
     const v = rules.start.map((s) => ({ s, pop: 100, hit: -9, score: 0, take: 0 }));
     const nb = (i) => [v[(i + n - 1) % n], v[(i + 1) % n]];
@@ -106,6 +119,7 @@ export const island = {
         v.forEach((a, i) => { a.s = next[i]; a.score = 0; });
       }
       raidsTotal += raids;
+      detail?.push({ v: v.map((a) => ({ s: a.s, pop: a.pop })) });
       const count = (s) => v.filter((a) => a.s === s).length;
       series.push({ x: year, pop: v.reduce((x, a) => x + a.pop, 0), trade: count("trade") + count("hungry"), raid: count("raid"), tft: count("tft"), lord: count("lord") });
     }

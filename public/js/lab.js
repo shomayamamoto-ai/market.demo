@@ -1,6 +1,7 @@
 // 実験室:1つのシナリオ定義(条件の一覧・1回分の計算・見せる指標)から、
 // 「この条件で試す」「条件を比べる」の画面を組み立てる共通の部品。
 import { multiLine, esc } from "./charts.js";
+import { showStage } from "./stage3d.js";
 
 const FMT = {
   pct: (v) => `${Math.round(v * 100)}%`,
@@ -45,9 +46,9 @@ export function mountLab(def, { seedOf }) {
       </div>
       <details><summary>詳細設定(試行回数)</summary><div class="form-grid"><label>試行回数 <input id="${id("runs")}" type="number" value="${def.runs ?? 30}" min="1" max="200"></label></div></details>
       <p class="note">${def.note}</p>
-      <div class="form-row"><button id="${id("run")}" class="primary">この条件で試す</button><button id="${id("compare")}">${Object.keys(def.presets).length}つの条件を比べる</button></div>
+      <div class="form-row"><button id="${id("run")}" class="primary">この条件で試す</button><button id="${id("compare")}">${Object.keys(def.presets).length}つの条件を比べる</button>${def.frames ? `<button id="${id("3d")}">3Dで見る</button>` : ""}</div>
       <p id="${id("msg")}" class="msg"></p>
-    </div><div id="${id("out")}"></div>`;
+    </div><div id="${id("stage")}"></div><div id="${id("out")}"></div>`;
   document.querySelector("main").insertBefore(el, document.getElementById("tab-source"));
   const $ = (s) => document.getElementById(id(s));
   if (def.initial) $("preset").value = def.initial;
@@ -76,6 +77,16 @@ export function mountLab(def, { seedOf }) {
         ${def.reference?.[key] ? `<p class="a-note">「参考」は、もとにした実験で示されていた値です。係数はこの値に近づくよう調整していますが、一致はしません。</p>` : ""}</div>
       <div class="card">${advice.length ? `<h3>読み取れること</h3><div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
         ${def.charts.map((c) => `<h3>${esc(c.title)}</h3>${multiLine(c.lines.map((l) => ({ name: l.name, color: l.color, points: t.series.map((s) => ({ x: s.x, y: s[l.key] ?? 0 })) })), { xLabel: def.xLabel ?? "世代", fmt: FMT[c.fmt ?? "pct"] })}`).join("")}</div>`;
+  });
+
+  if (def.frames) $("3d").onclick = () => busy(() => {
+    const { preset, rules, years } = read();
+    const stage = showStage($("stage"));
+    if (!stage) return;
+    const scene = def.frames(rules, seedOf(), years);
+    const title = preset.label.replace(/^[A-Z] /, "");
+    if (scene.terrain) stage.setTerrain({ ...scene.terrain, title });
+    else stage.setFrames(scene.frames, { ...scene.opts, title });
   });
 
   $("compare").onclick = () => busy(() => {
