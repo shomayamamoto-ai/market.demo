@@ -3,7 +3,7 @@
 import { makeRng, clamp } from "./rng.js";
 
 export const CLIMB_ASSUMPTIONS = {
-  step: { value: 0.05, note: "数をこなす人が1日に試す範囲(山の幅 = 1)。8%の確率で、まったく別の場所へ跳ぶ" },
+  step: { value: 0.042, note: "数をこなす人が1日に試す範囲(山の幅 = 1)。8%の確率で、まったく別の場所へ跳ぶ" },
   reflectDays: { value: 4, note: "ふり返る人が、失敗のあとに登り坂の向きを調べる日数。その間は進まない" },
   stride: { value: 0.022, note: "ふり返る人が、調べた向きへ1日に進む距離" },
   noise: { value: 48, note: "「運が混ざる山」で、結果に混ざるブレの大きさ(点)" },

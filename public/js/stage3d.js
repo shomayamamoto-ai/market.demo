@@ -105,6 +105,7 @@ export function createStage(root) {
   root.appendChild(renderer.domElement);
   const mk = (cls) => { const d = document.createElement("div"); d.className = cls; root.appendChild(d); return d; };
   const title = mk("v-cards"), panel = mk("v-result"), caption = mk("v-caption"), labels = mk("s-labels");
+  const endCard = mk("s-end"); endCard.hidden = true;
   const bar = mk("s-bar");
   bar.innerHTML = `<button class="s-play">一時停止</button><input class="s-seek" type="range" min="0" max="0" value="0"><select class="s-speed"><option value="2200">ゆっくり</option><option value="1300" selected>ふつう</option><option value="600">速い</option></select>`;
   const [btn, seek, speedSel] = bar.children;
@@ -118,6 +119,25 @@ export function createStage(root) {
   const sea = new THREE.Mesh(new THREE.CircleGeometry(420, 48), mat(0x3aa0d8)); sea.rotation.x = -Math.PI / 2; sea.position.y = -1.2; scene.add(sea);
   const island = new THREE.Mesh(new THREE.CylinderGeometry(1, 1.03, 1.6, 64), mat(0x7cc05f)); island.position.y = -0.8; scene.add(island);
   const world = new THREE.Group(); scene.add(world); // コマごとに作り直すもの(場所の台、地形)
+  // 島のふちの木と岩、岸に寄せる波(島の大きさに合わせて並べ直す)
+  const DECO = 70;
+  const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.3, 0.42, 1.8, 6), mat(0x8a6a4a), DECO), leaves = new THREE.InstancedMesh(new THREE.ConeGeometry(1.7, 3.6, 7), mat(0x4f9a52), DECO);
+  const rocks = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1, 0), mat(0xa9a39b), 24);
+  const foam = new THREE.Mesh(new THREE.RingGeometry(1.02, 1.06, 72), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })); foam.rotation.x = -Math.PI / 2; foam.position.y = -1.1;
+  scene.add(trunks, leaves, rocks, foam);
+  function placeDecor(R) {
+    const d = new THREE.Object3D();
+    for (let i = 0; i < DECO; i++) {
+      const a = (i / DECO) * Math.PI * 2 + Math.sin(i * 12.9898) * 0.06, r = R - 3 - (Math.sin(i * 78.233) * 0.5 + 0.5) * 5, k = (0.8 + (Math.sin(i * 3.7) * 0.5 + 0.5) * 0.9) * clamp(R / 60, 1, 1.8);
+      // 手前(カメラ側)は見通しをよくするために木を置かない
+      const hide = Math.cos(a - Math.PI / 2) > 0.45 ? 0.0001 : 1;
+      d.scale.setScalar(k * hide); d.position.set(Math.cos(a) * r, 0.9 * k, Math.sin(a) * r); d.updateMatrix(); trunks.setMatrixAt(i, d.matrix);
+      d.position.y = 3.3 * k; d.updateMatrix(); leaves.setMatrixAt(i, d.matrix);
+    }
+    for (let i = 0; i < 24; i++) { const a = i * 2.39996, r = R - 1.5, k = 0.8 + (i % 4) * 0.35; d.scale.set(k, k * 0.7, k); d.rotation.set(i, i * 2, 0); d.position.set(Math.cos(a) * r, 0.3, Math.sin(a) * r); d.updateMatrix(); rocks.setMatrixAt(i, d.matrix); }
+    trunks.instanceMatrix.needsUpdate = leaves.instanceMatrix.needsUpdate = rocks.instanceMatrix.needsUpdate = true;
+    foam.scale.set(R, R, 1);
+  }
 
   const inst = (geo, color, n = MAX) => { const m = new THREE.InstancedMesh(geo, new THREE.MeshLambertMaterial({ color }), n); m.frustumCulled = false; scene.add(m); return m; };
   const body = inst(new THREE.CylinderGeometry(0.34, 0.5, 0.95, 8), 0xffffff);
@@ -136,7 +156,7 @@ export function createStage(root) {
   const slot = (z, k) => { const r = (S.gap ?? 0.95) * Math.sqrt(k + 0.5), t = k * 2.39996; return [z.x + Math.cos(t) * r, z.z + Math.sin(t) * r]; };
 
   function setFrames(frames, opts = {}) {
-    S.mode = "zones"; S.frames = frames; S.opts = opts; S.at = 0; S.timer = 0;
+    S.mode = "zones"; S.frames = frames; S.opts = opts; S.at = 0; S.timer = 0; endCard.hidden = true;
     while (world.children.length) world.remove(world.children[0]);
     labels.innerHTML = "";
     const names = frames[0].zones.map((z) => z.name), n = names.length;
@@ -184,7 +204,7 @@ export function createStage(root) {
       S.bridge = { deck, label, x: bx, z: z0 };
       S.extra.push({ x: bx, z: z0, label });
     }
-    island.scale.set(S.R, 1, S.R);
+    island.scale.set(S.R, 1, S.R); placeDecor(S.R);
     cam.goal = S.R * 2.5; cam.dist = cam.goal * 1.7; cam.pol = ring ? 0.8 : 0.98; cam.az = -0.5; // 遠くから寄っていく
     const count = Math.min(MAX, Math.ceil(total / S.scale) + 4);
     S.agents = Array.from({ length: count }, (_, i) => ({ i, x: 0, z: 0, tx: 0, tz: 0, zone: -1, show: 0, heading: 0, phase: i * 0.7, color: 0xffffff }));
@@ -239,7 +259,7 @@ export function createStage(root) {
 
   // 学び方:地形と、歩く人の道すじ
   function setTerrain({ height, paths, title: t, caption: capOf, labelOf }) {
-    S.mode = "terrain"; S.frames = paths[0].map((_, i) => i); S.at = 0; S.timer = 0; S.paths = paths; S.capOf = capOf; S.labelOf = labelOf; S.height = height;
+    S.mode = "terrain"; S.frames = paths[0].map((_, i) => i); S.at = 0; S.timer = 0; endCard.hidden = true; S.paths = paths; S.capOf = capOf; S.labelOf = labelOf; S.height = height;
     while (world.children.length) world.remove(world.children[0]);
     labels.innerHTML = ""; for (const z of S.zones) z.list = []; S.zones = []; S.extra = []; S.figure = "person"; S.bridge = null;
     while (structure.children.length) structure.remove(structure.children[0]);
@@ -257,7 +277,7 @@ export function createStage(root) {
     for (let i = 0; i <= 60; i++) for (let j = 0; j <= 60; j++) { const h = height(i / 60, j / 60); if (h > top.h) top = { h, x: i / 60, y: j / 60 }; }
     const flag = buildProp(THREE, "flag", "#b4473b"); flag.position.set((top.x - 0.5) * size, top.h * 0.3 + 0.2, (0.5 - top.y) * size); flag.scale.setScalar(1.5); world.add(flag); S.propGroups = [flag]; S.flows = [];
     for (const [x, z] of [[-0.8, 0.75], [-0.7, 0.82], [0.78, 0.8]]) { const h = buildProp(THREE, "house", "#c98bb5"); h.position.set(x * 62, 0, z * 62); world.add(h); } // ふもとの家
-    S.size = size; S.R = 80; island.scale.set(S.R, 1, S.R);
+    S.size = size; S.R = 80; island.scale.set(S.R, 1, S.R); placeDecor(S.R + 6);
     cam.goal = 190; cam.dist = 320; cam.pol = 0.95; cam.az = 0;
     S.agents = paths.map((_, i) => ({ i, x: 0, z: 0, tx: 0, tz: 0, zone: 0, show: 1, heading: 0, phase: i, color: 0xb4473b, y: 0 }));
     seek.max = S.frames.length - 1; seek.value = 0;
@@ -276,7 +296,26 @@ export function createStage(root) {
     panel.innerHTML = `<h4>${esc(S.labelOf(index))}</h4><div class="v-row"><span>いまの高さ(平均) ${Math.round(sum / S.agents.length)}点</span><i><u style="width:${sum / S.agents.length}%;background:#2f8f6b"></u></i></div>`;
     caption.textContent = S.capOf(index, sum / S.agents.length);
   }
-  const step = (i, jump) => (S.mode === "terrain" ? applyTerrain(i, jump) : apply(i, jump));
+  const step = (i, jump) => { endCard.hidden = true; return S.mode === "terrain" ? applyTerrain(i, jump) : apply(i, jump); };
+  // 再生が終わったら、はじめとおわりを並べたまとめを出す
+  function showEnd() {
+    if (S.mode !== "zones" || S.frames.length < 2) return;
+    const a = S.frames[0], b = S.frames[S.frames.length - 1], unit = S.opts.unit ?? "人", n = (v) => Math.round(v).toLocaleString("ja-JP");
+    // 村が輪に並ぶ画面は、やり方ごとに村の数をまとめる。それ以外は場所ごとの人数
+    const grouped = S.opts.layout === "ring";
+    const tally = (f) => { const m = new Map(); for (const z of f.zones) { const k = grouped ? (z.note || z.name) : z.name; const e = m.get(k) ?? { v: 0, color: z.color }; e.v += grouped ? (z.count > 0 ? 1 : 0) : z.count; m.set(k, e); } return m; };
+    const A = tally(a), B = tally(b), keys = [...new Set([...A.keys(), ...B.keys()])];
+    const rows = keys.map((k) => `<tr><td><i style="background:${(B.get(k) ?? A.get(k)).color}"></i>${esc(k)}</td><td>${n(A.get(k)?.v ?? 0)}</td><td>→</td><td><b>${n(B.get(k)?.v ?? 0)}</b>${grouped ? "村" : esc(unit)}</td></tr>`).join("");
+    const gauges = (b.gauges ?? []).map((g, i) => `<tr><td>${esc(g.label)}</td><td>${esc(a.gauges?.[i]?.text ?? "")}</td><td>→</td><td><b>${esc(g.text)}</b></td></tr>`).join("");
+    // いちばん多い場所が入れかわった時点を探す
+    const top = (f) => [...tally(f).entries()].sort((x, y) => y[1].v - x[1].v)[0]?.[0];
+    const t0 = top(a), turn = S.frames.find((f) => top(f) !== t0);
+    endCard.innerHTML = `<h4>${esc(a.label)} → ${esc(b.label)}</h4><table>${rows}${gauges}</table>
+      ${turn ? `<p>${esc(turn.label)}に、最も多いのが「${esc(t0)}」から「${esc(top(turn))}」に変わりました。</p>` : `<p>最後まで、最も多いのは「${esc(t0)}」のままでした。</p>`}
+      <button class="s-close">閉じる</button>`;
+    endCard.hidden = false;
+    endCard.querySelector(".s-close").onclick = () => (endCard.hidden = true);
+  }
 
   btn.onclick = () => { S.playing = !S.playing; btn.textContent = S.playing ? "一時停止" : "再生"; if (S.playing && S.at >= S.frames.length - 1) step(0, true); };
   seek.oninput = () => { S.playing = false; btn.textContent = "再生"; step(Number(seek.value), true); };
@@ -299,7 +338,7 @@ export function createStage(root) {
     const interval = Number(speedSel.value) * (S.mode === "terrain" ? 0.12 : 1);
     if (S.playing && S.frames.length) {
       S.timer += dt * 1000;
-      if (S.timer > interval) { S.timer = 0; if (S.at < S.frames.length - 1) step(S.at + 1); else { S.playing = false; btn.textContent = "最初から"; } }
+      if (S.timer > interval) { S.timer = 0; if (S.at < S.frames.length - 1) step(S.at + 1); else { S.playing = false; btn.textContent = "最初から"; showEnd(); } }
     }
     const pace = (S.mode === "terrain" ? 40 : 26) * (1300 / Number(speedSel.value));
     for (let i = 0; i < MAX; i++) {
@@ -354,6 +393,7 @@ export function createStage(root) {
       S.bridge.deck.forEach((seg, i) => { const d = Math.max(0, e - i * 0.06); seg.visible = seg.built && d < 2.2; seg.position.y = seg.y0 - d * d * 9; seg.rotation.x = d * 1.6 * (i % 2 ? 1 : -1); seg.rotation.z = d * 0.9; if (seg.pier) seg.pier.visible = seg.built && d < 0.4; });
     }
     if (!drag && S.playing) cam.az += dt * 0.02;
+    foam.material.opacity = 0.35 + Math.sin(t * 1.3) * 0.15; foam.scale.set(S.R * (1 + Math.sin(t * 1.3) * 0.008), S.R * (1 + Math.sin(t * 1.3) * 0.008), 1);
     if (cam.goal) cam.dist += (cam.goal - cam.dist) * Math.min(1, dt * 1.4);
     const sp = Math.sin(cam.pol), cp = Math.cos(cam.pol);
     camera.position.set(cam.target.x + Math.sin(cam.az) * sp * cam.dist, cp * cam.dist, cam.target.z + Math.cos(cam.az) * sp * cam.dist);

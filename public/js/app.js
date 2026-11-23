@@ -8,7 +8,7 @@ import {
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
-import { mountLab, trial, formatMetric } from "./lab.js";
+import { mountLab, trial, formatMetric, copyButton } from "./lab.js";
 import { showStage, thin } from "./stage3d.js";
 import { economy } from "./economy.js";
 import { town } from "./town.js";
@@ -942,7 +942,8 @@ function hubSummary(h, rules, preset, label) {
   }
   $("v-hub-summary").innerHTML = `<h3>${esc(label.replace(/^[A-Z] /, ""))}を${RUNS}回試した平均</h3>
     <div class="kpis">${cards.map(([l, v, sub]) => kpi(l, v, sub)).join("")}</div>
-    ${advice.length ? `<div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}`;
+    ${advice.length ? `<div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}<div class="form-row" id="v-hub-copy"></div>`;
+  $("v-hub-copy").appendChild(copyButton([`${h.label}:${label.replace(/^[A-Z] /, "")}(${RUNS}回の平均)`, ...cards.map(([l, v]) => `・${l}:${v}`), ...advice.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n")));
 }
 
 function openVisual() {

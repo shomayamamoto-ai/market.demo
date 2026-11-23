@@ -20,6 +20,18 @@ const FMT = {
 const fmt = (m, v) => (v == null || Number.isNaN(v) ? "―" : FMT[m.fmt](v));
 export const formatMetric = fmt;
 
+// 結果を文章としてコピーするボタン。押すとクリップボードに入れ、だめなら選べる形で見せる
+export function copyButton(text) {
+  const b = document.createElement("button");
+  b.className = "copy-btn"; b.textContent = "結果をコピー";
+  b.onclick = () => {
+    const done = () => { b.textContent = "コピーしました"; setTimeout(() => (b.textContent = "結果をコピー"), 1600); };
+    const fallback = () => { const t = document.createElement("textarea"); t.value = text; t.rows = 8; t.style.width = "100%"; b.after(t); t.select(); b.textContent = "下の文章を選んでコピーしてください"; };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch { fallback(); }
+  };
+  return b;
+}
+
 // 同じ条件で何回も試して平均する
 export function trial(def, rules, runs, seed, years) {
   const sum = {}, series = [];
@@ -61,31 +73,37 @@ export function mountLab(def, { seedOf }) {
     const key = $("preset").value, preset = def.presets[key];
     const rules = { ...preset.rules };
     for (const p of def.params ?? []) { const v = Math.min(p.max, Math.max(p.min, Number($(p.key).value) || 0)); rules[p.key] = p.scale ? v / p.scale : v; }
-    return { key, preset, rules, runs: Math.min(200, Math.max(1, Math.round(Number($("runs").value) || 30))), years: preset.years ?? def.years };
+    // 条件の標準の値から変えた数値は、題名にも書く
+    const changed = (def.params ?? []).filter((p) => preset.rules[p.key] != null && Math.abs(preset.rules[p.key] - rules[p.key]) > 1e-9).map((p) => `${p.label.replace(/\(.*?\)/, "")}を${Number($(p.key).value)}に変更`);
+    const title = preset.label.replace(/^[A-Z] /, "") + (changed.length ? `(${changed.join("、")})` : "");
+    return { key, preset, rules, title, runs: Math.min(200, Math.max(1, Math.round(Number($("runs").value) || 30))), years: preset.years ?? def.years };
   };
   const busy = (fn) => { $("msg").textContent = "計算中です…"; setTimeout(() => { try { fn(); $("msg").textContent = ""; } catch (e) { $("msg").textContent = e.message; } }, 30); };
   const ref = (key, m) => { const v = def.reference?.[key]?.[m.key]; return v == null ? "" : `参考 ${fmt(m, v)}`; };
   const card = (label, value, sub = "") => `<div class="a-card"><small>${label}</small><b>${value}</b> <i>${sub}</i></div>`;
 
   $("run").onclick = () => busy(() => {
-    const { key, preset, rules, runs, years } = read();
+    const { key, preset, rules, runs, years, title } = read();
     const t = trial(def, rules, runs, seedOf(), years);
     const advice = def.advise?.(t.summary, rules) ?? [];
     $("out").innerHTML = `<div class="analysis">
-        <h2>${esc(preset.label.replace(/^[A-Z] /, ""))}を${runs}回検証</h2>
+        <h2>${esc(title)}を${runs}回検証</h2>
         <p class="a-sub">${def.xLabel ?? "世代"}:${years}まで計算。数字は${runs}回の試行の平均です</p>
         <div class="a-cards">${def.metrics.map((m) => card(m.label, fmt(m, t.summary[m.key]), [m.sub, ref(key, m)].filter(Boolean).join("・"))).join("")}</div>
+        ${advice[0] ? `<p class="a-headline">${esc(advice[0])}</p>` : ""}
         ${def.reference?.[key] ? `<p class="a-note">「参考」は、もとにした実験で示されていた値です。係数はこの値に近づくよう調整していますが、一致はしません。</p>` : ""}</div>
-      <div class="card">${advice.length ? `<h3>読み取れること</h3><div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+      <div class="card"><div class="form-row" id="${id("copy")}"></div>${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
         ${def.charts.map((c) => `<h3>${esc(c.title)}</h3>${multiLine(c.lines.map((l) => ({ name: l.name, color: l.color, points: t.series.map((s) => ({ x: s.x, y: s[l.key] ?? 0 })) })), { xLabel: def.xLabel ?? "世代", fmt: FMT[c.fmt ?? "pct"] })}`).join("")}</div>`;
+    const text = [`${def.title}:${title}(${runs}回の平均、${def.xLabel ?? "世代"} ${years}まで)`,
+      ...def.metrics.map((m) => `・${m.label}:${fmt(m, t.summary[m.key])}`), ...advice.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n");
+    $("copy").appendChild(copyButton(text));
   });
 
   if (def.frames) $("3d").onclick = () => busy(() => {
-    const { preset, rules, years } = read();
+    const { rules, years, title } = read();
     const stage = showStage($("stage"));
     if (!stage) return;
     const scene = def.frames(rules, seedOf(), years);
-    const title = preset.label.replace(/^[A-Z] /, "");
     if (scene.terrain) stage.setTerrain({ ...scene.terrain, title });
     else stage.setFrames(scene.frames, { ...scene.opts, title });
   });

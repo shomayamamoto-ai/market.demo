@@ -14,6 +14,7 @@ export const COUNCIL_ASSUMPTIONS = {
   famine: { value: 0.12, note: "読みが外れた年に失う人口の割合" },
   tax: { value: 0.62, note: "王の村で、重い年貢のために実際に養える人数の割合。外れた年には30%の確率で一揆が起き、さらに10%を失う" },
   speed: { value: { king: 1, council: 0.55, chief: 0.9 }, note: "戦いのときに兵を集める速さ(兵力 = 人口 × この値)。話し合いには時間がかかる" },
+  ruin: { value: 0.3, note: "攻め取られた村が、そのまま滅びてしまう確率。残りは攻めた側の決め方に変わる" },
   term: { value: 8, note: "選ばれた長の任期(年)。3回続けて外すと、任期の途中でも交代する" },
 };
 
@@ -101,7 +102,7 @@ export const council = {
         for (const b of targets.sort((x, y) => y.pop - x.pop)) {
           const j = v.indexOf(b);
           const friends = rules.ally && b.type === "council" ? [v[(j + n - 1) % n], v[(j + 1) % n]].filter((c) => c.alive && c.type === "council" && c !== a).reduce((x, c) => x + c.pop * 0.5, 0) : 0;
-          if (a.pop * S[a.type] > (b.pop + friends) * S[b.type] * 1.3) { moves.push({ from: i, to: j, color: COLOR[a.type], n: 5 }); a.pop *= 0.95; b.pop *= 0.6; b.type = a.type; b.king = newKing(); b.reign = 0; break; } // 攻め取られた村は、攻めた側の決め方になる
+          if (a.pop * S[a.type] > (b.pop + friends) * S[b.type] * 1.3) { moves.push({ from: i, to: j, color: COLOR[a.type], n: 5 }); a.pop *= 0.95; if (rng.next() < A.ruin.value) { b.alive = false; a.pop += b.pop * 0.3; } else { b.pop *= 0.6; b.type = a.type; b.king = newKing(); b.reign = 0; } break; } // 攻め取られた村は、攻めた側の決め方になる
         }
       });
       detail?.push({ v: v.map((a) => ({ type: a.type, pop: a.pop, alive: a.alive })), moves });

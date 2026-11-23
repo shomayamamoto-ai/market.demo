@@ -27,6 +27,7 @@ export const economy = {
   },
   charts: [{ title: "生産力・失業率・人口", lines: [{ key: "productivity", name: "生産力", color: "#2f8f6b" }, { key: "unemployment", name: "失業率", color: "#b4473b" }, { key: "saving", name: "貯め込む人", color: "#c9a45c" }, { key: "population", name: "人口", color: "#8b93a7" }] }],
   initial: "frozen",
+  params: [{ key: "price", label: "物価(最初の何倍か)", value: 2, min: 1, max: 4, step: 0.5 }, { key: "wage", label: "給料(最初の何倍か)", value: 1, min: 0.5, max: 4, step: 0.5 }],
   metrics: [
     { key: "productivity", label: "生産力", fmt: "pct", sub: "最初を100%として" },
     { key: "unemployment", label: "失業率", fmt: "pct1" },

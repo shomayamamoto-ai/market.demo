@@ -94,7 +94,7 @@ export const island = {
         if (!wants || a.pop < 5) return;
         let targets = nb(i).map((b, j) => ({ b, idx: (i + (j ? 1 : n - 1)) % n }));
         if (a.s === "tft") targets = targets.filter((t) => t.b.lastRaider === year - 1 || t.b.s === "raid");
-        targets = targets.filter((t) => !(protectedBy[t.idx] && a.s !== "tft") && t.b.pop > 5);
+        targets = targets.filter((t) => !(protectedBy[t.idx] && a.s !== "tft") && t.b.pop > 18); // 小さくなりすぎた村は、襲っても得るものが無い
         if (!targets.length) return;
         // 仕返しの村は守りが固いので、襲う側はまず他の村を狙う
         const t = targets.sort((x, y) => (x.b.s === "tft") - (y.b.s === "tft") || y.b.pop - x.b.pop)[0].b;
