@@ -8,6 +8,12 @@ import {
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
+import { mountLab } from "./lab.js";
+import { economy } from "./economy.js";
+import { town } from "./town.js";
+import { island } from "./island.js";
+import { climb } from "./climb.js";
+import { council } from "./council.js";
 import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
 import { makeRng } from "./rng.js";
@@ -119,9 +125,12 @@ const NAV = [
   { key: "japan", label: "仮想の日本", tabs: [["people", "人口とペルソナ"], ["market", "市場の規模感"]] },
   { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
+  { key: "behavior", label: "経済と行動", tabs: [] },
   { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
 ];
+const LABS = [economy, town, island, council, climb];
 function buildNav() {
+  for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
   $("toc").firstElementChild.innerHTML = NAV.map((g) =>
     `${g.tabs.length > 1 ? `<h2>${g.label}</h2>` : ""}<div class="grp" data-group="${g.key}">${g.tabs.map(([id, label]) => `<a href="#${id}" data-tab="${id}">${label}</a>`).join("")}</div>`).join("");
   document.querySelectorAll(".viewtabs button").forEach((b) => (b.onclick = () => (location.hash = NAV.find((g) => g.key === b.dataset.group).tabs[0][0])));
@@ -884,6 +893,7 @@ function renderSources() {
   add("組織シミュレーター", ORG_ASSUMPTIONS);
   add("税率と助け合い", SOCIETY_ASSUMPTIONS);
   add("多重下請け", CHAIN_ASSUMPTIONS);
+  for (const def of LABS) add(def.title, def.assumptions);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");

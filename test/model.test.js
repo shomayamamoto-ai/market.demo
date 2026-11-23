@@ -121,3 +121,45 @@ test("下請け:段数別の結果が、参考にした実験の値から大き�
     assert.ok(Math.abs(s.collapsed - CHAIN_REFERENCE.collapsed[i]) <= 15, `崩落 ${i}段: ${s.collapsed}`);
   });
 });
+
+// ---- 経済と行動(共通の実験室) ----
+import { trial } from "../public/js/lab.js";
+import { economy } from "../public/js/economy.js";
+import { town } from "../public/js/town.js";
+import { island } from "../public/js/island.js";
+import { council } from "../public/js/council.js";
+import { climb } from "../public/js/climb.js";
+const lab = (def, key, runs = 20) => trial(def, def.presets[key].rules, runs, 1, def.presets[key].years ?? def.years).summary;
+
+test("物価と賃金:給料が据え置きだと縮み、物価と一緒に上がれば伸びる", () => {
+  const frozen = lab(economy, "frozen", 3), both = lab(economy, "both", 3);
+  assert.ok(Math.abs(frozen.unemployment - 0.621) < 0.03 && Math.abs(frozen.productivity - 0.379) < 0.03);
+  assert.ok(both.unemployment < 0.01 && both.productivity > 1.15);
+  assert.ok(lab(economy, "handout", 3).productivity < 0.42 && lab(economy, "reform", 3).productivity > 2);
+});
+
+test("貯金と町:一斉に貯めると一度縮み、銀行に回る町が最も大きい", () => {
+  const ant = lab(town, "ant"), grass = lab(town, "grass"), bank = lab(town, "bank"), half = lab(town, "half");
+  assert.ok(ant.low < 140 && ant.houses > ant.low + 30);
+  assert.ok(bank.houses > grass.houses && grass.houses > ant.houses);
+  assert.ok(half.ants > half.grass);
+});
+
+test("交換と略奪:交換は自給自足の倍、略奪が広がると激減、仕返しがあると持ち直す", () => {
+  const self = lab(island, "self"), trade = lab(island, "trade"), spread = lab(island, "spread"), tft = lab(island, "tft");
+  assert.ok(trade.pop > self.pop * 1.9);
+  assert.ok(spread.pop < self.pop * 0.5);
+  assert.ok(tft.tft > 7 && tft.pop > spread.pop * 3);
+});
+
+test("村の決め方:平和なら寄り合いが豊か、戦いがあると王の村が増える", () => {
+  const peace = lab(council, "peace"), war = lab(council, "war"), ally = lab(council, "ally");
+  assert.ok(peace.hitCouncil > peace.hitKing + 0.04 && peace.popCouncil > peace.popKing * 1.5);
+  assert.ok(war.nKing > war.nCouncil && ally.nCouncil > war.nCouncil);
+  assert.equal(lab(council, "hard").nKing, 0);
+});
+
+test("学び方:なだらかな山ではふり返る人、でこぼこの山では数をこなす人が上へ行く", () => {
+  assert.ok(lab(climb, "smooth_reflect", 40).day90 < lab(climb, "smooth_volume", 40).day90);
+  assert.ok(lab(climb, "rugged_volume", 40).score > lab(climb, "rugged_reflect", 40).score * 1.8);
+});
