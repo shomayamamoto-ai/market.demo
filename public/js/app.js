@@ -8,7 +8,7 @@ import {
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
-import { mountLab } from "./lab.js";
+import { mountLab, trial, formatMetric } from "./lab.js";
 import { showStage, thin } from "./stage3d.js";
 import { economy } from "./economy.js";
 import { town } from "./town.js";
@@ -876,11 +876,13 @@ function buildHub() {
   const fillParam = () => {
     const h = current(), p = h.param, v = p && h.presets[$("v-hub-preset").value].rules[p.key];
     $("v-hub-param-wrap").hidden = !p || h.key === "product";
+    $("v-hub-n-wrap").hidden = !h.play; // 人数を変えられるのは、職場・税率・下請けの3つ
+    $("v-hub-n").value = $("o-n").value;
     if (p) { $("v-hub-param-label").textContent = p.label; Object.assign($("v-hub-param"), { min: p.min, max: p.max, step: p.step ?? 1, value: Math.round((v ?? 0) * p.scale) }); }
   };
   const play = () => {
     const h = current();
-    if (h.key === "product") { state.hubOn = false; openVisual(); $("v-hub-next").innerHTML = `条件を変えるには <a href="#sim">お題と市場規模</a> へ。`; return; }
+    if (h.key === "product") { state.hubOn = false; $("v-hub-summary").innerHTML = ""; openVisual(); $("v-hub-next").innerHTML = `条件を変えるには <a href="#sim">お題と市場規模</a> へ。`; return; }
     state.hubOn = true; state.visual?.run(false);
     const preset = h.presets[$("v-hub-preset").value], rules = { ...preset.rules };
     let changed = "";
@@ -901,16 +903,46 @@ function buildHub() {
           if (scene.terrain) stage.setTerrain({ ...scene.terrain, title }); else stage.setFrames(scene.frames, { ...scene.opts, title });
         }
         setMsg("v-hub-msg", "");
+        hubSummary(h, rules, preset, label);
       } catch (err) { setMsg("v-hub-msg", err.message, true); }
     }, 30);
-    $("v-hub-next").innerHTML = `ここで見ているのは1回分の結果です。100回の平均や条件どうしの比較は <a href="#${h.key}">${esc(h.label)}</a> へ。`;
+    $("v-hub-next").innerHTML = `上の3Dは、このうちの1回分です。100回の平均や条件どうしの比較は <a href="#${h.key}">${esc(h.label)}</a> へ。`;
   };
   $("v-hub").onchange = () => { fillPresets(); play(); };
   $("v-hub-preset").onchange = () => { fillParam(); play(); };
   $("v-hub-param").onchange = play;
+  $("v-hub-n").onchange = () => { $("o-n").value = $("v-hub-n").value; play(); };
   $("v-hub-again").onclick = play;
   state.hubPlay = play;
   fillPresets();
+}
+
+// 3Dの下に、同じ条件を20回試した平均と、読み取れることを出す
+function hubSummary(h, rules, preset, label) {
+  const RUNS = 20, seed = Number($("seed").value) || 1;
+  let cards = [], advice = [];
+  if (h.def) {
+    const t = trial(h.def, rules, RUNS, seed, preset.years ?? h.def.years);
+    cards = h.def.metrics.map((m) => [m.label, formatMetric(m, t.summary[m.key]), m.sub ?? ""]);
+    advice = h.def.advise?.(t.summary, rules) ?? [];
+  } else if (h.key === "org") {
+    const { config, years } = orgConfig(), t = trialOrg(config, rules, years, RUNS);
+    cards = [[`${years}年後の生産力`, pct(t.productivity, 0), "最初を100%として"], ["エースの割合", pct(t.ace), `最初は${pct(config.mix.ace, 0)}`], ["エースが全滅した回数", `${t.wiped}回`, `${RUNS}回中`], ["平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり"]];
+    advice = orgAdvice(t, rules, { ace: config.mix.ace, n: config.n });
+  } else if (h.key === "tax") {
+    const { config, years } = socConfig(), t = trialSociety(config, rules, years, RUNS), L = t.last;
+    cards = [[`${years}年後の生産力`, pct(L.productivity, 0), "全員が広場で働く場合を100%"], ["森に挑戦する人", pct(L.risky, 0), `自分の畑だけ ${pct(L.home, 0)}`], ["1人あたりの税収", `${num(L.revenue, 2)}個`, `うち管理に${num(L.admin, 2)}個`], ["人口", pct(L.population, 0), "最初を100%として"]];
+    advice = socAdvice(L, t.series[0], rules);
+  } else {
+    const { config, days } = chainConfig(), t = trialChain(config, rules, days, RUNS);
+    cards = [["現場に届く予算", pct(t.delivered, 0), "発注者の予算に対して"], [`${days}日目に働いている人`, pct(t.survivors, 0), ""], ["できあがりの強度", pct(t.strength, 0), "正規の材料で完成 = 100%"], ["引き渡し後に崩れた回数", `${t.collapsed}回`, `${RUNS}回中`]];
+    if (t.collapsed > 0) advice.push(`${RUNS}回のうち${t.collapsed}回で、引き渡した後に崩れました。`);
+    if (t.delivered < 0.7) advice.push(`予算の${pct(1 - t.delivered, 0)}が途中で抜かれています。現場で働き続けられる人数は、届く予算でほぼ決まります。`);
+    if (rules.open) advice.push("横流しだけの段階が消え、実作業を担う業者だけが残っています。");
+  }
+  $("v-hub-summary").innerHTML = `<h3>${esc(label.replace(/^[A-Z] /, ""))}を${RUNS}回試した平均</h3>
+    <div class="kpis">${cards.map(([l, v, sub]) => kpi(l, v, sub)).join("")}</div>
+    ${advice.length ? `<div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}`;
 }
 
 function openVisual() {

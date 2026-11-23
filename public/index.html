@@ -207,6 +207,7 @@
       <label>見る内容 <select id="v-hub"></select></label>
       <label id="v-hub-preset-wrap" hidden>条件 <select id="v-hub-preset"></select></label>
       <label id="v-hub-param-wrap" hidden><span id="v-hub-param-label"></span> <input id="v-hub-param" type="number"></label>
+      <label id="v-hub-n-wrap" hidden>人数 <input id="v-hub-n" type="number" min="20" max="5000" step="10"></label>
     </div>
     <div class="form-row"><button id="v-hub-again" class="primary" hidden>この条件で、もう一度見る</button></div>
     <p id="v-hub-msg" class="msg"></p>
@@ -228,6 +229,7 @@
       <div id="visual" class="visual"></div>
       <p class="note">対象者の1人ずつが、自分の家計と価値観で選び、ゲートに並びます。髪が灰色の人は65歳以上、服が青い人は男性、白い人は女性、小さい人は子どもです。<br>人をクリックすると近くに寄り、その人の事情が見られます。何もない所をクリックすると全体に戻ります。</p>
     </div>
+    <div id="v-hub-summary"></div>
     <p id="v-hub-next" class="next"></p>
   </div>
 </section>

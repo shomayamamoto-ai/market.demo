@@ -18,6 +18,7 @@ const FMT = {
   times: (v) => `${Math.round(v)}回`,
 };
 const fmt = (m, v) => (v == null || Number.isNaN(v) ? "―" : FMT[m.fmt](v));
+export const formatMetric = fmt;
 
 // 同じ条件で何回も試して平均する
 export function trial(def, rules, runs, seed, years) {
