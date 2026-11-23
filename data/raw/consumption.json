@@ -1,0 +1,3546 @@
+{
+ "_meta": {
+  "generated": "2026-11-23",
+  "description": "日本の消費者ペルソナ用 所得・消費データ基盤。全値は公的統計の一次ファイル(e-Stat Excel/CSV、厚労省概況PDF)から機械抽出。記憶による補完なし。",
+  "key_conventions": {
+   "leNN": "NN歳以下",
+   "geNN": "NN歳以上",
+   "A_B": "A~B歳",
+   "all": "平均/年齢計"
+  }
+ },
+ "kakei_two_plus_by_head_age": {
+  "title": "家計調査 家計収支編 二人以上の世帯 第3-2表 世帯主の年齢階級別1世帯当たり1か月間の収入と支出(2025年平均)",
+  "year": 2025,
+  "unit": "円/月(1世帯当たり)。avg_household_size=人、avg_head_age=歳、household_share_per_10000=1万分比",
+  "source_name": "総務省統計局 家計調査(家計収支編)2025年 年次 第3-2表(用途分類)",
+  "source_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200561&tstat=000000330001&cycle=7&year=20250&month=0&tclass1=000000330001&tclass2=000000330004&tclass3=000000330005",
+  "source_file": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409533&fileKind=4",
+  "category_labels_ja": {
+   "food": "食料",
+   "housing": "住居",
+   "utilities": "光熱・水道",
+   "furniture_household": "家具・家事用品",
+   "clothing_footwear": "被服及び履物",
+   "medical": "保健医療",
+   "transport_communication": "交通・通信",
+   "education": "教育",
+   "culture_recreation": "教養娯楽",
+   "other": "その他の消費支出"
+  },
+  "notes": [
+   "用途分類の10大費目。用途分類では贈答・接待用の支出は「その他の消費支出(交際費)」に入るため、品目分類の食料(二人以上平均94,895円等)とは一致しない。",
+   "10大費目の合計と消費支出の差は categories_sum_minus_total に記録(原表が各項目を独立に四捨五入しているため±2円以内)。",
+   "by_age_10yr / by_age_5yr / other_recaps は原表の公表区分そのまま(～29歳は集計世帯数99と少なく誤差が大きい)。"
+  ],
+  "data": {
+   "all": {
+    "label_ja": "平均",
+    "household_share_per_10000": 10000,
+    "sample_households": 7261,
+    "avg_household_size": 2.87,
+    "avg_head_age": 60.7,
+    "avg_earners": 1.34,
+    "home_ownership_pct": 87.3,
+    "consumption_total": 314001,
+    "categories": {
+     "food": 89754,
+     "housing": 18665,
+     "utilities": 24544,
+     "furniture_household": 12869,
+     "clothing_footwear": 9702,
+     "medical": 15785,
+     "transport_communication": 45562,
+     "education": 11936,
+     "culture_recreation": 30796,
+     "other": 54387
+    },
+    "categories_sum_minus_total": -1
+   },
+   "by_age_10yr": {
+    "le29": {
+     "label_ja": "~29歳",
+     "household_share_per_10000": 120,
+     "sample_households": 99,
+     "avg_household_size": 2.91,
+     "avg_head_age": 27.2,
+     "avg_earners": 1.66,
+     "home_ownership_pct": 40.7,
+     "consumption_total": 264285,
+     "categories": {
+      "food": 61673,
+      "housing": 47007,
+      "utilities": 17643,
+      "furniture_household": 16454,
+      "clothing_footwear": 8708,
+      "medical": 10886,
+      "transport_communication": 37105,
+      "education": 2943,
+      "culture_recreation": 25283,
+      "other": 36583
+     },
+     "categories_sum_minus_total": 0
+    },
+    "30_39": {
+     "label_ja": "30~39",
+     "household_share_per_10000": 922,
+     "sample_households": 647,
+     "avg_household_size": 3.58,
+     "avg_head_age": 35.3,
+     "avg_earners": 1.66,
+     "home_ownership_pct": 68.7,
+     "consumption_total": 303962,
+     "categories": {
+      "food": 84082,
+      "housing": 22989,
+      "utilities": 21182,
+      "furniture_household": 14341,
+      "clothing_footwear": 12506,
+      "medical": 15016,
+      "transport_communication": 51296,
+      "education": 8605,
+      "culture_recreation": 32810,
+      "other": 41136
+     },
+     "categories_sum_minus_total": 1
+    },
+    "40_49": {
+     "label_ja": "40~49",
+     "household_share_per_10000": 1621,
+     "sample_households": 1179,
+     "avg_household_size": 3.73,
+     "avg_head_age": 44.7,
+     "avg_earners": 1.76,
+     "home_ownership_pct": 78.9,
+     "consumption_total": 348607,
+     "categories": {
+      "food": 99922,
+      "housing": 18240,
+      "utilities": 24070,
+      "furniture_household": 13657,
+      "clothing_footwear": 13890,
+      "medical": 12897,
+      "transport_communication": 50557,
+      "education": 26635,
+      "culture_recreation": 37152,
+      "other": 51587
+     },
+     "categories_sum_minus_total": 0
+    },
+    "50_59": {
+     "label_ja": "50~59",
+     "household_share_per_10000": 1952,
+     "sample_households": 1361,
+     "avg_household_size": 3.12,
+     "avg_head_age": 54.2,
+     "avg_earners": 1.92,
+     "home_ownership_pct": 87.4,
+     "consumption_total": 367643,
+     "categories": {
+      "food": 95209,
+      "housing": 17608,
+      "utilities": 25241,
+      "furniture_household": 13445,
+      "clothing_footwear": 12307,
+      "medical": 14663,
+      "transport_communication": 59435,
+      "education": 30385,
+      "culture_recreation": 32503,
+      "other": 66846
+     },
+     "categories_sum_minus_total": -1
+    },
+    "60_69": {
+     "label_ja": "60~69",
+     "household_share_per_10000": 1935,
+     "sample_households": 1416,
+     "avg_household_size": 2.52,
+     "avg_head_age": 64.5,
+     "avg_earners": 1.43,
+     "home_ownership_pct": 92.1,
+     "consumption_total": 327405,
+     "categories": {
+      "food": 92209,
+      "housing": 19630,
+      "utilities": 25635,
+      "furniture_household": 13389,
+      "clothing_footwear": 9154,
+      "medical": 17240,
+      "transport_communication": 51224,
+      "education": 3788,
+      "culture_recreation": 35308,
+      "other": 59828
+     },
+     "categories_sum_minus_total": 0
+    },
+    "ge70": {
+     "label_ja": "70歳~",
+     "household_share_per_10000": 3450,
+     "sample_households": 2559,
+     "avg_household_size": 2.34,
+     "avg_head_age": 77.7,
+     "avg_earners": 0.66,
+     "home_ownership_pct": 95.1,
+     "consumption_total": 264332,
+     "categories": {
+      "food": 83000,
+      "housing": 16803,
+      "utilities": 24905,
+      "furniture_household": 11355,
+      "clothing_footwear": 5850,
+      "medical": 17330,
+      "transport_communication": 30939,
+      "education": 336,
+      "culture_recreation": 24026,
+      "other": 49789
+     },
+     "categories_sum_minus_total": 1
+    }
+   },
+   "by_age_5yr": {
+    "le34": {
+     "label_ja": "~34歳",
+     "household_share_per_10000": 462,
+     "sample_households": 332,
+     "avg_household_size": 3.28,
+     "avg_head_age": 30.9,
+     "avg_earners": 1.66,
+     "home_ownership_pct": 56.7,
+     "consumption_total": 285285,
+     "categories": {
+      "food": 72594,
+      "housing": 31971,
+      "utilities": 19799,
+      "furniture_household": 14588,
+      "clothing_footwear": 11875,
+      "medical": 13729,
+      "transport_communication": 49145,
+      "education": 5170,
+      "culture_recreation": 26792,
+      "other": 39622
+     },
+     "categories_sum_minus_total": 0
+    },
+    "35_39": {
+     "label_ja": "35~39",
+     "household_share_per_10000": 581,
+     "sample_households": 413,
+     "avg_household_size": 3.67,
+     "avg_head_age": 37.1,
+     "avg_earners": 1.67,
+     "home_ownership_pct": 72.3,
+     "consumption_total": 309879,
+     "categories": {
+      "food": 88503,
+      "housing": 20546,
+      "utilities": 21558,
+      "furniture_household": 14549,
+      "clothing_footwear": 12235,
+      "medical": 15114,
+      "transport_communication": 49757,
+      "education": 10131,
+      "culture_recreation": 36017,
+      "other": 41470
+     },
+     "categories_sum_minus_total": 1
+    },
+    "40_44": {
+     "label_ja": "40~44",
+     "household_share_per_10000": 741,
+     "sample_households": 546,
+     "avg_household_size": 3.84,
+     "avg_head_age": 41.9,
+     "avg_earners": 1.71,
+     "home_ownership_pct": 77.5,
+     "consumption_total": 334162,
+     "categories": {
+      "food": 100526,
+      "housing": 17680,
+      "utilities": 23306,
+      "furniture_household": 14201,
+      "clothing_footwear": 13833,
+      "medical": 13373,
+      "transport_communication": 48634,
+      "education": 21637,
+      "culture_recreation": 38350,
+      "other": 42622
+     },
+     "categories_sum_minus_total": 0
+    },
+    "45_49": {
+     "label_ja": "45~49",
+     "household_share_per_10000": 879,
+     "sample_households": 634,
+     "avg_household_size": 3.64,
+     "avg_head_age": 47.1,
+     "avg_earners": 1.8,
+     "home_ownership_pct": 80,
+     "consumption_total": 360965,
+     "categories": {
+      "food": 99469,
+      "housing": 18714,
+      "utilities": 24738,
+      "furniture_household": 13168,
+      "clothing_footwear": 13946,
+      "medical": 12498,
+      "transport_communication": 52234,
+      "education": 30771,
+      "culture_recreation": 36154,
+      "other": 59275
+     },
+     "categories_sum_minus_total": 2
+    },
+    "50_54": {
+     "label_ja": "50~54",
+     "household_share_per_10000": 1057,
+     "sample_households": 720,
+     "avg_household_size": 3.31,
+     "avg_head_age": 52,
+     "avg_earners": 1.92,
+     "home_ownership_pct": 87.4,
+     "consumption_total": 379853,
+     "categories": {
+      "food": 98316,
+      "housing": 16305,
+      "utilities": 25441,
+      "furniture_household": 13691,
+      "clothing_footwear": 12895,
+      "medical": 15411,
+      "transport_communication": 57029,
+      "education": 38685,
+      "culture_recreation": 33181,
+      "other": 68897
+     },
+     "categories_sum_minus_total": -2
+    },
+    "55_59": {
+     "label_ja": "55~59",
+     "household_share_per_10000": 895,
+     "sample_households": 641,
+     "avg_household_size": 2.89,
+     "avg_head_age": 56.9,
+     "avg_earners": 1.93,
+     "home_ownership_pct": 87.3,
+     "consumption_total": 353358,
+     "categories": {
+      "food": 91549,
+      "housing": 19115,
+      "utilities": 25013,
+      "furniture_household": 13176,
+      "clothing_footwear": 11631,
+      "medical": 13820,
+      "transport_communication": 62289,
+      "education": 20576,
+      "culture_recreation": 31716,
+      "other": 64472
+     },
+     "categories_sum_minus_total": -1
+    },
+    "60_64": {
+     "label_ja": "60~64",
+     "household_share_per_10000": 943,
+     "sample_households": 669,
+     "avg_household_size": 2.59,
+     "avg_head_age": 61.9,
+     "avg_earners": 1.68,
+     "home_ownership_pct": 90,
+     "consumption_total": 340393,
+     "categories": {
+      "food": 93253,
+      "housing": 22442,
+      "utilities": 25500,
+      "furniture_household": 14182,
+      "clothing_footwear": 9909,
+      "medical": 15923,
+      "transport_communication": 56524,
+      "education": 5644,
+      "culture_recreation": 33755,
+      "other": 63261
+     },
+     "categories_sum_minus_total": 0
+    },
+    "65_69": {
+     "label_ja": "65~69",
+     "household_share_per_10000": 992,
+     "sample_households": 747,
+     "avg_household_size": 2.44,
+     "avg_head_age": 67,
+     "avg_earners": 1.2,
+     "home_ownership_pct": 94.1,
+     "consumption_total": 314980,
+     "categories": {
+      "food": 91199,
+      "housing": 16984,
+      "utilities": 25759,
+      "furniture_household": 12608,
+      "clothing_footwear": 8440,
+      "medical": 18488,
+      "transport_communication": 46121,
+      "education": 2011,
+      "culture_recreation": 36765,
+      "other": 56605
+     },
+     "categories_sum_minus_total": 0
+    },
+    "70_74": {
+     "label_ja": "70~74",
+     "household_share_per_10000": 1123,
+     "sample_households": 824,
+     "avg_household_size": 2.38,
+     "avg_head_age": 72,
+     "avg_earners": 0.89,
+     "home_ownership_pct": 93.3,
+     "consumption_total": 289080,
+     "categories": {
+      "food": 87406,
+      "housing": 18526,
+      "utilities": 26121,
+      "furniture_household": 12414,
+      "clothing_footwear": 6661,
+      "medical": 16725,
+      "transport_communication": 38698,
+      "education": 374,
+      "culture_recreation": 27127,
+      "other": 55028
+     },
+     "categories_sum_minus_total": 0
+    },
+    "75_79": {
+     "label_ja": "75~79",
+     "household_share_per_10000": 1150,
+     "sample_households": 838,
+     "avg_household_size": 2.35,
+     "avg_head_age": 76.7,
+     "avg_earners": 0.65,
+     "home_ownership_pct": 95.7,
+     "consumption_total": 265966,
+     "categories": {
+      "food": 83235,
+      "housing": 17006,
+      "utilities": 24626,
+      "furniture_household": 11423,
+      "clothing_footwear": 5730,
+      "medical": 16937,
+      "transport_communication": 31703,
+      "education": 465,
+      "culture_recreation": 25266,
+      "other": 49575
+     },
+     "categories_sum_minus_total": 0
+    },
+    "80_84": {
+     "label_ja": "80~84",
+     "household_share_per_10000": 735,
+     "sample_households": 543,
+     "avg_household_size": 2.31,
+     "avg_head_age": 81.9,
+     "avg_earners": 0.48,
+     "home_ownership_pct": 95.8,
+     "consumption_total": 240450,
+     "categories": {
+      "food": 79720,
+      "housing": 13881,
+      "utilities": 24258,
+      "furniture_household": 10219,
+      "clothing_footwear": 4904,
+      "medical": 17058,
+      "transport_communication": 24342,
+      "education": 141,
+      "culture_recreation": 21318,
+      "other": 44611
+     },
+     "categories_sum_minus_total": 2
+    },
+    "ge85": {
+     "label_ja": "85歳~",
+     "household_share_per_10000": 442,
+     "sample_households": 354,
+     "avg_household_size": 2.28,
+     "avg_head_age": 87.9,
+     "avg_earners": 0.4,
+     "home_ownership_pct": 96.6,
+     "consumption_total": 236684,
+     "categories": {
+      "food": 76766,
+      "housing": 17046,
+      "utilities": 23677,
+      "furniture_household": 10364,
+      "clothing_footwear": 5659,
+      "medical": 20190,
+      "transport_communication": 20276,
+      "education": 204,
+      "culture_recreation": 17401,
+      "other": 45100
+     },
+     "categories_sum_minus_total": -1
+    }
+   },
+   "other_recaps": {
+    "25_34": {
+     "label_ja": "25~34",
+     "household_share_per_10000": 454,
+     "sample_households": 325,
+     "avg_household_size": 3.29,
+     "avg_head_age": 31,
+     "avg_earners": 1.66,
+     "home_ownership_pct": 57,
+     "consumption_total": 287359,
+     "categories": {
+      "food": 73133,
+      "housing": 31920,
+      "utilities": 19849,
+      "furniture_household": 14719,
+      "clothing_footwear": 11993,
+      "medical": 13893,
+      "transport_communication": 49651,
+      "education": 5253,
+      "culture_recreation": 27107,
+      "other": 39842
+     },
+     "categories_sum_minus_total": 1
+    },
+    "35_44": {
+     "label_ja": "35~44",
+     "household_share_per_10000": 1322,
+     "sample_households": 959,
+     "avg_household_size": 3.77,
+     "avg_head_age": 39.8,
+     "avg_earners": 1.69,
+     "home_ownership_pct": 75.3,
+     "consumption_total": 323318,
+     "categories": {
+      "food": 95216,
+      "housing": 18930,
+      "utilities": 22527,
+      "furniture_household": 14356,
+      "clothing_footwear": 13128,
+      "medical": 14123,
+      "transport_communication": 49084,
+      "education": 16586,
+      "culture_recreation": 37308,
+      "other": 42058
+     },
+     "categories_sum_minus_total": -2
+    },
+    "45_54": {
+     "label_ja": "45~54",
+     "household_share_per_10000": 1936,
+     "sample_households": 1353,
+     "avg_household_size": 3.46,
+     "avg_head_age": 49.7,
+     "avg_earners": 1.86,
+     "home_ownership_pct": 84.1,
+     "consumption_total": 371280,
+     "categories": {
+      "food": 98830,
+      "housing": 17389,
+      "utilities": 25119,
+      "furniture_household": 13457,
+      "clothing_footwear": 13370,
+      "medical": 14092,
+      "transport_communication": 54874,
+      "education": 35107,
+      "culture_recreation": 34531,
+      "other": 64510
+     },
+     "categories_sum_minus_total": -1
+    },
+    "55_64": {
+     "label_ja": "55~64",
+     "household_share_per_10000": 1838,
+     "sample_households": 1310,
+     "avg_household_size": 2.74,
+     "avg_head_age": 59.5,
+     "avg_earners": 1.8,
+     "home_ownership_pct": 88.7,
+     "consumption_total": 346796,
+     "categories": {
+      "food": 92408,
+      "housing": 20876,
+      "utilities": 25260,
+      "furniture_household": 13702,
+      "clothing_footwear": 10732,
+      "medical": 14898,
+      "transport_communication": 59425,
+      "education": 12905,
+      "culture_recreation": 32744,
+      "other": 63845
+     },
+     "categories_sum_minus_total": -1
+    },
+    "ge65": {
+     "label_ja": "65歳~",
+     "household_share_per_10000": 4442,
+     "sample_households": 3306,
+     "avg_household_size": 2.37,
+     "avg_head_age": 75.3,
+     "avg_earners": 0.78,
+     "home_ownership_pct": 94.8,
+     "consumption_total": 275635,
+     "categories": {
+      "food": 84833,
+      "housing": 16844,
+      "utilities": 25097,
+      "furniture_household": 11641,
+      "clothing_footwear": 6428,
+      "medical": 17593,
+      "transport_communication": 34335,
+      "education": 716,
+      "culture_recreation": 26866,
+      "other": 51280
+     },
+     "categories_sum_minus_total": -2
+    },
+    "le39": {
+     "label_ja": "~39歳",
+     "household_share_per_10000": 1042,
+     "sample_households": 746,
+     "avg_household_size": 3.5,
+     "avg_head_age": 34.4,
+     "avg_earners": 1.66,
+     "home_ownership_pct": 65.4,
+     "consumption_total": 299100,
+     "categories": {
+      "food": 81466,
+      "housing": 25604,
+      "utilities": 20779,
+      "furniture_household": 14566,
+      "clothing_footwear": 12084,
+      "medical": 14502,
+      "transport_communication": 49588,
+      "education": 7930,
+      "culture_recreation": 31934,
+      "other": 40647
+     },
+     "categories_sum_minus_total": 0
+    },
+    "le59": {
+     "label_ja": "~59歳",
+     "household_share_per_10000": 4615,
+     "sample_households": 3286,
+     "avg_household_size": 3.42,
+     "avg_head_age": 46.4,
+     "avg_earners": 1.81,
+     "home_ownership_pct": 79.4,
+     "consumption_total": 345423,
+     "categories": {
+      "food": 93749,
+      "housing": 19616,
+      "utilities": 23818,
+      "furniture_household": 13775,
+      "clothing_footwear": 12812,
+      "medical": 14005,
+      "transport_communication": 54102,
+      "education": 23995,
+      "culture_recreation": 34002,
+      "other": 55549
+     },
+     "categories_sum_minus_total": 0
+    },
+    "ge60": {
+     "label_ja": "60歳~",
+     "household_share_per_10000": 5385,
+     "sample_households": 3975,
+     "avg_household_size": 2.41,
+     "avg_head_age": 73,
+     "avg_earners": 0.94,
+     "home_ownership_pct": 94,
+     "consumption_total": 286981,
+     "categories": {
+      "food": 86309,
+      "housing": 17820,
+      "utilities": 25166,
+      "furniture_household": 12087,
+      "clothing_footwear": 7036,
+      "medical": 17302,
+      "transport_communication": 38256,
+      "education": 1572,
+      "culture_recreation": 28069,
+      "other": 53363
+     },
+     "categories_sum_minus_total": -1
+    },
+    "65_74": {
+     "label_ja": "65~74",
+     "household_share_per_10000": 2115,
+     "sample_households": 1571,
+     "avg_household_size": 2.41,
+     "avg_head_age": 69.7,
+     "avg_earners": 1.03,
+     "home_ownership_pct": 93.7,
+     "consumption_total": 301254,
+     "categories": {
+      "food": 89174,
+      "housing": 17828,
+      "utilities": 25948,
+      "furniture_household": 12510,
+      "clothing_footwear": 7496,
+      "medical": 17551,
+      "transport_communication": 42213,
+      "education": 1147,
+      "culture_recreation": 31639,
+      "other": 55747
+     },
+     "categories_sum_minus_total": -1
+    },
+    "ge75": {
+     "label_ja": "75歳~",
+     "household_share_per_10000": 2327,
+     "sample_households": 1735,
+     "avg_household_size": 2.33,
+     "avg_head_age": 80.5,
+     "avg_earners": 0.55,
+     "home_ownership_pct": 95.9,
+     "consumption_total": 252303,
+     "categories": {
+      "food": 80888,
+      "housing": 15996,
+      "utilities": 24320,
+      "furniture_household": 10835,
+      "clothing_footwear": 5458,
+      "medical": 17593,
+      "transport_communication": 27185,
+      "education": 315,
+      "culture_recreation": 22539,
+      "other": 47175
+     },
+     "categories_sum_minus_total": 1
+    }
+   },
+   "working_households_income_by_age": {
+    "note": "同表「二人以上の世帯のうち勤労者世帯」シート。実収入・可処分所得など(円/月)",
+    "all": {
+     "label_ja": "平均",
+     "income_total": 653901,
+     "head_income": 470986,
+     "disposable_income": 532408,
+     "consumption_total": 346297,
+     "non_consumption_expenditure": 121493,
+     "avg_household_size": 3.2,
+     "avg_head_age": 51,
+     "household_share_per_10000": 10000
+    },
+    "groups": {
+     "le34": {
+      "label_ja": "~34歳",
+      "income_total": 622426,
+      "head_income": 444916,
+      "disposable_income": 523726,
+      "consumption_total": 287710,
+      "non_consumption_expenditure": 98700,
+      "avg_household_size": 3.27,
+      "avg_head_age": 30.9,
+      "household_share_per_10000": 813
+     },
+     "35_39": {
+      "label_ja": "35~39",
+      "income_total": 664955,
+      "head_income": 486732,
+      "disposable_income": 556479,
+      "consumption_total": 312151,
+      "non_consumption_expenditure": 108476,
+      "avg_household_size": 3.66,
+      "avg_head_age": 37.1,
+      "household_share_per_10000": 978
+     },
+     "40_44": {
+      "label_ja": "40~44",
+      "income_total": 714872,
+      "head_income": 539465,
+      "disposable_income": 579565,
+      "consumption_total": 338064,
+      "non_consumption_expenditure": 135307,
+      "avg_household_size": 3.85,
+      "avg_head_age": 41.9,
+      "household_share_per_10000": 1234
+     },
+     "45_49": {
+      "label_ja": "45~49",
+      "income_total": 712719,
+      "head_income": 536851,
+      "disposable_income": 578025,
+      "consumption_total": 367159,
+      "non_consumption_expenditure": 134694,
+      "avg_household_size": 3.64,
+      "avg_head_age": 47,
+      "household_share_per_10000": 1434
+     },
+     "50_54": {
+      "label_ja": "50~54",
+      "income_total": 719662,
+      "head_income": 547946,
+      "disposable_income": 575000,
+      "consumption_total": 386184,
+      "non_consumption_expenditure": 144663,
+      "avg_household_size": 3.3,
+      "avg_head_age": 52,
+      "household_share_per_10000": 1658
+     },
+     "55_59": {
+      "label_ja": "55~59",
+      "income_total": 716387,
+      "head_income": 547421,
+      "disposable_income": 563550,
+      "consumption_total": 361304,
+      "non_consumption_expenditure": 152837,
+      "avg_household_size": 2.9,
+      "avg_head_age": 56.9,
+      "household_share_per_10000": 1360
+     },
+     "60_64": {
+      "label_ja": "60~64",
+      "income_total": 565201,
+      "head_income": 403799,
+      "disposable_income": 450180,
+      "consumption_total": 354243,
+      "non_consumption_expenditure": 115021,
+      "avg_household_size": 2.58,
+      "avg_head_age": 61.9,
+      "household_share_per_10000": 1194
+     },
+     "65_69": {
+      "label_ja": "65~69",
+      "income_total": 520809,
+      "head_income": 265176,
+      "disposable_income": 442389,
+      "consumption_total": 333679,
+      "non_consumption_expenditure": 78419,
+      "avg_household_size": 2.48,
+      "avg_head_age": 66.8,
+      "household_share_per_10000": 756
+     },
+     "ge70": {
+      "label_ja": "70歳~",
+      "income_total": 426307,
+      "head_income": 179243,
+      "disposable_income": 383631,
+      "consumption_total": 300065,
+      "non_consumption_expenditure": 42676,
+      "avg_household_size": 2.45,
+      "avg_head_age": 73.3,
+      "household_share_per_10000": 573
+     },
+     "25_34": {
+      "label_ja": "25~34",
+      "income_total": 626540,
+      "head_income": 447769,
+      "disposable_income": 527112,
+      "consumption_total": 289892,
+      "non_consumption_expenditure": 99428,
+      "avg_household_size": 3.29,
+      "avg_head_age": 31,
+      "household_share_per_10000": 799
+     },
+     "35_44": {
+      "label_ja": "35~44",
+      "income_total": 692879,
+      "head_income": 516228,
+      "disposable_income": 569419,
+      "consumption_total": 326616,
+      "non_consumption_expenditure": 123460,
+      "avg_household_size": 3.77,
+      "avg_head_age": 39.8,
+      "household_share_per_10000": 2213
+     },
+     "45_54": {
+      "label_ja": "45~54",
+      "income_total": 716357,
+      "head_income": 542771,
+      "disposable_income": 576350,
+      "consumption_total": 377395,
+      "non_consumption_expenditure": 140007,
+      "avg_household_size": 3.46,
+      "avg_head_age": 49.7,
+      "household_share_per_10000": 3092
+     },
+     "55_64": {
+      "label_ja": "55~64",
+      "income_total": 644873,
+      "head_income": 479561,
+      "disposable_income": 509934,
+      "consumption_total": 358229,
+      "non_consumption_expenditure": 134938,
+      "avg_household_size": 2.75,
+      "avg_head_age": 59.2,
+      "household_share_per_10000": 2554
+     },
+     "ge65": {
+      "label_ja": "65歳~",
+      "income_total": 480070,
+      "head_income": 228262,
+      "disposable_income": 416994,
+      "consumption_total": 319411,
+      "non_consumption_expenditure": 63076,
+      "avg_household_size": 2.47,
+      "avg_head_age": 69.6,
+      "household_share_per_10000": 1328
+     },
+     "le29": {
+      "label_ja": "~29歳",
+      "income_total": 539023,
+      "head_income": 370755,
+      "disposable_income": 458253,
+      "consumption_total": 266960,
+      "non_consumption_expenditure": 80770,
+      "avg_household_size": 2.89,
+      "avg_head_age": 27.2,
+      "household_share_per_10000": 212
+     },
+     "30_39": {
+      "label_ja": "30~39",
+      "income_total": 659886,
+      "head_income": 480850,
+      "disposable_income": 552696,
+      "consumption_total": 306220,
+      "non_consumption_expenditure": 107190,
+      "avg_household_size": 3.57,
+      "avg_head_age": 35.2,
+      "household_share_per_10000": 1579
+     },
+     "40_49": {
+      "label_ja": "40~49",
+      "income_total": 713746,
+      "head_income": 538091,
+      "disposable_income": 578733,
+      "consumption_total": 353622,
+      "non_consumption_expenditure": 135013,
+      "avg_household_size": 3.74,
+      "avg_head_age": 44.6,
+      "household_share_per_10000": 2669
+     },
+     "50_59": {
+      "label_ja": "50~59",
+      "income_total": 718283,
+      "head_income": 547850,
+      "disposable_income": 569865,
+      "consumption_total": 374940,
+      "non_consumption_expenditure": 148418,
+      "avg_household_size": 3.12,
+      "avg_head_age": 54.2,
+      "household_share_per_10000": 3018
+     },
+     "60_69": {
+      "label_ja": "60~69",
+      "income_total": 548357,
+      "head_income": 350379,
+      "disposable_income": 447456,
+      "consumption_total": 346393,
+      "non_consumption_expenditure": 100901,
+      "avg_household_size": 2.54,
+      "avg_head_age": 63.8,
+      "household_share_per_10000": 1950
+     },
+     "le39": {
+      "label_ja": "~39歳",
+      "income_total": 645562,
+      "head_income": 467784,
+      "disposable_income": 541537,
+      "consumption_total": 301216,
+      "non_consumption_expenditure": 104025,
+      "avg_household_size": 3.49,
+      "avg_head_age": 34.3,
+      "household_share_per_10000": 1791
+     },
+     "le59": {
+      "label_ja": "~59歳",
+      "income_total": 699288,
+      "head_income": 525199,
+      "disposable_income": 566300,
+      "consumption_total": 349659,
+      "non_consumption_expenditure": 132988,
+      "avg_household_size": 3.43,
+      "avg_head_age": 46,
+      "household_share_per_10000": 7477
+     },
+     "ge60": {
+      "label_ja": "60歳~",
+      "income_total": 520432,
+      "head_income": 311551,
+      "disposable_income": 432730,
+      "consumption_total": 335910,
+      "non_consumption_expenditure": 87702,
+      "avg_household_size": 2.52,
+      "avg_head_age": 65.9,
+      "household_share_per_10000": 2523
+     }
+    }
+   }
+  },
+  "unverified": [
+   "二人以上の世帯全体(無職世帯含む)の実収入・年間収入は第3-2表では「...」(非表章)のため未収録。所得は勤労者世帯分のみ。"
+  ]
+ },
+ "kakei_single_by_age_sex": {
+  "title": "家計調査 家計収支編 単身世帯 第2表 男女,年齢階級別1世帯当たり1か月間の収入と支出(2025年平均)",
+  "year": 2025,
+  "unit": "円/月(1世帯当たり)。avg_age=歳、home_ownership_pct=%",
+  "source_name": "総務省統計局 家計調査(家計収支編)2025年 年次 単身世帯 第2表(用途分類)",
+  "source_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200561&tstat=000000330001&cycle=7&year=20250&month=0&tclass1=000000330001&tclass2=000000330022&tclass3=000000330023",
+  "source_file": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409816&fileKind=0",
+  "category_labels_ja": {
+   "food": "食料",
+   "housing": "住居",
+   "utilities": "光熱・水道",
+   "furniture_household": "家具・家事用品",
+   "clothing_footwear": "被服及び履物",
+   "medical": "保健医療",
+   "transport_communication": "交通・通信",
+   "education": "教育",
+   "culture_recreation": "教養娯楽",
+   "other": "その他の消費支出"
+  },
+  "notes": [
+   "構造: data[single|working_single][both|male|female][all|le34|35_59|ge60|ge65]。ge65 は ge60 の再掲。",
+   "単身世帯は集計世帯数が少ない(全体646、34歳以下67など)ため年齢×性別セルの誤差が大きい。sample_households を参照。",
+   "教育が0円のセルは原表どおり。"
+  ],
+  "data": {
+   "single": {
+    "both": {
+     "all": {
+      "label_ja": "単身世帯",
+      "household_share_per_10000": 10000,
+      "sample_households": 646,
+      "avg_age": 58.6,
+      "employed_ratio": 0.56,
+      "home_ownership_pct": 59,
+      "consumption_total": 173042,
+      "categories": {
+       "food": 44659,
+       "housing": 21667,
+       "utilities": 13333,
+       "furniture_household": 5945,
+       "clothing_footwear": 4664,
+       "medical": 8690,
+       "transport_communication": 19190,
+       "education": 34,
+       "culture_recreation": 20250,
+       "other": 34611
+      },
+      "categories_sum_minus_total": 1
+     },
+     "le34": {
+      "label_ja": "単身世帯34歳以下",
+      "household_share_per_10000": 2118,
+      "sample_households": 67,
+      "avg_age": 27.4,
+      "employed_ratio": 0.97,
+      "home_ownership_pct": 7.8,
+      "consumption_total": 177542,
+      "categories": {
+       "food": 41992,
+       "housing": 35060,
+       "utilities": 8291,
+       "furniture_household": 5895,
+       "clothing_footwear": 6013,
+       "medical": 6735,
+       "transport_communication": 20640,
+       "education": 161,
+       "culture_recreation": 24242,
+       "other": 28513
+      },
+      "categories_sum_minus_total": 0
+     },
+     "35_59": {
+      "label_ja": "単身世帯35~59歳",
+      "household_share_per_10000": 2622,
+      "sample_households": 111,
+      "avg_age": 50.9,
+      "employed_ratio": 0.87,
+      "home_ownership_pct": 50.7,
+      "consumption_total": 198488,
+      "categories": {
+       "food": 47405,
+       "housing": 28041,
+       "utilities": 13299,
+       "furniture_household": 5823,
+       "clothing_footwear": 5496,
+       "medical": 8084,
+       "transport_communication": 23773,
+       "education": 0,
+       "culture_recreation": 23453,
+       "other": 43114
+      },
+      "categories_sum_minus_total": 0
+     },
+     "ge60": {
+      "label_ja": "単身世帯60歳以上",
+      "household_share_per_10000": 5260,
+      "sample_households": 469,
+      "avg_age": 75,
+      "employed_ratio": 0.23,
+      "home_ownership_pct": 83.6,
+      "consumption_total": 158546,
+      "categories": {
+       "food": 44364,
+       "housing": 13103,
+       "utilities": 15380,
+       "furniture_household": 6026,
+       "clothing_footwear": 3708,
+       "medical": 9780,
+       "transport_communication": 16317,
+       "education": 0,
+       "culture_recreation": 17041,
+       "other": 32826
+      },
+      "categories_sum_minus_total": -1
+     },
+     "ge65": {
+      "label_ja": "単身世帯65歳以上",
+      "household_share_per_10000": 4658,
+      "sample_households": 416,
+      "avg_age": 76.7,
+      "employed_ratio": 0.17,
+      "home_ownership_pct": 85,
+      "consumption_total": 155782,
+      "categories": {
+       "food": 43862,
+       "housing": 12347,
+       "utilities": 15527,
+       "furniture_household": 6113,
+       "clothing_footwear": 3250,
+       "medical": 9665,
+       "transport_communication": 15715,
+       "education": 0,
+       "culture_recreation": 16648,
+       "other": 32655
+      },
+      "categories_sum_minus_total": 0
+     }
+    },
+    "male": {
+     "all": {
+      "label_ja": "単身世帯(男)",
+      "household_share_per_10000": 4646,
+      "sample_households": 216,
+      "avg_age": 53.6,
+      "employed_ratio": 0.66,
+      "home_ownership_pct": 51.8,
+      "consumption_total": 179713,
+      "categories": {
+       "food": 48977,
+       "housing": 23396,
+       "utilities": 12723,
+       "furniture_household": 5066,
+       "clothing_footwear": 3229,
+       "medical": 7707,
+       "transport_communication": 23289,
+       "education": 73,
+       "culture_recreation": 22758,
+       "other": 32496
+      },
+      "categories_sum_minus_total": 1
+     },
+     "le34": {
+      "label_ja": "単身世帯(男)34歳以下",
+      "household_share_per_10000": 1203,
+      "sample_households": 44,
+      "avg_age": 27.5,
+      "employed_ratio": 0.97,
+      "home_ownership_pct": 7.4,
+      "consumption_total": 169203,
+      "categories": {
+       "food": 44260,
+       "housing": 30987,
+       "utilities": 7894,
+       "furniture_household": 5595,
+       "clothing_footwear": 3731,
+       "medical": 5113,
+       "transport_communication": 23481,
+       "education": 285,
+       "culture_recreation": 27379,
+       "other": 20478
+      },
+      "categories_sum_minus_total": 0
+     },
+     "35_59": {
+      "label_ja": "単身世帯(男)35~59歳",
+      "household_share_per_10000": 1573,
+      "sample_households": 55,
+      "avg_age": 50.1,
+      "employed_ratio": 0.88,
+      "home_ownership_pct": 52.1,
+      "consumption_total": 208276,
+      "categories": {
+       "food": 52878,
+       "housing": 27316,
+       "utilities": 12955,
+       "furniture_household": 5002,
+       "clothing_footwear": 4560,
+       "medical": 7432,
+       "transport_communication": 25514,
+       "education": 0,
+       "culture_recreation": 24462,
+       "other": 48157
+      },
+      "categories_sum_minus_total": 0
+     },
+     "ge60": {
+      "label_ja": "単身世帯(男)60歳以上",
+      "household_share_per_10000": 1869,
+      "sample_households": 117,
+      "avg_age": 73.4,
+      "employed_ratio": 0.27,
+      "home_ownership_pct": 80.2,
+      "consumption_total": 162446,
+      "categories": {
+       "food": 48724,
+       "housing": 15202,
+       "utilities": 15640,
+       "furniture_household": 4773,
+       "clothing_footwear": 1784,
+       "medical": 9606,
+       "transport_communication": 21299,
+       "education": 0,
+       "culture_recreation": 18371,
+       "other": 27047
+      },
+      "categories_sum_minus_total": 0
+     },
+     "ge65": {
+      "label_ja": "単身世帯(男)65歳以上",
+      "household_share_per_10000": 1604,
+      "sample_households": 100,
+      "avg_age": 75.4,
+      "employed_ratio": 0.21,
+      "home_ownership_pct": 81.7,
+      "consumption_total": 161073,
+      "categories": {
+       "food": 47954,
+       "housing": 14675,
+       "utilities": 15716,
+       "furniture_household": 4952,
+       "clothing_footwear": 1709,
+       "medical": 8891,
+       "transport_communication": 21249,
+       "education": 0,
+       "culture_recreation": 18174,
+       "other": 27752
+      },
+      "categories_sum_minus_total": -1
+     }
+    },
+    "female": {
+     "all": {
+      "label_ja": "単身世帯(女)",
+      "household_share_per_10000": 5354,
+      "sample_households": 430,
+      "avg_age": 62.9,
+      "employed_ratio": 0.47,
+      "home_ownership_pct": 65.2,
+      "consumption_total": 167250,
+      "categories": {
+       "food": 40910,
+       "housing": 20166,
+       "utilities": 13862,
+       "furniture_household": 6708,
+       "clothing_footwear": 5910,
+       "medical": 9543,
+       "transport_communication": 15633,
+       "education": 0,
+       "culture_recreation": 18074,
+       "other": 36444
+      },
+      "categories_sum_minus_total": 0
+     },
+     "le34": {
+      "label_ja": "単身世帯(女)34歳以下",
+      "household_share_per_10000": 915,
+      "sample_households": 23,
+      "avg_age": 27.2,
+      "employed_ratio": 0.99,
+      "home_ownership_pct": 8.4,
+      "consumption_total": 188449,
+      "categories": {
+       "food": 38992,
+       "housing": 40353,
+       "utilities": 8801,
+       "furniture_household": 6294,
+       "clothing_footwear": 9008,
+       "medical": 8858,
+       "transport_communication": 16921,
+       "education": 0,
+       "culture_recreation": 20164,
+       "other": 39058
+      },
+      "categories_sum_minus_total": 0
+     },
+     "35_59": {
+      "label_ja": "単身世帯(女)35~59歳",
+      "household_share_per_10000": 1049,
+      "sample_households": 56,
+      "avg_age": 52,
+      "employed_ratio": 0.84,
+      "home_ownership_pct": 48.6,
+      "consumption_total": 183805,
+      "categories": {
+       "food": 39192,
+       "housing": 29130,
+       "utilities": 13814,
+       "furniture_household": 7053,
+       "clothing_footwear": 6899,
+       "medical": 9061,
+       "transport_communication": 21163,
+       "education": 0,
+       "culture_recreation": 21943,
+       "other": 35552
+      },
+      "categories_sum_minus_total": 2
+     },
+     "ge60": {
+      "label_ja": "単身世帯(女)60歳以上",
+      "household_share_per_10000": 3391,
+      "sample_households": 351,
+      "avg_age": 75.9,
+      "employed_ratio": 0.21,
+      "home_ownership_pct": 85.6,
+      "consumption_total": 156393,
+      "categories": {
+       "food": 41962,
+       "housing": 11945,
+       "utilities": 15236,
+       "furniture_household": 6715,
+       "clothing_footwear": 4769,
+       "medical": 9874,
+       "transport_communication": 13575,
+       "education": 0,
+       "culture_recreation": 16308,
+       "other": 36008
+      },
+      "categories_sum_minus_total": -1
+     },
+     "ge65": {
+      "label_ja": "単身世帯(女)65歳以上",
+      "household_share_per_10000": 3054,
+      "sample_households": 316,
+      "avg_age": 77.4,
+      "employed_ratio": 0.16,
+      "home_ownership_pct": 86.8,
+      "consumption_total": 152996,
+      "categories": {
+       "food": 41679,
+       "housing": 11157,
+       "utilities": 15430,
+       "furniture_household": 6711,
+       "clothing_footwear": 4057,
+       "medical": 10071,
+       "transport_communication": 12797,
+       "education": 0,
+       "culture_recreation": 15853,
+       "other": 35240
+      },
+      "categories_sum_minus_total": -1
+     }
+    }
+   },
+   "working_single": {
+    "both": {
+     "all": {
+      "label_ja": "勤労者世帯",
+      "household_share_per_10000": 4809,
+      "sample_households": 226,
+      "avg_age": 43.3,
+      "employed_ratio": 1,
+      "home_ownership_pct": 34.1,
+      "consumption_total": 191523,
+      "categories": {
+       "food": 45787,
+       "housing": 30327,
+       "utilities": 11222,
+       "furniture_household": 5851,
+       "clothing_footwear": 5972,
+       "medical": 8433,
+       "transport_communication": 23210,
+       "education": 69,
+       "culture_recreation": 24187,
+       "other": 36465
+      },
+      "categories_sum_minus_total": 0
+     },
+     "le34": {
+      "label_ja": "勤労者世帯34歳以下",
+      "household_share_per_10000": 2001,
+      "sample_households": 65,
+      "avg_age": 27.2,
+      "employed_ratio": 1,
+      "home_ownership_pct": 8.2,
+      "consumption_total": 179225,
+      "categories": {
+       "food": 41938,
+       "housing": 34489,
+       "utilities": 8147,
+       "furniture_household": 5806,
+       "clothing_footwear": 6360,
+       "medical": 6956,
+       "transport_communication": 21172,
+       "education": 162,
+       "culture_recreation": 24659,
+       "other": 29535
+      },
+      "categories_sum_minus_total": -1
+     },
+     "35_59": {
+      "label_ja": "勤労者世帯35~59歳",
+      "household_share_per_10000": 2030,
+      "sample_households": 87,
+      "avg_age": 50.2,
+      "employed_ratio": 1,
+      "home_ownership_pct": 46.5,
+      "consumption_total": 205690,
+      "categories": {
+       "food": 48566,
+       "housing": 30021,
+       "utilities": 13041,
+       "furniture_household": 5838,
+       "clothing_footwear": 5772,
+       "medical": 8040,
+       "transport_communication": 25895,
+       "education": 0,
+       "culture_recreation": 25267,
+       "other": 43251
+      },
+      "categories_sum_minus_total": 1
+     }
+    },
+    "male": {
+     "all": {
+      "label_ja": "勤労者世帯(男)",
+      "household_share_per_10000": 2616,
+      "sample_households": 103,
+      "avg_age": 41.5,
+      "employed_ratio": 1,
+      "home_ownership_pct": 32.7,
+      "consumption_total": 189660,
+      "categories": {
+       "food": 49861,
+       "housing": 28226,
+       "utilities": 10632,
+       "furniture_household": 5044,
+       "clothing_footwear": 4166,
+       "medical": 6804,
+       "transport_communication": 25613,
+       "education": 123,
+       "culture_recreation": 26125,
+       "other": 33067
+      },
+      "categories_sum_minus_total": 1
+     },
+     "le34": {
+      "label_ja": "勤労者世帯(男)34歳以下",
+      "household_share_per_10000": 1130,
+      "sample_households": 43,
+      "avg_age": 27.3,
+      "employed_ratio": 1,
+      "home_ownership_pct": 8,
+      "consumption_total": 170450,
+      "categories": {
+       "food": 44048,
+       "housing": 29561,
+       "utilities": 7732,
+       "furniture_household": 5689,
+       "clothing_footwear": 3949,
+       "medical": 5373,
+       "transport_communication": 24467,
+       "education": 285,
+       "culture_recreation": 28204,
+       "other": 21142
+      },
+      "categories_sum_minus_total": 0
+     },
+     "35_59": {
+      "label_ja": "勤労者世帯(男)35~59歳",
+      "household_share_per_10000": 1207,
+      "sample_households": 42,
+      "avg_age": 49.2,
+      "employed_ratio": 1,
+      "home_ownership_pct": 48.6,
+      "consumption_total": 210863,
+      "categories": {
+       "food": 54670,
+       "housing": 28685,
+       "utilities": 12418,
+       "furniture_household": 4773,
+       "clothing_footwear": 4806,
+       "medical": 7075,
+       "transport_communication": 27533,
+       "education": 0,
+       "culture_recreation": 25460,
+       "other": 45444
+      },
+      "categories_sum_minus_total": 1
+     }
+    },
+    "female": {
+     "all": {
+      "label_ja": "勤労者世帯(女)",
+      "household_share_per_10000": 2193,
+      "sample_households": 123,
+      "avg_age": 45.4,
+      "employed_ratio": 1,
+      "home_ownership_pct": 35.8,
+      "consumption_total": 193777,
+      "categories": {
+       "food": 41023,
+       "housing": 33055,
+       "utilities": 11931,
+       "furniture_household": 6840,
+       "clothing_footwear": 8070,
+       "medical": 10382,
+       "transport_communication": 20404,
+       "education": 0,
+       "culture_recreation": 21934,
+       "other": 40138
+      },
+      "categories_sum_minus_total": 0
+     },
+     "le34": {
+      "label_ja": "勤労者世帯(女)34歳以下",
+      "household_share_per_10000": 870,
+      "sample_households": 22,
+      "avg_age": 27.1,
+      "employed_ratio": 1,
+      "home_ownership_pct": 8.9,
+      "consumption_total": 191141,
+      "categories": {
+       "food": 39292,
+       "housing": 40906,
+       "utilities": 8706,
+       "furniture_household": 5967,
+       "clothing_footwear": 9419,
+       "medical": 9034,
+       "transport_communication": 17182,
+       "education": 0,
+       "culture_recreation": 20215,
+       "other": 40419
+      },
+      "categories_sum_minus_total": -1
+     },
+     "35_59": {
+      "label_ja": "勤労者世帯(女)35~59歳",
+      "household_share_per_10000": 823,
+      "sample_households": 45,
+      "avg_age": 51.6,
+      "employed_ratio": 1,
+      "home_ownership_pct": 43.4,
+      "consumption_total": 195810,
+      "categories": {
+       "food": 39453,
+       "housing": 31846,
+       "utilities": 13930,
+       "furniture_household": 7591,
+       "clothing_footwear": 7147,
+       "medical": 9192,
+       "transport_communication": 23255,
+       "education": 0,
+       "culture_recreation": 24486,
+       "other": 38910
+      },
+      "categories_sum_minus_total": 0
+     }
+    }
+   }
+  },
+  "unverified": [
+   "単身世帯全体の実収入は原表で「...」(非表章)のため未収録。"
+  ]
+ },
+ "wage_structure_by_age_sex": {
+  "title": "令和7年(2025年)賃金構造基本統計調査 性・年齢階級別賃金(所定内給与額)、雇用形態別",
+  "year": 2025,
+  "unit": "千円/月(6月分の所定内給与額、一般労働者)。part_time_hourly_wage_yen は短時間労働者の1時間当たり賃金(円)",
+  "source_name": "厚生労働省 令和7(2025)年賃金構造基本統計調査の概況 第2表・第6-1表・第11表",
+  "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/chingin/kouzou/z2025/dl/14.pdf",
+  "notes": [
+   "対象は常用労働者10人以上の民営事業所の一般労働者(短時間労働者を除く)。「賃金」=所定内給与額(残業代・賞与を含まない、税引前)。",
+   "all(年齢計)には70歳以上を含む。概況の年齢階級は65~69歳まで。",
+   "seishain=正社員・正職員、non_seishain=正社員・正職員以外。"
+  ],
+  "data": {
+   "all_regular_workers": {
+    "all": {
+     "both": 340.6,
+     "male": 373.4,
+     "female": 285.9,
+     "yoy_pct": {
+      "both": 3.1,
+      "male": 2.8,
+      "female": 3.9
+     }
+    },
+    "le19": {
+     "both": 208.3,
+     "male": 212.5,
+     "female": 201.4,
+     "yoy_pct": {
+      "both": 4.5,
+      "male": 4.4,
+      "female": 5.3
+     }
+    },
+    "20_24": {
+     "both": 242.8,
+     "male": 245.7,
+     "female": 239.6,
+     "yoy_pct": {
+      "both": 4.4,
+      "male": 4.9,
+      "female": 3.9
+     }
+    },
+    "25_29": {
+     "both": 279.4,
+     "male": 288.0,
+     "female": 268.8,
+     "yoy_pct": {
+      "both": 4.6,
+      "male": 4.8,
+      "female": 4.1
+     }
+    },
+    "30_34": {
+     "both": 312.3,
+     "male": 330.4,
+     "female": 283.2,
+     "yoy_pct": {
+      "both": 4.3,
+      "male": 4.5,
+      "female": 4.3
+     }
+    },
+    "35_39": {
+     "both": 340.6,
+     "male": 366.2,
+     "female": 292.4,
+     "yoy_pct": {
+      "both": 3.6,
+      "male": 3.9,
+      "female": 2.8
+     }
+    },
+    "40_44": {
+     "both": 364.3,
+     "male": 398.2,
+     "female": 303.6,
+     "yoy_pct": {
+      "both": 3.7,
+      "male": 3.3,
+      "female": 5.3
+     }
+    },
+    "45_49": {
+     "both": 377.9,
+     "male": 420.7,
+     "female": 305.7,
+     "yoy_pct": {
+      "both": 1.4,
+      "male": 1.1,
+      "female": 2.6
+     }
+    },
+    "50_54": {
+     "both": 388.8,
+     "male": 437.5,
+     "female": 305.4,
+     "yoy_pct": {
+      "both": 2.2,
+      "male": 2.2,
+      "female": 3.4
+     }
+    },
+    "55_59": {
+     "both": 396.2,
+     "male": 445.6,
+     "female": 305.7,
+     "yoy_pct": {
+      "both": 1.1,
+      "male": 0.3,
+      "female": 4.0
+     }
+    },
+    "60_64": {
+     "both": 329.3,
+     "male": 358.5,
+     "female": 270.8,
+     "yoy_pct": {
+      "both": 3.7,
+      "male": 4.0,
+      "female": 4.2
+     }
+    },
+    "65_69": {
+     "both": 285.3,
+     "male": 304.3,
+     "female": 240.7,
+     "yoy_pct": {
+      "both": 3.6,
+      "male": 3.4,
+      "female": 2.9
+     }
+    }
+   },
+   "by_employment_type": {
+    "all": {
+     "seishain": {
+      "both": 358.8,
+      "male": 387.4,
+      "female": 304.9
+     },
+     "non_seishain": {
+      "both": 241.7,
+      "male": 268.1,
+      "female": 218.4
+     },
+     "gap_index_seishain_100": {
+      "both": 67.4,
+      "male": 69.2,
+      "female": 71.6
+     }
+    },
+    "le19": {
+     "seishain": {
+      "both": 210.8,
+      "male": 214.8,
+      "female": 203.8
+     },
+     "non_seishain": {
+      "both": 186.3,
+      "male": 187.3,
+      "female": 185.3
+     },
+     "gap_index_seishain_100": {
+      "both": 88.4,
+      "male": 87.2,
+      "female": 90.9
+     }
+    },
+    "20_24": {
+     "seishain": {
+      "both": 247.5,
+      "male": 250.0,
+      "female": 244.8
+     },
+     "non_seishain": {
+      "both": 203.5,
+      "male": 205.1,
+      "female": 202.0
+     },
+     "gap_index_seishain_100": {
+      "both": 82.2,
+      "male": 82.0,
+      "female": 82.5
+     }
+    },
+    "25_29": {
+     "seishain": {
+      "both": 285.0,
+      "male": 292.4,
+      "female": 275.3
+     },
+     "non_seishain": {
+      "both": 227.9,
+      "male": 236.6,
+      "female": 220.9
+     },
+     "gap_index_seishain_100": {
+      "both": 80.0,
+      "male": 80.9,
+      "female": 80.2
+     }
+    },
+    "30_34": {
+     "seishain": {
+      "both": 321.1,
+      "male": 337.0,
+      "female": 293.4
+     },
+     "non_seishain": {
+      "both": 233.8,
+      "male": 247.9,
+      "female": 222.0
+     },
+     "gap_index_seishain_100": {
+      "both": 72.8,
+      "male": 73.6,
+      "female": 75.7
+     }
+    },
+    "35_39": {
+     "seishain": {
+      "both": 352.6,
+      "male": 374.2,
+      "female": 307.2
+     },
+     "non_seishain": {
+      "both": 230.3,
+      "male": 247.7,
+      "female": 217.8
+     },
+     "gap_index_seishain_100": {
+      "both": 65.3,
+      "male": 66.2,
+      "female": 70.9
+     }
+    },
+    "40_44": {
+     "seishain": {
+      "both": 379.0,
+      "male": 406.3,
+      "female": 322.2
+     },
+     "non_seishain": {
+      "both": 230.6,
+      "male": 250.9,
+      "female": 220.1
+     },
+     "gap_index_seishain_100": {
+      "both": 60.8,
+      "male": 61.8,
+      "female": 68.3
+     }
+    },
+    "45_49": {
+     "seishain": {
+      "both": 395.6,
+      "male": 429.7,
+      "female": 327.4
+     },
+     "non_seishain": {
+      "both": 233.4,
+      "male": 262.8,
+      "female": 220.2
+     },
+     "gap_index_seishain_100": {
+      "both": 59.0,
+      "male": 61.2,
+      "female": 67.3
+     }
+    },
+    "50_54": {
+     "seishain": {
+      "both": 412.7,
+      "male": 449.2,
+      "female": 334.2
+     },
+     "non_seishain": {
+      "both": 229.7,
+      "male": 254.3,
+      "female": 219.6
+     },
+     "gap_index_seishain_100": {
+      "both": 55.7,
+      "male": 56.6,
+      "female": 65.7
+     }
+    }
+   },
+   "avg_age": {
+    "both": 44.4,
+    "male": 45.2,
+    "female": 43.2
+   },
+   "avg_tenure_years": {
+    "both": 12.7,
+    "male": 14.2,
+    "female": 10.4
+   },
+   "part_time_hourly_wage_yen": {
+    "all": {
+     "both": 1518.0,
+     "male": 1769.0,
+     "female": 1418.0
+    },
+    "le19": {
+     "both": 1192.0,
+     "male": 1202.0,
+     "female": 1185.0
+    },
+    "20_24": {
+     "both": 1287.0,
+     "male": 1300.0,
+     "female": 1275.0
+    },
+    "25_29": {
+     "both": 1513.0,
+     "male": 1566.0,
+     "female": 1478.0
+    },
+    "30_34": {
+     "both": 1772.0,
+     "male": 2394.0,
+     "female": 1558.0
+    },
+    "35_39": {
+     "both": 1782.0,
+     "male": 2709.0,
+     "female": 1569.0
+    },
+    "40_44": {
+     "both": 1692.0,
+     "male": 2667.0,
+     "female": 1514.0
+    },
+    "45_49": {
+     "both": 1652.0,
+     "male": 2545.0,
+     "female": 1501.0
+    },
+    "50_54": {
+     "both": 1562.0,
+     "male": 2343.0,
+     "female": 1440.0
+    }
+   }
+  },
+  "unverified": [
+   "70歳以上の年齢階級別賃金は概況に掲載なし(e-Stat詳細表は未取得)。",
+   "年間賞与その他特別給与額・きまって支給する現金給与額(年収換算用)は未取得。"
+  ]
+ },
+ "household_income_distribution": {
+  "title": "2025(令和7)年 国民生活基礎調査 世帯の所得分布・世帯主年齢階級別平均所得",
+  "year": 2025,
+  "income_reference_year": 2024,
+  "unit": "所得=万円/年(2024年1~12月の所得)、分布=世帯割合%",
+  "source_name": "厚生労働省 2025(令和7)年 国民生活基礎調査の概況 II 各種世帯の所得等の状況(図9、図10、統計表第6表)",
+  "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/dl/14.pdf",
+  "notes": [
+   "所得は税・社会保険料控除前の世帯の年間所得(稼働所得、公的年金、財産所得等の合計)。",
+   "distribution_100man_pct は図9の値(100万円刻み、2000万円以上まで)。各値は独立に四捨五入されており合計は99.9。",
+   "distribution_table6_pct は統計表第6表(500万円未満は50万円刻み)。",
+   "by_head_age は図10の値。本文で50~59歳814.6、29歳以下364.3、1人当たり50~59歳334.0、70歳以上204.1を確認。他は図中の並び順と本文の順位記述から対応付け。"
+  ],
+  "data": {
+   "mean_income_man_yen": 575.2,
+   "median_income_man_yen": 451,
+   "share_at_or_below_mean_pct": 61.5,
+   "mean_income_per_capita_man_yen": 259.2,
+   "distribution_100man_pct": {
+    "lt100": 5.8,
+    "100_200": 12.2,
+    "200_300": 13.5,
+    "300_400": 13.0,
+    "400_500": 9.6,
+    "500_600": 9.1,
+    "600_700": 7.5,
+    "700_800": 6.2,
+    "800_900": 4.9,
+    "900_1000": 4.3,
+    "1000_1100": 3.1,
+    "1100_1200": 2.3,
+    "1200_1300": 1.9,
+    "1300_1400": 1.4,
+    "1400_1500": 1.0,
+    "1500_1600": 0.7,
+    "1600_1700": 0.7,
+    "1700_1800": 0.3,
+    "1800_1900": 0.5,
+    "1900_2000": 0.3,
+    "ge2000": 1.6
+   },
+   "distribution_table6_pct": {
+    "lt50": 0.7,
+    "50_100": 5.1,
+    "100_150": 5.9,
+    "150_200": 6.3,
+    "200_250": 7.0,
+    "250_300": 6.5,
+    "300_350": 6.9,
+    "350_400": 6.1,
+    "400_450": 5.1,
+    "450_500": 4.5,
+    "500_600": 9.1,
+    "600_700": 7.5,
+    "700_800": 6.2,
+    "800_900": 4.9,
+    "900_1000": 4.3,
+    "ge1000": 13.9
+   },
+   "median_by_household_type_man_yen": {
+    "all": 451,
+    "elderly_households": 273,
+    "non_elderly_households": 600,
+    "mother_child_households": 299,
+    "households_with_children": 766,
+    "households_with_65plus": 349
+   },
+   "by_head_age": {
+    "le29": {
+     "mean_income_per_household_man_yen": 364.3,
+     "mean_income_per_capita_man_yen": 265.0
+    },
+    "30_39": {
+     "mean_income_per_household_man_yen": 646.9,
+     "mean_income_per_capita_man_yen": 253.7
+    },
+    "40_49": {
+     "mean_income_per_household_man_yen": 761.8,
+     "mean_income_per_capita_man_yen": 262.1
+    },
+    "50_59": {
+     "mean_income_per_household_man_yen": 814.6,
+     "mean_income_per_capita_man_yen": 334.0
+    },
+    "60_69": {
+     "mean_income_per_household_man_yen": 617.0,
+     "mean_income_per_capita_man_yen": 287.0
+    },
+    "ge70": {
+     "mean_income_per_household_man_yen": 405.0,
+     "mean_income_per_capita_man_yen": 204.1
+    },
+    "ge65_recap": {
+     "mean_income_per_household_man_yen": 442.2,
+     "mean_income_per_capita_man_yen": 219.7
+    }
+   }
+  },
+  "unverified": [
+   "世帯主年齢階級別の中央値・所得分布は概況に掲載なし(e-Stat詳細表は未取得)のため未収録。"
+  ]
+ },
+ "ict_usage_by_age": {
+  "title": "令和7年通信利用動向調査(世帯構成員編)年齢階級別 インターネット・スマートフォン・SNS・ネットショッピング利用率",
+  "year": 2025,
+  "unit": "%(比重調整後)。n_sample=集計人数(人)",
+  "source_name": "総務省 令和7年通信利用動向調査 世帯構成員編(e-Stat 掲載統計表、令和7年8月末時点、2026-05-29公表)",
+  "source_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200356&tstat=000001243701&cycle=0&tclass1=000001243776",
+  "source_files": {
+   "internet_use": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040458827&fileKind=1",
+   "internet_devices": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040458828&fileKind=1",
+   "internet_services": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040458833&fileKind=1",
+   "mobile_ownership": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040458842&fileKind=1"
+  },
+  "notes": [
+   "調査対象は6歳以上の世帯構成員。構造: data[指標][both|male|female][年齢階級]。",
+   "internet_use: 表9 過去1年間のインターネット利用経験(無回答を除く)=公表値の「インターネット利用率」。",
+   "internet_devices: 表10(分母=全員、無回答含む)。スマートフォンでのインターネット利用率など。",
+   "internet_services: 表15(分母=過去1年間にインターネットを利用した者)。人口ベースにするには internet_use_pct を掛ける(近似)。online_shopping_excl_digital_pct=「商品・サービスの購入・取引(デジタルコンテンツを除く)」、online_purchase_or_transaction_total_pct=「商品・サービスの購入・取引(計)」(金融取引・デジタルコンテンツ含む)。",
+   "mobile_ownership: 表24 保有するモバイル端末(分母=全員、無回答含む)。"
+  ],
+  "data": {
+   "internet_use": {
+    "both": {
+     "all": {
+      "internet_use_pct": 85.7,
+      "n_sample": 42214
+     },
+     "6_12": {
+      "internet_use_pct": 80.1,
+      "n_sample": 2198
+     },
+     "13_19": {
+      "internet_use_pct": 96.8,
+      "n_sample": 2735
+     },
+     "20_29": {
+      "internet_use_pct": 97.2,
+      "n_sample": 3154
+     },
+     "30_39": {
+      "internet_use_pct": 98.6,
+      "n_sample": 3915
+     },
+     "40_49": {
+      "internet_use_pct": 97.6,
+      "n_sample": 5510
+     },
+     "50_59": {
+      "internet_use_pct": 96.4,
+      "n_sample": 6939
+     },
+     "60_69": {
+      "internet_use_pct": 91.2,
+      "n_sample": 7285
+     },
+     "60_64": {
+      "internet_use_pct": 93.5,
+      "n_sample": 3626
+     },
+     "65_69": {
+      "internet_use_pct": 88.9,
+      "n_sample": 3659
+     },
+     "70_79": {
+      "internet_use_pct": 71.9,
+      "n_sample": 6785
+     },
+     "70_74": {
+      "internet_use_pct": 76.5,
+      "n_sample": 3585
+     },
+     "75_79": {
+      "internet_use_pct": 67.2,
+      "n_sample": 3200
+     },
+     "ge65_recap": {
+      "internet_use_pct": 62.9,
+      "n_sample": 14137
+     },
+     "ge75_recap": {
+      "internet_use_pct": 48.5,
+      "n_sample": 6893
+     },
+     "ge80": {
+      "internet_use_pct": 37.1,
+      "n_sample": 3693
+     }
+    },
+    "male": {
+     "all": {
+      "internet_use_pct": 88.6,
+      "n_sample": 20322
+     },
+     "6_12": {
+      "internet_use_pct": 80.4,
+      "n_sample": 1095
+     },
+     "13_19": {
+      "internet_use_pct": 96.3,
+      "n_sample": 1386
+     },
+     "20_29": {
+      "internet_use_pct": 96.9,
+      "n_sample": 1559
+     },
+     "30_39": {
+      "internet_use_pct": 98.5,
+      "n_sample": 1940
+     },
+     "40_49": {
+      "internet_use_pct": 97.5,
+      "n_sample": 2658
+     },
+     "50_59": {
+      "internet_use_pct": 96.2,
+      "n_sample": 3322
+     },
+     "60_69": {
+      "internet_use_pct": 92.0,
+      "n_sample": 3562
+     },
+     "60_64": {
+      "internet_use_pct": 93.0,
+      "n_sample": 1733
+     },
+     "65_69": {
+      "internet_use_pct": 91.0,
+      "n_sample": 1829
+     },
+     "70_79": {
+      "internet_use_pct": 77.0,
+      "n_sample": 3340
+     },
+     "70_74": {
+      "internet_use_pct": 80.0,
+      "n_sample": 1754
+     },
+     "75_79": {
+      "internet_use_pct": 73.7,
+      "n_sample": 1586
+     },
+     "ge65_recap": {
+      "internet_use_pct": 70.6,
+      "n_sample": 6629
+     },
+     "ge75_recap": {
+      "internet_use_pct": 57.5,
+      "n_sample": 3046
+     },
+     "ge80": {
+      "internet_use_pct": 45.3,
+      "n_sample": 1460
+     }
+    },
+    "female": {
+     "all": {
+      "internet_use_pct": 83.0,
+      "n_sample": 21892
+     },
+     "6_12": {
+      "internet_use_pct": 79.8,
+      "n_sample": 1103
+     },
+     "13_19": {
+      "internet_use_pct": 97.3,
+      "n_sample": 1349
+     },
+     "20_29": {
+      "internet_use_pct": 97.6,
+      "n_sample": 1595
+     },
+     "30_39": {
+      "internet_use_pct": 98.7,
+      "n_sample": 1975
+     },
+     "40_49": {
+      "internet_use_pct": 97.8,
+      "n_sample": 2852
+     },
+     "50_59": {
+      "internet_use_pct": 96.7,
+      "n_sample": 3617
+     },
+     "60_69": {
+      "internet_use_pct": 90.4,
+      "n_sample": 3723
+     },
+     "60_64": {
+      "internet_use_pct": 93.9,
+      "n_sample": 1893
+     },
+     "65_69": {
+      "internet_use_pct": 86.9,
+      "n_sample": 1830
+     },
+     "70_79": {
+      "internet_use_pct": 67.5,
+      "n_sample": 3445
+     },
+     "70_74": {
+      "internet_use_pct": 73.3,
+      "n_sample": 1831
+     },
+     "75_79": {
+      "internet_use_pct": 61.8,
+      "n_sample": 1614
+     },
+     "ge65_recap": {
+      "internet_use_pct": 57.0,
+      "n_sample": 7508
+     },
+     "ge75_recap": {
+      "internet_use_pct": 42.5,
+      "n_sample": 3847
+     },
+     "ge80": {
+      "internet_use_pct": 32.3,
+      "n_sample": 2233
+     }
+    }
+   },
+   "internet_devices": {
+    "both": {
+     "all": {
+      "internet_via_smartphone_pct": 72.8,
+      "internet_via_pc_pct": 44.6,
+      "internet_via_tablet_pct": 24.5,
+      "internet_via_tv_pct": 30.4,
+      "internet_via_game_console_pct": 18.3,
+      "n_sample": 43281
+     },
+     "6_12": {
+      "internet_via_smartphone_pct": 43.6,
+      "internet_via_pc_pct": 21.2,
+      "internet_via_tablet_pct": 45.5,
+      "internet_via_tv_pct": 40.0,
+      "internet_via_game_console_pct": 46.6,
+      "n_sample": 2315
+     },
+     "13_19": {
+      "internet_via_smartphone_pct": 86.6,
+      "internet_via_pc_pct": 42.1,
+      "internet_via_tablet_pct": 44.1,
+      "internet_via_tv_pct": 39.7,
+      "internet_via_game_console_pct": 44.7,
+      "n_sample": 2794
+     },
+     "20_29": {
+      "internet_via_smartphone_pct": 88.9,
+      "internet_via_pc_pct": 58.2,
+      "internet_via_tablet_pct": 31.7,
+      "internet_via_tv_pct": 32.5,
+      "internet_via_game_console_pct": 36.1,
+      "n_sample": 3194
+     },
+     "30_39": {
+      "internet_via_smartphone_pct": 90.4,
+      "internet_via_pc_pct": 58.5,
+      "internet_via_tablet_pct": 32.3,
+      "internet_via_tv_pct": 40.9,
+      "internet_via_game_console_pct": 35.2,
+      "n_sample": 3959
+     },
+     "40_49": {
+      "internet_via_smartphone_pct": 89.6,
+      "internet_via_pc_pct": 56.4,
+      "internet_via_tablet_pct": 29.6,
+      "internet_via_tv_pct": 39.1,
+      "internet_via_game_console_pct": 21.5,
+      "n_sample": 5631
+     },
+     "50_59": {
+      "internet_via_smartphone_pct": 87.9,
+      "internet_via_pc_pct": 55.9,
+      "internet_via_tablet_pct": 26.0,
+      "internet_via_tv_pct": 36.0,
+      "internet_via_game_console_pct": 8.7,
+      "n_sample": 7069
+     },
+     "60_69": {
+      "internet_via_smartphone_pct": 79.1,
+      "internet_via_pc_pct": 49.6,
+      "internet_via_tablet_pct": 18.4,
+      "internet_via_tv_pct": 28.1,
+      "internet_via_game_console_pct": 3.6,
+      "n_sample": 7475
+     },
+     "60_64": {
+      "internet_via_smartphone_pct": 82.9,
+      "internet_via_pc_pct": 51.1,
+      "internet_via_tablet_pct": 20.5,
+      "internet_via_tv_pct": 30.1,
+      "internet_via_game_console_pct": 4.2,
+      "n_sample": 3710
+     },
+     "65_69": {
+      "internet_via_smartphone_pct": 75.1,
+      "internet_via_pc_pct": 48.1,
+      "internet_via_tablet_pct": 16.3,
+      "internet_via_tv_pct": 26.0,
+      "internet_via_game_console_pct": 3.0,
+      "n_sample": 3765
+     },
+     "70_79": {
+      "internet_via_smartphone_pct": 53.0,
+      "internet_via_pc_pct": 30.3,
+      "internet_via_tablet_pct": 9.7,
+      "internet_via_tv_pct": 17.3,
+      "internet_via_game_console_pct": 1.1,
+      "n_sample": 7040
+     },
+     "70_74": {
+      "internet_via_smartphone_pct": 59.8,
+      "internet_via_pc_pct": 33.6,
+      "internet_via_tablet_pct": 10.4,
+      "internet_via_tv_pct": 19.8,
+      "internet_via_game_console_pct": 1.5,
+      "n_sample": 3739
+     },
+     "75_79": {
+      "internet_via_smartphone_pct": 46.0,
+      "internet_via_pc_pct": 26.9,
+      "internet_via_tablet_pct": 8.9,
+      "internet_via_tv_pct": 14.6,
+      "internet_via_game_console_pct": 0.7,
+      "n_sample": 3301
+     },
+     "ge65_recap": {
+      "internet_via_smartphone_pct": 46.1,
+      "internet_via_pc_pct": 27.4,
+      "internet_via_tablet_pct": 8.6,
+      "internet_via_tv_pct": 15.4,
+      "internet_via_game_console_pct": 1.1,
+      "n_sample": 14609
+     },
+     "ge75_recap": {
+      "internet_via_smartphone_pct": 30.5,
+      "internet_via_pc_pct": 17.8,
+      "internet_via_tablet_pct": 5.2,
+      "internet_via_tv_pct": 9.9,
+      "internet_via_game_console_pct": 0.3,
+      "n_sample": 7105
+     },
+     "ge80": {
+      "internet_via_smartphone_pct": 21.1,
+      "internet_via_pc_pct": 12.3,
+      "internet_via_tablet_pct": 2.9,
+      "internet_via_tv_pct": 7.0,
+      "internet_via_game_console_pct": 0.1,
+      "n_sample": 3804
+     }
+    },
+    "male": {
+     "all": {
+      "internet_via_smartphone_pct": 75.3,
+      "internet_via_pc_pct": 54.1,
+      "internet_via_tablet_pct": 27.1,
+      "internet_via_tv_pct": 32.6,
+      "internet_via_game_console_pct": 23.5,
+      "n_sample": 20749
+     },
+     "6_12": {
+      "internet_via_smartphone_pct": 43.7,
+      "internet_via_pc_pct": 24.7,
+      "internet_via_tablet_pct": 44.6,
+      "internet_via_tv_pct": 42.2,
+      "internet_via_game_console_pct": 52.5,
+      "n_sample": 1158
+     },
+     "13_19": {
+      "internet_via_smartphone_pct": 84.7,
+      "internet_via_pc_pct": 40.6,
+      "internet_via_tablet_pct": 40.7,
+      "internet_via_tv_pct": 37.2,
+      "internet_via_game_console_pct": 52.2,
+      "n_sample": 1420
+     },
+     "20_29": {
+      "internet_via_smartphone_pct": 88.8,
+      "internet_via_pc_pct": 60.8,
+      "internet_via_tablet_pct": 33.4,
+      "internet_via_tv_pct": 29.2,
+      "internet_via_game_console_pct": 45.7,
+      "n_sample": 1580
+     },
+     "30_39": {
+      "internet_via_smartphone_pct": 89.8,
+      "internet_via_pc_pct": 63.7,
+      "internet_via_tablet_pct": 33.3,
+      "internet_via_tv_pct": 39.6,
+      "internet_via_game_console_pct": 40.0,
+      "n_sample": 1962
+     },
+     "40_49": {
+      "internet_via_smartphone_pct": 89.3,
+      "internet_via_pc_pct": 64.5,
+      "internet_via_tablet_pct": 33.7,
+      "internet_via_tv_pct": 41.6,
+      "internet_via_game_console_pct": 28.4,
+      "n_sample": 2717
+     },
+     "50_59": {
+      "internet_via_smartphone_pct": 87.3,
+      "internet_via_pc_pct": 65.3,
+      "internet_via_tablet_pct": 29.5,
+      "internet_via_tv_pct": 38.0,
+      "internet_via_game_console_pct": 12.8,
+      "n_sample": 3385
+     },
+     "60_69": {
+      "internet_via_smartphone_pct": 80.1,
+      "internet_via_pc_pct": 63.6,
+      "internet_via_tablet_pct": 20.7,
+      "internet_via_tv_pct": 30.3,
+      "internet_via_game_console_pct": 4.1,
+      "n_sample": 3617
+     },
+     "60_64": {
+      "internet_via_smartphone_pct": 82.8,
+      "internet_via_pc_pct": 63.1,
+      "internet_via_tablet_pct": 23.8,
+      "internet_via_tv_pct": 32.0,
+      "internet_via_game_console_pct": 4.7,
+      "n_sample": 1757
+     },
+     "65_69": {
+      "internet_via_smartphone_pct": 77.3,
+      "internet_via_pc_pct": 64.2,
+      "internet_via_tablet_pct": 17.5,
+      "internet_via_tv_pct": 28.5,
+      "internet_via_game_console_pct": 3.4,
+      "n_sample": 1860
+     },
+     "70_79": {
+      "internet_via_smartphone_pct": 57.0,
+      "internet_via_pc_pct": 46.1,
+      "internet_via_tablet_pct": 11.0,
+      "internet_via_tv_pct": 21.4,
+      "internet_via_game_console_pct": 1.3,
+      "n_sample": 3415
+     },
+     "70_74": {
+      "internet_via_smartphone_pct": 63.1,
+      "internet_via_pc_pct": 47.7,
+      "internet_via_tablet_pct": 12.2,
+      "internet_via_tv_pct": 24.5,
+      "internet_via_game_console_pct": 1.5,
+      "n_sample": 1795
+     },
+     "75_79": {
+      "internet_via_smartphone_pct": 50.3,
+      "internet_via_pc_pct": 44.4,
+      "internet_via_tablet_pct": 9.8,
+      "internet_via_tv_pct": 18.1,
+      "internet_via_game_console_pct": 1.1,
+      "n_sample": 1620
+     },
+     "ge65_recap": {
+      "internet_via_smartphone_pct": 52.1,
+      "internet_via_pc_pct": 43.1,
+      "internet_via_tablet_pct": 10.1,
+      "internet_via_tv_pct": 19.7,
+      "internet_via_game_console_pct": 1.4,
+      "n_sample": 6770
+     },
+     "ge75_recap": {
+      "internet_via_smartphone_pct": 36.3,
+      "internet_via_pc_pct": 32.0,
+      "internet_via_tablet_pct": 6.0,
+      "internet_via_tv_pct": 13.8,
+      "internet_via_game_console_pct": 0.6,
+      "n_sample": 3115
+     },
+     "ge80": {
+      "internet_via_smartphone_pct": 25.7,
+      "internet_via_pc_pct": 22.7,
+      "internet_via_tablet_pct": 3.1,
+      "internet_via_tv_pct": 10.6,
+      "internet_via_game_console_pct": 0.2,
+      "n_sample": 1495
+     }
+    },
+    "female": {
+     "all": {
+      "internet_via_smartphone_pct": 70.4,
+      "internet_via_pc_pct": 35.9,
+      "internet_via_tablet_pct": 22.1,
+      "internet_via_tv_pct": 28.4,
+      "internet_via_game_console_pct": 13.5,
+      "n_sample": 22532
+     },
+     "6_12": {
+      "internet_via_smartphone_pct": 43.6,
+      "internet_via_pc_pct": 17.6,
+      "internet_via_tablet_pct": 46.4,
+      "internet_via_tv_pct": 37.7,
+      "internet_via_game_console_pct": 40.5,
+      "n_sample": 1157
+     },
+     "13_19": {
+      "internet_via_smartphone_pct": 88.5,
+      "internet_via_pc_pct": 43.7,
+      "internet_via_tablet_pct": 47.6,
+      "internet_via_tv_pct": 42.4,
+      "internet_via_game_console_pct": 36.9,
+      "n_sample": 1374
+     },
+     "20_29": {
+      "internet_via_smartphone_pct": 89.0,
+      "internet_via_pc_pct": 55.6,
+      "internet_via_tablet_pct": 29.9,
+      "internet_via_tv_pct": 36.0,
+      "internet_via_game_console_pct": 26.1,
+      "n_sample": 1614
+     },
+     "30_39": {
+      "internet_via_smartphone_pct": 91.0,
+      "internet_via_pc_pct": 53.3,
+      "internet_via_tablet_pct": 31.4,
+      "internet_via_tv_pct": 42.2,
+      "internet_via_game_console_pct": 30.3,
+      "n_sample": 1997
+     },
+     "40_49": {
+      "internet_via_smartphone_pct": 89.9,
+      "internet_via_pc_pct": 48.2,
+      "internet_via_tablet_pct": 25.4,
+      "internet_via_tv_pct": 36.6,
+      "internet_via_game_console_pct": 14.5,
+      "n_sample": 2914
+     },
+     "50_59": {
+      "internet_via_smartphone_pct": 88.4,
+      "internet_via_pc_pct": 46.6,
+      "internet_via_tablet_pct": 22.6,
+      "internet_via_tv_pct": 34.0,
+      "internet_via_game_console_pct": 4.7,
+      "n_sample": 3684
+     },
+     "60_69": {
+      "internet_via_smartphone_pct": 78.1,
+      "internet_via_pc_pct": 36.4,
+      "internet_via_tablet_pct": 16.2,
+      "internet_via_tv_pct": 26.0,
+      "internet_via_game_console_pct": 3.2,
+      "n_sample": 3858
+     },
+     "60_64": {
+      "internet_via_smartphone_pct": 83.1,
+      "internet_via_pc_pct": 39.5,
+      "internet_via_tablet_pct": 17.3,
+      "internet_via_tv_pct": 28.3,
+      "internet_via_game_console_pct": 3.7,
+      "n_sample": 1953
+     },
+     "65_69": {
+      "internet_via_smartphone_pct": 73.0,
+      "internet_via_pc_pct": 33.2,
+      "internet_via_tablet_pct": 15.1,
+      "internet_via_tv_pct": 23.7,
+      "internet_via_game_console_pct": 2.6,
+      "n_sample": 1905
+     },
+     "70_79": {
+      "internet_via_smartphone_pct": 49.8,
+      "internet_via_pc_pct": 17.1,
+      "internet_via_tablet_pct": 8.5,
+      "internet_via_tv_pct": 13.8,
+      "internet_via_game_console_pct": 0.9,
+      "n_sample": 3625
+     },
+     "70_74": {
+      "internet_via_smartphone_pct": 56.9,
+      "internet_via_pc_pct": 21.2,
+      "internet_via_tablet_pct": 8.9,
+      "internet_via_tv_pct": 15.7,
+      "internet_via_game_console_pct": 1.4,
+      "n_sample": 1944
+     },
+     "75_79": {
+      "internet_via_smartphone_pct": 42.6,
+      "internet_via_pc_pct": 12.9,
+      "internet_via_tablet_pct": 8.2,
+      "internet_via_tv_pct": 11.8,
+      "internet_via_game_console_pct": 0.4,
+      "n_sample": 1681
+     },
+     "ge65_recap": {
+      "internet_via_smartphone_pct": 41.5,
+      "internet_via_pc_pct": 15.7,
+      "internet_via_tablet_pct": 7.4,
+      "internet_via_tv_pct": 12.1,
+      "internet_via_game_console_pct": 0.9,
+      "n_sample": 7839
+     },
+     "ge75_recap": {
+      "internet_via_smartphone_pct": 26.8,
+      "internet_via_pc_pct": 8.6,
+      "internet_via_tablet_pct": 4.7,
+      "internet_via_tv_pct": 7.4,
+      "internet_via_game_console_pct": 0.2,
+      "n_sample": 3990
+     },
+     "ge80": {
+      "internet_via_smartphone_pct": 18.4,
+      "internet_via_pc_pct": 6.4,
+      "internet_via_tablet_pct": 2.8,
+      "internet_via_tv_pct": 5.0,
+      "internet_via_game_console_pct": 0.1,
+      "n_sample": 2309
+     }
+    }
+   },
+   "internet_services": {
+    "both": {
+     "all": {
+      "sns_use_pct": 79.4,
+      "video_sharing_use_pct": 61.3,
+      "email_pct": 75.4,
+      "online_purchase_or_transaction_total_pct": 61.2,
+      "online_shopping_excl_digital_pct": 48.2,
+      "digital_content_purchase_pct": 26.9,
+      "financial_transaction_pct": 28.4,
+      "auction_flea_market_pct": 21.3,
+      "online_game_pct": 28.2,
+      "n_sample": 35794
+     },
+     "6_12": {
+      "sns_use_pct": 42.0,
+      "video_sharing_use_pct": 79.7,
+      "email_pct": 18.3,
+      "online_purchase_or_transaction_total_pct": 12.1,
+      "online_shopping_excl_digital_pct": 1.2,
+      "digital_content_purchase_pct": 10.9,
+      "financial_transaction_pct": 0.2,
+      "auction_flea_market_pct": 0.9,
+      "online_game_pct": 47.5,
+      "n_sample": 1790
+     },
+     "13_19": {
+      "sns_use_pct": 89.5,
+      "video_sharing_use_pct": 75.4,
+      "email_pct": 60.0,
+      "online_purchase_or_transaction_total_pct": 37.1,
+      "online_shopping_excl_digital_pct": 24.0,
+      "digital_content_purchase_pct": 19.9,
+      "financial_transaction_pct": 4.9,
+      "auction_flea_market_pct": 11.7,
+      "online_game_pct": 54.6,
+      "n_sample": 2635
+     },
+     "20_29": {
+      "sns_use_pct": 90.2,
+      "video_sharing_use_pct": 72.8,
+      "email_pct": 79.4,
+      "online_purchase_or_transaction_total_pct": 75.7,
+      "online_shopping_excl_digital_pct": 60.6,
+      "digital_content_purchase_pct": 43.9,
+      "financial_transaction_pct": 32.7,
+      "auction_flea_market_pct": 29.4,
+      "online_game_pct": 51.2,
+      "n_sample": 3074
+     },
+     "30_39": {
+      "sns_use_pct": 88.7,
+      "video_sharing_use_pct": 76.8,
+      "email_pct": 82.7,
+      "online_purchase_or_transaction_total_pct": 78.2,
+      "online_shopping_excl_digital_pct": 64.4,
+      "digital_content_purchase_pct": 46.8,
+      "financial_transaction_pct": 40.3,
+      "auction_flea_market_pct": 34.1,
+      "online_game_pct": 39.3,
+      "n_sample": 3836
+     },
+     "40_49": {
+      "sns_use_pct": 89.5,
+      "video_sharing_use_pct": 69.8,
+      "email_pct": 85.3,
+      "online_purchase_or_transaction_total_pct": 76.9,
+      "online_shopping_excl_digital_pct": 62.9,
+      "digital_content_purchase_pct": 35.1,
+      "financial_transaction_pct": 39.2,
+      "auction_flea_market_pct": 32.0,
+      "online_game_pct": 31.0,
+      "n_sample": 5357
+     },
+     "50_59": {
+      "sns_use_pct": 85.0,
+      "video_sharing_use_pct": 64.6,
+      "email_pct": 85.6,
+      "online_purchase_or_transaction_total_pct": 73.8,
+      "online_shopping_excl_digital_pct": 59.2,
+      "digital_content_purchase_pct": 28.7,
+      "financial_transaction_pct": 36.7,
+      "auction_flea_market_pct": 23.9,
+      "online_game_pct": 20.1,
+      "n_sample": 6654
+     },
+     "60_69": {
+      "sns_use_pct": 76.2,
+      "video_sharing_use_pct": 49.6,
+      "email_pct": 82.4,
+      "online_purchase_or_transaction_total_pct": 61.0,
+      "online_shopping_excl_digital_pct": 48.0,
+      "digital_content_purchase_pct": 15.7,
+      "financial_transaction_pct": 29.2,
+      "auction_flea_market_pct": 15.3,
+      "online_game_pct": 9.0,
+      "n_sample": 6538
+     },
+     "60_64": {
+      "sns_use_pct": 78.8,
+      "video_sharing_use_pct": 52.7,
+      "email_pct": 84.1,
+      "online_purchase_or_transaction_total_pct": 64.4,
+      "online_shopping_excl_digital_pct": 49.2,
+      "digital_content_purchase_pct": 18.5,
+      "financial_transaction_pct": 31.9,
+      "auction_flea_market_pct": 17.6,
+      "online_game_pct": 9.3,
+      "n_sample": 3360
+     },
+     "65_69": {
+      "sns_use_pct": 73.4,
+      "video_sharing_use_pct": 46.2,
+      "email_pct": 80.6,
+      "online_purchase_or_transaction_total_pct": 57.2,
+      "online_shopping_excl_digital_pct": 46.6,
+      "digital_content_purchase_pct": 12.6,
+      "financial_transaction_pct": 26.2,
+      "auction_flea_market_pct": 12.8,
+      "online_game_pct": 8.8,
+      "n_sample": 3178
+     },
+     "70_79": {
+      "sns_use_pct": 63.3,
+      "video_sharing_use_pct": 28.9,
+      "email_pct": 71.2,
+      "online_purchase_or_transaction_total_pct": 40.3,
+      "online_shopping_excl_digital_pct": 30.1,
+      "digital_content_purchase_pct": 6.3,
+      "financial_transaction_pct": 17.1,
+      "auction_flea_market_pct": 9.6,
+      "online_game_pct": 4.9,
+      "n_sample": 4687
+     },
+     "70_74": {
+      "sns_use_pct": 66.4,
+      "video_sharing_use_pct": 33.3,
+      "email_pct": 74.4,
+      "online_purchase_or_transaction_total_pct": 44.0,
+      "online_shopping_excl_digital_pct": 33.1,
+      "digital_content_purchase_pct": 6.4,
+      "financial_transaction_pct": 18.2,
+      "auction_flea_market_pct": 10.8,
+      "online_game_pct": 4.9,
+      "n_sample": 2704
+     },
+     "75_79": {
+      "sns_use_pct": 59.6,
+      "video_sharing_use_pct": 23.8,
+      "email_pct": 67.4,
+      "online_purchase_or_transaction_total_pct": 35.9,
+      "online_shopping_excl_digital_pct": 26.6,
+      "digital_content_purchase_pct": 6.1,
+      "financial_transaction_pct": 15.9,
+      "auction_flea_market_pct": 8.2,
+      "online_game_pct": 4.8,
+      "n_sample": 1983
+     },
+     "ge65_recap": {
+      "sns_use_pct": 62.4,
+      "video_sharing_use_pct": 31.0,
+      "email_pct": 70.4,
+      "online_purchase_or_transaction_total_pct": 41.3,
+      "online_shopping_excl_digital_pct": 31.9,
+      "digital_content_purchase_pct": 7.2,
+      "financial_transaction_pct": 18.4,
+      "auction_flea_market_pct": 9.1,
+      "online_game_pct": 5.9,
+      "n_sample": 9088
+     },
+     "ge75_recap": {
+      "sns_use_pct": 52.8,
+      "video_sharing_use_pct": 19.7,
+      "email_pct": 61.3,
+      "online_purchase_or_transaction_total_pct": 29.4,
+      "online_shopping_excl_digital_pct": 21.7,
+      "digital_content_purchase_pct": 4.2,
+      "financial_transaction_pct": 13.5,
+      "auction_flea_market_pct": 5.6,
+      "online_game_pct": 4.7,
+      "n_sample": 3206
+     },
+     "ge80": {
+      "sns_use_pct": 45.2,
+      "video_sharing_use_pct": 15.2,
+      "email_pct": 54.6,
+      "online_purchase_or_transaction_total_pct": 22.2,
+      "online_shopping_excl_digital_pct": 16.2,
+      "digital_content_purchase_pct": 2.2,
+      "financial_transaction_pct": 10.9,
+      "auction_flea_market_pct": 2.8,
+      "online_game_pct": 4.5,
+      "n_sample": 1223
+     }
+    },
+    "male": {
+     "all": {
+      "sns_use_pct": 77.9,
+      "video_sharing_use_pct": 64.3,
+      "email_pct": 76.4,
+      "online_purchase_or_transaction_total_pct": 63.1,
+      "online_shopping_excl_digital_pct": 49.1,
+      "digital_content_purchase_pct": 28.4,
+      "financial_transaction_pct": 32.4,
+      "auction_flea_market_pct": 22.0,
+      "online_game_pct": 34.3,
+      "n_sample": 17685
+     },
+     "6_12": {
+      "sns_use_pct": 38.5,
+      "video_sharing_use_pct": 82.3,
+      "email_pct": 18.9,
+      "online_purchase_or_transaction_total_pct": 12.8,
+      "online_shopping_excl_digital_pct": 0.8,
+      "digital_content_purchase_pct": 11.4,
+      "financial_transaction_pct": 0.3,
+      "auction_flea_market_pct": 1.1,
+      "online_game_pct": 55.1,
+      "n_sample": 899
+     },
+     "13_19": {
+      "sns_use_pct": 89.1,
+      "video_sharing_use_pct": 75.5,
+      "email_pct": 56.3,
+      "online_purchase_or_transaction_total_pct": 35.8,
+      "online_shopping_excl_digital_pct": 22.2,
+      "digital_content_purchase_pct": 20.8,
+      "financial_transaction_pct": 4.5,
+      "auction_flea_market_pct": 9.6,
+      "online_game_pct": 67.7,
+      "n_sample": 1326
+     },
+     "20_29": {
+      "sns_use_pct": 88.5,
+      "video_sharing_use_pct": 73.8,
+      "email_pct": 77.1,
+      "online_purchase_or_transaction_total_pct": 73.5,
+      "online_shopping_excl_digital_pct": 59.5,
+      "digital_content_purchase_pct": 42.2,
+      "financial_transaction_pct": 30.9,
+      "auction_flea_market_pct": 27.1,
+      "online_game_pct": 62.7,
+      "n_sample": 1516
+     },
+     "30_39": {
+      "sns_use_pct": 87.7,
+      "video_sharing_use_pct": 76.1,
+      "email_pct": 81.7,
+      "online_purchase_or_transaction_total_pct": 76.0,
+      "online_shopping_excl_digital_pct": 61.2,
+      "digital_content_purchase_pct": 47.4,
+      "financial_transaction_pct": 44.5,
+      "auction_flea_market_pct": 33.3,
+      "online_game_pct": 46.6,
+      "n_sample": 1895
+     },
+     "40_49": {
+      "sns_use_pct": 87.8,
+      "video_sharing_use_pct": 73.4,
+      "email_pct": 86.8,
+      "online_purchase_or_transaction_total_pct": 76.4,
+      "online_shopping_excl_digital_pct": 62.1,
+      "digital_content_purchase_pct": 38.5,
+      "financial_transaction_pct": 43.5,
+      "auction_flea_market_pct": 32.2,
+      "online_game_pct": 39.9,
+      "n_sample": 2578
+     },
+     "50_59": {
+      "sns_use_pct": 83.6,
+      "video_sharing_use_pct": 68.4,
+      "email_pct": 87.4,
+      "online_purchase_or_transaction_total_pct": 75.7,
+      "online_shopping_excl_digital_pct": 60.3,
+      "digital_content_purchase_pct": 32.4,
+      "financial_transaction_pct": 42.2,
+      "auction_flea_market_pct": 25.6,
+      "online_game_pct": 23.7,
+      "n_sample": 3183
+     },
+     "60_69": {
+      "sns_use_pct": 74.4,
+      "video_sharing_use_pct": 53.4,
+      "email_pct": 86.3,
+      "online_purchase_or_transaction_total_pct": 66.7,
+      "online_shopping_excl_digital_pct": 51.2,
+      "digital_content_purchase_pct": 16.7,
+      "financial_transaction_pct": 36.9,
+      "auction_flea_market_pct": 17.7,
+      "online_game_pct": 9.0,
+      "n_sample": 3222
+     },
+     "60_64": {
+      "sns_use_pct": 76.2,
+      "video_sharing_use_pct": 56.0,
+      "email_pct": 87.8,
+      "online_purchase_or_transaction_total_pct": 68.8,
+      "online_shopping_excl_digital_pct": 51.0,
+      "digital_content_purchase_pct": 19.4,
+      "financial_transaction_pct": 39.0,
+      "auction_flea_market_pct": 19.4,
+      "online_game_pct": 9.0,
+      "n_sample": 1601
+     },
+     "65_69": {
+      "sns_use_pct": 72.4,
+      "video_sharing_use_pct": 50.6,
+      "email_pct": 84.7,
+      "online_purchase_or_transaction_total_pct": 64.4,
+      "online_shopping_excl_digital_pct": 51.3,
+      "digital_content_purchase_pct": 13.8,
+      "financial_transaction_pct": 34.6,
+      "auction_flea_market_pct": 16.0,
+      "online_game_pct": 9.0,
+      "n_sample": 1621
+     },
+     "70_79": {
+      "sns_use_pct": 61.6,
+      "video_sharing_use_pct": 33.4,
+      "email_pct": 74.9,
+      "online_purchase_or_transaction_total_pct": 48.1,
+      "online_shopping_excl_digital_pct": 36.2,
+      "digital_content_purchase_pct": 7.2,
+      "financial_transaction_pct": 23.8,
+      "auction_flea_market_pct": 12.7,
+      "online_game_pct": 5.0,
+      "n_sample": 2472
+     },
+     "70_74": {
+      "sns_use_pct": 65.0,
+      "video_sharing_use_pct": 38.0,
+      "email_pct": 78.3,
+      "online_purchase_or_transaction_total_pct": 51.2,
+      "online_shopping_excl_digital_pct": 38.9,
+      "digital_content_purchase_pct": 7.6,
+      "financial_transaction_pct": 25.5,
+      "auction_flea_market_pct": 13.5,
+      "online_game_pct": 4.9,
+      "n_sample": 1396
+     },
+     "75_79": {
+      "sns_use_pct": 57.6,
+      "video_sharing_use_pct": 28.0,
+      "email_pct": 71.0,
+      "online_purchase_or_transaction_total_pct": 44.5,
+      "online_shopping_excl_digital_pct": 33.0,
+      "digital_content_purchase_pct": 6.8,
+      "financial_transaction_pct": 21.6,
+      "auction_flea_market_pct": 11.7,
+      "online_game_pct": 5.1,
+      "n_sample": 1076
+     },
+     "ge65_recap": {
+      "sns_use_pct": 61.0,
+      "video_sharing_use_pct": 35.5,
+      "email_pct": 74.6,
+      "online_purchase_or_transaction_total_pct": 49.8,
+      "online_shopping_excl_digital_pct": 38.3,
+      "digital_content_purchase_pct": 8.2,
+      "financial_transaction_pct": 25.5,
+      "auction_flea_market_pct": 12.2,
+      "online_game_pct": 6.0,
+      "n_sample": 4687
+     },
+     "ge75_recap": {
+      "sns_use_pct": 50.7,
+      "video_sharing_use_pct": 23.6,
+      "email_pct": 65.2,
+      "online_purchase_or_transaction_total_pct": 38.9,
+      "online_shopping_excl_digital_pct": 29.0,
+      "digital_content_purchase_pct": 4.8,
+      "financial_transaction_pct": 19.2,
+      "auction_flea_market_pct": 8.7,
+      "online_game_pct": 4.7,
+      "n_sample": 1670
+     },
+     "ge80": {
+      "sns_use_pct": 42.3,
+      "video_sharing_use_pct": 18.3,
+      "email_pct": 58.1,
+      "online_purchase_or_transaction_total_pct": 32.1,
+      "online_shopping_excl_digital_pct": 24.1,
+      "digital_content_purchase_pct": 2.3,
+      "financial_transaction_pct": 16.2,
+      "auction_flea_market_pct": 5.0,
+      "online_game_pct": 4.2,
+      "n_sample": 594
+     }
+    },
+    "female": {
+     "all": {
+      "sns_use_pct": 80.8,
+      "video_sharing_use_pct": 58.5,
+      "email_pct": 74.4,
+      "online_purchase_or_transaction_total_pct": 59.4,
+      "online_shopping_excl_digital_pct": 47.3,
+      "digital_content_purchase_pct": 25.3,
+      "financial_transaction_pct": 24.5,
+      "auction_flea_market_pct": 20.7,
+      "online_game_pct": 22.2,
+      "n_sample": 18109
+     },
+     "6_12": {
+      "sns_use_pct": 45.7,
+      "video_sharing_use_pct": 77.0,
+      "email_pct": 17.6,
+      "online_purchase_or_transaction_total_pct": 11.4,
+      "online_shopping_excl_digital_pct": 1.6,
+      "digital_content_purchase_pct": 10.3,
+      "financial_transaction_pct": null,
+      "auction_flea_market_pct": 0.7,
+      "online_game_pct": 39.5,
+      "n_sample": 891
+     },
+     "13_19": {
+      "sns_use_pct": 89.9,
+      "video_sharing_use_pct": 75.4,
+      "email_pct": 63.7,
+      "online_purchase_or_transaction_total_pct": 38.5,
+      "online_shopping_excl_digital_pct": 25.7,
+      "digital_content_purchase_pct": 18.9,
+      "financial_transaction_pct": 5.2,
+      "auction_flea_market_pct": 13.9,
+      "online_game_pct": 41.3,
+      "n_sample": 1309
+     },
+     "20_29": {
+      "sns_use_pct": 92.0,
+      "video_sharing_use_pct": 71.6,
+      "email_pct": 81.7,
+      "online_purchase_or_transaction_total_pct": 77.9,
+      "online_shopping_excl_digital_pct": 61.6,
+      "digital_content_purchase_pct": 45.7,
+      "financial_transaction_pct": 34.4,
+      "auction_flea_market_pct": 31.8,
+      "online_game_pct": 39.3,
+      "n_sample": 1558
+     },
+     "30_39": {
+      "sns_use_pct": 89.7,
+      "video_sharing_use_pct": 77.5,
+      "email_pct": 83.8,
+      "online_purchase_or_transaction_total_pct": 80.4,
+      "online_shopping_excl_digital_pct": 67.7,
+      "digital_content_purchase_pct": 46.2,
+      "financial_transaction_pct": 36.1,
+      "auction_flea_market_pct": 35.0,
+      "online_game_pct": 31.8,
+      "n_sample": 1941
+     },
+     "40_49": {
+      "sns_use_pct": 91.1,
+      "video_sharing_use_pct": 66.1,
+      "email_pct": 83.7,
+      "online_purchase_or_transaction_total_pct": 77.4,
+      "online_shopping_excl_digital_pct": 63.6,
+      "digital_content_purchase_pct": 31.7,
+      "financial_transaction_pct": 34.8,
+      "auction_flea_market_pct": 31.9,
+      "online_game_pct": 22.0,
+      "n_sample": 2779
+     },
+     "50_59": {
+      "sns_use_pct": 86.3,
+      "video_sharing_use_pct": 60.9,
+      "email_pct": 83.7,
+      "online_purchase_or_transaction_total_pct": 71.9,
+      "online_shopping_excl_digital_pct": 58.1,
+      "digital_content_purchase_pct": 25.2,
+      "financial_transaction_pct": 31.4,
+      "auction_flea_market_pct": 22.3,
+      "online_game_pct": 16.6,
+      "n_sample": 3471
+     },
+     "60_69": {
+      "sns_use_pct": 78.0,
+      "video_sharing_use_pct": 45.8,
+      "email_pct": 78.6,
+      "online_purchase_or_transaction_total_pct": 55.4,
+      "online_shopping_excl_digital_pct": 44.8,
+      "digital_content_purchase_pct": 14.6,
+      "financial_transaction_pct": 21.7,
+      "auction_flea_market_pct": 12.9,
+      "online_game_pct": 9.1,
+      "n_sample": 3316
+     },
+     "60_64": {
+      "sns_use_pct": 81.3,
+      "video_sharing_use_pct": 49.4,
+      "email_pct": 80.6,
+      "online_purchase_or_transaction_total_pct": 60.2,
+      "online_shopping_excl_digital_pct": 47.5,
+      "digital_content_purchase_pct": 17.6,
+      "financial_transaction_pct": 25.0,
+      "auction_flea_market_pct": 15.9,
+      "online_game_pct": 9.5,
+      "n_sample": 1759
+     },
+     "65_69": {
+      "sns_use_pct": 74.3,
+      "video_sharing_use_pct": 41.8,
+      "email_pct": 76.4,
+      "online_purchase_or_transaction_total_pct": 50.1,
+      "online_shopping_excl_digital_pct": 41.9,
+      "digital_content_purchase_pct": 11.4,
+      "financial_transaction_pct": 18.0,
+      "auction_flea_market_pct": 9.6,
+      "online_game_pct": 8.6,
+      "n_sample": 1557
+     },
+     "70_79": {
+      "sns_use_pct": 64.9,
+      "video_sharing_use_pct": 24.6,
+      "email_pct": 67.5,
+      "online_purchase_or_transaction_total_pct": 32.6,
+      "online_shopping_excl_digital_pct": 24.1,
+      "digital_content_purchase_pct": 5.4,
+      "financial_transaction_pct": 10.6,
+      "auction_flea_market_pct": 6.6,
+      "online_game_pct": 4.7,
+      "n_sample": 2215
+     },
+     "70_74": {
+      "sns_use_pct": 67.8,
+      "video_sharing_use_pct": 28.7,
+      "email_pct": 70.6,
+      "online_purchase_or_transaction_total_pct": 37.0,
+      "online_shopping_excl_digital_pct": 27.3,
+      "digital_content_purchase_pct": 5.3,
+      "financial_transaction_pct": 10.9,
+      "auction_flea_market_pct": 8.2,
+      "online_game_pct": 4.9,
+      "n_sample": 1308
+     },
+     "75_79": {
+      "sns_use_pct": 61.6,
+      "video_sharing_use_pct": 19.7,
+      "email_pct": 64.0,
+      "online_purchase_or_transaction_total_pct": 27.4,
+      "online_shopping_excl_digital_pct": 20.3,
+      "digital_content_purchase_pct": 5.4,
+      "financial_transaction_pct": 10.2,
+      "auction_flea_market_pct": 4.7,
+      "online_game_pct": 4.5,
+      "n_sample": 907
+     },
+     "ge65_recap": {
+      "sns_use_pct": 63.6,
+      "video_sharing_use_pct": 26.7,
+      "email_pct": 66.5,
+      "online_purchase_or_transaction_total_pct": 33.3,
+      "online_shopping_excl_digital_pct": 25.8,
+      "digital_content_purchase_pct": 6.3,
+      "financial_transaction_pct": 11.8,
+      "auction_flea_market_pct": 6.2,
+      "online_game_pct": 5.8,
+      "n_sample": 4401
+     },
+     "ge75_recap": {
+      "sns_use_pct": 54.6,
+      "video_sharing_use_pct": 16.2,
+      "email_pct": 57.9,
+      "online_purchase_or_transaction_total_pct": 20.8,
+      "online_shopping_excl_digital_pct": 15.1,
+      "digital_content_purchase_pct": 3.7,
+      "financial_transaction_pct": 8.4,
+      "auction_flea_market_pct": 2.9,
+      "online_game_pct": 4.6,
+      "n_sample": 1536
+     },
+     "ge80": {
+      "sns_use_pct": 47.6,
+      "video_sharing_use_pct": 12.6,
+      "email_pct": 51.8,
+      "online_purchase_or_transaction_total_pct": 14.2,
+      "online_shopping_excl_digital_pct": 9.9,
+      "digital_content_purchase_pct": 2.0,
+      "financial_transaction_pct": 6.7,
+      "auction_flea_market_pct": 1.1,
+      "online_game_pct": 4.7,
+      "n_sample": 629
+     }
+    }
+   },
+   "mobile_ownership": {
+    "both": {
+     "all": {
+      "smartphone_ownership_pct": 78.9,
+      "mobile_device_ownership_pct": 85.9,
+      "feature_phone_ownership_pct": 16.9,
+      "no_mobile_device_pct": 7.0,
+      "n_sample": 43281
+     },
+     "6_12": {
+      "smartphone_ownership_pct": 31.6,
+      "mobile_device_ownership_pct": 41.0,
+      "feature_phone_ownership_pct": 13.5,
+      "no_mobile_device_pct": 50.0,
+      "n_sample": 2315
+     },
+     "13_19": {
+      "smartphone_ownership_pct": 89.7,
+      "mobile_device_ownership_pct": 92.0,
+      "feature_phone_ownership_pct": 9.9,
+      "no_mobile_device_pct": 3.4,
+      "n_sample": 2794
+     },
+     "20_29": {
+      "smartphone_ownership_pct": 92.7,
+      "mobile_device_ownership_pct": 95.1,
+      "feature_phone_ownership_pct": 14.2,
+      "no_mobile_device_pct": 1.4,
+      "n_sample": 3194
+     },
+     "30_39": {
+      "smartphone_ownership_pct": 93.8,
+      "mobile_device_ownership_pct": 96.4,
+      "feature_phone_ownership_pct": 14.6,
+      "no_mobile_device_pct": 1.2,
+      "n_sample": 3959
+     },
+     "40_49": {
+      "smartphone_ownership_pct": 93.8,
+      "mobile_device_ownership_pct": 96.4,
+      "feature_phone_ownership_pct": 14.5,
+      "no_mobile_device_pct": 0.6,
+      "n_sample": 5631
+     },
+     "50_59": {
+      "smartphone_ownership_pct": 93.0,
+      "mobile_device_ownership_pct": 96.1,
+      "feature_phone_ownership_pct": 14.0,
+      "no_mobile_device_pct": 1.0,
+      "n_sample": 7069
+     },
+     "60_69": {
+      "smartphone_ownership_pct": 88.6,
+      "mobile_device_ownership_pct": 93.7,
+      "feature_phone_ownership_pct": 15.9,
+      "no_mobile_device_pct": 2.0,
+      "n_sample": 7475
+     },
+     "60_64": {
+      "smartphone_ownership_pct": 90.9,
+      "mobile_device_ownership_pct": 94.7,
+      "feature_phone_ownership_pct": 15.1,
+      "no_mobile_device_pct": 1.5,
+      "n_sample": 3710
+     },
+     "65_69": {
+      "smartphone_ownership_pct": 86.1,
+      "mobile_device_ownership_pct": 92.6,
+      "feature_phone_ownership_pct": 16.7,
+      "no_mobile_device_pct": 2.5,
+      "n_sample": 3765
+     },
+     "70_79": {
+      "smartphone_ownership_pct": 68.1,
+      "mobile_device_ownership_pct": 82.3,
+      "feature_phone_ownership_pct": 24.8,
+      "no_mobile_device_pct": 5.5,
+      "n_sample": 7040
+     },
+     "70_74": {
+      "smartphone_ownership_pct": 75.1,
+      "mobile_device_ownership_pct": 86.0,
+      "feature_phone_ownership_pct": 21.6,
+      "no_mobile_device_pct": 4.6,
+      "n_sample": 3739
+     },
+     "75_79": {
+      "smartphone_ownership_pct": 60.8,
+      "mobile_device_ownership_pct": 78.5,
+      "feature_phone_ownership_pct": 28.2,
+      "no_mobile_device_pct": 6.5,
+      "n_sample": 3301
+     },
+     "ge65_recap": {
+      "smartphone_ownership_pct": 59.2,
+      "mobile_device_ownership_pct": 74.5,
+      "feature_phone_ownership_pct": 23.8,
+      "no_mobile_device_pct": 10.4,
+      "n_sample": 14609
+     },
+     "ge75_recap": {
+      "smartphone_ownership_pct": 43.5,
+      "mobile_device_ownership_pct": 63.7,
+      "feature_phone_ownership_pct": 27.1,
+      "no_mobile_device_pct": 15.5,
+      "n_sample": 7105
+     },
+     "ge80": {
+      "smartphone_ownership_pct": 33.0,
+      "mobile_device_ownership_pct": 54.7,
+      "feature_phone_ownership_pct": 26.5,
+      "no_mobile_device_pct": 21.0,
+      "n_sample": 3804
+     }
+    },
+    "male": {
+     "all": {
+      "smartphone_ownership_pct": 81.0,
+      "mobile_device_ownership_pct": 87.9,
+      "feature_phone_ownership_pct": 17.7,
+      "no_mobile_device_pct": 6.3,
+      "n_sample": 20749
+     },
+     "6_12": {
+      "smartphone_ownership_pct": 29.8,
+      "mobile_device_ownership_pct": 39.9,
+      "feature_phone_ownership_pct": 14.1,
+      "no_mobile_device_pct": 51.9,
+      "n_sample": 1158
+     },
+     "13_19": {
+      "smartphone_ownership_pct": 88.5,
+      "mobile_device_ownership_pct": 91.0,
+      "feature_phone_ownership_pct": 11.4,
+      "no_mobile_device_pct": 3.7,
+      "n_sample": 1420
+     },
+     "20_29": {
+      "smartphone_ownership_pct": 92.1,
+      "mobile_device_ownership_pct": 94.8,
+      "feature_phone_ownership_pct": 14.0,
+      "no_mobile_device_pct": 1.4,
+      "n_sample": 1580
+     },
+     "30_39": {
+      "smartphone_ownership_pct": 93.0,
+      "mobile_device_ownership_pct": 95.7,
+      "feature_phone_ownership_pct": 15.0,
+      "no_mobile_device_pct": 2.1,
+      "n_sample": 1962
+     },
+     "40_49": {
+      "smartphone_ownership_pct": 93.3,
+      "mobile_device_ownership_pct": 96.4,
+      "feature_phone_ownership_pct": 17.5,
+      "no_mobile_device_pct": 0.5,
+      "n_sample": 2717
+     },
+     "50_59": {
+      "smartphone_ownership_pct": 92.8,
+      "mobile_device_ownership_pct": 96.0,
+      "feature_phone_ownership_pct": 14.2,
+      "no_mobile_device_pct": 1.2,
+      "n_sample": 3385
+     },
+     "60_69": {
+      "smartphone_ownership_pct": 89.5,
+      "mobile_device_ownership_pct": 94.7,
+      "feature_phone_ownership_pct": 16.7,
+      "no_mobile_device_pct": 1.8,
+      "n_sample": 3617
+     },
+     "60_64": {
+      "smartphone_ownership_pct": 91.3,
+      "mobile_device_ownership_pct": 95.2,
+      "feature_phone_ownership_pct": 14.9,
+      "no_mobile_device_pct": 1.3,
+      "n_sample": 1757
+     },
+     "65_69": {
+      "smartphone_ownership_pct": 87.7,
+      "mobile_device_ownership_pct": 94.1,
+      "feature_phone_ownership_pct": 18.6,
+      "no_mobile_device_pct": 2.3,
+      "n_sample": 1860
+     },
+     "70_79": {
+      "smartphone_ownership_pct": 72.1,
+      "mobile_device_ownership_pct": 86.4,
+      "feature_phone_ownership_pct": 25.5,
+      "no_mobile_device_pct": 5.0,
+      "n_sample": 3415
+     },
+     "70_74": {
+      "smartphone_ownership_pct": 78.6,
+      "mobile_device_ownership_pct": 90.5,
+      "feature_phone_ownership_pct": 23.5,
+      "no_mobile_device_pct": 2.9,
+      "n_sample": 1795
+     },
+     "75_79": {
+      "smartphone_ownership_pct": 64.9,
+      "mobile_device_ownership_pct": 82.0,
+      "feature_phone_ownership_pct": 27.8,
+      "no_mobile_device_pct": 7.3,
+      "n_sample": 1620
+     },
+     "ge65_recap": {
+      "smartphone_ownership_pct": 65.1,
+      "mobile_device_ownership_pct": 80.8,
+      "feature_phone_ownership_pct": 25.6,
+      "no_mobile_device_pct": 7.7,
+      "n_sample": 6770
+     },
+     "ge75_recap": {
+      "smartphone_ownership_pct": 49.2,
+      "mobile_device_ownership_pct": 70.6,
+      "feature_phone_ownership_pct": 29.5,
+      "no_mobile_device_pct": 12.3,
+      "n_sample": 3115
+     },
+     "ge80": {
+      "smartphone_ownership_pct": 37.5,
+      "mobile_device_ownership_pct": 62.0,
+      "feature_phone_ownership_pct": 30.9,
+      "no_mobile_device_pct": 16.1,
+      "n_sample": 1495
+     }
+    },
+    "female": {
+     "all": {
+      "smartphone_ownership_pct": 77.0,
+      "mobile_device_ownership_pct": 84.1,
+      "feature_phone_ownership_pct": 16.2,
+      "no_mobile_device_pct": 7.5,
+      "n_sample": 22532
+     },
+     "6_12": {
+      "smartphone_ownership_pct": 33.3,
+      "mobile_device_ownership_pct": 42.2,
+      "feature_phone_ownership_pct": 12.8,
+      "no_mobile_device_pct": 48.1,
+      "n_sample": 1157
+     },
+     "13_19": {
+      "smartphone_ownership_pct": 90.9,
+      "mobile_device_ownership_pct": 92.9,
+      "feature_phone_ownership_pct": 8.4,
+      "no_mobile_device_pct": 3.0,
+      "n_sample": 1374
+     },
+     "20_29": {
+      "smartphone_ownership_pct": 93.4,
+      "mobile_device_ownership_pct": 95.5,
+      "feature_phone_ownership_pct": 14.4,
+      "no_mobile_device_pct": 1.4,
+      "n_sample": 1614
+     },
+     "30_39": {
+      "smartphone_ownership_pct": 94.7,
+      "mobile_device_ownership_pct": 97.1,
+      "feature_phone_ownership_pct": 14.3,
+      "no_mobile_device_pct": 0.4,
+      "n_sample": 1997
+     },
+     "40_49": {
+      "smartphone_ownership_pct": 94.4,
+      "mobile_device_ownership_pct": 96.5,
+      "feature_phone_ownership_pct": 11.5,
+      "no_mobile_device_pct": 0.7,
+      "n_sample": 2914
+     },
+     "50_59": {
+      "smartphone_ownership_pct": 93.1,
+      "mobile_device_ownership_pct": 96.1,
+      "feature_phone_ownership_pct": 13.7,
+      "no_mobile_device_pct": 0.9,
+      "n_sample": 3684
+     },
+     "60_69": {
+      "smartphone_ownership_pct": 87.6,
+      "mobile_device_ownership_pct": 92.7,
+      "feature_phone_ownership_pct": 15.2,
+      "no_mobile_device_pct": 2.3,
+      "n_sample": 3858
+     },
+     "60_64": {
+      "smartphone_ownership_pct": 90.5,
+      "mobile_device_ownership_pct": 94.1,
+      "feature_phone_ownership_pct": 15.4,
+      "no_mobile_device_pct": 1.8,
+      "n_sample": 1953
+     },
+     "65_69": {
+      "smartphone_ownership_pct": 84.8,
+      "mobile_device_ownership_pct": 91.3,
+      "feature_phone_ownership_pct": 15.1,
+      "no_mobile_device_pct": 2.8,
+      "n_sample": 1905
+     },
+     "70_79": {
+      "smartphone_ownership_pct": 64.7,
+      "mobile_device_ownership_pct": 78.9,
+      "feature_phone_ownership_pct": 24.2,
+      "no_mobile_device_pct": 5.9,
+      "n_sample": 3625
+     },
+     "70_74": {
+      "smartphone_ownership_pct": 72.0,
+      "mobile_device_ownership_pct": 82.1,
+      "feature_phone_ownership_pct": 19.9,
+      "no_mobile_device_pct": 6.0,
+      "n_sample": 1944
+     },
+     "75_79": {
+      "smartphone_ownership_pct": 57.4,
+      "mobile_device_ownership_pct": 75.7,
+      "feature_phone_ownership_pct": 28.5,
+      "no_mobile_device_pct": 5.8,
+      "n_sample": 1681
+     },
+     "ge65_recap": {
+      "smartphone_ownership_pct": 54.7,
+      "mobile_device_ownership_pct": 69.9,
+      "feature_phone_ownership_pct": 22.5,
+      "no_mobile_device_pct": 12.5,
+      "n_sample": 7839
+     },
+     "ge75_recap": {
+      "smartphone_ownership_pct": 39.8,
+      "mobile_device_ownership_pct": 59.3,
+      "feature_phone_ownership_pct": 25.6,
+      "no_mobile_device_pct": 17.6,
+      "n_sample": 3990
+     },
+     "ge80": {
+      "smartphone_ownership_pct": 30.4,
+      "mobile_device_ownership_pct": 50.6,
+      "feature_phone_ownership_pct": 24.0,
+      "no_mobile_device_pct": 23.8,
+      "n_sample": 2309
+     }
+    }
+   }
+  },
+  "unverified": [
+   "internet_services.female.6_12.financial_transaction_pct: 原表で「-」(該当なし/非表章)"
+  ]
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "japan-market-simulator",
+  "version": "0.1.0",
+  "description": "日本の公的統計から合成ペルソナを生成し、お題・資料に対する市場反応を試算するシミュレーター",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.12.0",
+    "zod": "^4.6.7"
+  }
+}

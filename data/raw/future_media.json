@@ -1,0 +1,420 @@
+{
+ "retrieved_at": "2026-11-23",
+ "access_note": "このコンテナから www.ipss.go.jp は HTTP 403、www.soumu.go.jp はプロキシ遮断、WebFetch は全ホスト名前解決不可。www.stat.go.jp / www.mhlw.go.jp / www.e-stat.go.jp は curl で到達可。人口は stat.go.jp の Excel を直接読取り、メディアと拡散モデルは WebSearch の結果のみに基づく。",
+ "population_projection": {
+  "title": "日本の将来推計人口(令和5年推計)出生中位・死亡中位:男女・年齢3区分別総人口",
+  "year": "2023 (令和5年推計); 対象年 2030, 2040, 2050, 2060, 2070 (各年10月1日)",
+  "unit": "千人",
+  "source_name": "国立社会保障・人口問題研究所「日本の将来推計人口(令和5年推計)」— 総務省統計局『第76回 日本統計年鑑』表2-2 男女別将来推計人口 に転載された値",
+  "source_url": "https://www.stat.go.jp/data/nenkan/76nenkan/zuhyou/y760202000.xlsx",
+  "source_index_url": "https://www.stat.go.jp/data/nenkan/76nenkan/02.html",
+  "primary_source_url_not_reachable": "https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2023/pp_zenkoku2023.asp (表1-9A 男女年齢5歳階級別人口(総人口):出生中位(死亡中位)推計)",
+  "granularity": "年齢3区分 × 男女 (5歳階級は取得不可)",
+  "labels": {
+   "age_0_14": "0-14歳",
+   "age_15_64": "15-64歳",
+   "age_65_plus": "65歳以上",
+   "all_ages": "総数"
+  },
+  "data": {
+   "2030": {
+    "total": {
+     "all_ages": 120115.78,
+     "age_0_14": 12397.006,
+     "age_15_64": 70756.829,
+     "age_65_plus": 36961.946
+    },
+    "male": {
+     "all_ages": 58301.54,
+     "age_0_14": 6347.354,
+     "age_15_64": 35908.806,
+     "age_65_plus": 16045.376
+    },
+    "female": {
+     "all_ages": 61814.24,
+     "age_0_14": 6049.652,
+     "age_15_64": 34848.02,
+     "age_65_plus": 20916.566
+    }
+   },
+   "2040": {
+    "total": {
+     "all_ages": 112837.405,
+     "age_0_14": 11419.045,
+     "age_15_64": 62133.374,
+     "age_65_plus": 39284.985
+    },
+    "male": {
+     "all_ages": 54716.375,
+     "age_0_14": 5848.82,
+     "age_15_64": 31608.282,
+     "age_65_plus": 17259.269
+    },
+    "female": {
+     "all_ages": 58121.03,
+     "age_0_14": 5570.227,
+     "age_15_64": 30525.089,
+     "age_65_plus": 22025.711
+    }
+   },
+   "2050": {
+    "total": {
+     "all_ages": 104686.383,
+     "age_0_14": 10406.124,
+     "age_15_64": 55402.035,
+     "age_65_plus": 38878.224
+    },
+    "male": {
+     "all_ages": 50804.576,
+     "age_0_14": 5329.937,
+     "age_15_64": 28247.224,
+     "age_65_plus": 17227.414
+    },
+    "female": {
+     "all_ages": 53881.807,
+     "age_0_14": 5076.189,
+     "age_15_64": 27154.807,
+     "age_65_plus": 21650.808
+    }
+   },
+   "2060": {
+    "total": {
+     "all_ages": 96147.841,
+     "age_0_14": 8929.8,
+     "age_15_64": 50780.644,
+     "age_65_plus": 36437.397
+    },
+    "male": {
+     "all_ages": 46545.486,
+     "age_0_14": 4573.817,
+     "age_15_64": 25889.271,
+     "age_65_plus": 16082.397
+    },
+    "female": {
+     "all_ages": 49602.355,
+     "age_0_14": 4355.983,
+     "age_15_64": 24891.375,
+     "age_65_plus": 20354.998
+    }
+   },
+   "2070": {
+    "total": {
+     "all_ages": 86996.009,
+     "age_0_14": 7974.987,
+     "age_15_64": 45349.572,
+     "age_65_plus": 33671.45
+    },
+    "male": {
+     "all_ages": 42096.155,
+     "age_0_14": 4084.862,
+     "age_15_64": 23097.941,
+     "age_65_plus": 14913.357
+    },
+    "female": {
+     "all_ages": 44899.854,
+     "age_0_14": 3890.123,
+     "age_15_64": 22251.635,
+     "age_65_plus": 18758.095
+    }
+   }
+  },
+  "five_year_age_by_sex": null,
+  "validation": {
+   "male_plus_female_equals_total": "総数(all_ages)は全5年で男+女=総数が完全一致。年齢3区分別は端数処理の範囲で一致 (最大差 0.005 千人 = 5人)",
+   "age_groups_sum_equals_all_ages": "総数・男・女とも全5年で端数処理の範囲で一致 (最大差 0.005 千人 = 5人。出典Excelが人単位の端数を持つため)",
+   "cross_check": "2030年の総数・男・女・0-14歳は『日本の統計2026』表2-1 (https://www.stat.go.jp/data/nihon/zuhyou/n260200100.xlsx) と完全一致",
+   "rounding": "Excel の浮動小数誤差を小数第3位(=人単位)に丸めた"
+  },
+  "unverified": [
+   "5歳階級×男女 (2030/2040/2050/2060/2070): 取得不可。一次情報の www.ipss.go.jp が curl で HTTP 403 (サイト側 ELB の拒否)、機関リポジトリ ipss.repo.nii.ac.jp はプロキシ遮断。到達可能な stat.go.jp / mhlw.go.jp(人口部会資料2・3, 年金部会資料3)/ e-Stat には5歳階級の将来推計表が無かった。",
+   "男女計の5歳階級も同じ理由で取得不可。年齢3区分×男女にフォールバックした。"
+  ]
+ },
+ "media_usage_time": {
+  "title": "主なメディアの平日1日あたり平均利用時間・行為者率(年代別)",
+  "year": "令和7年度調査 (2025年12月実施、2026年6月26日公表、13〜79歳 1,800人、訪問留置) — 最新年度",
+  "unit": "分/日 (平均利用時間), % (行為者率)",
+  "source_name": "総務省情報通信政策研究所「令和7年度情報通信メディアの利用時間と情報行動に関する調査報告書」",
+  "source_url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+  "source_summary_url": "https://www.soumu.go.jp/main_content/001079136.pdf",
+  "source_press_release_url": "https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000130.html",
+  "verification_level": "WebSearch が返した総務省報道資料・概要の抜粋のみ。PDF 本体は未閲覧。",
+  "data": {
+   "weekday_avg_minutes": {
+    "tv_realtime": {
+     "all": 156.1,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "internet": {
+     "all": 183.9,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "newspaper": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "radio": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    }
+   },
+   "weekday_doer_rate_pct": {
+    "tv_realtime": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "internet": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "newspaper": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    },
+    "radio": {
+     "all": null,
+     "10s": null,
+     "20s": null,
+     "30s": null,
+     "40s": null,
+     "50s": null,
+     "60s": null,
+     "70s": null
+    }
+   },
+   "holiday_avg_minutes_all_ages": {
+    "tv_realtime": 189.2,
+    "internet": 192.9
+   },
+   "qualitative_findings": [
+    "平日でテレビ(リアルタイム)視聴がネット利用を上回るのは60代・70代のみ",
+    "テレビ(リアルタイム)視聴は平日・休日とも70代で300分超",
+    "新聞閲読の行為者率は概ね年代が上がるほど高い"
+   ],
+   "previous_year_reference_r6": {
+    "note": "令和6年度調査(2024年12月実施、2025年6月27日公表)。WebSearch が報告書PDF (https://www.soumu.go.jp/main_content/001017160.pdf) の表から抜粋した値で、PDF を直接は確認できていない。系列がテレビ(リアルタイム)であることは全年代値154.7との整合から推定。参考値として扱うこと。",
+    "source_url": "https://www.soumu.go.jp/main_content/001017160.pdf",
+    "weekday_avg_minutes": {
+     "tv_realtime": {
+      "all": 154.7,
+      "10s": 39.7,
+      "20s": 52.6,
+      "30s": 80.2,
+      "40s": 117.5,
+      "50s": 159.0,
+      "60s": 226.7,
+      "70s": 310.7
+     },
+     "internet": {
+      "all": 181.8,
+      "10s": 243.4,
+      "20s": 257.2,
+      "30s": 225.8,
+      "40s": 200.3,
+      "50s": 181.0,
+      "60s": null,
+      "70s": null
+     }
+    }
+   }
+  },
+  "unverified": [
+   "令和7年度の年代別(10代〜70代)平日平均利用時間: テレビ(リアルタイム)・ネット・新聞・ラジオとも null。www.soumu.go.jp がプロキシ遮断で報告書PDFを開けず、WebSearch の抜粋にも年代別表が含まれなかった。",
+   "令和7年度の行為者率: 全年代・年代別とも null (同上)。",
+   "新聞閲読・ラジオ聴取の全年代平均時間: null (同上)。",
+   "二次サイト (cross-m.co.jp) に「平日60代 テレビ249.3分・ネット140.2分」という記述があったが、再検索で裏付けできず、令和6年度の60代テレビ226.7分とも年度差が大きいため不採用。",
+   "previous_year_reference_r6 は検索抜粋ベースで PDF 未照合。60代・70代のネット利用時間は抜粋が途切れており null。"
+  ]
+ },
+ "sns_usage_rate": {
+  "title": "主なソーシャルメディア系サービス/アプリ等の利用率(全年代・年代別)",
+  "year": "令和7年度調査 (2025年12月実施、2026年6月26日公表)",
+  "unit": "%",
+  "source_name": "総務省情報通信政策研究所「令和7年度情報通信メディアの利用時間と情報行動に関する調査報告書」(年代別の表は sns-hajimerukun.jp の転載経由)",
+  "source_url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+  "transcription_url": "https://sns-hajimerukun.jp/research/2026-sns-usage-rate-by-service-and-age",
+  "verification_level": "全年代6値と、LINE 70代77.8 / X 20代73.4 / Instagram 20代82.6 / TikTok 10代67.9 / LINEは10〜60代で90%超 / YouTubeは10〜40代で90%超 は総務省の概要・報道資料の記述と一致。残りの年代別セルは二次転載サイトの値で、総務省PDFとの直接照合はできていない。",
+  "labels": {
+   "all": "全年代(13〜79歳)",
+   "10s": "10代(13〜19歳)",
+   "20s": "20代",
+   "30s": "30代",
+   "40s": "40代",
+   "50s": "50代",
+   "60s": "60代",
+   "70s": "70代"
+  },
+  "data": {
+   "LINE": {
+    "all": 92.9,
+    "10s": 96.4,
+    "20s": 97.7,
+    "30s": 97.9,
+    "40s": 96.6,
+    "50s": 95.6,
+    "60s": 92.0,
+    "70s": 77.8
+   },
+   "YouTube": {
+    "all": 81.5,
+    "10s": 95.0,
+    "20s": 96.3,
+    "30s": 94.0,
+    "40s": 91.6,
+    "50s": 84.9,
+    "60s": 72.6,
+    "70s": 48.5
+   },
+   "Instagram": {
+    "all": 54.8,
+    "10s": 69.3,
+    "20s": 82.6,
+    "30s": 76.6,
+    "40s": 67.1,
+    "50s": 54.4,
+    "60s": 36.1,
+    "70s": 15.8
+   },
+   "X": {
+    "all": 44.7,
+    "10s": 56.4,
+    "20s": 73.4,
+    "30s": 67.7,
+    "40s": 57.0,
+    "50s": 40.2,
+    "60s": 24.8,
+    "70s": 10.8
+   },
+   "TikTok": {
+    "all": 36.7,
+    "10s": 67.9,
+    "20s": 61.5,
+    "30s": 44.7,
+    "40s": 42.6,
+    "50s": 32.2,
+    "60s": 21.2,
+    "70s": 11.1
+   },
+   "Facebook": {
+    "all": 27.0,
+    "10s": 14.3,
+    "20s": 23.4,
+    "30s": 37.4,
+    "40s": 38.9,
+    "50s": 33.1,
+    "60s": 22.6,
+    "70s": 12.5
+   }
+  },
+  "unverified": [
+   "年代別セルのうち総務省の概要で言及されていないもの(例: Facebook 40代38.9%)は二次転載 (sns-hajimerukun.jp) のみが根拠。www.soumu.go.jp が遮断されており PDF の表と直接照合していない。",
+   "WebFetch 不可のため転載ページ自体も WebSearch の抜粋で読んだ。"
+  ]
+ },
+ "diffusion_models": {
+  "title": "イノベーター理論の採用者区分と Bass 拡散モデルの書誌情報・係数",
+  "year": "Rogers 2003 (5th ed.) / Bass 1969 / Sultan, Farley & Lehmann 1990",
+  "unit": "比率 (%), 係数 (無次元, 年次データ)",
+  "source_name": "Rogers (2003) Diffusion of Innovations; Bass (1969) Management Science; Sultan, Farley & Lehmann (1990) Journal of Marketing Research",
+  "source_url": "https://ideas.repec.org/a/inm/ormnsc/v15y1969i5p215-227.html",
+  "data": {
+   "rogers_adopter_categories": {
+    "shares_pct": {
+     "innovators": 2.5,
+     "early_adopters": 13.5,
+     "early_majority": 34,
+     "late_majority": 34,
+     "laggards": 16
+    },
+    "labels": {
+     "innovators": "イノベーター",
+     "early_adopters": "アーリーアダプター",
+     "early_majority": "アーリーマジョリティ",
+     "late_majority": "レイトマジョリティ",
+     "laggards": "ラガード"
+    },
+    "citation": "Rogers, Everett M. (2003). Diffusion of Innovations (5th ed.). New York: Free Press. ISBN 978-0-7432-2209-9 (初版 1962)",
+    "bibliographic_urls": [
+     "https://search.worldcat.org/title/diffusion-of-innovations/oclc/1039629972",
+     "https://catalog.nypl.org/search/i0743222091"
+    ],
+    "shares_confirmed_at": [
+     "https://courses.lumenlearning.com/clinton-marketing/chapter/reading-diffusion-of-innovation/",
+     "https://www.imd.org/blog/innovation/diffusion-of-innovation-theory/"
+    ]
+   },
+   "bass_model": {
+    "citation": "Bass, Frank M. (1969). A New Product Growth for Model Consumer Durables. Management Science, 15(5), 215-227.",
+    "doi": "10.1287/mnsc.15.5.215",
+    "urls": [
+     "https://ideas.repec.org/a/inm/ormnsc/v15y1969i5p215-227.html",
+     "https://econpapers.repec.org/RePEc:inm:ormnsc:v:15:y:1969:i:5:p:215-227"
+    ],
+    "note": "2004年12月に Management Science 50(12 suppl.) に再録 (doi:10.1287/mnsc.1040.0264)。題名は原題どおり 'Growth for Model'。"
+   },
+   "bass_parameters_meta_analysis": {
+    "p_innovation_coefficient_mean": 0.03,
+    "q_imitation_coefficient_mean": 0.38,
+    "citation": "Sultan, Fareena, John U. Farley, & Donald R. Lehmann (1990). A Meta-Analysis of Applications of Diffusion Models. Journal of Marketing Research, 27(1), 70-77.",
+    "sample": "15論文・213適用例",
+    "urls": [
+     "https://business.columbia.edu/faculty/research/meta-analysis-applications-diffusion-models",
+     "https://www.semanticscholar.org/paper/A-Meta-Analysis-of-Applications-of-Diffusion-Models-Sultan-Farley/5c45aae89672d39ff543eb45cb6c12b236bd4f19"
+    ],
+    "values_confirmed_at": [
+     "https://web-docs.stern.nyu.edu/marketing/SNamPaper.pdf",
+     "http://archives.marketing-trends-congress.com/2011/Materiali/Paper/B2B/Leigh_YorkeSmith.pdf",
+     "https://en.wikipedia.org/wiki/Bass_diffusion_model"
+    ]
+   }
+  },
+  "unverified": [
+   "Rogers の比率 (2.5/13.5/34/34/16) は原著本文ではなく教科書的な二次ページ (Lumen Learning, IMD) で確認。原著の該当ページ番号は未確認。IMD のページはラガード16%を記載していない。",
+   "Sultan et al. (1990) の平均 p=0.03, q=0.38 は原論文本文ではなく引用している後続論文で確認。values_confirmed_at の3件のうちどれがどの記述を載せているかは検索抜粋では個別に特定できていない。1件はサンプルを150件と記述しており、抄録の213適用例と食い違う。",
+   "JMR の号数 27(1) は「1990年2月号」という情報からの補完で、号数そのものは検索結果に明記されていなかった。",
+   "すべて WebSearch の抜粋ベース (WebFetch 不可)。"
+  ]
+ }
+}

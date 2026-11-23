@@ -1,0 +1,831 @@
+{
+  "_meta": {
+    "created": "2026-11-23",
+    "collection_method": "このセッションでは WebFetch/curl が全ホストで名前解決不可(ネットワーク許可外)だったため、原資料PDF/Excelを直接は開けていない。値はすべて WebSearch の検索結果要約(原資料または転載ページの本文抜粋)から採取。記憶による補完はしていない。本番利用前に source_url の原表で照合を推奨。",
+    "confidence_legend": {
+      "A": "政府一次資料(PDF/公式ページ)の本文抜粋として検索結果に出た値",
+      "B": "一次資料を引用する二次ページ(報道・解説)経由の値。複数ページで一致したものを含む",
+      "C": "単一の二次ページのみ・要照合"
+    },
+    "hosts_blocked": [
+      "www.mof.go.jp",
+      "www.meti.go.jp",
+      "www.esri.cao.go.jp",
+      "www.stat.go.jp",
+      "www.e-stat.go.jp",
+      "netshop.impress.co.jp",
+      "www.nint.jp"
+    ],
+    "consistency_checks": {
+      "ec_btoc_3fields_sum_vs_total": {
+        "sum": 275580,
+        "total": 275580,
+        "diff": 0
+      },
+      "ec_physical_known7_sum": {
+        "sum": 150244,
+        "total": 158233,
+        "residual_for_2_null_categories": 7989
+      },
+      "ec_services_sum": {
+        "sum": 89361,
+        "total": 89362,
+        "diff": -1
+      },
+      "ec_digital_sum": {
+        "sum": 27985,
+        "total": 27985,
+        "diff": 0
+      },
+      "census_known11_sum": {
+        "sum": 15707001,
+        "total": 16933126,
+        "residual_for_6_null_industries": 1226125,
+        "known_share_pct": 92.8
+      },
+      "retail_dept_plus_super": {
+        "sum": 230230,
+        "reported": 230230
+      },
+      "retail_formats_known_sum_vs_retail_total": {
+        "sum_dept_super_cvs_drug": 457571,
+        "retail_total": 1575080,
+        "note": "業態別は小売業計の内訳ではない(重複・非網羅)ため一致は期待しない"
+      },
+      "corporate_ordinary_profit_mfg_plus_nonmfg": {
+        "sum": 1248313,
+        "total": 1248313,
+        "diff": 0
+      }
+    }
+  },
+  "corporate_statistics": {
+    "title": "法人企業統計調査 年次別調査(金融業・保険業を除く全産業)",
+    "year": "FY2025(令和7年度, 2025-04〜2026-03)。一部FY2024(令和6年度)値を別キーで併記",
+    "unit": "億円",
+    "source_name": "財務省 財務総合政策研究所 年次別法人企業統計調査(令和7年度)2026-09-01公表",
+    "source_url": "https://www.mof.go.jp/pri/reference/ssc/results/nenpou.htm",
+    "data": {
+      "all_industries_ex_finance": {
+        "sales": {
+          "label": "売上高",
+          "value": 17202560,
+          "via": "https://www.yutaka-trusty.co.jp/market/blog_oogo/ (財務省9/1発表の引用記事)",
+          "note": "前年度比+1.6%、5年連続増収・過去最高",
+          "confidence": "C"
+        },
+        "ordinary_profit": {
+          "label": "経常利益",
+          "value": 1248313,
+          "via": "同上",
+          "note": "前年度比+8.8%",
+          "confidence": "C"
+        },
+        "operating_profit": {
+          "label": "営業利益",
+          "value": null
+        },
+        "operating_margin_pct": {
+          "label": "売上高営業利益率(%)",
+          "value": 5.4,
+          "via": "https://www.issoh.co.jp/column/details/17876/ (報道発表資料 第4表の引用)",
+          "confidence": "C"
+        },
+        "retained_earnings": {
+          "label": "利益剰余金",
+          "value": 6548228,
+          "via": "yutaka-trusty 同上",
+          "note": "前年度比+2.7%",
+          "confidence": "C"
+        },
+        "number_of_corporations": {
+          "label": "母集団法人数",
+          "value": null
+        }
+      },
+      "manufacturing": {
+        "sales": {
+          "label": "製造業 売上高",
+          "value": null
+        },
+        "ordinary_profit": {
+          "label": "製造業 経常利益",
+          "value": 433260,
+          "via": "yutaka-trusty 同上",
+          "note": "+7.4%",
+          "confidence": "C"
+        },
+        "operating_margin_pct": {
+          "label": "製造業 売上高営業利益率(%)",
+          "value": 5.5,
+          "via": "issoh.co.jp 同上",
+          "confidence": "C"
+        }
+      },
+      "non_manufacturing": {
+        "sales": {
+          "label": "非製造業 売上高",
+          "value": null
+        },
+        "ordinary_profit": {
+          "label": "非製造業 経常利益",
+          "value": 815053,
+          "via": "yutaka-trusty 同上",
+          "note": "+9.6%",
+          "confidence": "C"
+        },
+        "operating_margin_pct": {
+          "label": "非製造業 売上高営業利益率(%)",
+          "value": 5.4,
+          "via": "issoh.co.jp 同上",
+          "confidence": "C"
+        }
+      },
+      "by_industry_fy2025": {
+        "food": {
+          "label": "食料品製造業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "chemicals": {
+          "label": "化学工業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "petroleum_coal": {
+          "label": "石油・石炭製品",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "iron_steel": {
+          "label": "鉄鋼業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "metal_products": {
+          "label": "金属製品",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "general_machinery": {
+          "label": "はん用機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "production_machinery": {
+          "label": "生産用機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "business_machinery": {
+          "label": "業務用機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "electrical_machinery": {
+          "label": "電気機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "info_comm_machinery": {
+          "label": "情報通信機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "transport_machinery": {
+          "label": "輸送用機械",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "construction": {
+          "label": "建設業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "wholesale": {
+          "label": "卸売業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "retail": {
+          "label": "小売業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "real_estate": {
+          "label": "不動産業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "goods_rental": {
+          "label": "物品賃貸業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "info_comm": {
+          "label": "情報通信業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "transport_postal": {
+          "label": "運輸業、郵便業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "electricity": {
+          "label": "電気業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "gas_heat_water": {
+          "label": "ガス・熱供給・水道業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "accommodation": {
+          "label": "宿泊業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "food_services": {
+          "label": "飲食サービス業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "living_related_amusement": {
+          "label": "生活関連サービス業、娯楽業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "academic_professional": {
+          "label": "学術研究、専門・技術サービス業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "medical_welfare": {
+          "label": "医療、福祉業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "education": {
+          "label": "教育、学習支援業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "employment_services": {
+          "label": "職業紹介・労働者派遣業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        },
+        "other_services": {
+          "label": "その他のサービス業",
+          "sales": null,
+          "operating_profit": null,
+          "number_of_corporations": null
+        }
+      },
+      "fy2024_reference": {
+        "real_estate": {
+          "label": "不動産業(令和6年度)",
+          "sales": 588245,
+          "operating_profit": 71742,
+          "operating_margin_pct": 12.2,
+          "via": "https://yotsuyagakuin-tsushin.com/blog_takkenshiken/r6kigyotoukei2026/ (令和6年度結果の引用)",
+          "note": "売上+4.2%、営業利益+12.9%(前年度63,566億円)",
+          "confidence": "C"
+        }
+      }
+    },
+    "unverified": [
+      "FY2025 全産業の売上高・経常利益・利益剰余金は財務省発表を引用する民間ブログ1件のみで確認(財務省PDF r7.pdf は未読)。要照合。",
+      "FY2025 営業利益(金額): 未確認→null。参考: 売上高1,720兆2,560億円×営業利益率5.4% ≒ 約93兆円という算術上の目安のみ(公表値ではない)。",
+      "製造業・非製造業の売上高、業種別(製造業中分類・非製造業各業種)の売上高/営業利益/法人数: 検索結果に数値が出ず全て null。原表は財務省『法人企業統計調査 時系列データ』または e-Stat(toukei=00350600)。",
+      "母集団法人数: 未確認→null。",
+      "keizai-marumie.com の『年次』値は四半期値と混同の疑いがあり不採用。"
+    ]
+  },
+  "economic_census_2021": {
+    "title": "令和3年経済センサス-活動調査 産業横断的集計(確報)企業等に関する集計 産業大分類別",
+    "year": "調査時点2021-06-01、売上(収入)金額は2020年1年間",
+    "unit": "売上=億円、企業等数=企業、従業者数=人",
+    "source_name": "総務省・経済産業省 令和3年経済センサス‐活動調査 産業横断的集計 結果の要約/概要(2023-06-27公表)",
+    "source_url": "https://www.stat.go.jp/data/e-census/2021/kekka/pdf/k3_summary.pdf",
+    "data": {
+      "total": {
+        "label": "全産業",
+        "sales": 16933126,
+        "enterprises": 3684049,
+        "employees": null,
+        "net_value_added": 3362595,
+        "confidence": "A"
+      },
+      "by_industry": {
+        "wholesale_retail": {
+          "label": "卸売業,小売業",
+          "sales": 4801679,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "manufacturing": {
+          "label": "製造業",
+          "sales": 3870606,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "medical_welfare": {
+          "label": "医療,福祉",
+          "sales": 1733369,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "construction": {
+          "label": "建設業",
+          "sales": 1200310,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "finance_insurance": {
+          "label": "金融業,保険業",
+          "sales": 1177681,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "info_comm": {
+          "label": "情報通信業",
+          "sales": 754999,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "transport_postal": {
+          "label": "運輸業,郵便業",
+          "sales": 621993,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "real_estate_goods_rental": {
+          "label": "不動産業,物品賃貸業",
+          "sales": 595321,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "A"
+        },
+        "academic_professional": {
+          "label": "学術研究,専門・技術サービス業",
+          "sales": 463668,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "B"
+        },
+        "living_related_amusement": {
+          "label": "生活関連サービス業,娯楽業",
+          "sales": 297551,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "B"
+        },
+        "accommodation_food": {
+          "label": "宿泊業,飲食サービス業",
+          "sales": 189824,
+          "enterprises": null,
+          "employees": null,
+          "confidence": "B"
+        },
+        "agriculture_forestry_fishery": {
+          "label": "農林漁業(個人経営を除く)",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        },
+        "mining": {
+          "label": "鉱業,採石業,砂利採取業",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        },
+        "electricity_gas_water": {
+          "label": "電気・ガス・熱供給・水道業",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        },
+        "education": {
+          "label": "教育,学習支援業",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        },
+        "compound_services": {
+          "label": "複合サービス事業",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        },
+        "other_services": {
+          "label": "サービス業(他に分類されないもの)",
+          "sales": null,
+          "enterprises": null,
+          "employees": null,
+          "confidence": null
+        }
+      }
+    },
+    "unverified": [
+      "産業大分類別の企業等数・従業者数: 確報値を取得できず全て null(速報値の建設業42.4万、宿泊・飲食42.3万等は確報と異なるため不採用)。全産業の従業者数も null。",
+      "農林漁業・鉱業・電気ガス熱供給水道・教育学習支援・複合サービス・サービス業(他に分類されないもの)の売上: 確報値未確認→null。速報値(農林漁業59,616億円、鉱業13,306億円、教育172,119億円)と『複合サービス89,235億円(対象範囲不明)』は見つかったが確報でない/定義不明のため不採用。",
+      "学術研究・生活関連・宿泊飲食の3値は経産省『サービス関連産業に関する集計 結果の概要』の抜粋経由(企業等ベースの確報値と同一かは原表で要照合)。",
+      "建設業〜不動産業の5値は k3_summary.pdf の百万円表記(例: 建設業120,030,992百万円)を億円に四捨五入。"
+    ]
+  },
+  "retail_trade_statistics": {
+    "title": "商業動態統計 小売業販売額(年間)",
+    "year": "2025年(暦年)",
+    "unit": "億円",
+    "source_name": "経済産業省 商業動態統計(2025年12月分速報 2026-01-30、および経済解析室『2025年小売業販売を振り返る』2026-04-14)",
+    "source_url": "https://www.meti.go.jp/statistics/toppage/report/minikeizai/kako/20260414minikeizai.html",
+    "data": {
+      "commercial_sales_total": {
+        "label": "商業販売額(卸売+小売)",
+        "value": 6349740,
+        "via": "https://www.meti.go.jp/statistics/tyo/syoudou/result/pdf/202512S.pdf",
+        "note": "前年比+1.3%(速報)",
+        "confidence": "A"
+      },
+      "retail_total": {
+        "label": "小売業販売額",
+        "value": 1575080,
+        "via": "METI『2025年小売業販売を振り返る』",
+        "note": "前年比+1.4%、5年連続増。飲食料品・燃料を除くと+2.2%",
+        "confidence": "A"
+      },
+      "by_industry": {
+        "general_merchandise": {
+          "label": "各種商品小売業",
+          "value": null
+        },
+        "fabrics_apparel": {
+          "label": "織物・衣服・身の回り品小売業",
+          "value": null
+        },
+        "food_beverage": {
+          "label": "飲食料品小売業",
+          "value": null
+        },
+        "motor_vehicles": {
+          "label": "自動車小売業",
+          "value": null
+        },
+        "machinery_equipment": {
+          "label": "機械器具小売業",
+          "value": null
+        },
+        "fuel": {
+          "label": "燃料小売業",
+          "value": null
+        },
+        "medicine_cosmetics": {
+          "label": "医薬品・化粧品小売業",
+          "value": null
+        },
+        "others": {
+          "label": "その他小売業",
+          "value": null
+        },
+        "non_store": {
+          "label": "無店舗小売業",
+          "value": null
+        }
+      },
+      "by_format": {
+        "department_stores": {
+          "label": "百貨店",
+          "value": 62129,
+          "via": "METI 202512S.pdf(速報)",
+          "note": "前年比-1.8%、5年ぶり減。二次サイト(kashikapedia)は62,124億円(改定値の可能性)",
+          "confidence": "A",
+          "yoy_pct": -1.8
+        },
+        "supermarkets": {
+          "label": "スーパー",
+          "value": 168101,
+          "via": "METI 202512S.pdf(速報)",
+          "note": "前年比+4.7%。二次サイトは168,026億円(改定値の可能性)",
+          "confidence": "A",
+          "yoy_pct": 4.7
+        },
+        "department_stores_and_supermarkets": {
+          "label": "百貨店・スーパー計",
+          "value": 230230,
+          "via": "METI 202512S.pdf(速報)",
+          "note": "前年比+2.9%",
+          "confidence": "A",
+          "yoy_pct": 2.9
+        },
+        "convenience_stores": {
+          "label": "コンビニエンスストア(商品販売額+サービス売上高)",
+          "value": 133212,
+          "via": "https://journal.meti.go.jp/statistics/45606/ ほか",
+          "note": "前年比+3.4%",
+          "confidence": "A",
+          "yoy_pct": 3.4
+        },
+        "drugstores": {
+          "label": "ドラッグストア",
+          "value": 94129,
+          "via": "https://journal.meti.go.jp/statistics/45606/",
+          "note": "前年比+5.5%",
+          "confidence": "A",
+          "yoy_pct": 5.5
+        },
+        "large_electronics_stores": {
+          "label": "家電大型専門店",
+          "value": null,
+          "note": "前年比+4.1%のみ確認",
+          "yoy_pct": 4.1
+        },
+        "home_centers": {
+          "label": "ホームセンター",
+          "value": null,
+          "note": "前年比-0.2%のみ確認(2年ぶり減)",
+          "yoy_pct": -0.2
+        }
+      }
+    },
+    "unverified": [
+      "業種別(各種商品〜無店舗の9区分)の年間販売額: 検索結果に数値が出ず全て null。定性情報のみ(増加寄与1位=医薬品・化粧品、2位=機械器具)。原表は商業動態統計 時系列データ/202512S.pdf の年計表。",
+      "家電大型専門店: 金額未確認→null。検索要約に『4兆9,214億円』が1度だけ出典不明で出現したが再検索で裏付けできず不採用。",
+      "ホームセンター: 金額未確認→null。",
+      "百貨店・スーパーは速報値を採用。確報(年間補正後)では数億〜数十億円単位で改定されている可能性。小売業計157兆5,080億円は2026年4月レポートの値で、速報との版差があり得る。"
+    ]
+  },
+  "ecommerce_market_survey": {
+    "title": "令和7年度 電子商取引に関する市場調査",
+    "year": "2025年(暦年)",
+    "unit": "億円(EC化率は%)",
+    "source_name": "経済産業省 令和7年度デジタル取引環境整備事業(電子商取引に関する市場調査)2026-10-21公表",
+    "source_url": "https://www.meti.go.jp/press/2026/10/20261021001.html",
+    "report_pdf": "https://www.meti.go.jp/files/000006536.pdf",
+    "data": {
+      "btoc_total": {
+        "label": "BtoC-EC市場規模(3分野計)",
+        "value": 275580,
+        "via": "netshop.impress.co.jp / ecnomikata / commercepick ほか複数一致",
+        "note": "前年比+5.5%",
+        "confidence": "B"
+      },
+      "btoc_physical_goods": {
+        "label": "物販系分野",
+        "value": 158233,
+        "yoy_pct": 3.97,
+        "ec_ratio_pct": 9.8,
+        "confidence": "B",
+        "categories": {
+          "food_beverage_alcohol": {
+            "label": "食品、飲料、酒類",
+            "value": 33332,
+            "ec_ratio_pct": 4.66
+          },
+          "home_appliances_av_pc": {
+            "label": "生活家電、AV機器、PC・周辺機器等",
+            "value": 28829,
+            "ec_ratio_pct": 43.08
+          },
+          "books_video_music": {
+            "label": "書籍、映像・音楽ソフト",
+            "value": 18495,
+            "ec_ratio_pct": 57.93
+          },
+          "cosmetics_pharma": {
+            "label": "化粧品、医薬品",
+            "value": 10647,
+            "ec_ratio_pct": 9.11
+          },
+          "household_goods_furniture_interior": {
+            "label": "生活雑貨、家具、インテリア",
+            "value": 26258,
+            "ec_ratio_pct": 31.73
+          },
+          "apparel_accessories": {
+            "label": "衣類・服装雑貨等",
+            "value": 28941,
+            "ec_ratio_pct": 24.08
+          },
+          "automobiles_motorcycles_parts": {
+            "label": "自動車、自動二輪車、パーツ等",
+            "value": 3742,
+            "ec_ratio_pct": 3.89
+          },
+          "office_supplies_stationery": {
+            "label": "事務用品、文房具",
+            "value": null,
+            "ec_ratio_pct": null
+          },
+          "others": {
+            "label": "その他",
+            "value": null,
+            "ec_ratio_pct": null
+          }
+        }
+      },
+      "btoc_services": {
+        "label": "サービス系分野",
+        "value": 89362,
+        "yoy_pct": 8.64,
+        "confidence": "B",
+        "categories": {
+          "travel": {
+            "label": "旅行サービス",
+            "value": 37603
+          },
+          "food_services": {
+            "label": "飲食サービス",
+            "value": 10984
+          },
+          "financial_services": {
+            "label": "金融サービス",
+            "value": 10944
+          },
+          "ticket_sales": {
+            "label": "チケット販売",
+            "value": 8129
+          },
+          "others_medical_insurance_housing_education": {
+            "label": "その他(医療、保険、住居関連、教育等)",
+            "value": 8078
+          },
+          "beauty_services": {
+            "label": "理美容サービス",
+            "value": 7995
+          },
+          "food_delivery": {
+            "label": "フードデリバリーサービス",
+            "value": 5628
+          }
+        }
+      },
+      "btoc_digital": {
+        "label": "デジタル系分野",
+        "value": 27985,
+        "yoy_pct": 4.52,
+        "confidence": "B",
+        "categories": {
+          "online_games": {
+            "label": "オンラインゲーム",
+            "value": 12759
+          },
+          "e_publishing": {
+            "label": "電子出版(電子書籍・電子雑誌)",
+            "value": 6869
+          },
+          "paid_video_streaming": {
+            "label": "有料動画配信",
+            "value": 5538
+          },
+          "others": {
+            "label": "その他",
+            "value": 1479
+          },
+          "paid_music_streaming": {
+            "label": "有料音楽配信",
+            "value": 1340
+          }
+        }
+      },
+      "btob_ec": {
+        "label": "BtoB-EC市場規模",
+        "value": 5600870,
+        "yoy_pct": 8.9,
+        "ec_ratio_pct": 45.9,
+        "value_excl_others_used_for_ec_ratio": 5547825,
+        "via": "ecnomikata.com / bcart.jp(560.1兆円、前年514.4兆円)",
+        "confidence": "B"
+      },
+      "ctoc_ec": {
+        "label": "CtoC-EC市場規模(推計)",
+        "value": 26870,
+        "via": "hanbaishi.com",
+        "note": "前年比+6.34%",
+        "confidence": "C"
+      }
+    },
+    "unverified": [
+      "物販系『事務用品、文房具』『その他』の金額・EC化率: 未確認→null。残差(物販系計−判明7カテゴリ)は2項目合計で7,989億円(算術値)。",
+      "物販系カテゴリ値は報道・解説ページ(ネットショップ担当者フォーラム、Nint、コマースピック等)経由。経産省報告書PDF本体は未読。",
+      "BtoB-EC: ecbeing の記事に145兆742億円/EC化率43.9%という別数値があったが、他2ソース(560兆870億円、45.9%)と不一致のため不採用(別集計か旧年の可能性)。",
+      "CtoC-EC は単一二次ソース。"
+    ]
+  },
+  "national_accounts_household_consumption": {
+    "title": "国民経済計算 家計最終消費支出(目的別)",
+    "year": "2024年(暦年)を目標としたが目的別内訳は未取得",
+    "unit": "億円",
+    "source_name": "内閣府 経済社会総合研究所 2024年度国民経済計算年次推計(2020年基準・2008SNA)フロー編 付表(12)家計の目的別最終消費支出の構成",
+    "source_url": "https://www.esri.cao.go.jp/jp/sna/data/data_list/kakuhou/files/2024/2024_kaku_top.html",
+    "data": {
+      "household_final_consumption_total": {
+        "label": "家計最終消費支出 総額(名目)",
+        "value": null,
+        "note": "参考: 厚労省『令和7年版 労働経済の分析』に『2024年の名目個人消費は326.9兆円(前年差+9.0兆円、+2.8%)』の記述(https://www.mhlw.go.jp/wp/hakusyo/roudou/25/dl/25-1-1-1.pdf)。ただし2020年基準改定(2025-12)前の値で、家計/民間の定義も未特定のため value には入れていない。",
+        "reference_candidate_okuyen": 3269000
+      },
+      "by_purpose": {
+        "food_non_alcoholic": {
+          "label": "食料・非アルコール飲料",
+          "value": null
+        },
+        "alcohol_tobacco": {
+          "label": "アルコール飲料・たばこ",
+          "value": null
+        },
+        "clothing_footwear": {
+          "label": "被服・履物",
+          "value": null
+        },
+        "housing_utilities": {
+          "label": "住居・電気・ガス・水道",
+          "value": null
+        },
+        "furnishings_household_equipment": {
+          "label": "家具・家庭用機器・家事サービス",
+          "value": null
+        },
+        "health": {
+          "label": "保健・医療",
+          "value": null
+        },
+        "transport": {
+          "label": "交通",
+          "value": null
+        },
+        "communication": {
+          "label": "情報・通信",
+          "value": null
+        },
+        "recreation_culture": {
+          "label": "娯楽・スポーツ・文化",
+          "value": null
+        },
+        "education": {
+          "label": "教育サービス",
+          "value": null
+        },
+        "restaurants_hotels": {
+          "label": "外食・宿泊サービス",
+          "value": null
+        },
+        "insurance_financial": {
+          "label": "保険・金融サービス",
+          "value": null
+        },
+        "personal_care_misc": {
+          "label": "個別ケア・社会保護・その他",
+          "value": null
+        }
+      }
+    },
+    "unverified": [
+      "目的別内訳(全項目)と総額: 付表(12)は Excel 配布のみで検索結果に数値が出ず、全て null。",
+      "2024年度年次推計(2025-11/12公表)から 2020年基準に改定され、目的別分類が COICOP2018 準拠(116目的分類)に組み替えられた。上のキー名は COICOP2018 大分類に沿った想定ラベルで、原表の正式名称と要照合。",
+      "取得先: 上記 source_url の付表(12)名目 Excel、または e-Stat『国民経済計算年次推計 令和2年基準 2024年度 フロー編 名目暦年』(2026-01-30更新)。",
+      "UNdata に日本2024年の家計消費(対家計民間非営利団体を含む)331.8兆円という値があるが単位・版が未確認のため不採用。"
+    ]
+  }
+}

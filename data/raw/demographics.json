@@ -1,0 +1,2891 @@
+{
+ "population_by_age_sex": {
+  "title": "人口推計 年齢5歳階級・男女別 総人口(2025年10月1日現在)",
+  "year": 2025,
+  "reference_date": "2025-10-01",
+  "unit": "千人",
+  "source_name": "総務省統計局「人口推計」2025年(令和7年)10月1日現在 第2表(都道府県,年齢5歳階級,男女別人口)・第1表(年齢各歳,男女別人口) ※令和7年国勢調査結果による確定人口基準, e-Stat 2026-11-20公開",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040526975&fileKind=4",
+  "source_url_single_year_table": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040526742&fileKind=4",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001495006",
+  "data": {
+   "total_population": {
+    "total": 122973,
+    "male": 59772,
+    "female": 63200
+   },
+   "by_age_group": {
+    "0-4": {
+     "total": 3672,
+     "male": 1875,
+     "female": 1796
+    },
+    "5-9": {
+     "total": 4553,
+     "male": 2330,
+     "female": 2222
+    },
+    "10-14": {
+     "total": 5125,
+     "male": 2625,
+     "female": 2500
+    },
+    "15-19": {
+     "total": 5522,
+     "male": 2834,
+     "female": 2688
+    },
+    "20-24": {
+     "total": 6233,
+     "male": 3181,
+     "female": 3052
+    },
+    "25-29": {
+     "total": 6503,
+     "male": 3330,
+     "female": 3173
+    },
+    "30-34": {
+     "total": 6384,
+     "male": 3274,
+     "female": 3110
+    },
+    "35-39": {
+     "total": 6708,
+     "male": 3427,
+     "female": 3282
+    },
+    "40-44": {
+     "total": 7477,
+     "male": 3790,
+     "female": 3686
+    },
+    "45-49": {
+     "total": 8431,
+     "male": 4268,
+     "female": 4163
+    },
+    "50-54": {
+     "total": 9789,
+     "male": 4936,
+     "female": 4853
+    },
+    "55-59": {
+     "total": 8640,
+     "male": 4327,
+     "female": 4313
+    },
+    "60-64": {
+     "total": 7794,
+     "male": 3870,
+     "female": 3924
+    },
+    "65-69": {
+     "total": 7207,
+     "male": 3517,
+     "female": 3690
+    },
+    "70-74": {
+     "total": 7766,
+     "male": 3680,
+     "female": 4085
+    },
+    "75-79": {
+     "total": 8353,
+     "male": 3785,
+     "female": 4568
+    },
+    "80-84": {
+     "total": 5982,
+     "male": 2485,
+     "female": 3497
+    },
+    "85+": {
+     "total": 6834,
+     "male": 2237,
+     "female": 4598
+    }
+   },
+   "age_85_plus_breakdown_from_single_year_table": {
+    "85-89": {
+     "total": 4008,
+     "male": 1479,
+     "female": 2530
+    },
+    "90-94": {
+     "total": 2110,
+     "male": 617,
+     "female": 1491
+    },
+    "95-99": {
+     "total": 621,
+     "male": 129,
+     "female": 491
+    },
+    "100+": {
+     "total": 97,
+     "male": 12,
+     "female": 85
+    },
+    "90+": {
+     "total": 2828,
+     "male": 758,
+     "female": 2067
+    }
+   },
+   "single_year_age": {
+    "0": {
+     "total": 668,
+     "male": 341,
+     "female": 327
+    },
+    "1": {
+     "total": 692,
+     "male": 353,
+     "female": 339
+    },
+    "2": {
+     "total": 734,
+     "male": 375,
+     "female": 359
+    },
+    "3": {
+     "total": 773,
+     "male": 396,
+     "female": 377
+    },
+    "4": {
+     "total": 805,
+     "male": 411,
+     "female": 394
+    },
+    "5": {
+     "total": 849,
+     "male": 434,
+     "female": 415
+    },
+    "6": {
+     "total": 874,
+     "male": 448,
+     "female": 426
+    },
+    "7": {
+     "total": 916,
+     "male": 469,
+     "female": 448
+    },
+    "8": {
+     "total": 937,
+     "male": 479,
+     "female": 458
+    },
+    "9": {
+     "total": 977,
+     "male": 501,
+     "female": 476
+    },
+    "10": {
+     "total": 1006,
+     "male": 515,
+     "female": 491
+    },
+    "11": {
+     "total": 1002,
+     "male": 513,
+     "female": 488
+    },
+    "12": {
+     "total": 1028,
+     "male": 526,
+     "female": 502
+    },
+    "13": {
+     "total": 1031,
+     "male": 528,
+     "female": 503
+    },
+    "14": {
+     "total": 1058,
+     "male": 543,
+     "female": 515
+    },
+    "15": {
+     "total": 1071,
+     "male": 550,
+     "female": 521
+    },
+    "16": {
+     "total": 1081,
+     "male": 556,
+     "female": 525
+    },
+    "17": {
+     "total": 1101,
+     "male": 566,
+     "female": 535
+    },
+    "18": {
+     "total": 1120,
+     "male": 575,
+     "female": 546
+    },
+    "19": {
+     "total": 1149,
+     "male": 587,
+     "female": 562
+    },
+    "20": {
+     "total": 1170,
+     "male": 596,
+     "female": 573
+    },
+    "21": {
+     "total": 1222,
+     "male": 621,
+     "female": 601
+    },
+    "22": {
+     "total": 1243,
+     "male": 635,
+     "female": 609
+    },
+    "23": {
+     "total": 1288,
+     "male": 658,
+     "female": 630
+    },
+    "24": {
+     "total": 1310,
+     "male": 671,
+     "female": 640
+    },
+    "25": {
+     "total": 1318,
+     "male": 675,
+     "female": 643
+    },
+    "26": {
+     "total": 1298,
+     "male": 664,
+     "female": 634
+    },
+    "27": {
+     "total": 1310,
+     "male": 671,
+     "female": 639
+    },
+    "28": {
+     "total": 1295,
+     "male": 663,
+     "female": 632
+    },
+    "29": {
+     "total": 1283,
+     "male": 658,
+     "female": 625
+    },
+    "30": {
+     "total": 1299,
+     "male": 666,
+     "female": 633
+    },
+    "31": {
+     "total": 1287,
+     "male": 660,
+     "female": 627
+    },
+    "32": {
+     "total": 1261,
+     "male": 647,
+     "female": 614
+    },
+    "33": {
+     "total": 1273,
+     "male": 653,
+     "female": 619
+    },
+    "34": {
+     "total": 1264,
+     "male": 647,
+     "female": 616
+    },
+    "35": {
+     "total": 1284,
+     "male": 656,
+     "female": 627
+    },
+    "36": {
+     "total": 1309,
+     "male": 668,
+     "female": 640
+    },
+    "37": {
+     "total": 1344,
+     "male": 687,
+     "female": 657
+    },
+    "38": {
+     "total": 1377,
+     "male": 702,
+     "female": 674
+    },
+    "39": {
+     "total": 1395,
+     "male": 712,
+     "female": 683
+    },
+    "40": {
+     "total": 1445,
+     "male": 734,
+     "female": 711
+    },
+    "41": {
+     "total": 1490,
+     "male": 757,
+     "female": 734
+    },
+    "42": {
+     "total": 1510,
+     "male": 765,
+     "female": 745
+    },
+    "43": {
+     "total": 1509,
+     "male": 764,
+     "female": 745
+    },
+    "44": {
+     "total": 1521,
+     "male": 770,
+     "female": 750
+    },
+    "45": {
+     "total": 1587,
+     "male": 804,
+     "female": 783
+    },
+    "46": {
+     "total": 1626,
+     "male": 824,
+     "female": 802
+    },
+    "47": {
+     "total": 1683,
+     "male": 852,
+     "female": 832
+    },
+    "48": {
+     "total": 1728,
+     "male": 875,
+     "female": 853
+    },
+    "49": {
+     "total": 1808,
+     "male": 915,
+     "female": 893
+    },
+    "50": {
+     "total": 1883,
+     "male": 951,
+     "female": 932
+    },
+    "51": {
+     "total": 1986,
+     "male": 1004,
+     "female": 982
+    },
+    "52": {
+     "total": 2019,
+     "male": 1017,
+     "female": 1002
+    },
+    "53": {
+     "total": 1980,
+     "male": 998,
+     "female": 982
+    },
+    "54": {
+     "total": 1921,
+     "male": 966,
+     "female": 955
+    },
+    "55": {
+     "total": 1861,
+     "male": 936,
+     "female": 926
+    },
+    "56": {
+     "total": 1830,
+     "male": 918,
+     "female": 913
+    },
+    "57": {
+     "total": 1785,
+     "male": 894,
+     "female": 891
+    },
+    "58": {
+     "total": 1779,
+     "male": 891,
+     "female": 889
+    },
+    "59": {
+     "total": 1384,
+     "male": 690,
+     "female": 695
+    },
+    "60": {
+     "total": 1705,
+     "male": 850,
+     "female": 855
+    },
+    "61": {
+     "total": 1591,
+     "male": 792,
+     "female": 799
+    },
+    "62": {
+     "total": 1548,
+     "male": 769,
+     "female": 779
+    },
+    "63": {
+     "total": 1492,
+     "male": 739,
+     "female": 752
+    },
+    "64": {
+     "total": 1459,
+     "male": 720,
+     "female": 739
+    },
+    "65": {
+     "total": 1463,
+     "male": 720,
+     "female": 744
+    },
+    "66": {
+     "total": 1481,
+     "male": 727,
+     "female": 755
+    },
+    "67": {
+     "total": 1434,
+     "male": 699,
+     "female": 735
+    },
+    "68": {
+     "total": 1385,
+     "male": 673,
+     "female": 712
+    },
+    "69": {
+     "total": 1444,
+     "male": 699,
+     "female": 745
+    },
+    "70": {
+     "total": 1477,
+     "male": 712,
+     "female": 766
+    },
+    "71": {
+     "total": 1465,
+     "male": 701,
+     "female": 764
+    },
+    "72": {
+     "total": 1538,
+     "male": 729,
+     "female": 809
+    },
+    "73": {
+     "total": 1607,
+     "male": 756,
+     "female": 851
+    },
+    "74": {
+     "total": 1679,
+     "male": 783,
+     "female": 895
+    },
+    "75": {
+     "total": 1779,
+     "male": 821,
+     "female": 959
+    },
+    "76": {
+     "total": 1919,
+     "male": 878,
+     "female": 1041
+    },
+    "77": {
+     "total": 1864,
+     "male": 844,
+     "female": 1020
+    },
+    "78": {
+     "total": 1736,
+     "male": 780,
+     "female": 957
+    },
+    "79": {
+     "total": 1055,
+     "male": 463,
+     "female": 592
+    },
+    "80": {
+     "total": 1104,
+     "male": 473,
+     "female": 630
+    },
+    "81": {
+     "total": 1313,
+     "male": 553,
+     "female": 759
+    },
+    "82": {
+     "total": 1225,
+     "male": 510,
+     "female": 716
+    },
+    "83": {
+     "total": 1211,
+     "male": 495,
+     "female": 716
+    },
+    "84": {
+     "total": 1129,
+     "male": 453,
+     "female": 676
+    },
+    "85": {
+     "total": 974,
+     "male": 381,
+     "female": 593
+    },
+    "86": {
+     "total": 797,
+     "male": 304,
+     "female": 494
+    },
+    "87": {
+     "total": 793,
+     "male": 291,
+     "female": 502
+    },
+    "88": {
+     "total": 755,
+     "male": 268,
+     "female": 487
+    },
+    "89": {
+     "total": 689,
+     "male": 235,
+     "female": 454
+    },
+    "90": {
+     "total": 590,
+     "male": 189,
+     "female": 400
+    },
+    "91": {
+     "total": 491,
+     "male": 149,
+     "female": 342
+    },
+    "92": {
+     "total": 427,
+     "male": 121,
+     "female": 305
+    },
+    "93": {
+     "total": 335,
+     "male": 91,
+     "female": 244
+    },
+    "94": {
+     "total": 267,
+     "male": 67,
+     "female": 200
+    },
+    "95": {
+     "total": 204,
+     "male": 47,
+     "female": 156
+    },
+    "96": {
+     "total": 157,
+     "male": 34,
+     "female": 123
+    },
+    "97": {
+     "total": 117,
+     "male": 23,
+     "female": 94
+    },
+    "98": {
+     "total": 84,
+     "male": 15,
+     "female": 69
+    },
+    "99": {
+     "total": 59,
+     "male": 10,
+     "female": 49
+    },
+    "100+": {
+     "total": 97,
+     "male": 12,
+     "female": 85
+    }
+   }
+  },
+  "notes": [
+   "総人口(日本人+外国人)。千人単位に四捨五入されているため、内訳の合計は総数と一致しない場合がある(公表値のまま転記)。",
+   "85-89, 90-94, 95-99, 90+ は第1表の各歳(千人、四捨五入済)を当方で合算した値で、公表の5歳階級値ではない。85+は第2表の公表値。"
+  ],
+  "unverified": []
+ },
+ "population_by_prefecture": {
+  "title": "人口推計 都道府県別 総人口(2025年10月1日現在)",
+  "year": 2025,
+  "reference_date": "2025-10-01",
+  "unit": "千人",
+  "source_name": "総務省統計局「人口推計」2025年(令和7年)10月1日現在 第2表",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040526975&fileKind=4",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001495006",
+  "data": {
+   "national_total": 122973,
+   "prefectures": {
+    "01": {
+     "name": "北海道",
+     "total": 4980,
+     "male": 2355,
+     "female": 2625
+    },
+    "02": {
+     "name": "青森県",
+     "total": 1139,
+     "male": 539,
+     "female": 600
+    },
+    "03": {
+     "name": "岩手県",
+     "total": 1125,
+     "male": 543,
+     "female": 581
+    },
+    "04": {
+     "name": "宮城県",
+     "total": 2225,
+     "male": 1083,
+     "female": 1142
+    },
+    "05": {
+     "name": "秋田県",
+     "total": 881,
+     "male": 417,
+     "female": 464
+    },
+    "06": {
+     "name": "山形県",
+     "total": 992,
+     "male": 482,
+     "female": 510
+    },
+    "07": {
+     "name": "福島県",
+     "total": 1710,
+     "male": 841,
+     "female": 869
+    },
+    "08": {
+     "name": "茨城県",
+     "total": 2790,
+     "male": 1396,
+     "female": 1394
+    },
+    "09": {
+     "name": "栃木県",
+     "total": 1863,
+     "male": 931,
+     "female": 933
+    },
+    "10": {
+     "name": "群馬県",
+     "total": 1866,
+     "male": 923,
+     "female": 943
+    },
+    "11": {
+     "name": "埼玉県",
+     "total": 7287,
+     "male": 3608,
+     "female": 3680
+    },
+    "12": {
+     "name": "千葉県",
+     "total": 6257,
+     "male": 3095,
+     "female": 3162
+    },
+    "13": {
+     "name": "東京都",
+     "total": 14237,
+     "male": 6973,
+     "female": 7264
+    },
+    "14": {
+     "name": "神奈川県",
+     "total": 9194,
+     "male": 4553,
+     "female": 4641
+    },
+    "15": {
+     "name": "新潟県",
+     "total": 2067,
+     "male": 1006,
+     "female": 1061
+    },
+    "16": {
+     "name": "富山県",
+     "total": 982,
+     "male": 479,
+     "female": 503
+    },
+    "17": {
+     "name": "石川県",
+     "total": 1087,
+     "male": 529,
+     "female": 557
+    },
+    "18": {
+     "name": "福井県",
+     "total": 729,
+     "male": 355,
+     "female": 373
+    },
+    "19": {
+     "name": "山梨県",
+     "total": 779,
+     "male": 383,
+     "female": 397
+    },
+    "20": {
+     "name": "長野県",
+     "total": 1954,
+     "male": 956,
+     "female": 998
+    },
+    "21": {
+     "name": "岐阜県",
+     "total": 1890,
+     "male": 918,
+     "female": 972
+    },
+    "22": {
+     "name": "静岡県",
+     "total": 3466,
+     "male": 1707,
+     "female": 1759
+    },
+    "23": {
+     "name": "愛知県",
+     "total": 7448,
+     "male": 3711,
+     "female": 3737
+    },
+    "24": {
+     "name": "三重県",
+     "total": 1693,
+     "male": 828,
+     "female": 866
+    },
+    "25": {
+     "name": "滋賀県",
+     "total": 1392,
+     "male": 686,
+     "female": 706
+    },
+    "26": {
+     "name": "京都府",
+     "total": 2500,
+     "male": 1191,
+     "female": 1310
+    },
+    "27": {
+     "name": "大阪府",
+     "total": 8759,
+     "male": 4179,
+     "female": 4580
+    },
+    "28": {
+     "name": "兵庫県",
+     "total": 5318,
+     "male": 2524,
+     "female": 2794
+    },
+    "29": {
+     "name": "奈良県",
+     "total": 1268,
+     "male": 595,
+     "female": 673
+    },
+    "30": {
+     "name": "和歌山県",
+     "total": 864,
+     "male": 407,
+     "female": 457
+    },
+    "31": {
+     "name": "鳥取県",
+     "total": 523,
+     "male": 250,
+     "female": 273
+    },
+    "32": {
+     "name": "島根県",
+     "total": 629,
+     "male": 304,
+     "female": 325
+    },
+    "33": {
+     "name": "岡山県",
+     "total": 1807,
+     "male": 868,
+     "female": 939
+    },
+    "34": {
+     "name": "広島県",
+     "total": 2683,
+     "male": 1301,
+     "female": 1381
+    },
+    "35": {
+     "name": "山口県",
+     "total": 1263,
+     "male": 601,
+     "female": 661
+    },
+    "36": {
+     "name": "徳島県",
+     "total": 675,
+     "male": 323,
+     "female": 352
+    },
+    "37": {
+     "name": "香川県",
+     "total": 907,
+     "male": 439,
+     "female": 468
+    },
+    "38": {
+     "name": "愛媛県",
+     "total": 1260,
+     "male": 599,
+     "female": 660
+    },
+    "39": {
+     "name": "高知県",
+     "total": 643,
+     "male": 304,
+     "female": 339
+    },
+    "40": {
+     "name": "福岡県",
+     "total": 5078,
+     "male": 2407,
+     "female": 2671
+    },
+    "41": {
+     "name": "佐賀県",
+     "total": 781,
+     "male": 372,
+     "female": 409
+    },
+    "42": {
+     "name": "長崎県",
+     "total": 1232,
+     "male": 582,
+     "female": 650
+    },
+    "43": {
+     "name": "熊本県",
+     "total": 1677,
+     "male": 797,
+     "female": 880
+    },
+    "44": {
+     "name": "大分県",
+     "total": 1076,
+     "male": 514,
+     "female": 563
+    },
+    "45": {
+     "name": "宮崎県",
+     "total": 1018,
+     "male": 481,
+     "female": 537
+    },
+    "46": {
+     "name": "鹿児島県",
+     "total": 1512,
+     "male": 716,
+     "female": 796
+    },
+    "47": {
+     "name": "沖縄県",
+     "total": 1467,
+     "male": 722,
+     "female": 744
+    }
+   }
+  },
+  "notes": [
+   "キーはJIS都道府県コード。総人口(外国人含む)。同じ表に都道府県×5歳階級×男女の値もある(本ファイルには未収録)。"
+  ],
+  "unverified": []
+ },
+ "marital_status_by_age_sex": {
+  "title": "令和2年国勢調査 男女・年齢5歳階級別 配偶関係(15歳以上、全国、不詳補完値)",
+  "year": 2020,
+  "reference_date": "2020-10-01",
+  "unit": "人(count)、%(pct)",
+  "source_name": "総務省統計局「令和2年国勢調査」参考表:不詳補完結果 第2-3表 男女,年齢(5歳階級),配偶関係,国籍総数か日本人別人口(15歳以上)－全国,都道府県,市区町村",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032144440&fileKind=0",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001283420",
+  "data": {
+   "total": {
+    "total_15+": {
+     "population": 111114497,
+     "never_married_count": 32790076,
+     "never_married_pct": 29.51,
+     "married_count": 61816464,
+     "married_pct": 55.63,
+     "widowed_count": 10066871,
+     "widowed_pct": 9.06,
+     "divorced_count": 6441086,
+     "divorced_pct": 5.8,
+     "widowed_or_divorced_pct": 14.86
+    },
+    "15-19": {
+     "population": 5706306,
+     "never_married_count": 5686262,
+     "never_married_pct": 99.65,
+     "married_count": 17240,
+     "married_pct": 0.3,
+     "widowed_count": 814,
+     "widowed_pct": 0.01,
+     "divorced_count": 1990,
+     "divorced_pct": 0.03,
+     "widowed_or_divorced_pct": 0.05
+    },
+    "20-24": {
+     "population": 6319959,
+     "never_married_count": 5964594,
+     "never_married_pct": 94.38,
+     "married_count": 331629,
+     "married_pct": 5.25,
+     "widowed_count": 1909,
+     "widowed_pct": 0.03,
+     "divorced_count": 21827,
+     "divorced_pct": 0.35,
+     "widowed_or_divorced_pct": 0.38
+    },
+    "25-29": {
+     "population": 6384151,
+     "never_married_count": 4547030,
+     "never_married_pct": 71.22,
+     "married_count": 1747523,
+     "married_pct": 27.37,
+     "widowed_count": 2519,
+     "widowed_pct": 0.04,
+     "divorced_count": 87079,
+     "divorced_pct": 1.36,
+     "widowed_or_divorced_pct": 1.4
+    },
+    "30-34": {
+     "population": 6713773,
+     "never_married_count": 3041990,
+     "never_married_pct": 45.31,
+     "married_count": 3468417,
+     "married_pct": 51.66,
+     "widowed_count": 5089,
+     "widowed_pct": 0.08,
+     "divorced_count": 198277,
+     "divorced_pct": 2.95,
+     "widowed_or_divorced_pct": 3.03
+    },
+    "35-39": {
+     "population": 7498375,
+     "never_married_count": 2429466,
+     "never_married_pct": 32.4,
+     "married_count": 4715134,
+     "married_pct": 62.88,
+     "widowed_count": 12832,
+     "widowed_pct": 0.17,
+     "divorced_count": 340943,
+     "divorced_pct": 4.55,
+     "widowed_or_divorced_pct": 4.72
+    },
+    "40-44": {
+     "population": 8476244,
+     "never_married_count": 2276703,
+     "never_married_pct": 26.86,
+     "married_count": 5658445,
+     "married_pct": 66.76,
+     "widowed_count": 28942,
+     "widowed_pct": 0.34,
+     "divorced_count": 512154,
+     "divorced_pct": 6.04,
+     "widowed_or_divorced_pct": 6.38
+    },
+    "45-49": {
+     "population": 9868454,
+     "never_married_count": 2425206,
+     "never_married_pct": 24.58,
+     "married_count": 6605586,
+     "married_pct": 66.94,
+     "widowed_count": 66743,
+     "widowed_pct": 0.68,
+     "divorced_count": 770919,
+     "divorced_pct": 7.81,
+     "widowed_or_divorced_pct": 8.49
+    },
+    "50-54": {
+     "population": 8738079,
+     "never_married_count": 1885133,
+     "never_married_pct": 21.57,
+     "married_count": 5926778,
+     "married_pct": 67.83,
+     "widowed_count": 114092,
+     "widowed_pct": 1.31,
+     "divorced_count": 812076,
+     "divorced_pct": 9.29,
+     "widowed_or_divorced_pct": 10.6
+    },
+    "55-59": {
+     "population": 7940132,
+     "never_married_count": 1344516,
+     "never_married_pct": 16.93,
+     "married_count": 5616376,
+     "married_pct": 70.73,
+     "widowed_count": 199276,
+     "widowed_pct": 2.51,
+     "divorced_count": 779964,
+     "divorced_pct": 9.82,
+     "widowed_or_divorced_pct": 12.33
+    },
+    "60-64": {
+     "population": 7442392,
+     "never_married_count": 957768,
+     "never_married_pct": 12.87,
+     "married_count": 5445452,
+     "married_pct": 73.17,
+     "widowed_count": 343063,
+     "widowed_pct": 4.61,
+     "divorced_count": 696109,
+     "divorced_pct": 9.35,
+     "widowed_or_divorced_pct": 13.96
+    },
+    "65-69": {
+     "population": 8236274,
+     "never_married_count": 835375,
+     "never_married_pct": 10.14,
+     "married_count": 6023425,
+     "married_pct": 73.13,
+     "widowed_count": 667013,
+     "widowed_pct": 8.1,
+     "divorced_count": 710461,
+     "divorced_pct": 8.63,
+     "widowed_or_divorced_pct": 16.72
+    },
+    "70-74": {
+     "population": 9188550,
+     "never_married_count": 677492,
+     "never_married_pct": 7.37,
+     "married_count": 6566557,
+     "married_pct": 71.46,
+     "widowed_count": 1234479,
+     "widowed_pct": 13.43,
+     "divorced_count": 710022,
+     "divorced_pct": 7.73,
+     "widowed_or_divorced_pct": 21.16
+    },
+    "75-79": {
+     "population": 7064625,
+     "never_married_count": 336899,
+     "never_married_pct": 4.77,
+     "married_count": 4697854,
+     "married_pct": 66.5,
+     "widowed_count": 1617488,
+     "widowed_pct": 22.9,
+     "divorced_count": 412384,
+     "divorced_pct": 5.84,
+     "widowed_or_divorced_pct": 28.73
+    },
+    "80-84": {
+     "population": 5403785,
+     "never_married_count": 190367,
+     "never_married_pct": 3.52,
+     "married_count": 3022926,
+     "married_pct": 55.94,
+     "widowed_count": 1965549,
+     "widowed_pct": 36.37,
+     "divorced_count": 224943,
+     "divorced_pct": 4.16,
+     "widowed_or_divorced_pct": 40.54
+    },
+    "85-89": {
+     "population": 3742060,
+     "never_married_count": 117570,
+     "never_married_pct": 3.14,
+     "married_count": 1500660,
+     "married_pct": 40.1,
+     "widowed_count": 2015295,
+     "widowed_pct": 53.86,
+     "divorced_count": 108535,
+     "divorced_pct": 2.9,
+     "widowed_or_divorced_pct": 56.76
+    },
+    "90-94": {
+     "population": 1810690,
+     "never_married_count": 57301,
+     "never_married_pct": 3.16,
+     "married_count": 417765,
+     "married_pct": 23.07,
+     "widowed_count": 1293657,
+     "widowed_pct": 71.45,
+     "divorced_count": 41967,
+     "divorced_pct": 2.32,
+     "widowed_or_divorced_pct": 73.76
+    },
+    "95-99": {
+     "population": 500308,
+     "never_married_count": 14448,
+     "never_married_pct": 2.89,
+     "married_count": 50785,
+     "married_pct": 10.15,
+     "widowed_count": 424900,
+     "widowed_pct": 84.93,
+     "divorced_count": 10175,
+     "divorced_pct": 2.03,
+     "widowed_or_divorced_pct": 86.96
+    },
+    "100+": {
+     "population": 80340,
+     "never_married_count": 1956,
+     "never_married_pct": 2.43,
+     "married_count": 3912,
+     "married_pct": 4.87,
+     "widowed_count": 73211,
+     "widowed_pct": 91.13,
+     "divorced_count": 1261,
+     "divorced_pct": 1.57,
+     "widowed_or_divorced_pct": 92.7
+    }
+   },
+   "male": {
+    "total_15+": {
+     "population": 53649545,
+     "never_married_count": 18544172,
+     "never_married_pct": 34.57,
+     "married_count": 30798417,
+     "married_pct": 57.41,
+     "widowed_count": 1794993,
+     "widowed_pct": 3.35,
+     "divorced_count": 2511963,
+     "divorced_pct": 4.68,
+     "widowed_or_divorced_pct": 8.03
+    },
+    "15-19": {
+     "population": 2927618,
+     "never_married_count": 2918917,
+     "never_married_pct": 99.7,
+     "married_count": 7438,
+     "married_pct": 0.25,
+     "widowed_count": 375,
+     "widowed_pct": 0.01,
+     "divorced_count": 888,
+     "divorced_pct": 0.03,
+     "widowed_or_divorced_pct": 0.04
+    },
+    "20-24": {
+     "population": 3233994,
+     "never_married_count": 3095077,
+     "never_married_pct": 95.7,
+     "married_count": 131245,
+     "married_pct": 4.06,
+     "widowed_count": 756,
+     "widowed_pct": 0.02,
+     "divorced_count": 6916,
+     "divorced_pct": 0.21,
+     "widowed_or_divorced_pct": 0.24
+    },
+    "25-29": {
+     "population": 3279149,
+     "never_married_count": 2505473,
+     "never_married_pct": 76.41,
+     "married_count": 744487,
+     "married_pct": 22.7,
+     "widowed_count": 886,
+     "widowed_pct": 0.03,
+     "divorced_count": 28303,
+     "divorced_pct": 0.86,
+     "widowed_or_divorced_pct": 0.89
+    },
+    "30-34": {
+     "population": 3431250,
+     "never_married_count": 1776898,
+     "never_married_pct": 51.79,
+     "married_count": 1583104,
+     "married_pct": 46.14,
+     "widowed_count": 1515,
+     "widowed_pct": 0.04,
+     "divorced_count": 69733,
+     "divorced_pct": 2.03,
+     "widowed_or_divorced_pct": 2.08
+    },
+    "35-39": {
+     "population": 3805952,
+     "never_married_count": 1463512,
+     "never_married_pct": 38.45,
+     "married_count": 2213585,
+     "married_pct": 58.16,
+     "widowed_count": 3726,
+     "widowed_pct": 0.1,
+     "divorced_count": 125129,
+     "divorced_pct": 3.29,
+     "widowed_or_divorced_pct": 3.39
+    },
+    "40-44": {
+     "population": 4298675,
+     "never_married_count": 1385680,
+     "never_married_pct": 32.24,
+     "married_count": 2713344,
+     "married_pct": 63.12,
+     "widowed_count": 8064,
+     "widowed_pct": 0.19,
+     "divorced_count": 191587,
+     "divorced_pct": 4.46,
+     "widowed_or_divorced_pct": 4.64
+    },
+    "45-49": {
+     "population": 4993896,
+     "never_married_count": 1491312,
+     "never_married_pct": 29.86,
+     "married_count": 3195408,
+     "married_pct": 63.99,
+     "widowed_count": 18016,
+     "widowed_pct": 0.36,
+     "divorced_count": 289160,
+     "divorced_pct": 5.79,
+     "widowed_or_divorced_pct": 6.15
+    },
+    "50-54": {
+     "population": 4394401,
+     "never_married_count": 1170416,
+     "never_married_pct": 26.63,
+     "married_count": 2878505,
+     "married_pct": 65.5,
+     "widowed_count": 28377,
+     "widowed_pct": 0.65,
+     "divorced_count": 317103,
+     "divorced_pct": 7.22,
+     "widowed_or_divorced_pct": 7.86
+    },
+    "55-59": {
+     "population": 3966900,
+     "never_married_count": 858369,
+     "never_married_pct": 21.64,
+     "married_count": 2743267,
+     "married_pct": 69.15,
+     "widowed_count": 46720,
+     "widowed_pct": 1.18,
+     "divorced_count": 318544,
+     "divorced_pct": 8.03,
+     "widowed_or_divorced_pct": 9.21
+    },
+    "60-64": {
+     "population": 3676742,
+     "never_married_count": 636443,
+     "never_married_pct": 17.31,
+     "married_count": 2664017,
+     "married_pct": 72.46,
+     "widowed_count": 77638,
+     "widowed_pct": 2.11,
+     "divorced_count": 298644,
+     "divorced_pct": 8.12,
+     "widowed_or_divorced_pct": 10.23
+    },
+    "65-69": {
+     "population": 3999342,
+     "never_married_count": 565078,
+     "never_married_pct": 14.13,
+     "married_count": 2980540,
+     "married_pct": 74.53,
+     "widowed_count": 148553,
+     "widowed_pct": 3.71,
+     "divorced_count": 305171,
+     "divorced_pct": 7.63,
+     "widowed_or_divorced_pct": 11.34
+    },
+    "70-74": {
+     "population": 4336923,
+     "never_married_count": 415398,
+     "never_married_pct": 9.58,
+     "married_count": 3367905,
+     "married_pct": 77.66,
+     "widowed_count": 259903,
+     "widowed_pct": 5.99,
+     "divorced_count": 293717,
+     "divorced_pct": 6.77,
+     "widowed_or_divorced_pct": 12.77
+    },
+    "75-79": {
+     "population": 3146183,
+     "never_married_count": 163465,
+     "never_married_pct": 5.2,
+     "married_count": 2527079,
+     "married_pct": 80.32,
+     "widowed_count": 298425,
+     "widowed_pct": 9.49,
+     "divorced_count": 157214,
+     "divorced_pct": 5.0,
+     "widowed_or_divorced_pct": 14.48
+    },
+    "80-84": {
+     "population": 2231780,
+     "never_married_count": 66579,
+     "never_married_pct": 2.98,
+     "married_count": 1759156,
+     "married_pct": 78.82,
+     "widowed_count": 330047,
+     "widowed_pct": 14.79,
+     "divorced_count": 75998,
+     "divorced_pct": 3.41,
+     "widowed_or_divorced_pct": 18.19
+    },
+    "85-89": {
+     "population": 1324348,
+     "never_married_count": 24137,
+     "never_married_pct": 1.82,
+     "married_count": 956570,
+     "married_pct": 72.23,
+     "widowed_count": 316783,
+     "widowed_pct": 23.92,
+     "divorced_count": 26858,
+     "divorced_pct": 2.03,
+     "widowed_or_divorced_pct": 25.95
+    },
+    "90-94": {
+     "population": 499112,
+     "never_married_count": 6332,
+     "never_married_pct": 1.27,
+     "married_count": 292330,
+     "married_pct": 58.57,
+     "widowed_count": 194373,
+     "widowed_pct": 38.94,
+     "divorced_count": 6077,
+     "divorced_pct": 1.22,
+     "widowed_or_divorced_pct": 40.16
+    },
+    "95-99": {
+     "population": 93447,
+     "never_married_count": 925,
+     "never_married_pct": 0.99,
+     "married_count": 37720,
+     "married_pct": 40.37,
+     "widowed_count": 53965,
+     "widowed_pct": 57.75,
+     "divorced_count": 837,
+     "divorced_pct": 0.9,
+     "widowed_or_divorced_pct": 58.65
+    },
+    "100+": {
+     "population": 9833,
+     "never_married_count": 161,
+     "never_married_pct": 1.64,
+     "married_count": 2717,
+     "married_pct": 27.63,
+     "widowed_count": 6871,
+     "widowed_pct": 69.88,
+     "divorced_count": 84,
+     "divorced_pct": 0.85,
+     "widowed_or_divorced_pct": 70.73
+    }
+   },
+   "female": {
+    "total_15+": {
+     "population": 57464952,
+     "never_married_count": 14245904,
+     "never_married_pct": 24.79,
+     "married_count": 31018047,
+     "married_pct": 53.98,
+     "widowed_count": 8271878,
+     "widowed_pct": 14.39,
+     "divorced_count": 3929123,
+     "divorced_pct": 6.84,
+     "widowed_or_divorced_pct": 21.23
+    },
+    "15-19": {
+     "population": 2778688,
+     "never_married_count": 2767345,
+     "never_married_pct": 99.59,
+     "married_count": 9802,
+     "married_pct": 0.35,
+     "widowed_count": 439,
+     "widowed_pct": 0.02,
+     "divorced_count": 1102,
+     "divorced_pct": 0.04,
+     "widowed_or_divorced_pct": 0.06
+    },
+    "20-24": {
+     "population": 3085965,
+     "never_married_count": 2869517,
+     "never_married_pct": 92.99,
+     "married_count": 200384,
+     "married_pct": 6.49,
+     "widowed_count": 1153,
+     "widowed_pct": 0.04,
+     "divorced_count": 14911,
+     "divorced_pct": 0.48,
+     "widowed_or_divorced_pct": 0.52
+    },
+    "25-29": {
+     "population": 3105002,
+     "never_married_count": 2041557,
+     "never_married_pct": 65.75,
+     "married_count": 1003036,
+     "married_pct": 32.3,
+     "widowed_count": 1633,
+     "widowed_pct": 0.05,
+     "divorced_count": 58776,
+     "divorced_pct": 1.89,
+     "widowed_or_divorced_pct": 1.95
+    },
+    "30-34": {
+     "population": 3282523,
+     "never_married_count": 1265092,
+     "never_married_pct": 38.54,
+     "married_count": 1885313,
+     "married_pct": 57.43,
+     "widowed_count": 3574,
+     "widowed_pct": 0.11,
+     "divorced_count": 128544,
+     "divorced_pct": 3.92,
+     "widowed_or_divorced_pct": 4.02
+    },
+    "35-39": {
+     "population": 3692423,
+     "never_married_count": 965954,
+     "never_married_pct": 26.16,
+     "married_count": 2501549,
+     "married_pct": 67.75,
+     "widowed_count": 9106,
+     "widowed_pct": 0.25,
+     "divorced_count": 215814,
+     "divorced_pct": 5.84,
+     "widowed_or_divorced_pct": 6.09
+    },
+    "40-44": {
+     "population": 4177569,
+     "never_married_count": 891023,
+     "never_married_pct": 21.33,
+     "married_count": 2945101,
+     "married_pct": 70.5,
+     "widowed_count": 20878,
+     "widowed_pct": 0.5,
+     "divorced_count": 320567,
+     "divorced_pct": 7.67,
+     "widowed_or_divorced_pct": 8.17
+    },
+    "45-49": {
+     "population": 4874558,
+     "never_married_count": 933894,
+     "never_married_pct": 19.16,
+     "married_count": 3410178,
+     "married_pct": 69.96,
+     "widowed_count": 48727,
+     "widowed_pct": 1.0,
+     "divorced_count": 481759,
+     "divorced_pct": 9.88,
+     "widowed_or_divorced_pct": 10.88
+    },
+    "50-54": {
+     "population": 4343678,
+     "never_married_count": 714717,
+     "never_married_pct": 16.45,
+     "married_count": 3048273,
+     "married_pct": 70.18,
+     "widowed_count": 85715,
+     "widowed_pct": 1.97,
+     "divorced_count": 494973,
+     "divorced_pct": 11.4,
+     "widowed_or_divorced_pct": 13.37
+    },
+    "55-59": {
+     "population": 3973232,
+     "never_married_count": 486147,
+     "never_married_pct": 12.24,
+     "married_count": 2873109,
+     "married_pct": 72.31,
+     "widowed_count": 152556,
+     "widowed_pct": 3.84,
+     "divorced_count": 461420,
+     "divorced_pct": 11.61,
+     "widowed_or_divorced_pct": 15.45
+    },
+    "60-64": {
+     "population": 3765650,
+     "never_married_count": 321325,
+     "never_married_pct": 8.53,
+     "married_count": 2781435,
+     "married_pct": 73.86,
+     "widowed_count": 265425,
+     "widowed_pct": 7.05,
+     "divorced_count": 397465,
+     "divorced_pct": 10.56,
+     "widowed_or_divorced_pct": 17.6
+    },
+    "65-69": {
+     "population": 4236932,
+     "never_married_count": 270297,
+     "never_married_pct": 6.38,
+     "married_count": 3042885,
+     "married_pct": 71.82,
+     "widowed_count": 518460,
+     "widowed_pct": 12.24,
+     "divorced_count": 405290,
+     "divorced_pct": 9.57,
+     "widowed_or_divorced_pct": 21.8
+    },
+    "70-74": {
+     "population": 4851627,
+     "never_married_count": 262094,
+     "never_married_pct": 5.4,
+     "married_count": 3198652,
+     "married_pct": 65.93,
+     "widowed_count": 974576,
+     "widowed_pct": 20.09,
+     "divorced_count": 416305,
+     "divorced_pct": 8.58,
+     "widowed_or_divorced_pct": 28.67
+    },
+    "75-79": {
+     "population": 3918442,
+     "never_married_count": 173434,
+     "never_married_pct": 4.43,
+     "married_count": 2170775,
+     "married_pct": 55.4,
+     "widowed_count": 1319063,
+     "widowed_pct": 33.66,
+     "divorced_count": 255170,
+     "divorced_pct": 6.51,
+     "widowed_or_divorced_pct": 40.17
+    },
+    "80-84": {
+     "population": 3172005,
+     "never_married_count": 123788,
+     "never_married_pct": 3.9,
+     "married_count": 1263770,
+     "married_pct": 39.84,
+     "widowed_count": 1635502,
+     "widowed_pct": 51.56,
+     "divorced_count": 148945,
+     "divorced_pct": 4.7,
+     "widowed_or_divorced_pct": 56.26
+    },
+    "85-89": {
+     "population": 2417712,
+     "never_married_count": 93433,
+     "never_married_pct": 3.86,
+     "married_count": 544090,
+     "married_pct": 22.5,
+     "widowed_count": 1698512,
+     "widowed_pct": 70.25,
+     "divorced_count": 81677,
+     "divorced_pct": 3.38,
+     "widowed_or_divorced_pct": 73.63
+    },
+    "90-94": {
+     "population": 1311578,
+     "never_married_count": 50969,
+     "never_married_pct": 3.89,
+     "married_count": 125435,
+     "married_pct": 9.56,
+     "widowed_count": 1099284,
+     "widowed_pct": 83.81,
+     "divorced_count": 35890,
+     "divorced_pct": 2.74,
+     "widowed_or_divorced_pct": 86.55
+    },
+    "95-99": {
+     "population": 406861,
+     "never_married_count": 13523,
+     "never_married_pct": 3.32,
+     "married_count": 13065,
+     "married_pct": 3.21,
+     "widowed_count": 370935,
+     "widowed_pct": 91.17,
+     "divorced_count": 9338,
+     "divorced_pct": 2.3,
+     "widowed_or_divorced_pct": 93.47
+    },
+    "100+": {
+     "population": 70507,
+     "never_married_count": 1795,
+     "never_married_pct": 2.55,
+     "married_count": 1195,
+     "married_pct": 1.69,
+     "widowed_count": 66340,
+     "widowed_pct": 94.09,
+     "divorced_count": 1177,
+     "divorced_pct": 1.67,
+     "widowed_or_divorced_pct": 95.76
+    }
+   }
+  },
+  "notes": [
+   "国籍総数(外国人含む)、全国。人数は公表値そのまま。割合(_pct)は公表人数から当方で計算(分母=当該年齢・性別の15歳以上人口)。",
+   "不詳補完値(配偶関係・年齢不詳をあん分補完した参考表)を使用しているため「不詳」区分はない。人口等基本集計の原数値(不詳あり)とは一致しない。",
+   "label: never_married=未婚, married=有配偶, widowed=死別, divorced=離別"
+  ],
+  "unverified": []
+ },
+ "household_family_type": {
+  "title": "令和2年国勢調査 一般世帯の家族類型別構成、世帯主の男女・年齢5歳階級別 単独世帯割合(全国)",
+  "year": 2020,
+  "reference_date": "2020-10-01",
+  "unit": "世帯(households)、%(pct)",
+  "source_name": "総務省統計局「令和2年国勢調査」人口等基本集計 第11-1表 世帯主の男女,世帯主の年齢(5歳階級),世帯の家族類型,世帯人員の人数別一般世帯数－全国",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032142502&fileKind=0",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?toukei=00200521&tstat=000001136464&tclass1=000001136466",
+  "data": {
+   "general_households_total": 55704949,
+   "composition": {
+    "single_person": {
+     "households": 21151042,
+     "pct": 37.97
+    },
+    "couple_only": {
+     "households": 11158840,
+     "pct": 20.03
+    },
+    "couple_with_children": {
+     "households": 13949190,
+     "pct": 25.04
+    },
+    "single_parent_with_children": {
+     "households": 5002541,
+     "pct": 8.98
+    },
+    "other": {
+     "households": 4283216,
+     "pct": 7.69
+    },
+    "type_unknown": {
+     "households": 160120,
+     "pct": 0.29
+    }
+   },
+   "composition_detail_counts": {
+    "single_person": 21151042,
+    "couple_only": 11158840,
+    "couple_with_children": 13949190,
+    "father_with_children": 738006,
+    "mother_with_children": 4264535,
+    "other_relatives_households": 3779018,
+    "with_non_relatives": 504198,
+    "type_unknown": 160120
+   },
+   "by_householder_sex_and_age": {
+    "total": {
+     "15未満": {
+      "general_households": 213,
+      "single_person_households": 128,
+      "single_person_pct": 60.09,
+      "couple_only": 0,
+      "couple_with_children": 13,
+      "single_parent_with_children": 27,
+      "other": 45,
+      "type_unknown": 0
+     },
+     "15-19": {
+      "general_households": 294361,
+      "single_person_households": 287623,
+      "single_person_pct": 97.71,
+      "couple_only": 779,
+      "couple_with_children": 1197,
+      "single_parent_with_children": 1133,
+      "other": 3629,
+      "type_unknown": 0
+     },
+     "20-24": {
+      "general_households": 1889403,
+      "single_person_households": 1690552,
+      "single_person_pct": 89.48,
+      "couple_only": 44044,
+      "couple_with_children": 57378,
+      "single_parent_with_children": 24246,
+      "other": 73183,
+      "type_unknown": 0
+     },
+     "25-29": {
+      "general_households": 2638964,
+      "single_person_households": 1786904,
+      "single_person_pct": 67.71,
+      "couple_only": 311028,
+      "couple_with_children": 341015,
+      "single_parent_with_children": 75355,
+      "other": 124662,
+      "type_unknown": 0
+     },
+     "30-34": {
+      "general_households": 2917497,
+      "single_person_households": 1257834,
+      "single_person_pct": 43.11,
+      "couple_only": 397744,
+      "couple_with_children": 1002217,
+      "single_parent_with_children": 151724,
+      "other": 107978,
+      "type_unknown": 0
+     },
+     "35-39": {
+      "general_households": 3379410,
+      "single_person_households": 1036189,
+      "single_person_pct": 30.66,
+      "couple_only": 341564,
+      "couple_with_children": 1599974,
+      "single_parent_with_children": 269041,
+      "other": 132642,
+      "type_unknown": 0
+     },
+     "40-44": {
+      "general_households": 3964001,
+      "single_person_households": 1029851,
+      "single_person_pct": 25.98,
+      "couple_only": 359594,
+      "couple_with_children": 1965011,
+      "single_parent_with_children": 416089,
+      "other": 193456,
+      "type_unknown": 0
+     },
+     "45-49": {
+      "general_households": 4848843,
+      "single_person_households": 1279028,
+      "single_person_pct": 26.38,
+      "couple_only": 493096,
+      "couple_with_children": 2147812,
+      "single_parent_with_children": 621732,
+      "other": 307175,
+      "type_unknown": 0
+     },
+     "50-54": {
+      "general_households": 4540374,
+      "single_person_households": 1283940,
+      "single_person_pct": 28.28,
+      "couple_only": 596357,
+      "couple_with_children": 1670496,
+      "single_parent_with_children": 613625,
+      "other": 375956,
+      "type_unknown": 0
+     },
+     "55-59": {
+      "general_households": 4293657,
+      "single_person_households": 1233765,
+      "single_person_pct": 28.73,
+      "couple_only": 810065,
+      "couple_with_children": 1257660,
+      "single_parent_with_children": 518316,
+      "other": 473851,
+      "type_unknown": 0
+     },
+     "60-64": {
+      "general_households": 4102678,
+      "single_person_households": 1145819,
+      "single_person_pct": 27.93,
+      "couple_only": 1080414,
+      "couple_with_children": 941623,
+      "single_parent_with_children": 401234,
+      "other": 533588,
+      "type_unknown": 0
+     },
+     "65-69": {
+      "general_households": 4647860,
+      "single_person_households": 1331095,
+      "single_person_pct": 28.64,
+      "couple_only": 1522692,
+      "couple_with_children": 871832,
+      "single_parent_with_children": 373459,
+      "other": 548782,
+      "type_unknown": 0
+     },
+     "70-74": {
+      "general_households": 5344299,
+      "single_person_households": 1578003,
+      "single_person_pct": 29.53,
+      "couple_only": 1955314,
+      "couple_with_children": 874437,
+      "single_parent_with_children": 420412,
+      "other": 516133,
+      "type_unknown": 0
+     },
+     "75-79": {
+      "general_households": 4186157,
+      "single_person_households": 1314415,
+      "single_person_pct": 31.4,
+      "couple_only": 1530083,
+      "couple_with_children": 613251,
+      "single_parent_with_children": 384000,
+      "other": 344408,
+      "type_unknown": 0
+     },
+     "80-84": {
+      "general_households": 3188973,
+      "single_person_households": 1158972,
+      "single_person_pct": 36.34,
+      "couple_only": 1037730,
+      "couple_with_children": 386277,
+      "single_parent_with_children": 340134,
+      "other": 265860,
+      "type_unknown": 0
+     },
+     "85+": {
+      "general_households": 2905536,
+      "single_person_households": 1334321,
+      "single_person_pct": 45.92,
+      "couple_only": 678336,
+      "couple_with_children": 218997,
+      "single_parent_with_children": 392014,
+      "other": 281868,
+      "type_unknown": 0
+     },
+     "recap_15-64": {
+      "general_households": 32869188,
+      "single_person_households": 12031505,
+      "single_person_pct": 36.6,
+      "couple_only": 4434685,
+      "couple_with_children": 10984383,
+      "single_parent_with_children": 3092495,
+      "other": 2326120,
+      "type_unknown": 0
+     },
+     "recap_65+": {
+      "general_households": 20272825,
+      "single_person_households": 6716806,
+      "single_person_pct": 33.13,
+      "couple_only": 6724155,
+      "couple_with_children": 2964794,
+      "single_parent_with_children": 1910019,
+      "other": 1957051,
+      "type_unknown": 0
+     },
+     "recap_75+": {
+      "general_households": 10280666,
+      "single_person_households": 3807708,
+      "single_person_pct": 37.04,
+      "couple_only": 3246149,
+      "couple_with_children": 1218525,
+      "single_parent_with_children": 1116148,
+      "other": 892136,
+      "type_unknown": 0
+     }
+    },
+    "male": {
+     "15未満": {
+      "general_households": 150,
+      "single_person_households": 94,
+      "single_person_pct": 62.67,
+      "couple_only": 0,
+      "couple_with_children": 10,
+      "single_parent_with_children": 19,
+      "other": 27,
+      "type_unknown": 0
+     },
+     "15-19": {
+      "general_households": 165129,
+      "single_person_households": 161138,
+      "single_person_pct": 97.58,
+      "couple_only": 655,
+      "couple_with_children": 1129,
+      "single_parent_with_children": 372,
+      "other": 1835,
+      "type_unknown": 0
+     },
+     "20-24": {
+      "general_households": 1070794,
+      "single_person_households": 929657,
+      "single_person_pct": 86.82,
+      "couple_only": 38745,
+      "couple_with_children": 55025,
+      "single_parent_with_children": 5366,
+      "other": 42001,
+      "type_unknown": 0
+     },
+     "25-29": {
+      "general_households": 1767415,
+      "single_person_households": 1054783,
+      "single_person_pct": 59.68,
+      "couple_only": 286148,
+      "couple_with_children": 328345,
+      "single_parent_with_children": 14239,
+      "other": 83900,
+      "type_unknown": 0
+     },
+     "30-34": {
+      "general_households": 2229532,
+      "single_person_households": 777928,
+      "single_person_pct": 34.89,
+      "couple_only": 373705,
+      "couple_with_children": 972029,
+      "single_parent_with_children": 26332,
+      "other": 79538,
+      "type_unknown": 0
+     },
+     "35-39": {
+      "general_households": 2701165,
+      "single_person_households": 666019,
+      "single_person_pct": 24.66,
+      "couple_only": 325052,
+      "couple_with_children": 1559917,
+      "single_parent_with_children": 46655,
+      "other": 103522,
+      "type_unknown": 0
+     },
+     "40-44": {
+      "general_households": 3185730,
+      "single_person_households": 674340,
+      "single_person_pct": 21.17,
+      "couple_only": 345380,
+      "couple_with_children": 1926198,
+      "single_parent_with_children": 84582,
+      "other": 155230,
+      "type_unknown": 0
+     },
+     "45-49": {
+      "general_households": 3822385,
+      "single_person_households": 830740,
+      "single_person_pct": 21.73,
+      "couple_only": 476429,
+      "couple_with_children": 2115568,
+      "single_parent_with_children": 151787,
+      "other": 247861,
+      "type_unknown": 0
+     },
+     "50-54": {
+      "general_households": 3526467,
+      "single_person_households": 807438,
+      "single_person_pct": 22.9,
+      "couple_only": 580079,
+      "couple_with_children": 1649075,
+      "single_parent_with_children": 182040,
+      "other": 307835,
+      "type_unknown": 0
+     },
+     "55-59": {
+      "general_households": 3367951,
+      "single_person_households": 740353,
+      "single_person_pct": 21.98,
+      "couple_only": 793708,
+      "couple_with_children": 1244112,
+      "single_parent_with_children": 185922,
+      "other": 403856,
+      "type_unknown": 0
+     },
+     "60-64": {
+      "general_households": 3268219,
+      "single_person_households": 651007,
+      "single_person_pct": 19.92,
+      "couple_only": 1066253,
+      "couple_with_children": 934138,
+      "single_parent_with_children": 151412,
+      "other": 465409,
+      "type_unknown": 0
+     },
+     "65-69": {
+      "general_households": 3656701,
+      "single_person_households": 690959,
+      "single_person_pct": 18.9,
+      "couple_only": 1509109,
+      "couple_with_children": 867338,
+      "single_parent_with_children": 118843,
+      "other": 470452,
+      "type_unknown": 0
+     },
+     "70-74": {
+      "general_households": 4006580,
+      "single_person_households": 669710,
+      "single_person_pct": 16.72,
+      "couple_only": 1941923,
+      "couple_with_children": 871202,
+      "single_parent_with_children": 105442,
+      "other": 418303,
+      "type_unknown": 0
+     },
+     "75-79": {
+      "general_households": 2875783,
+      "single_person_households": 399236,
+      "single_person_pct": 13.88,
+      "couple_only": 1521695,
+      "couple_with_children": 611474,
+      "single_parent_with_children": 84859,
+      "other": 258519,
+      "type_unknown": 0
+     },
+     "80-84": {
+      "general_households": 1958114,
+      "single_person_households": 270835,
+      "single_person_pct": 13.83,
+      "couple_only": 1033030,
+      "couple_with_children": 385474,
+      "single_parent_with_children": 78325,
+      "other": 190450,
+      "type_unknown": 0
+     },
+     "85+": {
+      "general_households": 1454375,
+      "single_person_households": 277431,
+      "single_person_pct": 19.08,
+      "couple_only": 676024,
+      "couple_with_children": 218613,
+      "single_parent_with_children": 97244,
+      "other": 185063,
+      "type_unknown": 0
+     },
+     "recap_15-64": {
+      "general_households": 25104787,
+      "single_person_households": 7293403,
+      "single_person_pct": 29.05,
+      "couple_only": 4286154,
+      "couple_with_children": 10785536,
+      "single_parent_with_children": 848707,
+      "other": 1890987,
+      "type_unknown": 0
+     },
+     "recap_65+": {
+      "general_households": 13951553,
+      "single_person_households": 2308171,
+      "single_person_pct": 16.54,
+      "couple_only": 6681781,
+      "couple_with_children": 2954101,
+      "single_parent_with_children": 484713,
+      "other": 1522787,
+      "type_unknown": 0
+     },
+     "recap_75+": {
+      "general_households": 6288272,
+      "single_person_households": 947502,
+      "single_person_pct": 15.07,
+      "couple_only": 3230749,
+      "couple_with_children": 1215561,
+      "single_parent_with_children": 260428,
+      "other": 634032,
+      "type_unknown": 0
+     }
+    },
+    "female": {
+     "15未満": {
+      "general_households": 63,
+      "single_person_households": 34,
+      "single_person_pct": 53.97,
+      "couple_only": 0,
+      "couple_with_children": 3,
+      "single_parent_with_children": 8,
+      "other": 18,
+      "type_unknown": 0
+     },
+     "15-19": {
+      "general_households": 129232,
+      "single_person_households": 126485,
+      "single_person_pct": 97.87,
+      "couple_only": 124,
+      "couple_with_children": 68,
+      "single_parent_with_children": 761,
+      "other": 1794,
+      "type_unknown": 0
+     },
+     "20-24": {
+      "general_households": 818609,
+      "single_person_households": 760895,
+      "single_person_pct": 92.95,
+      "couple_only": 5299,
+      "couple_with_children": 2353,
+      "single_parent_with_children": 18880,
+      "other": 31182,
+      "type_unknown": 0
+     },
+     "25-29": {
+      "general_households": 871549,
+      "single_person_households": 732121,
+      "single_person_pct": 84.0,
+      "couple_only": 24880,
+      "couple_with_children": 12670,
+      "single_parent_with_children": 61116,
+      "other": 40762,
+      "type_unknown": 0
+     },
+     "30-34": {
+      "general_households": 687965,
+      "single_person_households": 479906,
+      "single_person_pct": 69.76,
+      "couple_only": 24039,
+      "couple_with_children": 30188,
+      "single_parent_with_children": 125392,
+      "other": 28440,
+      "type_unknown": 0
+     },
+     "35-39": {
+      "general_households": 678245,
+      "single_person_households": 370170,
+      "single_person_pct": 54.58,
+      "couple_only": 16512,
+      "couple_with_children": 40057,
+      "single_parent_with_children": 222386,
+      "other": 29120,
+      "type_unknown": 0
+     },
+     "40-44": {
+      "general_households": 778271,
+      "single_person_households": 355511,
+      "single_person_pct": 45.68,
+      "couple_only": 14214,
+      "couple_with_children": 38813,
+      "single_parent_with_children": 331507,
+      "other": 38226,
+      "type_unknown": 0
+     },
+     "45-49": {
+      "general_households": 1026458,
+      "single_person_households": 448288,
+      "single_person_pct": 43.67,
+      "couple_only": 16667,
+      "couple_with_children": 32244,
+      "single_parent_with_children": 469945,
+      "other": 59314,
+      "type_unknown": 0
+     },
+     "50-54": {
+      "general_households": 1013907,
+      "single_person_households": 476502,
+      "single_person_pct": 47.0,
+      "couple_only": 16278,
+      "couple_with_children": 21421,
+      "single_parent_with_children": 431585,
+      "other": 68121,
+      "type_unknown": 0
+     },
+     "55-59": {
+      "general_households": 925706,
+      "single_person_households": 493412,
+      "single_person_pct": 53.3,
+      "couple_only": 16357,
+      "couple_with_children": 13548,
+      "single_parent_with_children": 332394,
+      "other": 69995,
+      "type_unknown": 0
+     },
+     "60-64": {
+      "general_households": 834459,
+      "single_person_households": 494812,
+      "single_person_pct": 59.3,
+      "couple_only": 14161,
+      "couple_with_children": 7485,
+      "single_parent_with_children": 249822,
+      "other": 68179,
+      "type_unknown": 0
+     },
+     "65-69": {
+      "general_households": 991159,
+      "single_person_households": 640136,
+      "single_person_pct": 64.58,
+      "couple_only": 13583,
+      "couple_with_children": 4494,
+      "single_parent_with_children": 254616,
+      "other": 78330,
+      "type_unknown": 0
+     },
+     "70-74": {
+      "general_households": 1337719,
+      "single_person_households": 908293,
+      "single_person_pct": 67.9,
+      "couple_only": 13391,
+      "couple_with_children": 3235,
+      "single_parent_with_children": 314970,
+      "other": 97830,
+      "type_unknown": 0
+     },
+     "75-79": {
+      "general_households": 1310374,
+      "single_person_households": 915179,
+      "single_person_pct": 69.84,
+      "couple_only": 8388,
+      "couple_with_children": 1777,
+      "single_parent_with_children": 299141,
+      "other": 85889,
+      "type_unknown": 0
+     },
+     "80-84": {
+      "general_households": 1230859,
+      "single_person_households": 888137,
+      "single_person_pct": 72.16,
+      "couple_only": 4700,
+      "couple_with_children": 803,
+      "single_parent_with_children": 261809,
+      "other": 75410,
+      "type_unknown": 0
+     },
+     "85+": {
+      "general_households": 1451161,
+      "single_person_households": 1056890,
+      "single_person_pct": 72.83,
+      "couple_only": 2312,
+      "couple_with_children": 384,
+      "single_parent_with_children": 294770,
+      "other": 96805,
+      "type_unknown": 0
+     },
+     "recap_15-64": {
+      "general_households": 7764401,
+      "single_person_households": 4738102,
+      "single_person_pct": 61.02,
+      "couple_only": 148531,
+      "couple_with_children": 198847,
+      "single_parent_with_children": 2243788,
+      "other": 435133,
+      "type_unknown": 0
+     },
+     "recap_65+": {
+      "general_households": 6321272,
+      "single_person_households": 4408635,
+      "single_person_pct": 69.74,
+      "couple_only": 42374,
+      "couple_with_children": 10693,
+      "single_parent_with_children": 1425306,
+      "other": 434264,
+      "type_unknown": 0
+     },
+     "recap_75+": {
+      "general_households": 3992394,
+      "single_person_households": 2860206,
+      "single_person_pct": 71.64,
+      "couple_only": 15400,
+      "couple_with_children": 2964,
+      "single_parent_with_children": 855720,
+      "other": 258104,
+      "type_unknown": 0
+     }
+    }
+   }
+  },
+  "notes": [
+   "対象は一般世帯(施設等の世帯を除く)。世帯数は公表値そのまま。pctは公表世帯数から当方で計算(分母=家族類型「不詳」を含む一般世帯総数)。",
+   "single_parent_with_children=男親と子供+女親と子供。other=核家族以外の世帯+非親族を含む世帯。type_unknown=世帯の家族類型「不詳」。",
+   "by_householder_sex_and_age の single_person_pct は「その年齢階級の世帯主がいる一般世帯のうち単独世帯の割合」であり、その年齢の人口に占める一人暮らしの割合ではない。世帯主年齢「不詳」は除外。recap_ は再掲区分。",
+   "この表は原数値(不詳補完なし)。"
+  ],
+  "unverified": []
+ },
+ "employment_rate_by_age_sex": {
+  "title": "労働力調査(基本集計)2025年平均 年齢5歳階級・男女別 就業者数及び就業率(全国)",
+  "year": 2025,
+  "unit": "万人(employed_10k)、%(employment_rate_pct)",
+  "source_name": "総務省統計局「労働力調査」長期時系列データ 表3(3) 年齢階級(5歳階級)別就業者数及び就業率－全国(2026-01-30更新)",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000001082684&fileKind=0",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&tclass=000001226526&cycle=0",
+  "data": {
+   "total": {
+    "total_15+": {
+     "employed_10k": 6828,
+     "employment_rate_pct": 62.2
+    },
+    "15-19": {
+     "employed_10k": 117,
+     "employment_rate_pct": 21.4
+    },
+    "20-24": {
+     "employed_10k": 463,
+     "employment_rate_pct": 74.4
+    },
+    "25-29": {
+     "employed_10k": 581,
+     "employment_rate_pct": 88.8
+    },
+    "30-34": {
+     "employed_10k": 570,
+     "employment_rate_pct": 88.8
+    },
+    "35-39": {
+     "employed_10k": 589,
+     "employment_rate_pct": 87.3
+    },
+    "40-44": {
+     "employed_10k": 662,
+     "employment_rate_pct": 88.1
+    },
+    "45-49": {
+     "employed_10k": 754,
+     "employment_rate_pct": 88.7
+    },
+    "50-54": {
+     "employed_10k": 852,
+     "employment_rate_pct": 87
+    },
+    "55-59": {
+     "employed_10k": 721,
+     "employment_rate_pct": 83.9
+    },
+    "60-64": {
+     "employed_10k": 578,
+     "employment_rate_pct": 74.9
+    },
+    "65+": {
+     "employed_10k": 943,
+     "employment_rate_pct": 26
+    },
+    "65-69": {
+     "employed_10k": 392,
+     "employment_rate_pct": 54.5
+    },
+    "70-74": {
+     "employed_10k": 284,
+     "employment_rate_pct": 36.2
+    },
+    "75+": {
+     "employed_10k": 266,
+     "employment_rate_pct": 12.6
+    },
+    "70+": {
+     "employed_10k": 550,
+     "employment_rate_pct": 19
+    }
+   },
+   "male": {
+    "total_15+": {
+     "employed_10k": 3702,
+     "employment_rate_pct": 69.8
+    },
+    "15-19": {
+     "employed_10k": 55,
+     "employment_rate_pct": 19.6
+    },
+    "20-24": {
+     "employed_10k": 237,
+     "employment_rate_pct": 73.8
+    },
+    "25-29": {
+     "employed_10k": 304,
+     "employment_rate_pct": 90.2
+    },
+    "30-34": {
+     "employed_10k": 308,
+     "employment_rate_pct": 93.1
+    },
+    "35-39": {
+     "employed_10k": 322,
+     "employment_rate_pct": 93.3
+    },
+    "40-44": {
+     "employed_10k": 356,
+     "employment_rate_pct": 93.4
+    },
+    "45-49": {
+     "employed_10k": 404,
+     "employment_rate_pct": 93.7
+    },
+    "50-54": {
+     "employed_10k": 461,
+     "employment_rate_pct": 93.1
+    },
+    "55-59": {
+     "employed_10k": 392,
+     "employment_rate_pct": 91.2
+    },
+    "60-64": {
+     "employed_10k": 322,
+     "employment_rate_pct": 84.1
+    },
+    "65+": {
+     "employed_10k": 542,
+     "employment_rate_pct": 34.5
+    },
+    "65-69": {
+     "employed_10k": 222,
+     "employment_rate_pct": 63.4
+    },
+    "70-74": {
+     "employed_10k": 165,
+     "employment_rate_pct": 44.5
+    },
+    "75+": {
+     "employed_10k": 154,
+     "employment_rate_pct": 18.2
+    },
+    "70+": {
+     "employed_10k": 320,
+     "employment_rate_pct": 26.3
+    }
+   },
+   "female": {
+    "total_15+": {
+     "employed_10k": 3126,
+     "employment_rate_pct": 55.1
+    },
+    "15-19": {
+     "employed_10k": 62,
+     "employment_rate_pct": 23.2
+    },
+    "20-24": {
+     "employed_10k": 226,
+     "employment_rate_pct": 75.1
+    },
+    "25-29": {
+     "employed_10k": 277,
+     "employment_rate_pct": 87.4
+    },
+    "30-34": {
+     "employed_10k": 262,
+     "employment_rate_pct": 84
+    },
+    "35-39": {
+     "employed_10k": 266,
+     "employment_rate_pct": 80.6
+    },
+    "40-44": {
+     "employed_10k": 306,
+     "employment_rate_pct": 82.7
+    },
+    "45-49": {
+     "employed_10k": 350,
+     "employment_rate_pct": 83.3
+    },
+    "50-54": {
+     "employed_10k": 391,
+     "employment_rate_pct": 80.6
+    },
+    "55-59": {
+     "employed_10k": 329,
+     "employment_rate_pct": 76.9
+    },
+    "60-64": {
+     "employed_10k": 256,
+     "employment_rate_pct": 65.8
+    },
+    "65+": {
+     "employed_10k": 401,
+     "employment_rate_pct": 19.6
+    },
+    "65-69": {
+     "employed_10k": 170,
+     "employment_rate_pct": 46.1
+    },
+    "70-74": {
+     "employed_10k": 119,
+     "employment_rate_pct": 28.8
+    },
+    "75+": {
+     "employed_10k": 112,
+     "employment_rate_pct": 8.8
+    },
+    "70+": {
+     "employed_10k": 231,
+     "employment_rate_pct": 13.7
+    }
+   }
+  },
+  "notes": [
+   "就業率=15歳以上人口に占める就業者の割合。公表値そのまま。65歳以上の5歳階級は65-69, 70-74, 75+まで(70+は再掲)。"
+  ],
+  "unverified": []
+ },
+ "employment_type_by_age_sex": {
+  "title": "労働力調査(基本集計)2025年平均 年齢10歳階級・男女別 雇用形態別雇用者数(正規・非正規)(全国)",
+  "year": 2025,
+  "unit": "万人(_10k)、%(_pct)",
+  "source_name": "総務省統計局「労働力調査」長期時系列データ 表3(11) 年齢階級(10歳階級)、雇用形態別雇用者数－全国(2026-01-30更新)",
+  "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040356474&fileKind=0",
+  "source_list_url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&tclass=000001226526&cycle=0",
+  "data": {
+   "total": {
+    "total_15+": {
+     "employees_10k": 6185,
+     "employees_excl_executives_10k": 5837,
+     "regular_10k": 3708,
+     "non_regular_10k": 2128,
+     "part_time_arubaito_10k": 1512,
+     "dispatched_10k": 156,
+     "contract_10k": 273,
+     "entrusted_10k": 105,
+     "other_10k": 81,
+     "regular_pct": 63.5,
+     "non_regular_pct": 36.5
+    },
+    "15-24": {
+     "employees_10k": 568,
+     "employees_excl_executives_10k": 566,
+     "regular_10k": 270,
+     "non_regular_10k": 296,
+     "part_time_arubaito_10k": 266,
+     "dispatched_10k": 8,
+     "contract_10k": 15,
+     "entrusted_10k": 1,
+     "other_10k": 6,
+     "regular_pct": 47.7,
+     "non_regular_pct": 52.3
+    },
+    "25-34": {
+     "employees_10k": 1103,
+     "employees_excl_executives_10k": 1088,
+     "regular_10k": 864,
+     "non_regular_10k": 225,
+     "part_time_arubaito_10k": 134,
+     "dispatched_10k": 32,
+     "contract_10k": 43,
+     "entrusted_10k": 4,
+     "other_10k": 13,
+     "regular_pct": 79.3,
+     "non_regular_pct": 20.7
+    },
+    "35-44": {
+     "employees_10k": 1164,
+     "employees_excl_executives_10k": 1123,
+     "regular_10k": 834,
+     "non_regular_10k": 289,
+     "part_time_arubaito_10k": 209,
+     "dispatched_10k": 29,
+     "contract_10k": 35,
+     "entrusted_10k": 6,
+     "other_10k": 10,
+     "regular_pct": 74.3,
+     "non_regular_pct": 25.7
+    },
+    "45-54": {
+     "employees_10k": 1480,
+     "employees_excl_executives_10k": 1393,
+     "regular_10k": 980,
+     "non_regular_10k": 413,
+     "part_time_arubaito_10k": 304,
+     "dispatched_10k": 41,
+     "contract_10k": 47,
+     "entrusted_10k": 9,
+     "other_10k": 13,
+     "regular_pct": 70.4,
+     "non_regular_pct": 29.6
+    },
+    "55-64": {
+     "employees_10k": 1175,
+     "employees_excl_executives_10k": 1080,
+     "regular_10k": 620,
+     "non_regular_10k": 460,
+     "part_time_arubaito_10k": 291,
+     "dispatched_10k": 28,
+     "contract_10k": 76,
+     "entrusted_10k": 49,
+     "other_10k": 16,
+     "regular_pct": 57.4,
+     "non_regular_pct": 42.6
+    },
+    "65+": {
+     "employees_10k": 695,
+     "employees_excl_executives_10k": 586,
+     "regular_10k": 140,
+     "non_regular_10k": 446,
+     "part_time_arubaito_10k": 309,
+     "dispatched_10k": 18,
+     "contract_10k": 58,
+     "entrusted_10k": 37,
+     "other_10k": 23,
+     "regular_pct": 23.9,
+     "non_regular_pct": 76.1
+    },
+    "65-74": {
+     "employees_10k": 536,
+     "employees_excl_executives_10k": 468,
+     "regular_10k": 113,
+     "non_regular_10k": 355,
+     "part_time_arubaito_10k": 245,
+     "dispatched_10k": 13,
+     "contract_10k": 50,
+     "entrusted_10k": 31,
+     "other_10k": 16,
+     "regular_pct": 24.1,
+     "non_regular_pct": 75.9
+    },
+    "75+": {
+     "employees_10k": 158,
+     "employees_excl_executives_10k": 117,
+     "regular_10k": 27,
+     "non_regular_10k": 91,
+     "part_time_arubaito_10k": 65,
+     "dispatched_10k": 5,
+     "contract_10k": 8,
+     "entrusted_10k": 5,
+     "other_10k": 7,
+     "regular_pct": 22.9,
+     "non_regular_pct": 77.1
+    }
+   },
+   "male": {
+    "total_15+": {
+     "employees_10k": 3306,
+     "employees_excl_executives_10k": 3045,
+     "regular_10k": 2367,
+     "non_regular_10k": 678,
+     "part_time_arubaito_10k": 369,
+     "dispatched_10k": 61,
+     "contract_10k": 143,
+     "entrusted_10k": 68,
+     "other_10k": 37,
+     "regular_pct": 77.7,
+     "non_regular_pct": 22.3
+    },
+    "15-24": {
+     "employees_10k": 283,
+     "employees_excl_executives_10k": 282,
+     "regular_10k": 142,
+     "non_regular_10k": 141,
+     "part_time_arubaito_10k": 127,
+     "dispatched_10k": 3,
+     "contract_10k": 7,
+     "entrusted_10k": 0,
+     "other_10k": 4,
+     "regular_pct": 50.2,
+     "non_regular_pct": 49.8
+    },
+    "25-34": {
+     "employees_10k": 584,
+     "employees_excl_executives_10k": 573,
+     "regular_10k": 495,
+     "non_regular_10k": 78,
+     "part_time_arubaito_10k": 38,
+     "dispatched_10k": 13,
+     "contract_10k": 19,
+     "entrusted_10k": 2,
+     "other_10k": 6,
+     "regular_pct": 86.4,
+     "non_regular_pct": 13.6
+    },
+    "35-44": {
+     "employees_10k": 628,
+     "employees_excl_executives_10k": 597,
+     "regular_10k": 544,
+     "non_regular_10k": 53,
+     "part_time_arubaito_10k": 25,
+     "dispatched_10k": 10,
+     "contract_10k": 13,
+     "entrusted_10k": 1,
+     "other_10k": 4,
+     "regular_pct": 91.1,
+     "non_regular_pct": 8.9
+    },
+    "45-54": {
+     "employees_10k": 785,
+     "employees_excl_executives_10k": 718,
+     "regular_10k": 659,
+     "non_regular_10k": 59,
+     "part_time_arubaito_10k": 25,
+     "dispatched_10k": 12,
+     "contract_10k": 16,
+     "entrusted_10k": 2,
+     "other_10k": 4,
+     "regular_pct": 91.8,
+     "non_regular_pct": 8.2
+    },
+    "55-64": {
+     "employees_10k": 636,
+     "employees_excl_executives_10k": 564,
+     "regular_10k": 433,
+     "non_regular_10k": 132,
+     "part_time_arubaito_10k": 38,
+     "dispatched_10k": 11,
+     "contract_10k": 43,
+     "entrusted_10k": 34,
+     "other_10k": 7,
+     "regular_pct": 76.6,
+     "non_regular_pct": 23.4
+    },
+    "65+": {
+     "employees_10k": 389,
+     "employees_excl_executives_10k": 311,
+     "regular_10k": 94,
+     "non_regular_10k": 217,
+     "part_time_arubaito_10k": 117,
+     "dispatched_10k": 12,
+     "contract_10k": 45,
+     "entrusted_10k": 29,
+     "other_10k": 13,
+     "regular_pct": 30.2,
+     "non_regular_pct": 69.8
+    },
+    "65-74": {
+     "employees_10k": 300,
+     "employees_excl_executives_10k": 250,
+     "regular_10k": 79,
+     "non_regular_10k": 170,
+     "part_time_arubaito_10k": 89,
+     "dispatched_10k": 8,
+     "contract_10k": 39,
+     "entrusted_10k": 24,
+     "other_10k": 9,
+     "regular_pct": 31.7,
+     "non_regular_pct": 68.3
+    },
+    "75+": {
+     "employees_10k": 90,
+     "employees_excl_executives_10k": 61,
+     "regular_10k": 15,
+     "non_regular_10k": 46,
+     "part_time_arubaito_10k": 28,
+     "dispatched_10k": 3,
+     "contract_10k": 7,
+     "entrusted_10k": 4,
+     "other_10k": 4,
+     "regular_pct": 24.6,
+     "non_regular_pct": 75.4
+    }
+   },
+   "female": {
+    "total_15+": {
+     "employees_10k": 2879,
+     "employees_excl_executives_10k": 2791,
+     "regular_10k": 1341,
+     "non_regular_10k": 1450,
+     "part_time_arubaito_10k": 1143,
+     "dispatched_10k": 96,
+     "contract_10k": 130,
+     "entrusted_10k": 37,
+     "other_10k": 44,
+     "regular_pct": 48,
+     "non_regular_pct": 52
+    },
+    "15-24": {
+     "employees_10k": 284,
+     "employees_excl_executives_10k": 284,
+     "regular_10k": 128,
+     "non_regular_10k": 155,
+     "part_time_arubaito_10k": 140,
+     "dispatched_10k": 5,
+     "contract_10k": 8,
+     "entrusted_10k": 1,
+     "other_10k": 3,
+     "regular_pct": 45.2,
+     "non_regular_pct": 54.8
+    },
+    "25-34": {
+     "employees_10k": 519,
+     "employees_excl_executives_10k": 516,
+     "regular_10k": 368,
+     "non_regular_10k": 147,
+     "part_time_arubaito_10k": 96,
+     "dispatched_10k": 19,
+     "contract_10k": 23,
+     "entrusted_10k": 3,
+     "other_10k": 7,
+     "regular_pct": 71.5,
+     "non_regular_pct": 28.5
+    },
+    "35-44": {
+     "employees_10k": 537,
+     "employees_excl_executives_10k": 526,
+     "regular_10k": 290,
+     "non_regular_10k": 236,
+     "part_time_arubaito_10k": 185,
+     "dispatched_10k": 19,
+     "contract_10k": 22,
+     "entrusted_10k": 4,
+     "other_10k": 6,
+     "regular_pct": 55.1,
+     "non_regular_pct": 44.9
+    },
+    "45-54": {
+     "employees_10k": 695,
+     "employees_excl_executives_10k": 675,
+     "regular_10k": 321,
+     "non_regular_10k": 354,
+     "part_time_arubaito_10k": 279,
+     "dispatched_10k": 29,
+     "contract_10k": 31,
+     "entrusted_10k": 7,
+     "other_10k": 9,
+     "regular_pct": 47.6,
+     "non_regular_pct": 52.4
+    },
+    "55-64": {
+     "employees_10k": 539,
+     "employees_excl_executives_10k": 516,
+     "regular_10k": 188,
+     "non_regular_10k": 328,
+     "part_time_arubaito_10k": 253,
+     "dispatched_10k": 18,
+     "contract_10k": 34,
+     "entrusted_10k": 15,
+     "other_10k": 9,
+     "regular_pct": 36.4,
+     "non_regular_pct": 63.6
+    },
+    "65+": {
+     "employees_10k": 306,
+     "employees_excl_executives_10k": 275,
+     "regular_10k": 46,
+     "non_regular_10k": 229,
+     "part_time_arubaito_10k": 192,
+     "dispatched_10k": 6,
+     "contract_10k": 12,
+     "entrusted_10k": 8,
+     "other_10k": 10,
+     "regular_pct": 16.7,
+     "non_regular_pct": 83.3
+    },
+    "65-74": {
+     "employees_10k": 237,
+     "employees_excl_executives_10k": 219,
+     "regular_10k": 34,
+     "non_regular_10k": 185,
+     "part_time_arubaito_10k": 155,
+     "dispatched_10k": 5,
+     "contract_10k": 11,
+     "entrusted_10k": 7,
+     "other_10k": 8,
+     "regular_pct": 15.5,
+     "non_regular_pct": 84.5
+    },
+    "75+": {
+     "employees_10k": 69,
+     "employees_excl_executives_10k": 56,
+     "regular_10k": 11,
+     "non_regular_10k": 44,
+     "part_time_arubaito_10k": 37,
+     "dispatched_10k": 2,
+     "contract_10k": 2,
+     "entrusted_10k": 1,
+     "other_10k": 3,
+     "regular_pct": 20,
+     "non_regular_pct": 80
+    }
+   }
+  },
+  "notes": [
+   "regular_pct / non_regular_pct は公表値で、分母は「役員を除く雇用者」(自営業主・家族従業者・役員は含まない)。",
+   "年齢は10歳階級のみ(5歳階級の雇用形態別はこの表にない)。15-24は在学中を含む。"
+  ],
+  "unverified": [
+   "雇用形態の5歳階級別は未取得(長期時系列表3(11)は10歳階級のみ。詳細集計等に存在する可能性はあるが未確認)。"
+  ]
+ },
+ "_meta": {
+  "generated": "2026-11-23",
+  "method": "e-Stat(www.e-stat.go.jp)から公表Excelを直接ダウンロードし、openpyxlで機械的に抽出。手入力・記憶による値は無し。割合で「当方で計算」と注記したもの以外は公表値の転記。",
+  "validation_checks": [
+   "人口: 男+女=122972 vs 男女計=122973 (差-1)",
+   "人口: 5歳階級合計 計/男/女=[122973, 59771, 63200] vs 総数=[122973, 59772, 63200]",
+   "人口: 各階級で 男+女-計 の最大絶対差=1",
+   "人口: 各歳85-100+合計=[6836, 2237, 4597] vs 公表85+=[6834, 2237, 4598] ; 第1表総数=[122973, 59772, 63200]",
+   "都道府県: 47合計=122973 vs 全国=122973 (差0, 千人四捨五入による)",
+   "配偶関係: 未婚+有配偶+死別+離別 と総数の最大差=0人 ; 15歳以上 男+女-計=0",
+   "世帯: 8類型の合計=55704949 vs 一般世帯総数=55704949",
+   "就業者(万人) 2025: 男3702+女3126=6828 vs 男女計6828",
+   "雇用形態 2025 男女計: 正規3708+非正規2128=5836 vs 役員を除く雇用者5837 ; 割合 63.5+36.5"
+  ]
+ }
+}

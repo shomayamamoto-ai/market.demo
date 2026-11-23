@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日本市場シミュレーター</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>日本市場シミュレーター</h1>
+    <p class="lead">公的統計から作った仮想の生活者(ペルソナ)に、<wbr>お題や資料をぶつけて市場の反応を試算します。</p>
+    <div id="status" class="status"></div>
+  </div>
+  <nav class="tabs wrap" role="tablist">
+    <button data-tab="people" class="on">① 人口とペルソナ</button>
+    <button data-tab="market">② 市場の規模感</button>
+    <button data-tab="sim">③ お題シミュレーション</button>
+    <button data-tab="spread">④ 普及シミュレーション</button>
+    <button data-tab="game">⑤ 経営ゲーム</button>
+    <button data-tab="source">出典と仮定</button>
+  </nav>
+</header>
+
+<main class="wrap">
+<!-- ① 人口とペルソナ -->
+<section id="tab-people" class="tab on">
+  <div class="card">
+    <h2>仮想の日本をつくる</h2>
+    <p class="note">日本の人口を、年齢・性別の比率を保ったまま縮小して再現します。<br>ペルソナ1人が、実際の何人分かを代表します。</p>
+    <div class="form-row">
+      <label>ペルソナの人数
+        <select id="n"><option>2000</option><option selected>10000</option><option>30000</option></select>
+      </label>
+      <label>乱数のシード値 <input id="seed" type="number" value="1" min="1"></label>
+      <label>想定する年
+        <select id="year"></select>
+      </label>
+      <button id="regen" class="primary">つくり直す</button>
+    </div>
+    <div id="pop-kpi" class="kpis"></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>人口ピラミッド</h3><div id="pyramid"></div></div>
+    <div class="card"><h3>就業の内訳(15歳以上)</h3><div id="work-chart"></div>
+      <h3>世帯の内訳</h3><div id="hh-chart"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>本人年収の分布(18歳以上)</h3><div id="income-chart"></div></div>
+    <div class="card"><h3>採用タイプ(新商品への反応の速さ)</h3><div id="adopter-chart"></div>
+      <p class="note">ロジャーズの普及理論の比率で割り当てています。</p></div>
+  </div>
+  <div class="card">
+    <h3>ペルソナを見る</h3>
+    <div class="form-row">
+      <label>年齢 <span class="pair"><input id="f-age-min" type="number" value="0" min="0" max="110"> 〜 <input id="f-age-max" type="number" value="110" min="0" max="110"></span></label>
+      <label>性別 <select id="f-sex"><option value="all">すべて</option><option value="male">男性</option><option value="female">女性</option></select></label>
+      <button id="shuffle">別の人を表示</button>
+    </div>
+    <div id="persona-list" class="persona-list"></div>
+  </div>
+</section>
+
+<!-- ② 市場 -->
+<section id="tab-market" class="tab">
+  <div class="card"><h2>産業別の売上(企業側から見た規模)</h2><div id="industry-chart"></div><p id="industry-note" class="note"></p></div>
+  <div class="grid2">
+    <div class="card"><h3>小売の業態別販売額</h3><div id="retail-chart"></div><p id="retail-note" class="note"></p></div>
+    <div class="card"><h3>ネット通販(BtoC-EC)の市場規模</h3><div id="ec-chart"></div><p id="ec-note" class="note"></p></div>
+  </div>
+  <div class="card"><h2>家計の支出(生活者側から見た規模)</h2>
+    <p class="note">ペルソナ全員の支出を合計した値です。国の統計と比べて、モデルのずれを確かめられます。</p>
+    <div id="spend-chart"></div><div id="spend-check" class="note"></div>
+    <h3>年代別・1人あたり月間支出</h3><div id="spend-age" class="table-scroll"></div>
+  </div>
+</section>
+
+<!-- ③ お題シミュレーション -->
+<section id="tab-sim" class="tab">
+  <div class="card">
+    <h2>STEP 1 お題と資料を入れる</h2>
+    <textarea id="topic" rows="4" placeholder="例:共働き世帯向けに、管理栄養士が監修した冷凍の夕食セットを月額9,800円で届けるサービスを始めたい。"></textarea>
+    <div class="form-row">
+      <label class="file">資料を追加(PDF・テキスト・CSV)<input id="files" type="file" multiple accept=".pdf,.txt,.md,.csv,.json"></label>
+      <button id="read-brief" class="primary">AIで読み取る</button>
+      <span id="brief-msg" class="msg"></span>
+    </div>
+    <ul id="file-list" class="chips"></ul>
+    <div id="brief-box"></div>
+  </div>
+
+  <div class="card">
+    <h2>STEP 2 商品の条件</h2>
+    <p class="note">AIが読み取った内容がここに入ります。手で直すこともできます。<br>AIを使わない場合は、ここに直接入力してください。</p>
+    <div class="form-grid">
+      <label>名前 <input id="p-name" type="text" value="新しい商品"></label>
+      <label>近い費目 <select id="p-category"></select></label>
+      <label>1回の価格(円) <input id="p-price" type="number" value="3000" min="0"></label>
+      <label>年に買う回数 <input id="p-per-year" type="number" value="12" min="0.1" step="0.1"></label>
+      <label>対象年齢 <span class="pair"><input id="p-age-min" type="number" value="20" min="0"> 〜 <input id="p-age-max" type="number" value="69" min="0"></span></label>
+      <label>対象の性別 <select id="p-sex"><option value="all">すべて</option><option value="male">男性</option><option value="female">女性</option></select></label>
+      <label class="check"><input id="p-online" type="checkbox"> ネット利用者だけが対象</label>
+    </div>
+    <details><summary>訴求点と価値観の相性(統計モード用)</summary>
+      <div class="form-grid">
+        <label>新しさ <input id="a-novelty" type="range" min="0" max="1" step="0.1" value="0.3"></label>
+        <label>健康 <input id="a-health" type="range" min="0" max="1" step="0.1" value="0"></label>
+        <label>品質・ブランド <input id="a-quality" type="range" min="0" max="1" step="0.1" value="0.2"></label>
+        <label>安さ <input id="a-cheap" type="range" min="0" max="1" step="0.1" value="0"></label>
+        <label>関心を持つ人の基準割合(%) <input id="a-base" type="number" min="1" max="95" value="12"></label>
+      </div>
+    </details>
+    <button id="run-stat" class="primary">市場規模を計算する</button>
+    <div id="stat-result"></div>
+  </div>
+
+  <div class="card">
+    <h2>STEP 3 ペルソナにAIインタビューする</h2>
+    <p class="note">対象者から年代・性別の比率を保って選び、1人ずつAIに本人として答えさせます。</p>
+    <div class="form-row">
+      <label>人数 <select id="k"><option>20</option><option selected>40</option><option>80</option><option>160</option></select></label>
+      <button id="run-ai" class="primary">インタビューを始める</button>
+      <span id="ai-msg" class="msg"></span>
+    </div>
+    <div id="ai-progress" class="progress" hidden><i></i></div>
+    <div id="ai-result"></div>
+  </div>
+</section>
+
+<!-- ④ 普及シミュレーション -->
+<section id="tab-spread" class="tab">
+  <div class="card">
+    <h2>発売後の広がり方を試す</h2>
+    <p class="note">③で設定した商品が、広告と口コミでどう広がるかを月ごとに計算します。<br>乱数を変えて何度も試し、結果の幅(下位10%〜上位10%)も示します。</p>
+    <div class="form-grid" id="plan-form">
+      <label>期間(月) <input id="s-months" type="number" value="36" min="6" max="120"></label>
+      <label>試行回数 <input id="s-runs" type="number" value="20" min="1" max="100"></label>
+      <label>テレビ広告(万円/月) <input id="s-tv" type="number" value="0" min="0"></label>
+      <label>ネット・SNS広告(万円/月) <input id="s-net" type="number" value="300" min="0"></label>
+      <label>店頭・その他(万円/月) <input id="s-store" type="number" value="0" min="0"></label>
+      <label>解約率(%/月) <input id="s-churn" type="number" value="3" min="0" max="100" step="0.5"></label>
+      <label>原価率(%) <input id="s-cost" type="number" value="40" min="0" max="100"></label>
+      <label>固定費(万円/月) <input id="s-fixed" type="number" value="200" min="0"></label>
+      <label class="check"><input id="s-events" type="checkbox"> 突発的な出来事を起こす</label>
+      <label class="check"><input id="s-calib" type="checkbox"> AIインタビューの結果を反映する</label>
+    </div>
+    <button id="run-spread" class="primary">シミュレーションを実行</button>
+    <div id="spread-result"></div>
+  </div>
+</section>
+
+<!-- ⑤ 経営ゲーム -->
+<section id="tab-game" class="tab">
+  <div class="card">
+    <h2>経営ゲーム:3か月ごとに手を打つ</h2>
+    <p class="note">③の商品を発売した想定で、四半期ごとに価格と広告費を決めて進めます。<br>競合の参入やSNSでの話題化など、予期しない出来事も起こります。</p>
+    <div class="form-row">
+      <label>シード値 <input id="g-seed" type="number" value="7" min="1"></label>
+      <button id="g-start" class="primary">新しいゲームを始める</button>
+    </div>
+    <div id="game-board" hidden>
+      <div id="g-kpi" class="kpis"></div>
+      <div class="form-grid">
+        <label>価格(円) <input id="g-price" type="number" min="0"></label>
+        <label>テレビ広告(万円/月) <input id="g-tv" type="number" value="0" min="0"></label>
+        <label>ネット・SNS広告(万円/月) <input id="g-net" type="number" value="300" min="0"></label>
+        <label>店頭・その他(万円/月) <input id="g-store" type="number" value="0" min="0"></label>
+      </div>
+      <button id="g-next" class="primary">3か月進める</button>
+      <div id="g-chart"></div>
+      <ul id="g-log" class="log"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 出典と仮定 -->
+<section id="tab-source" class="tab">
+  <div class="card"><h2>使っているデータの出典</h2><div id="sources" class="table-scroll"></div></div>
+  <div class="card"><h2>モデルに置いた仮定</h2>
+    <p class="note">統計に無い部分は、下の仮定で補っています。結果を読むときの前提として確認してください。</p>
+    <div id="assumptions" class="table-scroll"></div></div>
+  <div class="card"><h2>このツールの限界</h2><ul id="limits" class="plain"></ul></div>
+</section>
+</main>
+<footer class="wrap foot">実在の個人のデータは使っていません。結果は試算であり、実際の売上を保証するものではありません。</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
