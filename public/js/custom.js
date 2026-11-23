@@ -14,6 +14,7 @@ export const CUSTOM_ASSUMPTIONS = {
   time: { value: { hours: 4.3, share: 0.33 }, note: "手間1点 = 週に1時間(月4.3時間)の手間と数え、その人の時給 × share の金額に直す。自由な時間の価値は賃金の1/3〜1/2とされる(米国運輸省の指針50%、欧州のメタ分析 約33%)ので、その幅の下の端の0.33を使う(週休3日制の利用意向の調査と比べると、高いほうの値では動く人が多く出すぎるため)。働いていない人は、働いている人の平均時給を使う" },
   risk: { value: 500, note: "不安1点を、月何円の損と同じとみなすか。日本の選択実験では「まれな停電」が月約900円、いちばん嫌われた属性が月約2,400円に相当した(森田・馬奈木 2013)。10点で月5,000円とした。点数との対応は仮定" },
   riskAge: { value: 0.004, note: "不安の重みの年齢差。45歳を1として、1歳ごとにこの割合だけ増える。低所得の層は+0.3。年齢が高いほどリスクを避ける向きは実証されている(Dohmen ら 2011)が、傾きの大きさは文献で確認できなかった。支払い方法の年代差(財務省の調査)が大きく出すぎないよう、小さめに置いた" },
+  purse: { value: "月のお金 ÷ 25万円", note: "不安・新しさ・安心を金額に直すとき、その人の月のお金に比例させる。同じ安心でも、懐に余裕のある人ほど多く払ってよいと考えるため。動画配信の利用率が収入の高い世帯ほど高い(総務省の調査)ことと向きが合う。比例の度合いは仮定" },
   novelty: { value: 1000, note: "新しさ1点を月何円とみなすか ×(その人の新しもの好き度 − 0.5)× 2。新しいものが苦手な人にはマイナスに働く。仮定" },
   quality: { value: 1000, note: "安心・品質1点を月何円とみなすか ×(0.3 + 品質重視度)。仮定" },
   spread: { value: 0.8, note: "手間と不安の感じ方の個人差(対数正規分布の標準偏差)。在宅勤務の価値は平均で賃金の8%だが、上位25%は14%以上、約2割はゼロ以下と個人差が大きい(Mas & Pallais 2017)ことを反映" },
@@ -48,11 +49,12 @@ const AVG_WAGE = 2400; // 働いている人の平均的な時給の目安(円)�
 function yenValue(p, o, k) {
   const A = CUSTOM_ASSUMPTIONS, t = p.traits;
   const wage = p.working && p.income > 0 ? clamp((p.income * 10000) / 1926, 900, 12000) : AVG_WAGE; // 年収 ÷ 年間の労働時間(月160.5時間 × 12)
+  const purse = Math.max(p.spendTotal, (p.income * 10000 * 0.8) / 12, 50000) / 250000; // 月25万円で暮らす人を1とした、その人の懐の大きさ。不安・新しさ・安心に払ってもよい額は、これに比例する
   return o.money
     - o.effort * A.time.value.hours * wage * A.time.value.share * k.effort
-    - o.risk * A.risk.value * (1 + A.riskAge.value * (p.age - 45) + (p.tier <= 1 ? 0.3 : 0)) * k.risk
-    + o.novelty * A.novelty.value * (t.novelty - 0.5) * 2
-    + o.quality * A.quality.value * (0.3 + t.quality);
+    - o.risk * A.risk.value * purse * (1 + A.riskAge.value * (p.age - 45) + (p.tier <= 1 ? 0.3 : 0)) * k.risk
+    + o.novelty * A.novelty.value * purse * (t.novelty - 0.5) * 2
+    + o.quality * A.quality.value * purse * (0.3 + t.quality);
 }
 // 今のままと比べた得・損(円)を、重みに直す。損は得より重い
 function weigh(p, diff) {
@@ -243,5 +245,15 @@ export function customChecks(personas, seed = 1) {
   add("有料の動画配信:利用する人", share(video, (t) => 1 - t.mean[0]), 0.537, "同上の調査(動画配信サービスの利用率 53.7%。確かさ:高)", 10);
   const cash = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: TEMPLATES.cashless.options };
   add("現金で払う人:30代 ÷ 60代", share(cash, (t) => (band(t, "30代") && band(t, "60代") ? band(t, "30代").shares[0] / band(t, "60代").shares[0] : null)), 65.2 / 72.2, "財務省 通貨に関する実態調査 令和2年度(1,000円未満の支払いで現金を主に使う人 30代65.2%、60代72.2%。確かさ:高)", 10);
+  // ここから下は、係数や入力を決めたあとで取得した調査(消費者庁)。係数の見直しには一度も使っていない
+  const net = personas.filter((p) => p.internet), caa = "消費者庁 消費者意識基本調査 令和4年度 集計表(インターネットを利用している人が対象。確かさ:高)";
+  const shop = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: [opt("店で買う", 0, 2, 0, 0, 5), opt("ネットで予約・購入する", 300, 0.5, 3, 3, 4, 1)] };
+  const flea = { ...stated, target: shop.target, options: [opt("使わない", 0, 0, 0, 0, 5), opt("フリマサイトで買う", 1000, 1, 6, 6, 2, 1)] };
+  const on = (config, pick) => { const t = trialCustom(net, config, 4, seed); return t ? pick(t) : null; };
+  const hold = (label, model, real, source, tol) => { const before = rows.length; add(label, model, real, source, tol); if (rows.length > before) rows[rows.length - 1].holdout = true; };
+  hold("ネットで予約・購入する人", on(shop, (t) => t.mean[1]), 0.746, caa, 10);
+  hold("ネットで予約・購入:70代 ÷ 30代", on(shop, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 46.3 / 87.1, caa, 10);
+  hold("フリマサイトで買う人", on(flea, (t) => t.mean[1]), 0.227, caa, 10);
+  hold("フリマサイト:70代 ÷ 30代", on(flea, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 4.8 / 36.2, caa, 10);
   return rows;
 }

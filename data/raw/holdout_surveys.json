@@ -1,0 +1,68 @@
+{
+ "title": "検算用に取得した調査(係数の調整には使っていない)",
+ "datasets": [
+  {
+   "key": "caa_r4_internet_use_by_age",
+   "source_name": "消費者庁「令和4年度消費者意識基本調査」集計表 問10(1) インターネット上で利用しているもの(インターネット利用者、複数回答)",
+   "source_url": "https://www.caa.go.jp/policies/policy/consumer_research/research_report/survey_002/assets/consumer_research_cms201_230613_18.xlsx",
+   "unit": "%",
+   "data": {
+    "online_purchase": {
+     "all": 74.6,
+     "15-19": 61.6,
+     "20-29": 90.0,
+     "30-39": 87.1,
+     "40-49": 83.9,
+     "50-59": 80.4,
+     "60-69": 63.6,
+     "70-79": 46.3,
+     "80+": 49.0
+    },
+    "video_incl_subscription": {
+     "all": 62.4,
+     "15-19": 89.4,
+     "20-29": 85.6,
+     "30-39": 81.2,
+     "40-49": 69.5,
+     "50-59": 61.4,
+     "60-69": 46.6,
+     "70-79": 30.2,
+     "80+": 19.2
+    },
+    "flea_market": {
+     "all": 22.7,
+     "15-19": 22.7,
+     "20-29": 32.6,
+     "30-39": 36.2,
+     "40-49": 29.0,
+     "50-59": 20.1,
+     "60-69": 15.6,
+     "70-79": 4.8,
+     "80+": 4.8
+    }
+   },
+   "n": 4437
+  },
+  {
+   "key": "boj_2604_payment",
+   "source_name": "日本銀行「生活意識に関するアンケート調査」(第105回、2026年3月調査)Q24・Q25",
+   "source_url": "https://www.boj.or.jp/research/o_survey/data/ishiki2604.pdf",
+   "unit": "%",
+   "note": "全国の満20歳以上。年代別の内訳は公表資料に無い",
+   "data": {
+    "non_cash_methods_used": {
+     "credit_card": 73.9,
+     "qr_code": 48.3,
+     "touch_e_money": 30.0,
+     "auto_debit": 34.0,
+     "none": 5.5
+    },
+    "cash_use_vs_half_year_ago": {
+     "increased": 8.2,
+     "same": 51.5,
+     "decreased": 39.8
+    }
+   }
+  }
+ ]
+}

@@ -1119,9 +1119,10 @@ function buildGuide() {
           <div class="a-cards">${order2.map((b) => { const list = rows.filter((r) => r.basis === b); return aCard(BASIS_NOTE[b].replace(/\(.*/, ""), `${list.filter(ok).length} / ${list.length}`, `ずれ5%以内の項目。中央のずれ ${(med(list) * 100).toFixed(1)}%`); }).join("")}</div>
           <p class="a-headline">ずれが5%以内の項目は、${rows.length}項目のうち${rows.filter(ok).length}項目です。</p>
           <p class="a-note">割合(%)の項目は、差が0.5ポイント以内なら「5%以内」と同じ扱いにしています(0.3%と0.4%のような小さな数どうしの比較のため)。赤字は、それを超えた項目です。</p>
+          <p class="a-note">「実際の調査と照合」のうち【検算用】の項目は、係数を決めたあとで取得した調査です。係数の見直しには一度も使っていないので、モデルの実力がそのまま出ます。</p>
           <p class="a-note">「動画の実験値」は、参考にした実験動画の数字に合わせて係数を調整したもので、現実との照合ではありません。</p></div>
           ${order2.map((b) => { const list = rows.filter((r) => r.basis === b).sort((x, y) => Math.abs(y.diff ?? 0) - Math.abs(x.diff ?? 0)); return `<div class="card"><h2>${esc(BASIS_NOTE[b])}(${list.length}項目)</h2><div class="table-scroll"><table class="verify"><tr><th>モデル・条件</th><th>項目</th><th class="num">この計算</th><th class="num">基準</th><th class="num">ずれ</th></tr>${
-            list.map((r) => `<tr><td>${esc(r.model)}</td><td>${esc(r.label)}${r.source ? `<small>${esc(r.source)}</small>` : ""}</td><td class="num">${r.a ?? ""}</td><td class="num">${esc(r.b ?? "")}</td><td class="num ${ok(r) ? "" : "bad"}">${cell(r)}</td></tr>`).join("")}</table></div></div>`; }).join("")}`;
+            list.map((r) => `<tr><td>${esc(r.model)}</td><td>${r.holdout ? "<b>【検算用】</b>" : ""}${esc(r.label)}${r.source ? `<small>${esc(r.source)}</small>` : ""}</td><td class="num">${r.a ?? ""}</td><td class="num">${esc(r.b ?? "")}</td><td class="num ${ok(r) ? "" : "bad"}">${cell(r)}</td></tr>`).join("")}</table></div></div>`; }).join("")}`;
         $("score-msg").textContent = "";
       } catch (e) { $("score-msg").textContent = `計算できませんでした:${e.message}`; }
     }, 30);
