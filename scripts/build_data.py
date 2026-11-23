@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 load = lambda name: json.loads((RAW / name).read_text(encoding="utf-8"))
 demo, cons, ind, fut = (load(n) for n in ["demographics.json", "consumption.json", "industry.json", "future_media.json"])
+acc = load("accuracy_data.json")
 
 def rng(key):
     """'20-24' '20_24' 'le34' 'ge85' '85+' → (min, max)"""
@@ -179,13 +180,127 @@ industry = {
     },
 }
 
+
+# ====================== 精度向上のための追加統計 ======================
+FIVE = ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85+"]
+
+# 居住地:年齢5歳階級 × 性別ごとの、都道府県別人口(千人)。並びは population.prefectures と同じ
+PA = acc["population_by_prefecture_age_sex_2025"]["data"]["total_population"]
+codes = list(demo["population_by_prefecture"]["data"]["prefectures"].keys())
+population["prefByAge"] = [{"min": rng(k)[0], "max": rng(k)[1], **{sex: [PA[c][sex][k] for c in codes] for sex in ("male", "female")}} for k in FIVE]
+WP = acc["wage_by_prefecture_2025"]["data"]
+national_wage = acc["wage_by_age_sex_2025"]["data"]["total"]["all_ages"]["scheduled_earnings"]
+for pref, c in zip(population["prefectures"], codes):
+    pref["wageIndex"] = round(WP[c]["total"]["scheduled_earnings"] / national_wage, 3)
+
+# 年収:賃金構造基本統計調査の「きまって支給する現金給与額 × 12 + 年間賞与」(万円)
+WT = acc["wage_by_employment_type_age_sex_2025"]["data"]
+PT = cons["wage_structure_by_age_sex"]["data"]["part_time_hourly_wage_yen"]
+def part_time_hourly(age, sex):
+    key = "le19" if age < 20 else f"{age // 5 * 5}_{age // 5 * 5 + 4}"
+    return (PT.get(key) or PT["all"])[sex]
+wage = {"unit": "万円/年", "bands": [], "partTimeHours": 1000}
+for key in ["under20", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70+"]:
+    lo, hi = (0, 19) if key == "under20" else rng(key)
+    wage["bands"].append({"min": lo, "max": hi, **{sex: {
+        "regular": round(WT["regular"][sex][key]["annual_earnings_est"] / 10, 1),
+        "nonRegular": round(WT["non_regular"][sex][key]["annual_earnings_est"] / 10, 1),
+        "partTime": round(part_time_hourly(lo if lo else 18, sex) * 1000 / 10000, 1)} for sex in ("male", "female")}})
+wage["overallAnnualManYen"] = round(acc["wage_by_age_sex_2025"]["data"]["total"]["all_ages"]["annual_earnings_est"] / 10)
+
+# 就業の内訳:労働力調査(5歳階級 × 性別)。15歳以上人口に対する割合
+LF = acc["labour_force_status_by_age_sex_2025"]["data"]
+labour = {"bands": []}
+for key in FIVE[3:]:
+    lo, hi = rng(key)
+    row = {"min": lo, "max": hi}
+    for sex in ("male", "female"):
+        v, n = LF[sex][key], LF[sex][key]["population_15plus"]
+        part = v["part_time"] + v["arubaito"]
+        sh = {"self": (v["self_employed"] + v["family_workers"]) / n, "exec": v["executives"] / n, "regular": v["regular"] / n,
+              "nonRegular": v["non_regular"] / n, "unemployed": v["unemployed"] / n, "student": v["nilf_attending_school"] / n, "housework": v["nilf_housework"] / n}
+        row[sex] = {k: round(x, 4) for k, x in sh.items()}
+        row[sex]["partShare"] = round(part / v["non_regular"], 3) if v["non_regular"] else 0  # 非正規のうちパート・アルバイトの割合
+    labour["bands"].append(row)
+
+# 世帯の種類:国勢調査2020(その年齢・性別の人が、どの種類の世帯に属しているか)
+HT = acc["household_family_type_members_by_age_sex_2020"]["data"]["by_family_type"]
+household["typeBands"] = []
+for key in [k for k in HT["male"] if k not in ("total", "unknown")]:
+    lo, hi = rng(key)
+    row = {"min": lo, "max": hi}
+    for sex in ("male", "female"):
+        v = HT[sex][key]; n = v["total"]
+        row[sex] = {"single": round(v["single_person"] / n, 4), "coupleOnly": round(v["couple_only"] / n, 4), "coupleKids": round(v["couple_with_children"] / n, 4),
+                    "singleParent": round(v["single_parent_with_children"] / n, 4)}
+        row[sex]["other"] = round(1 - sum(row[sex].values()), 4)
+    household["typeBands"].append(row)
+
+# 所得による支出の違い:家計調査の年間収入五分位(全体平均 = 1 とした費目別の倍率)
+def factors(groups, base):
+    return [{"income": groups[q]["annual_income_man_yen"], "f": {CAT[k]: round(groups[q]["categories"][k] / base["categories"][k], 3) for k in CAT}} for q in ["Q1", "Q2", "Q3", "Q4", "Q5"]]
+Q2P = acc["fies_two_plus_by_income_quintile_2025"]["data"]["two_plus_households"]
+Q1P = acc["fies_single_by_income_2025"]["data"]["by_income_quintile"]["single_households"]
+spending["quintile"] = {"twoPlus": factors(Q2P, Q2P["all"]), "single": factors(Q1P, Q1P["all"])}
+# 地方による支出の違い(二人以上の世帯、全国平均 = 1)
+RG = acc["fies_two_plus_by_region_2025"]["data"]["two_plus_households"]
+FIES_REGION = {"hokkaido": ["01"], "tohoku": ["02", "03", "04", "05", "06", "07"], "kanto": ["08", "09", "10", "11", "12", "13", "14", "19", "20"],
+               "hokuriku": ["15", "16", "17", "18"], "tokai": ["21", "22", "23", "24"], "kinki": ["25", "26", "27", "28", "29", "30"],
+               "chugoku": ["31", "32", "33", "34", "35"], "shikoku": ["36", "37", "38", "39"], "kyushu": ["40", "41", "42", "43", "44", "45", "46"], "okinawa": ["47"]}
+region_of = {c: r for r, cs in FIES_REGION.items() for c in cs}
+spending["region"] = {r: {CAT[k]: round(RG["by_region"][r]["categories"][k] / RG["all"]["categories"][k], 3) for k in CAT} for r in FIES_REGION}
+for pref, c in zip(population["prefectures"], codes):
+    pref["spendRegion"] = region_of[c]
+
+# 年金:国民生活基礎調査(年齢 × 性別の受給割合と、受給額の分布。万円/年)
+PN = acc["kokumin_public_pension_receipt_by_age_sex_2025"]["data"]
+def amount_range(k):
+    if k.startswith("under"): return 0, int(k[5:])
+    if k.endswith("+"): return int(k[:-1]), int(k[:-1]) + 100
+    lo, hi = k.split("-"); return int(lo), int(hi)
+pension = {"bands": []}
+for key in ["60-64", "65-69", "70-74", "75-79", "80+"]:
+    lo, hi = rng(key)
+    row = {"min": lo, "max": hi}
+    for sex in ("male", "female"):
+        v = PN[sex][key]; tot = sum(v["amount_class"].values())
+        row[sex] = {"rate": round(v["receiving_pct"] / 100, 3), "classes": [[*amount_range(k), round(x / tot, 4)] for k, x in v["amount_class"].items()]}
+    pension["bands"].append(row)
+
+# 貯蓄:家計調査 貯蓄・負債編(二人以上の世帯、世帯主の年齢別。保有世帯の分位、万円)
+SV = acc["fies_savings_liabilities_by_head_age_2025"]["data"]["savings_quantiles"]["by_age_10yr"]
+savings = {"bands": []}
+for key, v in SV.items():
+    lo, hi = (0, 29) if key == "under30" else rng(key)
+    savings["bands"].append({"min": lo, "max": hi, "q": [v["p10"], v["p25"], v["median"], v["p75"], v["p90"]]})
+
+# 検算用の公表値(生成に直接は使っていない合計値)
+LT = LF["total"]["total"]
+targets = [
+    {"key": "workers", "label": "就業者数", "value": LT["employed"] * 1e4, "unit": "people", "source": "労働力調査 2025年平均"},
+    {"key": "regular", "label": "正規雇用の人数", "value": LT["regular"] * 1e4, "unit": "people", "source": "労働力調査 2025年平均"},
+    {"key": "nonRegular", "label": "非正規雇用の人数", "value": LT["non_regular"] * 1e4, "unit": "people", "source": "労働力調査 2025年平均"},
+    {"key": "singles", "label": "一人暮らしの人数", "value": HT["male"]["total"]["single_person"] + HT["female"]["total"]["single_person"], "unit": "people", "source": "国勢調査 2020年(人口が今と異なる)"},
+    {"key": "tokyo", "label": "東京都の人口", "value": PA["13"]["total"]["total"] * 1e3, "unit": "people", "source": "人口推計 2025年"},
+    {"key": "internet", "label": "インターネット利用者の割合(6歳以上)", "value": cons["ict_usage_by_age"]["data"]["internet_use"]["both"]["all"]["internet_use_pct"] / 100, "unit": "rate", "source": "通信利用動向調査 2025年"},
+    {"key": "spendTwoPlus", "label": "二人以上世帯の1人あたり月間支出", "value": round(K2["all"]["consumption_total"] / K2["all"]["avg_household_size"]), "unit": "yen", "source": "家計調査 2025年"},
+    {"key": "spendSingle", "label": "単身世帯の月間支出", "value": cons["kakei_single_by_age_sex"]["data"]["single"]["both"]["all"]["consumption_total"], "unit": "yen", "source": "家計調査 2025年"},
+    {"key": "married", "label": "配偶者のいる人の割合(15歳以上)", "value": M["total"]["total_15+"]["married_pct"] / 100, "unit": "rate", "source": "国勢調査 2020年"},
+]
+
 DIRECT, SEARCH = "一次資料のファイルから直接取得", "検索結果の抜粋から取得(原表と未照合)"
 src = lambda use, obj, quality, name=None: {"use": use, "year": str(obj.get("year", "")), "name": name or obj["source_name"], "url": obj.get("source_url"), "quality": quality}
 sources = [
     src("年齢・性別の人口", P, DIRECT), src("都道府県別の人口", demo["population_by_prefecture"], DIRECT),
     src("配偶関係", demo["marital_status_by_age_sex"], DIRECT), src("単身世帯の割合", demo["household_family_type"], DIRECT),
-    src("就業率", demo["employment_rate_by_age_sex"], DIRECT), src("正規・非正規の割合", demo["employment_type_by_age_sex"], DIRECT),
-    src("賃金", cons["wage_structure_by_age_sex"], DIRECT), src("家計の支出(二人以上世帯)", cons["kakei_two_plus_by_head_age"], DIRECT),
+    src("年収(雇用形態・年齢・性別、賞与を含む)", acc["wage_by_employment_type_age_sex_2025"] | {"source_url": acc["wage_by_employment_type_age_sex_2025"]["source_url"]["regular"]}, DIRECT),
+    src("都道府県別の賃金水準", acc["wage_by_prefecture_2025"], DIRECT), src("パート・アルバイトの時給", cons["wage_structure_by_age_sex"], DIRECT),
+    src("居住地(都道府県×年齢×性別)", acc["population_by_prefecture_age_sex_2025"], DIRECT),
+    src("就業の内訳(正規・非正規・自営・学生・家事など)", acc["labour_force_status_by_age_sex_2025"], DIRECT),
+    src("世帯の種類(年齢×性別)", acc["household_family_type_members_by_age_sex_2020"], DIRECT),
+    src("所得階層別の支出", acc["fies_two_plus_by_income_quintile_2025"], DIRECT), src("地方別の支出", acc["fies_two_plus_by_region_2025"], DIRECT),
+    src("年金の受給割合と受給額", acc["kokumin_public_pension_receipt_by_age_sex_2025"], DIRECT),
+    src("貯蓄額(世帯主の年齢別)", acc["fies_savings_liabilities_by_head_age_2025"] | {"source_url": acc["fies_savings_liabilities_by_head_age_2025"]["source_url"]["means_table8_5"]}, DIRECT), src("家計の支出(二人以上世帯)", cons["kakei_two_plus_by_head_age"], DIRECT),
     src("家計の支出(単身世帯)", cons["kakei_single_by_age_sex"], DIRECT), src("ネット・SNS利用率", cons["ict_usage_by_age"], DIRECT),
     {"use": "将来推計人口(5歳階級×性別)", "year": "令和5年推計", "name": "国立社会保障・人口問題研究所「日本の将来推計人口」出生中位・死亡中位(厚生労働省「令和6年財政検証」の入力データとして公開されたファイルから取得。総数は日本統計年鑑の転載値と一致)",
      "url": fut["population_projection"]["five_year_source"]["source_url"], "quality": "公的機関のファイルから直接取得(社人研の原表とは未照合)"},
@@ -200,13 +315,15 @@ sources = [
 
 out = {
     "population": population, "marital": marital, "employment": employment, "wage": wage, "household": household,
+    "labour": labour, "pension": pension, "savings": savings, "targets": targets,
     "spending": spending, "digital": digital, "media": media, "projection": proj, "industry": industry, "sources": sources,
     "dataAssumptions": [
-        {"note": "賞与は所定内給与の何か月分か(統計を未取得のため仮定)", "value": "正規 3.0か月 / 非正規 0.5か月"},
-        {"note": "自営業・役員は、雇用者の正規・非正規の比率で割り振る", "value": "労働力調査の比率を流用"},
-        {"note": "55歳以上の雇用形態別賃金は、50〜54歳の「全体との比」を当てはめる", "value": "比率を流用"},
-        {"note": "70歳以上の賃金は、65〜69歳の値を使う", "value": "公表値なし"},
-        {"note": "2人以上の世帯の支出は、世帯人員で割って1人あたりにする。24歳以下で親と同居の人は40代後半の世帯とみなす", "value": "家計調査の平均世帯人員"},
+        {"note": "パート・アルバイトの年収は、年齢・性別ごとの時給 × 年1,000時間とする(労働時間は仮定)", "value": "年1,000時間"},
+        {"note": "自営業・家族従業者の年収は正規雇用の0.8倍、役員は1.5倍とする(該当する統計を未取得)", "value": "0.8倍 / 1.5倍"},
+        {"note": "世帯の種類は年齢・性別ごとの統計に合わせつつ、既婚者は単身・ひとり親になりにくい、未婚者は夫婦のみ世帯になりにくい、と重みを付ける", "value": "重み 0.03〜0.1"},
+        {"note": "2人以上の世帯の支出は、世帯人員で割って1人あたりにする。29歳以下の未婚で親と暮らす人は、親世代(30歳上)の世帯とみなす", "value": "家計調査の平均世帯人員"},
+        {"note": "所得階層は、本人の年収に、配偶者や親の平均的な年収を足した見込み額の順位で5つに分ける(世帯単位の所得の統計と直接は結びつかないため)", "value": "五分位"},
+        {"note": "貯蓄額は二人以上世帯の統計(貯蓄のある世帯の分布)を、単身の人にも当てはめる", "value": "世帯主の年齢別"},
         {"note": "広告の届きやすさは、年代別のテレビ・ネットの平日利用時間に比例させる(10歳未満は10代、80歳以上は70代の値)", "value": "全年代平均=1"},
         {"note": "将来の人口は、年齢5歳階級×性別の推計人数に合わせる", "value": "出生中位・死亡中位"},
         {"note": "将来の年でも、賃金・支出・ネット利用率は現在の値のまま", "value": "物価・賃金の変化は未反映"},

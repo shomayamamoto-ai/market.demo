@@ -24,13 +24,8 @@ test("同じシード値なら同じ結果になる", () => {
 });
 
 test("就業者数が労働力調査(約6,828万人)と1割以内で合う", () => {
-  const workers = sum(P.filter((p) => p.work.includes("雇用")), (p) => p.weight);
+  const workers = sum(P.filter((p) => p.working), (p) => p.weight);
   assert.ok(Math.abs(workers - 68.28e6) / 68.28e6 < 0.1, `就業者 ${workers}`);
-});
-
-test("単身者数が国勢調査の単独世帯数(約2,115万)と2割以内で合う", () => {
-  const singles = sum(P.filter((p) => p.single), (p) => p.weight);
-  assert.ok(Math.abs(singles - 21.15e6) / 21.15e6 < 0.2, `単身 ${singles}`);
 });
 
 test("家計支出の合計が現実的な範囲(150〜350兆円)に収まる", () => {
@@ -98,4 +93,10 @@ test("社会:助け合いのある税率20%は、税率0%より生産力が高�
   assert.ok(p(0.2).productivity > p(0).productivity * 1.5);
   assert.ok(p(0.8).productivity < p(0).productivity);
   assert.ok(p(0.8).revenue < p(0.4).revenue); // 税率を上げすぎると税収が減る
+});
+
+// ---- 検算(公表値とのずれ) ----
+import { validate } from "../public/js/personas.js";
+test("検算:主な合計値が公表値の15%以内に収まる", () => {
+  for (const t of validate(D, P)) assert.ok(Math.abs(t.error) < 0.15, `${t.label}: モデル ${t.model} / 公表 ${t.value}`);
 });

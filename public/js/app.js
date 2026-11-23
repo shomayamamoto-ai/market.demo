@@ -1,6 +1,6 @@
 // 画面の制御
 import { CATEGORIES, CATEGORY_LABEL, AGE_BANDS, ageBandOf } from "./constants.js";
-import { generatePersonas, assignAdopterTypes, describePersona, ADOPTER_TYPES, ASSUMPTIONS } from "./personas.js";
+import { generatePersonas, assignAdopterTypes, describePersona, validate, ADOPTER_TYPES, ASSUMPTIONS } from "./personas.js";
 import {
   marketSize, totalSpendingCheck, stratifiedSample, personaForLLM, aggregateReactions,
   reweightForYear, inTarget, MARKET_ASSUMPTIONS,
@@ -42,12 +42,13 @@ async function init() {
     const res = await fetch("api/status");
     if (!res.ok) throw new Error("no server");
     const s = await res.json();
+    state.server = true;
     state.llm = s.llm;
     $("status").innerHTML = s.llm
       ? `AIモード:<b class="ok">使えます</b>(${esc(s.model)})`
-      : `AIモード:<b class="ng">未設定</b>(APIキーを設定すると、お題の読み取りとAIインタビューが使えます。統計モードはこのまま使えます)`;
+      : `AIモード:<b class="ng">未設定</b>(統計モードはこのまま使えます)`;
   } catch {
-    $("status").innerHTML = `AIモード:<b class="ng">この公開版では使えません</b>(統計モードはすべて使えます。AIモードは、APIキーを設定したサーバーで動かすと使えます)`;
+    $("status").innerHTML = `AIモード:<b class="ng">この公開版では使えません</b>(統計モードはすべて使えます)`;
   }
   $("read-brief").disabled = $("run-ai").disabled = !state.llm;
 
@@ -56,12 +57,6 @@ async function init() {
   $("p-category").innerHTML = CATEGORIES.map((c) => `<option value="${c.key}">${c.label}</option>`).join("");
   $("p-category").value = "food";
 
-  document.querySelectorAll(".tabs button").forEach((b) => b.addEventListener("click", () => {
-    document.querySelectorAll(".tabs button").forEach((x) => x.classList.toggle("on", x === b));
-    document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.id === `tab-${b.dataset.tab}`));
-    if (b.dataset.tab === "visual") openVisual();
-    else state.visual?.run(false);
-  }));
   $("o-preset").innerHTML = Object.entries(PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("o-preset").value = "fixedPush";
   $("o-preset").onchange = () => ($("o-push").value = Math.round(PRESETS[$("o-preset").value].rules.push * 100));
@@ -100,11 +95,44 @@ async function init() {
   $("purpose2").onchange = () => setPurpose($("purpose2").value);
   $("run-report").onclick = runReport;
   $("print-report").onclick = () => window.print();
+  $("print-report").hidden = !state.server; // 公開ページの中では印刷を呼び出せないため、サーバーで動かしているときだけ出す
   setPurpose("planning");
 
   regenerate();
   renderMarket();
   renderSources();
+  buildNav();
+}
+
+// ---------- 画面の切り替え(大きな区分 → 画面) ----------
+const NAV = [
+  { key: "home", label: "はじめに", tabs: [["home", "はじめに"]] },
+  { key: "japan", label: "仮想の日本", tabs: [["people", "人口とペルソナ"], ["market", "市場の規模感"]] },
+  { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
+  { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"]] },
+  { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
+];
+function buildNav() {
+  $("toc").firstElementChild.innerHTML = NAV.map((g) =>
+    `${g.tabs.length > 1 ? `<h2>${g.label}</h2>` : ""}<div class="grp" data-group="${g.key}">${g.tabs.map(([id, label]) => `<a href="#${id}" data-tab="${id}">${label}</a>`).join("")}</div>`).join("");
+  document.querySelectorAll(".viewtabs button").forEach((b) => (b.onclick = () => (location.hash = NAV.find((g) => g.key === b.dataset.group).tabs[0][0])));
+  window.addEventListener("hashchange", showTab);
+  showTab();
+}
+function showTab() {
+  const id = location.hash.slice(1);
+  const group = NAV.find((g) => g.tabs.some(([t]) => t === id)) ?? NAV[0];
+  const tab = group.tabs.some(([t]) => t === id) ? id : group.tabs[0][0];
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("on", t.id === `tab-${tab}`));
+  document.querySelectorAll(".viewtabs button").forEach((b) => b.classList.toggle("on", b.dataset.group === group.key));
+  document.querySelectorAll("#toc .grp").forEach((g) => g.classList.toggle("on", g.dataset.group === group.key));
+  document.querySelectorAll("#toc a").forEach((a) => a.classList.toggle("on", a.dataset.tab === tab));
+  $("toc").classList.toggle("solo", group.tabs.length < 2);
+  // 「制度を試す」の2画面は、人数や期間の入力欄を共有する
+  const slot = document.querySelector(`#tab-${tab} .slot`);
+  if (slot) { slot.appendChild($("org-common")); $("org-common").hidden = false; }
+  if (tab === "visual") openVisual(); else state.visual?.run(false);
+  if (document.activeElement?.blur && id) window.scrollTo({ top: 0 });
 }
 
 function regenerate() {
@@ -129,7 +157,7 @@ function renderPeople() {
     kpi("ペルソナの人数", `${num(P.length)}人`, `1人が約${fmtPeople(total / P.length)}を代表`) +
     kpi("65歳以上の割合", pct(share(P, (p) => p.age >= 65))) +
     kpi("15〜64歳の割合", pct(share(P, (p) => p.age >= 15 && p.age < 65))) +
-    kpi("就業している人", fmtPeople(sum(adults.filter((p) => p.work.includes("雇用")), (p) => p.weight)), "15歳以上");
+    kpi("就業している人", fmtPeople(sum(adults.filter((p) => p.working), (p) => p.weight)), "15歳以上");
 
   const groups = state.D.population.ageGroups.map((g) => ({
     label: g.max == null ? `${g.min}歳〜` : `${g.min}〜${g.max}`, min: g.min, max: g.max ?? 200, male: 0, female: 0,
@@ -154,6 +182,10 @@ function renderPeople() {
   $("adopter-chart").innerHTML = hbar(ADOPTER_TYPES.map((t) => ({
     label: t.label, value: sum(adults.filter((p) => p.adopter === t.key), (p) => p.weight),
   })), { fmt: fmtPeople, color: "var(--female)", labelWidth: 170 });
+  const fmtT = (t, v) => (t.unit === "people" ? fmtPeople(v) : t.unit === "yen" ? `${num(v)}円` : pct(v));
+  $("validation").innerHTML = `<table><tr><th>項目</th><th class="num">このモデル</th><th class="num">公表値</th><th class="num">ずれ</th><th>公表値の出典</th></tr>${
+    validate(state.D, state.base).map((t) => `<tr><td>${t.label}</td><td class="num">${fmtT(t, t.model)}</td><td class="num">${fmtT(t, t.value)}</td><td class="num ${Math.abs(t.error) > 0.1 ? "bad" : ""}">${t.error >= 0 ? "+" : ""}${num(t.error * 100, 1)}%</td><td>${esc(t.source)}</td></tr>`).join("")
+  }</table>`;
   renderPersonaList(1);
 }
 
@@ -161,7 +193,7 @@ function personaCard(p, extra = "") {
   const t = p.traits;
   const top = Object.entries(p.spend).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k, v]) => `${CATEGORY_LABEL[k]} ${num(v)}円`).join(" / ");
   return `<div class="persona"><b>${esc(describePersona(p))}</b><br>
-    <span class="tag">年収 ${num(p.income)}万円</span><span class="tag">${p.marital}</span>
+    <span class="tag">年収 ${num(p.income)}万円</span><span class="tag">${p.marital}</span>${p.savings != null ? `<span class="tag">貯蓄 ${num(p.savings)}万円</span>` : ""}
     <span class="tag">月の支出 ${num(p.spendTotal)}円</span><span class="tag">${p.internet ? (p.sns ? "ネット・SNS利用" : "ネット利用") : "ネット利用なし"}</span>
     <span class="tag">${ADOPTER_TYPES.find((a) => a.key === p.adopter)?.label ?? ""}</span><br>
     <span class="note">支出の上位:${top}<br>価格に敏感 ${t.price}/新しもの好き ${t.novelty}/健康志向 ${t.health}/品質重視 ${t.quality}</span>${extra}</div>`;
@@ -218,7 +250,7 @@ const toBase64 = (file) => new Promise((resolve, reject) => {
 });
 async function onFiles(e) {
   for (const f of e.target.files) {
-    if (f.size > 20 * 1024 * 1024) { alert(`${f.name} は20MBを超えているため追加できません。`); continue; }
+    if (f.size > 20 * 1024 * 1024) { setMsg("brief-msg", `${f.name} は20MBを超えているため追加できません。`, true); continue; }
     const isPdf = f.name.toLowerCase().endsWith(".pdf");
     state.materials.push({ name: f.name, kind: isPdf ? "pdf" : "text", data: isPdf ? await toBase64(f) : await f.text() });
   }
@@ -301,7 +333,7 @@ function runStat() {
       ${kpi("年間売上の上限の目安", fmtYen(m.potentialRevenue), `費目支出の${pct(m.walletShare)}`)}
     </div>
     <p class="note">価格への敏感さ:このモデルでは、価格を1%上げると購入者が約${num(-m.elasticity, 2)}%減ります。<br>参考:実際の商品を調べた研究の平均は、1%の値上げで1.8〜2.6%の減少です(Tellis 1988; Bijmolt ほか 2005。同じ分野の他社商品へ乗り換える分を含む値)。</p>
-    <p class="note">統計モードの試算です。「価格と普段の支出のつり合い」と「価値観との相性」から計算しています。<br>実際の売上は、商品を知ってもらえる割合(認知)で大きく変わります。④の普及シミュレーションで確かめてください。</p>
+    <p class="note">統計モードの試算です。「価格と普段の支出のつり合い」と「価値観との相性」から計算しています。<br>実際の売上は、商品を知ってもらえる割合(認知)で大きく変わります。「発売後の広がり」で確かめてください。</p>
     ${breakdownTable(m.breakdown)}`;
 }
 
@@ -342,7 +374,7 @@ async function runAI() {
     renderAI();
     bar.style.width = "100%";
     $("s-calib").checked = true;
-    setMsg("ai-msg", "完了しました。④の普及シミュレーションに結果を引き継げます。");
+    setMsg("ai-msg", "完了しました。「発売後の広がり」に結果を引き継げます。");
   } catch (err) {
     setMsg("ai-msg", err.message, true);
   } finally {
@@ -447,7 +479,7 @@ function runReport() {
         : null,
       fmt: { fmtYen, fmtPeople, pct, num, esc },
     });
-    $("print-report").disabled = false;
+    
   }, 30);
 }
 
@@ -491,7 +523,7 @@ function orgRun() {
   const one = runOrg(config, rules, years); // 画面で1人ずつ見せる代表例
   const S = t.series;
   const advice = orgAdvice(t, rules, { ace: config.mix.ace, n: config.n });
-  $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>${esc(presetLabel)}を${runs}回検証</h2>
       <p class="a-sub">${num(config.n)}人の職場で、早い人に回す割合 ${pct(rules.push, 0)}、${years}年後までを計算</p>
       <div class="a-cards">
@@ -533,7 +565,7 @@ function orgCompare() {
   const rows = Object.values(PRESETS).map((p) => ({ label: p.label, t: trialOrg(config, p.rules, years, runs), push: p.rules.push }));
   const best = rows.reduce((a, b) => (b.t.productivity > a.t.productivity ? b : a));
   const calm = rows.reduce((a, b) => (b.t.hours < a.t.hours ? b : a));
-  $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>4つのルールを${runs}回ずつ検証</h2>
       <p class="a-sub">${num(config.n)}人の職場、${years}年後。それぞれのルールの標準の設定で比べています</p>
       <div class="table-scroll"><table><tr><th>ルール</th><th class="num">生産力</th><th class="num">エースの割合</th><th class="num">エース全滅</th><th class="num">労働時間</th><th class="num">過労の離脱</th><th class="num">転職</th></tr>
@@ -551,7 +583,7 @@ function orgSweep() {
   const safe = sw.filter((s) => s.wiped === 0), all = sw.filter((s) => s.wiped === runs), mid = sw.filter((s) => s.wiped > 0 && s.wiped < runs);
   const range = (list) => (list.length ? (list.length > 1 ? `${pct(list[0].value, 0)}〜${pct(list[list.length - 1].value, 0)}` : pct(list[0].value, 0)) : "―");
   const edge = safe.length && safe.length < sw.length ? safe[safe.length - 1].value : null;
-  $("o-out").innerHTML = `<div class="analysis">
+  $("t-out").innerHTML = ""; $("o-out").innerHTML = `<div class="analysis">
       <h2>「早い人に回す割合」を変えて${runs}回ずつ検証</h2>
       <p class="a-sub">${esc(presetLabel)}のルールで、早く終わった人へ回す割合だけを0〜100%に変えた(${years}年後)</p>
       <p class="a-key">エースが全滅した回数(棒)と、${years}年後のエースの割合・生産力(線)</p>
@@ -589,7 +621,7 @@ function socRun() {
   const t = trialSociety(config, rules, years, runs), L = t.last, S = t.series;
   const one = runSociety(config, rules, years);
   const advice = socAdvice(L, S[0], rules);
-  $("o-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>${esc(label.slice(2))}を${runs}回検証</h2>
       <p class="a-sub">${num(config.n)}人の村、税率 ${pct(rules.tax, 0)}${rules.rebuildAt != null ? `(${rules.rebuildAt}年目に立て直し策を実施)` : ""}、${years}年後までを計算</p>
       <div class="a-cards">
@@ -628,7 +660,7 @@ function socCompare() {
   const colors = ["#8b93a7", "#1a8f5a", "#e2574c", "#f2a53c", "#b277d9", "#2f6fe4"];
   const rows = Object.values(SOCIETY_PRESETS).map((p) => ({ label: p.label, t: trialSociety(config, p.rules, years, runs) }));
   const best = rows.reduce((a, b) => (b.t.last.productivity > a.t.last.productivity ? b : a));
-  $("o-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>6つの制度を${runs}回ずつ検証</h2>
       <p class="a-sub">${num(config.n)}人の村、${years}年後。Fは8年目に立て直し策(税率20%へ減税・管理の簡素化・挑戦への還元)を実施</p>
       <div class="table-scroll"><table><tr><th>制度</th><th class="num">生産力</th><th class="num">森に挑戦</th><th class="num">自分の畑だけ</th><th class="num">税収/人</th><th class="num">人口</th><th class="num">助け合いの支払い</th></tr>
@@ -645,7 +677,7 @@ function socSweep() {
   const top = sw.reduce((a, b) => (b.last.productivity > a.last.productivity ? b : a));
   const rev = sw.reduce((a, b) => (b.last.revenue > a.last.revenue ? b : a));
   const fall = sw.find((s) => s.value > top.value && s.last.productivity < top.last.productivity * 0.8);
-  $("o-out").innerHTML = `<div class="analysis">
+  $("o-out").innerHTML = ""; $("t-out").innerHTML = `<div class="analysis">
       <h2>税率を変えて${runs}回ずつ検証</h2>
       <p class="a-sub">${esc(label.slice(2))}の条件で、税率だけを0〜80%に変えた(${years}年後)</p>
       <p class="a-key">1人あたりの税収(棒)と、${years}年後の生産力・森に挑戦する人の割合(線)</p>
@@ -678,7 +710,7 @@ function gatherCrowd() {
     personas: state.personas, productA, productB, n: Number($("v-n").value), seed: Number($("seed").value) || 1,
     fmt: { fmtYen, fmtPeople, pct, num, esc },
   });
-  if (!ok) alert("対象条件に合うペルソナがいません。③の条件を見直してください。");
+  if (!ok) $("visual").insertAdjacentHTML("beforeend", `<div class="v-caption">対象条件に合うペルソナがいません。「お題と市場規模」の条件を見直してください。</div>`);
   state.visual.setSpeed(Number($("v-speed").value));
 }
 
@@ -735,7 +767,7 @@ function renderGame() {
   $("g-chart").innerHTML = h.length > 1
     ? `<h3>利用者数</h3>${line(h.map((r) => ({ x: r.month, mid: r.users })), { fmt: fmtPeople, xLabel: "月", marks })}
        <h3>累計の利益</h3>${line(h.map((r) => ({ x: r.month, mid: r.cumProfit })), { fmt: fmtYen, xLabel: "月", color: "var(--female)", zero: true })}`
-    : `<p class="note">価格と広告費を決めて「3か月進める」を押してください。原価率・固定費・解約率は④の設定を使います。</p>`;
+    : `<p class="note">価格と広告費を決めて「3か月進める」を押してください。原価率・固定費・解約率は「発売後の広がり」の設定を使います。</p>`;
   $("g-log").innerHTML = g.log.join("");
 }
 

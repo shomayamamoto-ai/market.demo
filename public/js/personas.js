@@ -5,13 +5,13 @@ import { CATEGORY_KEYS } from "./constants.js";
 
 // 統計に無く、モデルとして置いた仮定。画面の「出典と仮定」に一覧表示する。
 export const ASSUMPTIONS = {
-  incomeSigma: { value: 0.45, note: "同じ年齢・性別の中での年収のばらつき(対数正規分布の標準偏差)" },
-  pensionAnnualManYen: { value: { male: 190, female: 125 }, note: "65歳以上・非就業者の年収(年金等)の中心値。万円" },
-  nonWorkingIncomeManYen: { value: 30, note: "64歳以下・非就業者の本人年収の中心値。万円" },
-  spendIncomeElasticity: { value: 0.35, note: "年収が平均より高い人ほど支出も増える度合い" },
+  incomeSigma: { value: 0.4, note: "同じ年齢・性別・働き方の中での年収のばらつき(対数正規分布の標準偏差)" },
+  selfEmployedFactor: { value: 0.8, note: "自営業・家族従業者の年収(正規雇用に対する倍率)" },
+  executiveFactor: { value: 1.5, note: "役員の年収(正規雇用に対する倍率)" },
   spendSigma: { value: 0.3, note: "費目ごとの支出の個人差(対数正規分布の標準偏差)" },
-  marriedSingleRate: { value: 0.03, note: "既婚者のうち単身で暮らす人(単身赴任等)の割合" },
-  prefectureIndependent: { value: true, note: "居住都道府県は年齢・性別と独立に、人口比で割り当てる" },
+  quintileDamp: { value: 0.5, note: "所得階層による支出の差を、統計の倍率の何乗で効かせるか。統計の差には年齢の違いも混ざっているため、半分だけ反映する" },
+  marriedCompat: { value: { single: 0.03, singleParent: 0.05 }, note: "既婚者が一人暮らしをする割合の上限(単身赴任など)と、ひとり親世帯になる重み" },
+  unmarriedCompat: { value: { coupleOnly: 0.03 }, note: "未婚・離死別の人が「夫婦のみ」の世帯になる重み" },
   traits: { value: "年齢・年収・ネット利用から作った指標", note: "価値観(価格感度・新しもの好き等)は公的統計に無いため、傾向を仮定して乱数で付与" },
 };
 
@@ -25,7 +25,7 @@ function allocate(weights, n) {
   const total = weights.reduce((a, b) => a + b, 0);
   const raw = weights.map((w) => (w / total) * n);
   const out = raw.map(Math.floor);
-  let rest = n - out.reduce((a, b) => a + b, 0);
+  const rest = n - out.reduce((a, b) => a + b, 0);
   const order = raw.map((r, i) => [r - Math.floor(r), i]).sort((a, b) => b[0] - a[0]);
   for (let k = 0; k < rest; k++) out[order[k][1]]++;
   return out;
@@ -33,6 +33,18 @@ function allocate(weights, n) {
 
 const lognormal = (rng, median, sigma) => median * Math.exp(sigma * rng.normal());
 const sigmoid = (x) => 1 / (1 + Math.exp(-x));
+const round2 = (x) => Math.round(x * 100) / 100;
+// {名前: 重み} から1つ選ぶ
+function pickKey(rng, weights) {
+  let total = 0;
+  for (const k in weights) total += weights[k];
+  let r = rng.next() * total;
+  for (const k in weights) { r -= weights[k]; if (r <= 0) return k; }
+  return Object.keys(weights)[0];
+}
+
+export const WORK_LABEL = { regular: "正規雇用", nonRegular: "非正規雇用", self: "自営・家族従業", exec: "役員", unemployed: "求職中", student: "学生", housework: "家事", none: "無職", preschool: "未就学", pupil: "小中学生" };
+export const HOUSEHOLD_LABEL = { single: "単身", coupleOnly: "夫婦のみ", coupleKids: "夫婦と子", singleParent: "ひとり親と子", other: "その他の世帯" };
 
 export function generatePersonas(D, { n = 10000, seed = 1 } = {}) {
   const rng = makeRng(seed);
@@ -54,11 +66,12 @@ export function generatePersonas(D, { n = 10000, seed = 1 } = {}) {
     for (let k = 0; k < counts[ci]; k++) {
       const { g, sex } = cell;
       const span = g.max == null ? 10 : g.max - g.min + 1;
-      // 最上位階級(90歳以上など)は若い側に寄せる
+      // 最上位階級(90歳以上)は若い側に寄せる
       const age = g.max == null ? g.min + Math.floor(span * rng.next() ** 2) : g.min + Math.floor(rng.next() * span);
       personas.push(buildPersona(D, A, rng, { id: personas.length + 1, age, sex, weight }));
     }
   });
+  applyIncomeTier(D, A, personas);
   return personas;
 }
 
@@ -66,8 +79,11 @@ function buildPersona(D, A, rng, base) {
   const { age, sex } = base;
   const p = { ...base };
 
-  // 2) 居住地
-  const pref = rng.pick(D.population.prefectures, (x) => x.pop);
+  // 2) 居住地(年齢・性別ごとの都道府県別人口に比例)
+  const prefW = bandOf(D.population.prefByAge, age)[sex];
+  let r = rng.next() * prefW.reduce((a, b) => a + b, 0), pi = 0;
+  for (; pi < prefW.length - 1; pi++) { r -= prefW[pi]; if (r <= 0) break; }
+  const pref = D.population.prefectures[pi];
   p.prefecture = pref.name;
   p.region = pref.region;
 
@@ -76,97 +92,131 @@ function buildPersona(D, A, rng, base) {
   if (age >= 15) {
     const m = bandOf(D.marital.bands, age)?.[sex];
     if (m) {
-      const r = rng.next();
-      p.marital = r < m.never ? "未婚" : r < m.never + m.married ? "既婚" : "離別・死別";
+      const u = rng.next();
+      p.marital = u < m.never ? "未婚" : u < m.never + m.married ? "既婚" : "離別・死別";
     }
   }
+  const married = p.marital === "既婚";
 
-  // 4) 就業
-  const emp = age >= 15 ? bandOf(D.employment.bands, age)?.[sex] : null;
-  if (age < 6) p.work = "未就学";
-  else if (age < 15) p.work = "小中学生";
-  else if (emp && rng.next() < emp.rate) p.work = rng.next() < emp.regularShare ? "正規雇用など" : "非正規雇用など";
-  else if (age <= 22) p.work = "学生";
-  else if (age >= 65) p.work = "無職(年金等)";
-  else p.work = "無職・家事";
-  const working = p.work === "正規雇用など" || p.work === "非正規雇用など";
+  // 4) 就業(労働力調査の内訳に比例)
+  let status = age < 6 ? "preschool" : "pupil";
+  let partTime = false;
+  if (age >= 15) {
+    const L = bandOf(D.labour.bands, age)[sex];
+    const rest = Math.max(0, 1 - L.self - L.exec - L.regular - L.nonRegular - L.unemployed - L.student - L.housework);
+    status = pickKey(rng, { self: L.self, exec: L.exec, regular: L.regular, nonRegular: L.nonRegular, unemployed: L.unemployed, student: L.student, housework: L.housework, none: rest });
+    partTime = status === "nonRegular" && rng.next() < L.partShare;
+  }
+  p.status = status;
+  p.working = ["regular", "nonRegular", "self", "exec"].includes(status);
+  p.work = status === "nonRegular" && partTime ? "パート・アルバイト" : status === "none" && age >= 65 ? "無職(年金等)" : WORK_LABEL[status];
 
-  // 5) 本人の年収(万円)
-  let median = 0;
-  if (working) {
-    const w = bandOf(D.wage.bands, age) ?? D.wage.bands[0];
-    const monthly = p.work === "非正規雇用など" ? w[sex].nonRegular : w[sex].regular; // 千円/月
-    const bonus = p.work === "非正規雇用など" ? D.wage.bonusMonths.nonRegular : D.wage.bonusMonths.regular;
-    median = (monthly * (12 + bonus)) / 10;
-    if (age <= 22 && p.work === "非正規雇用など") median *= 0.5; // 学生アルバイト等を想定
-  } else if (age >= 65) median = A.pensionAnnualManYen.value[sex];
-  else if (age >= 18) median = A.nonWorkingIncomeManYen.value;
-  p.income = median > 0 ? Math.round(lognormal(rng, median, A.incomeSigma.value)) : 0;
+  // 5) 本人の年収(万円):賃金 + 年金
+  let income = 0;
+  if (p.working) {
+    const w = bandOf(D.wage.bands, age)[sex];
+    const median = status === "regular" ? w.regular : status === "exec" ? w.regular * A.executiveFactor.value
+      : status === "self" ? w.regular * A.selfEmployedFactor.value : partTime ? w.partTime : w.nonRegular;
+    income += lognormal(rng, median * (partTime ? 1 : pref.wageIndex), A.incomeSigma.value);
+  }
+  const pen = age >= 60 ? bandOf(D.pension.bands, age)?.[sex] : null;
+  if (pen && rng.next() < pen.rate) {
+    let u = rng.next();
+    for (const [lo, hi, share] of pen.classes) { u -= share; if (u <= 0) { income += lo + rng.next() * (hi - lo); break; } }
+  }
+  p.income = Math.round(income);
 
-  // 6) 世帯(単身かどうか・子どもの有無)
-  // 統計は「その年齢・性別のうち単身世帯の人の割合」。既婚者の単身は少数とみなし、
-  // 残りを未婚・離死別の人に割り当てる。
-  const hh = bandOf(D.household.singleRate, age);
-  const overall = hh ? hh[sex] : 0;
-  const marriedShare = bandOf(D.marital.bands, age)?.[sex]?.married ?? 0;
-  const pSingle = p.marital === "既婚"
-    ? A.marriedSingleRate.value
-    : clamp((overall - marriedShare * A.marriedSingleRate.value) / Math.max(1 - marriedShare, 0.05), 0, 0.95);
-  p.single = age >= 18 && rng.next() < pSingle;
-  if (p.single) p.household = "単身";
-  else if (age < 18) p.household = "親と同居";
-  else if (p.marital === "既婚") {
-    const kids = age >= 25 && age <= 54 ? 0.68 : age < 25 ? 0.35 : 0.2;
-    p.household = rng.next() < kids ? "夫婦と子" : "夫婦のみ";
-  } else p.household = age < 35 ? "親と同居" : rng.next() < 0.3 ? "ひとり親と子" : "親族と同居";
+  // 6) 世帯の種類(国勢調査の年齢・性別ごとの分布に、配偶関係とのつじつまを重みで反映)
+  // 一人暮らしの割合は統計に合わせる。既婚者の一人暮らしは少数とし、残りを未婚・離死別の人に割り当てる
+  const T = { ...bandOf(D.household.typeBands, age)[sex] };
+  const marriedShare = age >= 15 ? bandOf(D.marital.bands, age)?.[sex]?.married ?? 0 : 0;
+  const singleMarried = Math.min(T.single, A.marriedCompat.value.single);
+  const pSingle = age < 15 ? T.single : married ? singleMarried
+    : clamp((T.single - marriedShare * singleMarried) / Math.max(1 - marriedShare, 0.02), 0, 0.98);
+  if (rng.next() < pSingle) p.householdType = "single";
+  else {
+    delete T.single;
+    if (married) T.singleParent *= A.marriedCompat.value.singleParent;
+    else if (age >= 18) T.coupleOnly *= A.unmarriedCompat.value.coupleOnly;
+    p.householdType = pickKey(rng, T);
+  }
+  p.single = p.householdType === "single";
+  p.household = HOUSEHOLD_LABEL[p.householdType];
+  // 親と暮らす子の立場か(世帯主世代ではない)
+  p.asChild = !p.single && !married && age < 30;
 
-  // 7) 月々の支出(円/月・1人あたり)
+  // 7) 月々の支出(円/月・1人あたり):年齢 × 世帯の種類 × 地方
   const S = D.spending;
   let row, members;
-  if (p.single) {
-    row = bandOf(S.single[sex], age);
-    members = 1;
-  } else {
-    // 子どもは親世代(40代)の世帯、それ以外は本人の年齢を世帯主年齢とみなす
-    row = bandOf(S.twoPlus, age < 25 ? 47 : age);
-    members = row.members;
-  }
-  const avgIncome = D.wage.overallAnnualManYen;
-  const incomeFactor = p.income > 0 ? (p.income / avgIncome) ** A.spendIncomeElasticity.value : 1;
+  if (p.single) { row = bandOf(S.single[sex], age); members = 1; }
+  else { row = bandOf(S.twoPlus, p.asChild ? age + 30 : age); members = row.members; }
+  const regionF = S.region[pref.spendRegion];
   p.spend = {};
-  let total = 0;
   for (const key of CATEGORY_KEYS) {
-    let v = (row.items[key] / members) * lognormal(rng, 1, A.spendSigma.value);
-    if (age >= 18) v *= clamp(incomeFactor, 0.6, 1.8);
+    let v = (row.items[key] / members) * regionF[key] * lognormal(rng, 1, A.spendSigma.value);
     // 教育費は、子ども本人と子育て世帯に寄せる
-    if (key === "education" && !p.single) v *= age < 23 || p.household === "夫婦と子" || p.household === "ひとり親と子" ? 1.6 : 0.15;
-    p.spend[key] = Math.round(v);
-    total += p.spend[key];
+    if (key === "education" && !p.single) v *= age < 23 || p.householdType === "coupleKids" || p.householdType === "singleParent" ? 1.6 : 0.15;
+    p.spend[key] = v;
   }
-  p.spendTotal = total;
 
   // 8) デジタル利用
   const dg = bandOf(D.digital.bands, age);
   p.internet = dg ? rng.next() < dg.internet : false;
   p.sns = p.internet && dg ? rng.next() < dg.sns / Math.max(dg.internet, 0.01) : false;
+  p.ec = p.internet && dg ? rng.next() < dg.ec / Math.max(dg.internet, 0.01) : false; // ネットで買い物をする人
 
-  // 9) 価値観(0〜1)。統計に無いので仮定で付与
-  const z = () => rng.normal() * 0.9;
-  const inc = p.income > 0 ? Math.log(p.income / avgIncome) : -0.5;
-  p.traits = {
-    price: round2(sigmoid(0.3 - 0.8 * inc + z())), // 価格に敏感
-    novelty: round2(sigmoid(1.2 - age / 32 + (p.sns ? 0.5 : 0) + z())), // 新しもの好き
-    health: round2(sigmoid(-1.0 + age / 40 + (sex === "female" ? 0.3 : 0) + z())), // 健康志向
-    quality: round2(sigmoid(-0.2 + 0.6 * inc + age / 120 + z())), // 品質・ブランド重視
-    social: round2(sigmoid(0.4 - age / 60 + (p.sns ? 0.8 : -0.4) + z())), // 周りの評判に影響される
-  };
+  // 9) 貯蓄(万円、世帯単位。25歳以上)
+  p.savings = null;
+  if (age >= 25) {
+    const q = bandOf(D.savings.bands, age).q, pts = [[0, q[0] * 0.2], [0.1, q[0]], [0.25, q[1]], [0.5, q[2]], [0.75, q[3]], [0.9, q[4]], [1, q[4] * 2.2]];
+    const u = rng.next();
+    for (let i = 1; i < pts.length; i++) if (u <= pts[i][0]) { const t = (u - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]); p.savings = Math.round(pts[i - 1][1] + t * (pts[i][1] - pts[i - 1][1])); break; }
+  }
 
-  // 10) 新商品の採用タイプ(ロジャーズの5区分)。後で順位から割り当てる元になる点数
-  p.innovScore = p.traits.novelty * 0.7 + p.traits.social * 0.15 + (p.internet ? 0.15 : 0) + rng.next() * 0.05;
+  // 10) 価値観(0〜1)。統計に無いので仮定で付与。年収との関係は applyIncomeTier で反映
+  p._z = [rng.normal(), rng.normal(), rng.normal(), rng.normal(), rng.normal(), rng.next()];
   return p;
 }
 
-const round2 = (x) => Math.round(x * 100) / 100;
+// 所得階層(五分位)を決め、支出と価値観に反映する
+function applyIncomeTier(D, A, personas) {
+  // 年齢10歳×性別の平均年収(配偶者・親の年収の見込みに使う)
+  const mean = {};
+  for (const p of personas) { if (p.age < 18) continue; const k = `${p.sex}${Math.floor(p.age / 10)}`; (mean[k] ??= [0, 0]); mean[k][0] += p.income; mean[k][1]++; }
+  const avg = (sex, age) => { const m = mean[`${sex}${Math.floor(clamp(age, 18, 99) / 10)}`]; return m ? m[0] / m[1] : 0; };
+  const other = (sex) => (sex === "male" ? "female" : "male");
+  for (const p of personas) {
+    p.householdIncome = p.income
+      + (p.marital === "既婚" ? avg(other(p.sex), p.age) : 0)
+      + (p.asChild ? avg("male", p.age + 30) + avg("female", p.age + 30) * 0.6 : 0);
+  }
+  for (const group of [personas.filter((p) => p.single), personas.filter((p) => !p.single)]) {
+    const sorted = [...group].sort((a, b) => a.householdIncome - b.householdIncome);
+    sorted.forEach((p, i) => (p.tier = Math.min(4, Math.floor((i / sorted.length) * 5))));
+  }
+  const overall = D.wage.overallAnnualManYen;
+  for (const p of personas) {
+    const f = D.spending.quintile[p.single ? "single" : "twoPlus"][p.tier].f;
+    let total = 0;
+    for (const key of CATEGORY_KEYS) { p.spend[key] = Math.round(p.spend[key] * f[key] ** A.quintileDamp.value); total += p.spend[key]; }
+    p.spendTotal = total;
+    p.householdIncome = Math.round(p.householdIncome);
+    const [z1, z2, z3, z4, z5, u] = p._z;
+    delete p._z;
+    const inc = (p.tier - 2) / 2; // −1(低い)〜+1(高い)
+    const z = (x) => x * 0.9;
+    p.traits = {
+      price: round2(sigmoid(0.2 - 0.9 * inc + z(z1))), // 価格に敏感
+      novelty: round2(sigmoid(1.2 - p.age / 32 + (p.sns ? 0.5 : 0) + z(z2))), // 新しもの好き
+      health: round2(sigmoid(-1.0 + p.age / 40 + (p.sex === "female" ? 0.3 : 0) + z(z3))), // 健康志向
+      quality: round2(sigmoid(-0.2 + 0.7 * inc + p.age / 120 + z(z4))), // 品質・ブランド重視
+      social: round2(sigmoid(0.4 - p.age / 60 + (p.sns ? 0.8 : -0.4) + z(z5))), // 周りの評判に影響される
+    };
+    // 新商品の採用タイプ(ロジャーズの5区分)を決める元になる点数
+    p.innovScore = p.traits.novelty * 0.7 + p.traits.social * 0.15 + (p.internet ? 0.15 : 0) + u * 0.05;
+    void overall;
+  }
+}
 
 // ロジャーズの普及理論の5区分を、新しもの好き度の順位で割り当てる
 export const ADOPTER_TYPES = [
@@ -186,6 +236,25 @@ export function assignAdopterTypes(personas) {
   }
   for (const p of personas) if (!p.adopter) p.adopter = "early_majority";
   return personas;
+}
+
+// モデルの値と、公表されている合計値を見比べる(検算)
+export function validate(D, personas) {
+  const sum = (list, f) => list.reduce((a, p) => a + f(p), 0);
+  const W = (list) => sum(list, (p) => p.weight);
+  const twoPlus = personas.filter((p) => !p.single), single = personas.filter((p) => p.single), adults = personas.filter((p) => p.age >= 15);
+  const model = {
+    workers: W(personas.filter((p) => p.working)),
+    regular: W(personas.filter((p) => p.status === "regular")),
+    nonRegular: W(personas.filter((p) => p.status === "nonRegular")),
+    singles: W(single),
+    tokyo: W(personas.filter((p) => p.prefecture === "東京都")),
+    internet: W(personas.filter((p) => p.internet)) / W(personas.filter((p) => p.age >= 6)),
+    spendTwoPlus: sum(twoPlus, (p) => p.weight * p.spendTotal) / W(twoPlus),
+    spendSingle: sum(single, (p) => p.weight * p.spendTotal) / W(single),
+    married: W(adults.filter((p) => p.marital === "既婚")) / W(adults),
+  };
+  return D.targets.map((t) => ({ ...t, model: model[t.key], error: model[t.key] / t.value - 1 }));
 }
 
 // AIに渡す・画面に出すための短い自己紹介

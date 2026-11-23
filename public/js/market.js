@@ -2,7 +2,9 @@
 import { makeRng, clamp } from "./rng.js";
 import { AGE_BANDS, ageBandOf, CATEGORY_KEYS } from "./constants.js";
 
+const PRICE = { pivot: 0.1, power: 2.6 };
 export const MARKET_ASSUMPTIONS = {
+  priceCurve: { value: "費目予算の10%で半減・べき2.6", note: "価格が、その費目の年間支出に占める割合で購入確率を下げる曲線。割合が10%を超えるあたりで、1%の値上げに対し1.3〜2.6%の減少になるよう設定(Tellis 1988; Bijmolt ほか 2005 の平均に合わせた)。ごく安い商品では価格の影響は小さい" },
   intentWeights: {
     value: { 5: 0.7, 4: 0.25, 3: 0.05, 2: 0, 1: 0 },
     note: "「買う」と答えた人が実際に買う割合。アンケートの意向は実際より高く出るため割り引く。実務資料では「必ず買う」70〜75%、「たぶん買う」25%の例があるが、査読論文での裏づけは確認できていない",
@@ -33,7 +35,8 @@ export function buyProbability(p, product) {
   const yearCost = product.price * product.perYear;
   const budget = Math.max(p.spend[product.category] * 12, 1);
   const ratio = yearCost / budget; // その費目の年間支出に占める割合
-  const afford = 1 / (1 + (ratio / 0.25) ** 1.4); // 費目予算の25%で関心が半減
+  // 費目予算の10%で関心が半減。値上げへの反応が、実際の商品の研究(1%の値上げで1.8〜2.6%減)に近づく形にしている
+  const afford = 1 / (1 + (ratio / PRICE.pivot) ** PRICE.power);
   const a = product.appeal ?? {};
   // 訴求点と価値観の相性(-1〜+1 程度)
   const fit =
@@ -129,6 +132,9 @@ export function personaForLLM(p) {
     本人年収_万円: p.income,
     配偶関係: p.marital,
     世帯: p.household,
+    世帯年収の見込み_万円: p.householdIncome,
+    世帯の貯蓄_万円: p.savings,
+    ネットで買い物: p.ec,
     月の支出_円: p.spend,
     ネット利用: p.internet,
     SNS利用: p.sns,
