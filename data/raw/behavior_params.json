@@ -1,0 +1,801 @@
+{
+  "generated": "2026-11-23",
+  "notes": [
+    "ネットワーク制限のため、本文を開けたのは nber.org / mlit.go.jp / rieti.go.jp / repub.eur.nl / epub.ub.uni-muenchen.de / gwern.net の資料のみ。それ以外は WebSearch の抜粋による確認で、confidence を medium 以下にしている。",
+    "how_to_use にある換算値(ロジット差、月次の p・q、円/時)は当方の単純計算で、論文の報告値ではない。",
+    "ダウンロードした原資料: /tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/behav_dl/"
+  ],
+  "params": [
+    {
+      "key": "loss_aversion",
+      "name_ja": "損失回避(損は得の何倍重いか)",
+      "estimates": [
+        {
+          "what": "損失回避係数 λ のメタ分析平均(ベイズ階層モデル M2 の事後平均と95%信用区間)",
+          "value": {
+            "mean": 1.955,
+            "ci95": [
+              1.824,
+              2.104
+            ],
+            "n_estimates": 607,
+            "n_papers": 150
+          },
+          "unit": "倍(損失の重み÷利得の重み)",
+          "population": "1992〜2017年に公表された推定値、71の国・地域",
+          "citation": "Brown, Imai, Vieider & Camerer (2024) Meta-analysis of Empirical Estimates of Loss Aversion. Journal of Economic Literature 62(2), 485-516(確認したのはワーキングペーパー版 CRC TRR 190 DP No.275)",
+          "url": "https://epub.ub.uni-muenchen.de/75121/1/275.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認(刊行版の値が同じであることは検索抜粋で確認)"
+        },
+        {
+          "what": "報告された λ の単純な要約統計(全607件)",
+          "value": {
+            "mean": 2.181,
+            "sd": 1.857,
+            "q25": 1.34,
+            "median": 1.79,
+            "q75": 2.375
+          },
+          "unit": "倍",
+          "population": "同上",
+          "citation": "Brown, Imai, Vieider & Camerer (2024) Meta-analysis of Empirical Estimates of Loss Aversion. Journal of Economic Literature 62(2), 485-516(確認したのはワーキングペーパー版 CRC TRR 190 DP No.275) Table 4",
+          "url": "https://epub.ub.uni-muenchen.de/75121/1/275.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "Tversky & Kahneman (1992) の中央値パラメータ:λ と 価値関数の指数 α(得・損とも x^0.88)",
+          "value": {
+            "lambda": 2.25,
+            "alpha": 0.88
+          },
+          "unit": "λ=倍、α=べき指数",
+          "population": "米国の大学院生25人(原論文)。ここでは Brown らの本文での引用で確認",
+          "citation": "Tversky & Kahneman (1992) Advances in Prospect Theory: Cumulative Representation of Uncertainty. Journal of Risk and Uncertainty 5(4), 297-323",
+          "url": "https://epub.ub.uni-muenchen.de/75121/1/275.pdf",
+          "confidence": "medium",
+          "verified_via": "原論文は未開封。Brown ら(2024)の PDF 本文が『TK92 の中央値は λ=2.25、u(x)=x^0.88』と引用しているのを確認。標本(25人)は記憶によるもので未確認"
+        },
+        {
+          "what": "日本人を対象にした λ の推定値",
+          "value": null,
+          "unit": "倍",
+          "population": "日本",
+          "citation": "Rieger, Wang & Hens (2017) Estimating cumulative prospect theory parameters from an international survey. Theory and Decision 82(4), 567-596(53か国、国別表に日本が含まれる可能性)",
+          "url": "https://link.springer.com/doi/10.1007/s11238-016-9582-8",
+          "confidence": "low",
+          "verified_via": "論文の存在のみ検索抜粋で確認。国別の表は開けず、日本の値は未確認"
+        }
+      ],
+      "how_to_use": "金額項で損失側の係数を利得側の約2倍(1.8〜2.1)にする。対数を使い続けるなら、損失のときだけ係数に λ≈1.96 を掛けるのが最小の変更。Brown らの回帰では大陸間の差は小さい(アジアの係数は欧州比で小さく、日本固有の補正を入れる根拠は得られなかった)。",
+      "not_confirmed": [
+        "日本人サンプルの λ(国別表を開けなかった)",
+        "大阪大学『くらしの好みと満足度についてのアンケート』を使った損失回避係数の推定(該当論文を特定できず)",
+        "Tversky & Kahneman (1992) 原論文そのもの(二次引用で確認)"
+      ]
+    },
+    {
+      "key": "status_quo_default",
+      "name_ja": "現状維持バイアス・デフォルト効果",
+      "estimates": [
+        {
+          "what": "401(k)加入率:自動加入(デフォルト=加入)の新規採用者 対 自動加入導入前の採用者(どちらも勤続3〜15か月)",
+          "value": {
+            "auto_enroll": 0.86,
+            "opt_in": 0.37,
+            "diff_pt": 49
+          },
+          "unit": "割合(加入率)",
+          "population": "米国の大企業1社の従業員、1998〜1999年",
+          "citation": "Madrian & Shea (2001) The Power of Suggestion: Inertia in 401(k) Participation and Savings Behavior. Quarterly Journal of Economics 116(4), 1149-1187(確認したのは NBER WP 7682, 2000)",
+          "url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "自動加入者のうち、デフォルト(拠出率3%・全額マネーマーケットファンド)から動かなかった割合",
+          "value": {
+            "all_new_cohort": 0.61,
+            "conditional_on_participation": 0.71,
+            "same_choice_among_pre_cohorts": 0.01
+          },
+          "unit": "割合",
+          "population": "同上",
+          "citation": "Madrian & Shea (2001) The Power of Suggestion: Inertia in 401(k) Participation and Savings Behavior. Quarterly Journal of Economics 116(4), 1149-1187(確認したのは NBER WP 7682, 2000)",
+          "url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "同社全体の加入率:導入前の実績と、導入後の定常状態の想定",
+          "value": {
+            "before": 0.61,
+            "assumed_steady_state_after": 0.86
+          },
+          "unit": "割合",
+          "population": "同上(後者は著者の仮定)",
+          "citation": "Madrian & Shea (2001) The Power of Suggestion: Inertia in 401(k) Participation and Savings Behavior. Quarterly Journal of Economics 116(4), 1149-1187(確認したのは NBER WP 7682, 2000)",
+          "url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "デフォルト効果のメタ分析:全体の効果量 d と95%信頼区間",
+          "value": {
+            "d": 0.68,
+            "ci95": [
+              0.53,
+              0.83
+            ],
+            "n_studies": 58,
+            "pooled_n": 73675
+          },
+          "unit": "Cohen's d",
+          "population": "58研究(消費・環境・健康など)",
+          "citation": "Jachimowicz, Duncan, Weber & Johnson (2019) When and why defaults influence decisions: a meta-analysis of default effects. Behavioural Public Policy 3(2), 159-186",
+          "url": "https://www.cambridge.org/core/product/67AF6972CFB52698A60B6BD94B70C2C0/core-reader",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。抄録の数値が複数の検索結果で一致"
+        },
+        {
+          "what": "臓器提供の同意率(オンライン実験):オプトイン / オプトアウト / 中立(強制選択)",
+          "value": {
+            "opt_in": 0.42,
+            "opt_out": 0.82,
+            "neutral": 0.79
+          },
+          "unit": "割合(同意率)",
+          "population": "米国のオンライン実験参加者",
+          "citation": "Johnson & Goldstein (2003) Do Defaults Save Lives? Science 302(5649), 1338-1339",
+          "url": "https://journalofethics.ama-assn.org/article/does-how-we-ask-organs-determine-whether-people-decide-donate/2005-09",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。AMA Journal of Ethics の紹介記事の抜粋による二次確認"
+        },
+        {
+          "what": "国別の実効同意率(ドイツ12%、オーストリア99.98%など)",
+          "value": null,
+          "unit": "割合",
+          "population": "欧州11か国",
+          "citation": "Johnson & Goldstein (2003) 同上",
+          "url": null,
+          "confidence": "low",
+          "verified_via": "検索では数値を確認できず"
+        },
+        {
+          "what": "Samuelson & Zeckhauser (1988) の現状維持の大きさ(TIAA-CREF の配分変更、ハーバードの健康保険選択)",
+          "value": null,
+          "unit": "割合",
+          "population": "米国の大学教職員ほか",
+          "citation": "Samuelson & Zeckhauser (1988) Status Quo Bias in Decision Making. Journal of Risk and Uncertainty 1(1), 7-59",
+          "url": "https://link.springer.com/article/10.1007/BF00055564",
+          "confidence": "low",
+          "verified_via": "書誌と『現状維持バイアスは大きい』という定性的結論のみ検索抜粋で確認。数値は未確認"
+        }
+      ],
+      "how_to_use": "現状維持の強さの較正に使う。『何もしなければ今のまま』の選択肢は、同じ中身でも選ばれる率が37%→86%(約49ポイント)上がりうる、が上限の目安。ロジットなら現状維持の定数項 ≈ ln(0.86/0.14)−ln(0.37/0.63) ≈ 2.3(この換算は当方の計算で、論文の値ではない)。一般の場面では d=0.68 程度と小さめに見る。",
+      "not_confirmed": [
+        "Samuelson & Zeckhauser (1988) の具体的な数値",
+        "Johnson & Goldstein (2003) の国別同意率",
+        "Jachimowicz ら (2019) は抄録の数値のみ(本文未開封)"
+      ]
+    },
+    {
+      "key": "value_of_time",
+      "name_ja": "時間の価値(手間・負担の金額換算)",
+      "estimates": [
+        {
+          "what": "車種別の時間価値原単位(令和6年価格)",
+          "value": {
+            "乗用車": 43.74,
+            "バス": 386.79,
+            "乗用車類": 48.89,
+            "小型貨物車": 52.07,
+            "普通貨物車": 101.93
+          },
+          "unit": "円/分・台",
+          "population": "日本・全国標準、令和6年(2024年)価格",
+          "citation": "国土交通省 道路局・都市局 (2025)『費用便益分析マニュアル』令和7年8月, 表-1",
+          "url": "https://www.mlit.go.jp/road/ir/ir-hyouka/ben-eki_2.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "乗用車の時間価値を時間あたりに直した値(43.74×60、当方の換算)",
+          "value": 2624,
+          "unit": "円/時・台",
+          "population": "同上",
+          "citation": "国土交通省 道路局・都市局 (2025)『費用便益分析マニュアル』令和7年8月, 表-1",
+          "url": "https://www.mlit.go.jp/road/ir/ir-hyouka/ben-eki_2.pdf",
+          "confidence": "high",
+          "verified_via": "上の表の値からの単純計算。1台あたりで、1人あたりではない点に注意"
+        },
+        {
+          "what": "私用(通勤以外)の移動時間の価値:米国運輸省の指針は賃金の50%(地域内)・70%(都市間)",
+          "value": {
+            "local_personal": 0.5,
+            "intercity_personal": 0.7
+          },
+          "unit": "賃金率に対する比",
+          "population": "米国、1997年指針",
+          "citation": "US Department of Transportation (1997) Departmental Guidance for the Valuation of Travel Time in Economic Analysis",
+          "url": "https://webarchive.library.unt.edu/eot2008/20081105201638/http://ostpxweb.dot.gov/policy/Data/VOT97guid.pdf",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)"
+        },
+        {
+          "what": "非業務時間の価値は賃金の25%が1960〜70年代の通念、近年の中心値は約33%",
+          "value": {
+            "conventional": 0.25,
+            "typical_central": 0.33
+          },
+          "unit": "賃金率に対する比",
+          "population": "欧州の研究のメタ分析",
+          "citation": "Wardman らによる欧州の時間価値メタ分析(検索抜粋では書誌の詳細を確認できず)",
+          "url": "https://eprints.whiterose.ac.uk/2079/2",
+          "confidence": "low",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。書誌(年・誌名)未確認"
+        }
+      ],
+      "how_to_use": "手間・負担の項を『かかる分数×円/分』に置き換えられる。全国標準は乗用車1台43.74円/分。私用の時間は賃金の1/3〜1/2という幅の根拠は米国運輸省(50%)と欧州メタ分析(約33%)。働いている人1.3倍・65歳以上1.2倍という倍率を直接支える数字は見つからなかった。",
+      "not_confirmed": [
+        "人1人あたり・目的別(業務/非業務)の日本の時間価値(マニュアルは車種別・台あたりのみ)",
+        "『賃金の1/3〜1/2』を直接述べた一次文献の本文",
+        "就業者・高齢者で手間の重みが何倍かという推定"
+      ]
+    },
+    {
+      "key": "wfh_flexibility_wtp",
+      "name_ja": "在宅勤務・柔軟な働き方への支払意思額",
+      "estimates": [
+        {
+          "what": "在宅勤務の選択肢への平均支払意思額",
+          "value": {
+            "mean_usd_per_hour": 1.33,
+            "se": 0.3,
+            "share_of_wage": 0.08,
+            "p25": 0.2,
+            "p75": 2.45,
+            "p75_share_of_wage": 0.14,
+            "n": 608
+          },
+          "unit": "ドル/時、賃金に対する比",
+          "population": "米国、コールセンター職の応募者(全体で約7,000人)、2016年ごろ",
+          "citation": "Mas & Pallais (2017) Valuing Alternative Work Arrangements. American Economic Review 107(12), 3722-3759(確認したのは NBER WP 22708) Table 4",
+          "url": "https://www.nber.org/system/files/working_papers/w22708/w22708.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "雇用主が直前に決めるシフトを避けるための平均支払意思額",
+          "value": {
+            "mean_usd_per_hour": 3.41,
+            "se": 0.42,
+            "share_of_wage": 0.2,
+            "n": 640
+          },
+          "unit": "ドル/時、賃金に対する比",
+          "population": "同上",
+          "citation": "Mas & Pallais (2017) Valuing Alternative Work Arrangements. American Economic Review 107(12), 3722-3759(確認したのは NBER WP 22708) Table 4",
+          "url": "https://www.nber.org/system/files/working_papers/w22708/w22708.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "勤務時間帯を自分で決められること/勤務時間数を自分で決められることへの平均支払意思額(いずれもほぼゼロ)",
+          "value": {
+            "flexible_schedule_usd": 0.48,
+            "flexible_schedule_se": 0.25,
+            "flexible_hours_usd": -0.22,
+            "flexible_hours_se": 0.21
+          },
+          "unit": "ドル/時",
+          "population": "同上",
+          "citation": "Mas & Pallais (2017) Valuing Alternative Work Arrangements. American Economic Review 107(12), 3722-3759(確認したのは NBER WP 22708) Table 4",
+          "url": "https://www.nber.org/system/files/working_papers/w22708/w22708.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "賃金ペナルティがなくても出社のみを選ぶ応募者の割合",
+          "value": 0.2,
+          "unit": "割合",
+          "population": "同上",
+          "citation": "Mas & Pallais (2017) Valuing Alternative Work Arrangements. American Economic Review 107(12), 3722-3759(確認したのは NBER WP 22708)",
+          "url": "https://www.nber.org/system/files/working_papers/w22708/w22708.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "Barrero, Bloom & Davis:2021年版の抄録 ― パンデミック後は全勤務日の約20%が在宅(以前は5%)、生産性は5%上昇の見込み",
+          "value": {
+            "wfh_share_of_full_workdays": 0.2,
+            "pre_pandemic": 0.05,
+            "productivity_boost": 0.05,
+            "n_survey": "30,000超"
+          },
+          "unit": "割合",
+          "population": "米国の就業者調査(SWAA)、2020〜2021年",
+          "citation": "Barrero, Bloom & Davis (2021) Why Working from Home Will Stick. NBER Working Paper 28731",
+          "url": "https://www.nber.org/papers/w28731",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)(2021年版の抄録)。NBER の現行PDFは2026年10月改訂版で数値が異なる"
+        },
+        {
+          "what": "同論文の現行版(2026年10月改訂):在宅は全有給勤務日の約25%(2019年の3.5倍)。モデルの選好パラメータは Mas & Pallais の『賃金の8%』で較正",
+          "value": {
+            "wfh_share_of_paid_workdays": 0.25,
+            "calibration_wtp_share": 0.08,
+            "n_survey": "250,000超"
+          },
+          "unit": "割合",
+          "population": "米国、2020〜2025年",
+          "citation": "Barrero, Bloom & Davis, Why Working from Home Will Stick. NBER WP 28731 (April 2021, Revised October 2026)",
+          "url": "https://www.nber.org/system/files/working_papers/w28731/w28731.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "日本:テレワーク実施者の賃金プレミアム(支払意思額ではなく、横断面の賃金差)",
+          "value": {
+            "male": 0.101,
+            "female": 0.111
+          },
+          "unit": "賃金に対する比",
+          "population": "日本の就業者、約1万人の独自調査、2017年ごろ",
+          "citation": "Morikawa, M. (2018) Long Commuting Time and the Benefits of Telecommuting. RIETI Discussion Paper 18-E-025",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/18e025.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認。著者自身が因果ではないと注記"
+        },
+        {
+          "what": "日本:『通勤が1時間延びる』のと『勤務が1時間延びる』のどちらを避けたいか",
+          "value": {
+            "avoid_longer_commute": 0.553,
+            "no_difference": 0.196,
+            "avoid_longer_work": 0.251
+          },
+          "unit": "割合",
+          "population": "同上",
+          "citation": "Morikawa, M. (2018) Long Commuting Time and the Benefits of Telecommuting. RIETI Discussion Paper 18-E-025 Table 5",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/18e025.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "日本:通勤時間が2倍になると賃金が何%高いか(補償賃金の目安)",
+          "value": {
+            "male": 0.04,
+            "female": 0.069
+          },
+          "unit": "賃金に対する比",
+          "population": "同上",
+          "citation": "Morikawa, M. (2018) Long Commuting Time and the Benefits of Telecommuting. RIETI Discussion Paper 18-E-025",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/18e025.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "日本:予定外の残業の主観的コストは、予定された残業の1.5倍以上",
+          "value": 1.5,
+          "unit": "倍(以上)",
+          "population": "日本の就業者、約1万人の独自調査",
+          "citation": "森川正之『就労スケジュールの不確実性と補償賃金』RIETI DP(RIETI Research Digest 掲載の著者インタビューで確認、DP番号は未確認)",
+          "url": "https://www.rieti.go.jp/jp/publications/rd/123.html",
+          "confidence": "medium",
+          "verified_via": "RIETI のウェブページ(著者インタビュー)を取得して確認。DP本文は未開封"
+        }
+      ],
+      "how_to_use": "在宅・柔軟性のある選択肢の金額換算に使う。在宅勤務の価値は賃金の約8%(上位25%の人は14%以上、約2割の人はゼロ以下)と、個人差が大きいことも併せて入れられる。日本については支払意思額の直接推定は見つからず、『通勤時間の増加は勤務時間の増加より嫌われる(55%対25%)』『予定外の負担は1.5倍以上重い』が手間・負担の重みの根拠になる。",
+      "not_confirmed": [
+        "Barrero ら(2021年版)の『週2〜3日の在宅を賃金の何%相当と評価するか』の値(現行PDFには見当たらず、検索抜粋でも確認できず)",
+        "日本での在宅勤務への支払意思額(賃金の何%か)の直接推定",
+        "森川(スケジュール不確実性)DPの番号と本文の表"
+      ]
+    },
+    {
+      "key": "risk_aversion_age_income",
+      "name_ja": "リスク回避と年齢・所得",
+      "estimates": [
+        {
+          "what": "リスクを取る意欲(0〜10の自己評価)は年齢が高いほど、また女性ほど低く、身長・親の学歴が高いほど高い(方向のみ)",
+          "value": null,
+          "unit": "係数(0〜10尺度の点/年)",
+          "population": "ドイツ、SOEP、約22,000人、2004年",
+          "citation": "Dohmen, Falk, Huffman, Sunde, Schupp & Wagner (2011) Individual Risk Attitudes: Measurement, Determinants, and Behavioral Consequences. Journal of the European Economic Association 9(3), 522-550",
+          "url": "https://epub.ub.uni-muenchen.de/20048/",
+          "confidence": "medium",
+          "verified_via": "抄録(検索抜粋と書誌ページ)で方向のみ確認。全文PDFは公開されておらず、回帰係数は未確認"
+        },
+        {
+          "what": "デフォルトに留まる割合は低所得層で高い:年収2万ドル未満74% 対 高所得層30%(リスクではなく慣性の所得差)",
+          "value": {
+            "under_20k_usd": 0.74,
+            "high_income": 0.3
+          },
+          "unit": "割合",
+          "population": "米国の大企業1社、1999年",
+          "citation": "Madrian & Shea (2001) The Power of Suggestion: Inertia in 401(k) Participation and Savings Behavior. Quarterly Journal of Economics 116(4), 1149-1187(確認したのは NBER WP 7682, 2000) Table 8 の本文説明",
+          "url": "https://www.nber.org/system/files/working_papers/w7682/w7682.pdf",
+          "confidence": "medium",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認。高所得側の区分(金額)は該当行の続きを読んでおらず未確認"
+        }
+      ],
+      "how_to_use": "『年齢が高いほど不安の重みが大きい』という向きは Dohmen らで支持されるが、係数の大きさは確認できなかったので、年齢の傾きは仮定のままになる。低所得層については『リスク回避が強い』の直接の係数は得られず、代わりに『デフォルトから動かない割合が高い(74%対30%)』が使える。",
+      "not_confirmed": [
+        "Dohmen ら (2011) の年齢・性別の回帰係数",
+        "所得とリスク回避の関係の係数",
+        "大阪大学『くらしの好みと満足度についてのアンケート』を使った年齢・所得別のリスク回避度の推定(調査票にくじの設問があることまでは確認、推定論文は特定できず)"
+      ]
+    },
+    {
+      "key": "peer_effects",
+      "name_ja": "仲間効果・社会的影響",
+      "estimates": [
+        {
+          "what": "説明会の出席率:招待状(20ドルの謝礼)を受けた人 / 同じ部署で受けなかった人 / 招待のなかった部署の人",
+          "value": {
+            "treated": 0.28,
+            "untreated_in_treated_dept": 0.151,
+            "control_dept": 0.049,
+            "social_effect_pt": 10.2,
+            "direct_effect_pt": 13.8
+          },
+          "unit": "割合、差はポイント",
+          "population": "米国の大学1校の職員、2000年",
+          "citation": "Duflo & Saez (2003) The Role of Information and Social Interactions in Retirement Plan Decisions: Evidence from a Randomized Experiment. Quarterly Journal of Economics 118(3), 815-842(確認したのは NBER WP 8885, 2002)",
+          "url": "https://www.nber.org/system/files/working_papers/w8885/w8885.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "退職貯蓄(TDA)加入率:招待のあった部署 対 なかった部署(4.5か月後)、および11か月後の差",
+          "value": {
+            "treated_dept_4_5m": 0.049,
+            "control_dept_4_5m": 0.04,
+            "relative_increase_4_5m": 0.24,
+            "diff_pt_11m": 1.4,
+            "relative_increase_11m": 0.19
+          },
+          "unit": "割合、差はポイント",
+          "population": "同上",
+          "citation": "Duflo & Saez (2003) The Role of Information and Social Interactions in Retirement Plan Decisions: Evidence from a Randomized Experiment. Quarterly Journal of Economics 118(3), 815-842(確認したのは NBER WP 8885, 2002)",
+          "url": "https://www.nber.org/system/files/working_papers/w8885/w8885.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "金融商品の購入率:情報なし / 仲間が買いたかったと知る(社会的学習のみ)/ 仲間が実際に買ったと知る(学習+社会的効用)",
+          "value": {
+            "no_info": 0.42,
+            "learning_only": 0.71,
+            "learning_plus_utility": 0.93
+          },
+          "unit": "割合(購入率)",
+          "population": "ブラジルの証券会社の顧客ペア、2012年ごろ",
+          "citation": "Bursztyn, Ederer, Ferman & Yuchtman (2014) Understanding Mechanisms Underlying Peer Effects: Evidence from a Field Experiment on Financial Decisions. Econometrica 82(4), 1273-1301(確認したのは NBER WP 18241)",
+          "url": "https://www.nber.org/system/files/working_papers/w18241/w18241.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "音楽市場実験:他人のダウンロード数が見えると、人気の偏り(ジニ係数)と結果の予測不能性がともに上がる(方向のみ)",
+          "value": {
+            "n_participants": 14341,
+            "gini": null
+          },
+          "unit": "ジニ係数",
+          "population": "米国中心のウェブ参加者",
+          "citation": "Salganik, Dodds & Watts (2006) Experimental Study of Inequality and Unpredictability in an Artificial Cultural Market. Science 311(5762), 854-856",
+          "url": "https://collaborate.princeton.edu/en/publications/experimental-study-of-inequality-and-unpredictability-in-an-artif/",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。参加者数と方向は抄録で確認、ジニ係数の値は未確認"
+        }
+      ],
+      "how_to_use": "周りの影響の係数の較正に使う。身近な仲間が『買った』と知ると購入率は42%→93%(+51ポイント、ロジット差で約2.9)、『買いたがった』だけでも+29ポイント。一方、職場単位のゆるい波及は直接効果の7割程度(10.2対13.8ポイント)で、最終的な加入率への効果は1ポイント強と小さい。選ぶ人の割合に比例させる現行の形は妥当だが、強さは場面で1桁違う。",
+      "not_confirmed": [
+        "Salganik ら (2006) のジニ係数の値(独立条件と社会的影響条件)"
+      ]
+    },
+    {
+      "key": "bass_diffusion",
+      "name_ja": "普及モデル(Bass モデルの p と q)",
+      "estimates": [
+        {
+          "what": "Bass モデルの平均 p(革新係数)と q(模倣係数)― Sultan らのメタ分析の値",
+          "value": {
+            "p": 0.03,
+            "q": 0.38,
+            "q_over_p": 12.667
+          },
+          "unit": "年あたりの係数",
+          "population": "213の適用例・15論文",
+          "citation": "Sultan, Farley & Lehmann (1990) A Meta-Analysis of Applications of Diffusion Models. Journal of Marketing Research 27(1), 70-77",
+          "url": "https://repub.eur.nl/pub/1012/ERS%20077%20Stremersch%20van%20den%20Bulte.pdf",
+          "confidence": "medium",
+          "verified_via": "原論文は未開封。Van den Bulte & Stremersch の PDF 本文が『p=0.03、q=0.38 (Sultan et al. 1990)』として引用しているのを確認。適用例数は検索抜粋"
+        },
+        {
+          "what": "耐久消費財の p と q の分布(平均・中央値・10〜90%範囲)",
+          "value": {
+            "p": {
+              "mean": 0.027,
+              "median": 0.012,
+              "p10_p90": [
+                0.001,
+                0.083
+              ]
+            },
+            "q": {
+              "mean": 0.419,
+              "median": 0.42,
+              "p10_p90": [
+                0.128,
+                0.69
+              ]
+            },
+            "n_obs": 293,
+            "n_products": 52,
+            "n_countries": 28
+          },
+          "unit": "年あたりの係数",
+          "population": "耐久消費財52品目・28か国(米国72%、アジア12%)・46論文",
+          "citation": "Van den Bulte & Stremersch (2004) Social Contagion and Income Heterogeneity in New Product Diffusion: A Meta-Analytic Test. Marketing Science 23(4), 530-544(確認したのは ERIM Report ERS-2003-077-MKT)",
+          "url": "https://repub.eur.nl/pub/1012/ERS%20077%20Stremersch%20van%20den%20Bulte.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "q/p は集団主義的な文化・不確実性回避の強い文化・所得格差の大きい国で高い(方向のみ)",
+          "value": null,
+          "unit": "比",
+          "population": "同上",
+          "citation": "Van den Bulte & Stremersch (2004) Social Contagion and Income Heterogeneity in New Product Diffusion: A Meta-Analytic Test. Marketing Science 23(4), 530-544(確認したのは ERIM Report ERS-2003-077-MKT)",
+          "url": "https://repub.eur.nl/pub/1012/ERS%20077%20Stremersch%20van%20den%20Bulte.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認。平均 q/p の値そのものは本文で見つけられず"
+        }
+      ],
+      "how_to_use": "認知の広がり(毎月一定割合+口コミ)にそのまま対応する。年あたり p≈0.03、q≈0.38〜0.42 なので、月次なら p≈0.0025、q≈0.03〜0.035 が出発点(月次への換算は単純に12で割った当方の近似)。日本のように集団主義・不確実性回避が強い国では q/p を高めに置く根拠がある。",
+      "not_confirmed": [
+        "Sultan ら (1990) 原論文の表(二次引用で確認)",
+        "Van den Bulte & Stremersch の平均 q/p の値",
+        "日本だけの p・q"
+      ]
+    },
+    {
+      "key": "price_elasticity",
+      "name_ja": "価格弾力性(値上げしたときの売れ行きの落ち方)",
+      "estimates": [
+        {
+          "what": "ブランド単位の価格弾力性のメタ分析平均",
+          "value": {
+            "mean": -2.62,
+            "n_elasticities": 1851,
+            "n_studies": 81
+          },
+          "unit": "弾力性(価格1%上昇あたりの数量変化%)",
+          "population": "1961〜2004年に公表された研究、主に消費財",
+          "citation": "Bijmolt, van Heerde & Pieters (2005) New Empirical Generalizations on the Determinants of Price Elasticity. Journal of Marketing Research 42(2), 141-156",
+          "url": "https://repository.tilburguniversity.edu/items/813834f9-4626-45f8-ad0a-2920a545e089",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)(抄録の文言)。対象年は未確認"
+        },
+        {
+          "what": "それ以前のメタ分析の平均(補正なしの算術平均)",
+          "value": {
+            "mean": -1.76,
+            "n_elasticities": 367,
+            "n_brands_or_markets": "220超"
+          },
+          "unit": "弾力性",
+          "population": "1986年までの研究",
+          "citation": "Tellis (1988) The Price Elasticity of Selective Demand: A Meta-Analysis of Econometric Models of Sales. Journal of Marketing Research 25(4), 331-341",
+          "url": "https://www.msi.org/working-papers/the-price-elasticity-of-selective-demand-a-metaanalysis-of-sales-response-models/",
+          "confidence": "medium",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)(抄録・MSI 要約)"
+        },
+        {
+          "what": "日本:ビール系飲料の需要の価格弾力性(CES 型効用、POSデータ)",
+          "value": 4.3,
+          "unit": "弾力性(絶対値。ブランド間の代替の弾力性)",
+          "population": "日本、POSデータ",
+          "citation": "慶田昌之 (2012) ビールと発泡酒の税率と経済厚生. RIETI Discussion Paper 12-J-019",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/12j019.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認(要旨)"
+        }
+      ],
+      "how_to_use": "価格を上げたときの落ち方の係数に使う。ブランド単位では −1.8〜−2.6 が定説の幅(同じカテゴリー内で他社に移る分を含むので大きい)。市場全体の需要の落ち方はこれよりずっと小さいので、画面が『自社の売れ行き』か『市場全体』かで使い分ける。",
+      "not_confirmed": [
+        "日本の品目別の価格弾力性をまとめた表(単品の推定しか確認できず)",
+        "Bijmolt ら (2005) の本文(抄録のみ)"
+      ]
+    },
+    {
+      "key": "advertising_elasticity",
+      "name_ja": "広告弾力性(広告の効き方)",
+      "estimates": [
+        {
+          "what": "短期の広告弾力性:平均と中央値",
+          "value": {
+            "mean": 0.12,
+            "median": 0.05,
+            "n_estimates": 751,
+            "n_studies": 56,
+            "prior_meta_mean": 0.22
+          },
+          "unit": "弾力性(広告1%増あたりの売上変化%)",
+          "population": "1960〜2008年に公表された56研究のブランド広告",
+          "citation": "Sethuraman, Tellis & Briesch (2011) How Well Does Advertising Work? Generalizations from Meta-Analysis of Brand Advertising Elasticities. Journal of Marketing Research 48(3), 457-471",
+          "url": "https://gwern.net/doc/economics/advertising/2011-sethuraman.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "長期の広告弾力性:平均と中央値",
+          "value": {
+            "mean": 0.24,
+            "median": 0.1,
+            "n_estimates": 402,
+            "prior_meta_implied_mean": 0.41
+          },
+          "unit": "弾力性",
+          "population": "同上",
+          "citation": "Sethuraman, Tellis & Briesch (2011) How Well Does Advertising Work? Generalizations from Meta-Analysis of Brand Advertising Elasticities. Journal of Marketing Research 48(3), 457-471",
+          "url": "https://gwern.net/doc/economics/advertising/2011-sethuraman.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "弾力性の分布:0〜0.1 に4割超、負の値が約5%。耐久財・導入期・GRP 計測で高く、時代とともに低下",
+          "value": {
+            "share_between_0_and_0_1": ">0.40",
+            "share_negative": 0.05
+          },
+          "unit": "割合",
+          "population": "同上",
+          "citation": "Sethuraman, Tellis & Briesch (2011) How Well Does Advertising Work? Generalizations from Meta-Analysis of Brand Advertising Elasticities. Journal of Marketing Research 48(3), 457-471",
+          "url": "https://gwern.net/doc/economics/advertising/2011-sethuraman.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        }
+      ],
+      "how_to_use": "広告の効き方の係数に使う。広告費を10%増やしても売上は短期で約1.2%(中央値なら0.5%)、長期で約2.4%しか増えない。価格弾力性(−2.6)の20分の1ほどの大きさなので、広告の係数を価格の係数と同じ桁に置いているなら下げる必要がある。",
+      "not_confirmed": []
+    },
+    {
+      "key": "churn_rate",
+      "name_ja": "解約率・継続率(サブスクの業界目安)",
+      "estimates": [
+        {
+          "what": "サブスクの解約率の中央値(全業種 / B2B / B2C)と、非自発(決済失敗)・自発の内訳",
+          "value": {
+            "all": 0.0548,
+            "b2b": 0.0515,
+            "b2c": 0.0681,
+            "involuntary_range": [
+              0.015,
+              0.02
+            ],
+            "voluntary_range": [
+              0.035,
+              0.075
+            ]
+          },
+          "unit": "割合(月次と思われるが、抜粋では期間の明示なし)",
+          "population": "Recurly 利用の約2,000サイト、2019年1〜12月",
+          "citation": "Recurly Research, Churn Rate Benchmarks(2019年データ)",
+          "url": "https://www.recurly.com/research/churn-rate-benchmarks",
+          "confidence": "low",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。月次か年次かが抜粋で明示されておらず、事業者の自社顧客データ"
+        },
+        {
+          "what": "業種別の月次解約率の目安(メディア・娯楽 20〜30%、オンライン小売の定期購入 15〜20%、フィットネス 10〜15%、SaaS 5〜7%、通信 2〜5%)",
+          "value": {
+            "media_entertainment": [
+              0.2,
+              0.3
+            ],
+            "online_retail_subscription": [
+              0.15,
+              0.2
+            ],
+            "fitness": [
+              0.1,
+              0.15
+            ],
+            "saas": [
+              0.05,
+              0.07
+            ],
+            "telecom": [
+              0.02,
+              0.05
+            ]
+          },
+          "unit": "割合(月次)",
+          "population": "出所データの記載なし(一般的な目安)",
+          "citation": "Stripe, Customer churn rates 101: What churn means for subscription businesses",
+          "url": "https://stripe.com/resources/more/customer-churn-rates-101",
+          "confidence": "low",
+          "verified_via": "WebSearch の抜粋のみ(本文は未開封)。根拠データが示されていない解説記事で、数値は高めに見える"
+        }
+      ],
+      "how_to_use": "解約率の初期値の目安にとどめる。査読論文や公的統計で月次解約率の実測を載せたものは見つからなかった。使うなら Recurly の中央値(約5〜7%)を『事業者データ、期間の定義は要確認』と注記して置く。",
+      "not_confirmed": [
+        "査読論文・公的統計による月次解約率の実測(見つからず)",
+        "Recurly の値が月次か年次か",
+        "日本のサブスクの解約率"
+      ]
+    },
+    {
+      "key": "dce_japan_example",
+      "name_ja": "日本の離散選択実験の例(金額と属性のトレードオフ)",
+      "estimates": [
+        {
+          "what": "多項ロジットの係数(情報提供前):価格(月額・円)と各属性",
+          "value": {
+            "価格_円あたり": -0.00054,
+            "原子力": -1.28716,
+            "太陽光": 0.39247,
+            "風力": 0.1362,
+            "停電がまれに起きる": -0.49386,
+            "CO2_20%減": 0.1915,
+            "CO2_10%減": 0.17006,
+            "CO2_10%増": -0.12576,
+            "CO2_20%増": -0.28763,
+            "定数項": 1.72431
+          },
+          "unit": "ロジット係数(基準:天然ガス火力・停電なし・CO2不変)",
+          "population": "日本全国のウェブ調査、1回目5,818人・2回目3,338人、2012〜2013年ごろ",
+          "citation": "森田玉雪・馬奈木俊介 (2013) 東日本大震災後のエネルギー・ミックス ―電源別特性を考慮した需要分析―. RIETI Discussion Paper 13-J-066 表8",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/13j066.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "上の係数から求めた支払意思額(月額電気料金、情報提供前)",
+          "value": {
+            "火力から原子力へ": -2383.6,
+            "火力から風力へ": 252.2,
+            "火力から太陽光へ": 726.8,
+            "まれに停電": -914.6,
+            "CO2_20%減": 354.6,
+            "CO2_10%減": 314.9,
+            "CO2_10%増": -232.9,
+            "CO2_20%増": -532.6
+          },
+          "unit": "円/月(1世帯)",
+          "population": "同上",
+          "citation": "森田玉雪・馬奈木俊介 (2013) 東日本大震災後のエネルギー・ミックス ―電源別特性を考慮した需要分析―. RIETI Discussion Paper 13-J-066 表10(1)",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/13j066.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        },
+        {
+          "what": "価格属性の水準(実験で動かした金額の幅)",
+          "value": {
+            "levels_yen_per_month": [
+              -500,
+              0,
+              500,
+              1000,
+              1500
+            ]
+          },
+          "unit": "円/月",
+          "population": "同上",
+          "citation": "森田玉雪・馬奈木俊介 (2013) 東日本大震災後のエネルギー・ミックス ―電源別特性を考慮した需要分析―. RIETI Discussion Paper 13-J-066 表3",
+          "url": "https://www.rieti.go.jp/jp/publications/dp/13j066.pdf",
+          "confidence": "high",
+          "verified_via": "PDFをダウンロードし pdftotext で本文の該当箇所を読んで確認"
+        }
+      ],
+      "how_to_use": "ロジットの尺度合わせに使える実例。月額1円あたりの係数が −0.00054 なので、1,000円の差が効用0.54、選択確率にして最大約13ポイントに当たる。『まれな停電』という不安要素は月約900円、嫌われる属性(原子力)は月約2,400円に相当し、不安・リスクの重みを金額と同じ物差しで置く際の桁の目安になる。",
+      "not_confirmed": [
+        "2件目の例(通信・サブスクなど家計の月額サービスを扱った日本の選択実験は確認できず)"
+      ]
+    }
+  ]
+}

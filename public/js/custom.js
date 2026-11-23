@@ -8,46 +8,57 @@ import { showStage, thin } from "./stage3d.js";
 import { copyButton } from "./lab.js";
 
 export const CUSTOM_ASSUMPTIONS = {
-  money: { value: 3.5, note: "お金の得・損の効き方。この係数 × log(1 + 8 × 金額 ÷ その人の月のお金)×(0.6〜1.4:価格に敏感な人ほど大きい)。金額が大きくなるほど、1円あたりの効き方は小さくなる。月15万円で暮らす人にとって、月5,000円がおよそ「0.8」の重み" },
-  base: { value: "支出と手取りの大きいほう", note: "「その人の月のお金」は、月の支出と、年収の8割を12で割った額の、大きいほうを使う" },
-  effort: { value: 0.18, note: "手間1点あたりの重み。働いている人は1.3倍、65歳以上は1.2倍(時間や体力に余裕が少ないため)" },
-  risk: { value: 0.18, note: "不安1点あたりの重み。年齢が高い人、収入が低い層ほど大きい(0.6+年齢÷100、下位4割は+0.3)" },
-  novelty: { value: 0.6, note: "新しさ1点あたりの重み ×(その人の新しもの好き度 − 0.5)。新しいものが苦手な人にはマイナスに働く" },
-  quality: { value: 0.6, note: "安心・品質1点あたりの重み ×(品質重視度 − 0.5)。これとは別に、全員に1点あたり0.08を足す" },
-  social: { value: 0.3, note: "周りの影響。その選択肢を選んでいる人の割合 × 影響の強さ × その人の同調しやすさ × この係数" },
-  inertia: { value: 0.18, note: "乗り換えの面倒さ1点あたり、いま選んでいるものに足す重み" },
-  rethink: { value: 0.25, note: "毎月、選び直しを考える人の割合" },
-  wordOfMouth: { value: 0.5, note: "知らない人が、選んでいる人の割合 × この係数の確率で、その月に口コミで知る" },
+  scale: { value: 0.00054, note: "お金の効き方の基準。月1円あたりの重み。日本の選択実験(森田・馬奈木 2013、電力の選び方)の価格係数。月1,000円の差が重み0.54にあたる。月25万円で暮らす人を基準にし、その人の月のお金に反比例させる" },
+  curve: { value: 40, note: "金額が大きくなるほど、1円あたりの効き方が小さくなる度合い。重み = 3.4 × log(1 + この係数 × 金額 ÷ 月のお金)。小さい金額では上の基準に一致する。曲がり方そのものは仮定" },
+  loss: { value: 1.955, note: "損は、同じ額の得より重く感じる。今のままと比べて損になる選択肢は、重みをこの倍率にする。損失回避のメタ分析の平均(Brown, Imai, Vieider & Camerer 2024、150論文・607推定。95%区間1.82〜2.10)" },
+  time: { value: { hours: 4.3, share: 0.33 }, note: "手間1点 = 週に1時間(月4.3時間)の手間と数え、その人の時給 × share の金額に直す。自由な時間の価値は賃金の1/3〜1/2とされる(米国運輸省の指針50%、欧州のメタ分析 約33%)ので、その幅の下の端の0.33を使う(週休3日制の利用意向の調査と比べると、高いほうの値では動く人が多く出すぎるため)。働いていない人は、働いている人の平均時給を使う" },
+  risk: { value: 500, note: "不安1点を、月何円の損と同じとみなすか。日本の選択実験では「まれな停電」が月約900円、いちばん嫌われた属性が月約2,400円に相当した(森田・馬奈木 2013)。10点で月5,000円とした。点数との対応は仮定" },
+  riskAge: { value: 0.004, note: "不安の重みの年齢差。45歳を1として、1歳ごとにこの割合だけ増える。低所得の層は+0.3。年齢が高いほどリスクを避ける向きは実証されている(Dohmen ら 2011)が、傾きの大きさは文献で確認できなかった。支払い方法の年代差(財務省の調査)が大きく出すぎないよう、小さめに置いた" },
+  novelty: { value: 1000, note: "新しさ1点を月何円とみなすか ×(その人の新しもの好き度 − 0.5)× 2。新しいものが苦手な人にはマイナスに働く。仮定" },
+  quality: { value: 1000, note: "安心・品質1点を月何円とみなすか ×(0.3 + 品質重視度)。仮定" },
+  spread: { value: 0.8, note: "手間と不安の感じ方の個人差(対数正規分布の標準偏差)。在宅勤務の価値は平均で賃金の8%だが、上位25%は14%以上、約2割はゼロ以下と個人差が大きい(Mas & Pallais 2017)ことを反映" },
+  social: { value: 0.58, note: "周りの影響。選んでいる人の割合 × 影響の強さ(0〜10)× その人の同調しやすさ × この係数。強さ10で全員が選んでいるとき、身近な仲間が買ったと知った場合の効果(購入率42%→93%、Bursztyn ら 2014)に相当する大きさ。職場全体へのゆるい波及はこの10分の1以下(Duflo & Saez 2003)なので、強さは場面に合わせて入れる" },
+  inertia: { value: 0.23, note: "乗り換えの面倒さ1点あたり、いま選んでいるものに足す重み。10点で、初期設定の効果がいちばん強く出た例(401(k)の加入率37%→86%、Madrian & Shea 2001)に相当。5点で、初期設定の効果のメタ分析の平均(d=0.68、Jachimowicz ら 2019)に相当" },
+  rethink: { value: 0.25, note: "毎月、選び直しを考える人の割合。仮定" },
+  wordOfMouth: { value: 0.035, note: "口コミ。知らない人が、選んでいる人の割合 × この係数の確率で、その月に知る。普及モデルのメタ分析(Van den Bulte & Stremersch 2004、q の平均0.42/年)を月に直した値" },
+  natural: { value: "月0.23%", note: "参考:宣伝をしなくても自然に知られていく速さは、同じメタ分析で年2.7%(月0.23%)。画面の「毎月、新しく知る人」は、これに宣伝や告知の分を足した値を入れる" },
   noise: { value: "ガンベル分布", note: "数字にできない個人の事情。重みに加える乱数(ロジットモデルと同じ形)" },
-  basis: { value: "仮定", note: "上の係数はすべて仮定で、現実のデータに合わせたものではない。人数の正確さではなく、「誰が動くか」「何を変えると結果が変わるか」を見るための道具" },
+  basis: { value: "文献値と仮定の組み合わせ", note: "お金・損失・時間・現状維持・周りの影響・口コミは文献の推定値を使った。点数と金額の対応、曲がり方、新しさ・品質の重み、年齢の傾きは仮定のまま。米国の研究が多く、日本でそのまま当てはまるとは限らない" },
 };
 
-const opt = (name, money, effort, risk, novelty, quality) => ({ name, money, effort, risk, novelty, quality });
+const opt = (name, money, effort, risk, novelty, quality, online = 0) => ({ name, money, effort, risk, novelty, quality, online });
 export const TEMPLATES = {
   blank: { label: "白紙から作る", title: "", target: { ageMin: 18, ageMax: 79, sex: "all", workOnly: false }, social: 5, inertia: 5, aware: 20, spread: 10, months: 24,
-    options: [opt("今のまま", 0, 0, 0, 0, 5), opt("新しい案", 0, 3, 3, 5, 5)] },
+    options: [opt("今のまま", 0, 2, 0, 0, 5), opt("新しい案", 0, 1, 2, 5, 5)] },
   subscription: { label: "例:都度払いを月額制に変える", title: "月額制(サブスク)を始めたら、どれだけ移るか", target: { ageMin: 18, ageMax: 69, sex: "all", workOnly: false }, social: 4, inertia: 5, aware: 30, spread: 12, months: 24,
-    options: [opt("今のまま(都度払い)", 0, 2, 0, 0, 5), opt("月額制・標準", 1500, 0, 3, 5, 5), opt("月額制・上位", -1500, 0, 3, 6, 8)] },
+    options: [opt("今のまま(都度払い)", 0, 2, 0, 0, 5), opt("月額制・標準", 1500, 0, 3, 5, 5, 1), opt("月額制・上位", -1500, 0, 3, 6, 8, 1)] },
   fourday: { label: "例:週休3日制(給与1割減)を選べるようにする", title: "週休3日制を選べるようにしたら、誰が選ぶか", target: { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, social: 6, inertia: 6, aware: 80, spread: 20, months: 24,
-    options: [opt("今のまま(週5日)", 0, 5, 0, 0, 5), opt("週休3日(給与1割減)", -30000, 1, 5, 6, 5), opt("週休3日(給与そのまま・1日10時間)", 0, 7, 3, 5, 5)] },
+    options: [opt("今のまま(週5日)", 0, 8, 0, 0, 5), opt("週休3日(給与1割減)", -30000, 0, 4, 6, 5), opt("週休3日(給与そのまま・1日10時間)", 0, 8, 3, 5, 5)] },
   remote: { label: "例:出社・在宅・自由選択", title: "働く場所を選べるようにしたら、どう分かれるか", target: { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, social: 7, inertia: 4, aware: 90, spread: 20, months: 18,
-    options: [opt("毎日出社", 0, 6, 0, 0, 6), opt("週2日在宅", 5000, 4, 2, 4, 5), opt("原則在宅(手当なし)", 12000, 2, 5, 6, 4)] },
+    options: [opt("毎日出社", 0, 7, 0, 0, 6), opt("週2日在宅", 0, 4, 2, 4, 5), opt("原則在宅", 0, 1, 6, 6, 3)] },
   cashless: { label: "例:現金のみの店がキャッシュレスを入れる", title: "キャッシュレス決済を入れたら、客はどう払うか", target: { ageMin: 15, ageMax: 89, sex: "all", workOnly: false }, social: 5, inertia: 6, aware: 50, spread: 15, months: 24,
-    options: [opt("現金で払う", 0, 3, 0, 0, 7), opt("スマホ決済(1%還元)", 500, 1, 4, 6, 4), opt("カードで払う", 300, 2, 2, 2, 6)] },
+    options: [opt("現金で払う", 0, 3, 0, 0, 7), opt("スマホ決済(1%還元)", 500, 1, 4, 6, 4, 1), opt("カードで払う", 300, 2, 2, 2, 6)] },
   benefit: { label: "例:福利厚生を3つから選ぶ", title: "福利厚生を選択制にしたら、どれが選ばれるか", target: { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, social: 3, inertia: 2, aware: 100, spread: 30, months: 12,
     options: [opt("何も選ばない", 0, 0, 0, 0, 3), opt("家賃補助 月1万円", 10000, 2, 0, 1, 5), opt("学び直し支援 月1万円分", 6000, 5, 1, 7, 6), opt("健康支援 月1万円分", 5000, 3, 0, 3, 8)] },
 };
 const COLORS = ["#8b93a7", "#b4473b", "#2f8f6b", "#c9a45c"];
 
-// 1人が、ある選択肢に感じる重み(周りの影響と乗り換えの面倒さを除く、その人固有の部分)
-function baseUtility(p, o) {
+// その人にとって、選択肢を月何円の得・損とみなせるか(お金・手間・不安・新しさ・安心を、円にそろえる)
+const AVG_WAGE = 2400; // 働いている人の平均的な時給の目安(円)。働いていない人の時間の価値に使う
+function yenValue(p, o, k) {
   const A = CUSTOM_ASSUMPTIONS, t = p.traits;
-  const monthly = Math.max(p.spendTotal, (p.income * 10000 * 0.8) / 12, 50000), ratio = Math.abs(o.money) / monthly;
-  return Math.sign(o.money) * A.money.value * Math.log(1 + 8 * ratio) * (0.6 + 0.8 * t.price)
-    - o.effort * A.effort.value * (p.working ? 1.3 : 1) * (p.age >= 65 ? 1.2 : 1)
-    - o.risk * A.risk.value * (0.6 + p.age / 100 + (p.tier <= 1 ? 0.3 : 0))
-    + o.novelty * A.novelty.value * (t.novelty - 0.5)
-    + o.quality * (A.quality.value * (t.quality - 0.5) + 0.08);
+  const wage = p.working && p.income > 0 ? clamp((p.income * 10000) / 1926, 900, 12000) : AVG_WAGE; // 年収 ÷ 年間の労働時間(月160.5時間 × 12)
+  return o.money
+    - o.effort * A.time.value.hours * wage * A.time.value.share * k.effort
+    - o.risk * A.risk.value * (1 + A.riskAge.value * (p.age - 45) + (p.tier <= 1 ? 0.3 : 0)) * k.risk
+    + o.novelty * A.novelty.value * (t.novelty - 0.5) * 2
+    + o.quality * A.quality.value * (0.3 + t.quality);
+}
+// 今のままと比べた得・損(円)を、重みに直す。損は得より重い
+function weigh(p, diff) {
+  const A = CUSTOM_ASSUMPTIONS, monthly = Math.max(p.spendTotal, (p.income * 10000 * 0.8) / 12, 50000);
+  const a = (A.scale.value * 250000) / A.curve.value; // 小さい金額で、基準の重み(1円あたり)に一致させる
+  return Math.sign(diff) * a * Math.log(1 + (A.curve.value * Math.abs(diff)) / monthly) * (0.6 + 0.8 * p.traits.price) * (diff < 0 ? A.loss.value : 1);
 }
 
 // 1回分の実験。config: { target, n, months, social, inertia, aware, spread, options[] }。options[0] が「今のまま」
@@ -57,8 +68,9 @@ export function runCustom(personas, config, seed = 1, keep = false) {
   const sample = stratifiedSample(pool, { ageMin: config.target.ageMin, ageMax: config.target.ageMax, sex: config.target.sex }, config.n ?? 1000, seed);
   if (!sample.length) return null;
   const gumbel = () => -Math.log(-Math.log(clamp(rng.next(), 1e-9, 1 - 1e-9)));
-  const people = sample.map((p) => ({ p, base: config.options.map((o) => baseUtility(p, o)), taste: config.options.map(() => gumbel()), // その人だけの好み(期間中は変わらない)
-    aware: config.options.map((_, k) => k === 0 || rng.next() < config.aware / 100), choice: 0 }));
+  const lognorm = () => Math.exp(A.spread.value * rng.normal() - A.spread.value ** 2 / 2); // 平均1の個人差
+  const people = sample.map((p) => { const k = { effort: lognorm(), risk: lognorm() }, yen = config.options.map((o) => yenValue(p, o, k)); return ({ p, base: yen.map((y) => weigh(p, y - yen[0])), taste: config.options.map(() => gumbel()), // その人だけの好み(期間中は変わらない)
+    aware: config.options.map((_, k) => k === 0 || rng.next() < config.aware / 100), can: config.options.map((o) => !o.online || p.internet), choice: 0 }); }); // ネットが必要な選択肢は、ネットを使っている人しか選べない
   const W = people.reduce((a, x) => a + x.p.sampleWeight, 0);
   const shareOf = () => { const s = Array(K).fill(0); for (const x of people) s[x.choice] += x.p.sampleWeight / W; return s; };
   const series = [{ x: 0, shares: shareOf() }];
@@ -69,7 +81,7 @@ export function runCustom(personas, config, seed = 1, keep = false) {
       if (rng.next() > A.rethink.value) continue;
       let best = x.choice, top = -Infinity;
       for (let k = 0; k < K; k++) {
-        if (!x.aware[k]) continue;
+        if (!x.aware[k] || !x.can[k]) continue;
         const u = x.base[k] + x.taste[k] + A.social.value * config.social * share[k] * x.p.traits.social + (k === x.choice ? A.inertia.value * config.inertia : 0) + gumbel() * 0.35;
         if (u > top) { top = u; best = k; }
       }
@@ -103,7 +115,7 @@ export function sensitivity(personas, config, focus, runs = 4, seed = 1) {
   const tryIt = (label, change) => { const c = JSON.parse(JSON.stringify(config)); change(c, c.options[focus]); out.push({ label, delta: trialCustom(personas, c, runs, seed).mean[focus] - base }); };
   const step = Math.max(1000, Math.round(Math.abs(o.money) * 0.3 / 500) * 500);
   tryIt(`お金の得を月${step.toLocaleString("ja-JP")}円ふやす`, (c, x) => { x.money += step; });
-  if (o.effort > 0) tryIt(`手間を${Math.min(2, o.effort)}点へらす`, (c, x) => { x.effort = Math.max(0, x.effort - 2); });
+  if (o.effort > 0) tryIt(`手間を週${Math.min(2, o.effort)}時間ぶんへらす`, (c, x) => { x.effort = Math.max(0, x.effort - 2); });
   if (o.risk > 0) tryIt(`不安を${Math.min(2, o.risk)}点へらす`, (c, x) => { x.risk = Math.max(0, x.risk - 2); });
   tryIt("安心・品質を2点上げる", (c, x) => { x.quality = Math.min(10, x.quality + 2); });
   if (config.aware < 100) tryIt("最初に知っている人を20ポイントふやす", (c) => { c.aware = Math.min(100, c.aware + 20); });
@@ -125,7 +137,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         <label>性別 <select id="x-sex"><option value="all">すべて</option><option value="male">男性</option><option value="female">女性</option></select></label>
         <label>働いている人だけ <select id="x-work"><option value="0">いいえ</option><option value="1">はい</option></select></label></div>
       <h3>選択肢(2〜4つ)</h3>
-      <p class="note">1つ目は「今のまま」です。全員がここから始まります。点数は0〜10で、その選択肢を選んだ人にとっての大きさを入れてください。<br>「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。</p>
+      <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
       <div id="x-opts"></div>
       <div class="form-row"><button id="x-add" type="button">選択肢を追加</button></div>
       <details><summary>広がり方の設定</summary><div class="form-grid">
@@ -139,11 +151,12 @@ export function mountCustom({ getPersonas, seedOf, before }) {
   before.parentNode.insertBefore(el, before);
   const $ = (id) => el.querySelector(`#${id}`);
   let options = [];
-  const FIELDS = [["money", "毎月のお金(円)", -1e7, 1e7, 500], ["effort", "手間・負担", 0, 10, 1], ["risk", "不安・リスク", 0, 10, 1], ["novelty", "新しさ", 0, 10, 1], ["quality", "安心・品質", 0, 10, 1]];
+  const FIELDS = [["money", "毎月のお金(円)", -1e7, 1e7, 500], ["effort", "手間(週に何時間ぶんか)", 0, 10, 1], ["risk", "不安・リスク", 0, 10, 1], ["novelty", "新しさ", 0, 10, 1], ["quality", "安心・品質", 0, 10, 1]];
   const renderOptions = () => {
     $("x-opts").innerHTML = options.map((o, k) => `<div class="x-opt" data-k="${k}" style="border-left-color:${COLORS[k]}">
         <label class="x-name">${k === 0 ? "今のまま" : `選択肢${k + 1}`} <input data-f="name" type="text" value="${esc(o.name)}"></label>
         ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f]}"></label>`).join("")}
+        ${k >= 1 ? `<label>ネットが必要 <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いいえ</option><option value="1"${o.online ? " selected" : ""}>はい</option></select></label>` : ""}
         ${k >= 2 ? `<button type="button" class="x-del">削除</button>` : ""}</div>`).join("");
     $("x-add").disabled = options.length >= 4;
   };
@@ -154,7 +167,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     options = t.options.map((o) => ({ ...o })); renderOptions(); $("x-out").innerHTML = ""; $("x-stage").innerHTML = "";
   };
   $("x-template").onchange = () => load($("x-template").value);
-  $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : Number(e.target.value) || 0; };
+  $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : Number(e.target.value) || 0; };
   $("x-opts").onclick = (e) => { if (!e.target.classList.contains("x-del")) return; options.splice(Number(e.target.closest("[data-k]").dataset.k), 1); renderOptions(); };
   $("x-add").onclick = () => { if (options.length < 4) { options.push(opt(`案${options.length}`, 0, 3, 3, 5, 5)); renderOptions(); } };
   const num = (id, lo, hi, d) => clamp(Number($(id).value) || d, lo, hi);
@@ -195,7 +208,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         ${dims.map((d) => table(`${d.name}ごとの選び方`, d.g)).join("")}
         <h3>何を変えると「${esc(O[focus].name)}」が増えるか</h3>
         <div class="table-scroll"><table class="verify"><tr><th>変えること</th><th class="num">割合の変化</th></tr>${sens.rows.map((r) => `<tr><td>${esc(r.label)}</td><td class="num">${r.delta >= 0 ? "+" : ""}${(r.delta * 100).toFixed(1)}ポイント</td></tr>`).join("")}</table></div>
-        <p class="note">いまの条件での割合は${pct(sens.base)}です。条件を1つだけ変えて、同じ人たちで計算し直した差です。<br>重みの係数はすべて仮定です(一覧は「出典と仮定」)。人数そのものより、「誰が動くか」と「何が効くか」の順番を見てください。</p></div>`;
+        <p class="note">いまの条件での割合は${pct(sens.base)}です。条件を1つだけ変えて、同じ人たちで計算し直した差です。<br>お金・損の感じ方・時間の価値・現状維持・周りの影響・口コミの速さは、文献の推定値を使っています。点数と金額の対応などは仮定です(一覧は「出典と仮定」)。<br>人数そのものより、「誰が動くか」と「何が効くか」の順番を見てください。</p></div>`;
     $("x-copy").appendChild(copyButton([`${config.title}(${config.months}か月後、${runs}回の平均)`, ...O.map((o, k) => `・${o.name}:${pct(t.mean[k])}(約${people(t.mean[k] * t.population)})`), ...findings.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n")));
   });
 
@@ -211,4 +224,24 @@ export function mountCustom({ getPersonas, seedOf, before }) {
 
   load("blank");
   return { load, el };
+}
+
+// 実際の調査との照合。係数はこれらの数字に合わせ込んでいない(文献値と仮定だけで計算した結果を、あとから比べる)
+export function customChecks(personas, seed = 1) {
+  const stated = { social: 0, inertia: 0, aware: 100, spread: 100, months: 12, n: 1000 }; // 「利用したいか」を聞く調査に合わせ、周りの影響と乗り換えの面倒さを外す
+  const work = { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, F = TEMPLATES.fourday.options, rows = [];
+  const share = (config, pick) => { const t = trialCustom(personas, config, 4, seed); return t ? pick(t) : null; };
+  const add = (label, model, real, source, tol = 5) => { if (model != null) rows.push({ basis: "調査", model: "オリジナルの実験", label, a: `${(model * 100).toFixed(1)}%`, b: `${(real * 100).toFixed(1)}%`, diff: model / real - 1, points: (model - real) * 100, tol, source }); };
+  add("週休3日(給与が1割減る)を選ぶ人", share({ ...stated, target: work, options: [F[0], F[1]] }, (t) => t.mean[1]), 0.215, "マイナビ転職 2021年調査(利用したくない78.5%の残り。検索の抜粋で確認、確かさ:低)");
+  add("同上:20代", share({ ...stated, target: { ...work, ageMax: 29 }, options: [F[0], F[1]] }, (t) => t.mean[1]), 0.204, "学情 20代意識調査 2021年(確かさ:低)");
+  add("週休3日(給与そのまま・1日が長い)を選ぶ人", share({ ...stated, target: work, options: [F[0], F[2]] }, (t) => t.mean[1]), 0.461, "マイナビ転職 2021年調査(確かさ:低)");
+  // 有料の動画配信に入るかどうか(月1,000円、ネットが必要)
+  const all = { ageMin: 13, ageMax: 79, sex: "all", workOnly: false }, use = (g) => 1 - g.shares[0], band = (t, label) => t.byAge.find((g) => g.label === label);
+  const video = { ...stated, target: all, options: [opt("入らない", 0, 0, 0, 0, 3), opt("有料の動画配信に入る", -1000, 0, 1, 6, 6, 1)] };
+  add("有料の動画配信:70代 ÷ 30代", share(video, (t) => (band(t, "70代") && band(t, "30代") ? use(band(t, "70代")) / use(band(t, "30代")) : null)), 15.8 / 70.0, "総務省 情報通信メディアの利用時間と情報行動に関する調査 令和6年度(動画配信サービスの利用率 70代15.8%、30代70.0%。確かさ:高)", 10);
+  add("有料の動画配信:収入の低い層 ÷ 高い層", share(video, (t) => use(t.byTier[0]) / use(t.byTier[t.byTier.length - 1])), 37.2 / 74.4, "総務省 通信利用動向調査 令和7年(有料動画配信の利用 年収200万円未満37.2%、1,000〜1,500万円74.4%。世帯単位。確かさ:高)", 10);
+  add("有料の動画配信:利用する人", share(video, (t) => 1 - t.mean[0]), 0.537, "同上の調査(動画配信サービスの利用率 53.7%。確かさ:高)", 10);
+  const cash = { ...stated, target: { ageMin: 15, ageMax: 79, sex: "all", workOnly: false }, options: TEMPLATES.cashless.options };
+  add("現金で払う人:30代 ÷ 60代", share(cash, (t) => (band(t, "30代") && band(t, "60代") ? band(t, "30代").shares[0] / band(t, "60代").shares[0] : null)), 65.2 / 72.2, "財務省 通貨に関する実態調査 令和2年度(1,000円未満の支払いで現金を主に使う人 30代65.2%、60代72.2%。確かさ:高)", 10);
+  return rows;
 }

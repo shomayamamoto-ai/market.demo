@@ -10,6 +10,7 @@ const FMT = {
   num1: (v) => v.toFixed(1),
   num2: (v) => v.toFixed(2),
   man: (v) => `${Math.round(v / 1e4).toLocaleString("ja-JP")}万人`,
+  man0: (v) => `${Math.round(v).toLocaleString("ja-JP")}万円`,
   people: (v) => `${Math.round(v).toLocaleString("ja-JP")}人`,
   people1000: (v) => `${Math.round(v * 1000).toLocaleString("ja-JP")}人`,
   houses: (v) => `${Math.round(v)}軒`,

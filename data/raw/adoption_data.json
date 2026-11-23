@@ -1,0 +1,2590 @@
+{
+ "generated": "2026-11-23",
+ "datasets": [
+  {
+   "key": "cashless_ratio_national",
+   "title": "キャッシュレス決済比率(全国・決済額ベース)",
+   "year": 2025,
+   "source_name": "経済産業省「2025年のキャッシュレス決済比率を算出しました」(2026年3月31日公表)。報道(Impress Watch, BCN等)経由",
+   "source_url": "https://www.watch.impress.co.jp/docs/news/2099068.html",
+   "population": "日本全体の個人消費(金額ベース、人ではない)",
+   "unit": "%",
+   "data": {
+    "ratio_domestic_indicator_2025": 58.0,
+    "ratio_domestic_indicator_2024": 52.8,
+    "ratio_international_indicator_2025": 46.3,
+    "share_within_cashless_2025": {
+     "credit_card": 82.7,
+     "debit_card": 3.4,
+     "e_money": 3.7,
+     "code_payment": 10.2
+    },
+    "amount_trillion_yen_2025": {
+     "total": 162.7,
+     "credit_card": 134.6,
+     "debit_card": 5.5,
+     "e_money": 6.0,
+     "code_payment": 16.6
+    },
+    "target": {
+     "2030_interim": 65,
+     "long_term": 80
+    }
+   },
+   "definition": "国内指標=キャッシュレス支払額(クレジット+デビット+電子マネー+コード決済)÷(家計最終消費支出-持ち家の帰属家賃)。国際比較指標=同÷民間最終消費支出(従来の定義)。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ(複数記事で数値一致)。経産省サイトはcurlに403(ボット対策)を返し一次資料を開けなかった",
+   "notes": "金額シェアであり『人が何を選ぶか』の比率ではない。2024年以前の旧指標(42.8%等)とは定義が違うので混ぜないこと。"
+  },
+  {
+   "key": "payment_choice_by_age_income_mof2020",
+   "title": "支払手段の選択(金額帯別・年代別・性別・世帯年収別)",
+   "year": 2021,
+   "source_name": "財務省「通貨に関する実態調査」令和2年度(委託: 日本リサーチセンター)集計表",
+   "source_url": "https://www.mof.go.jp/about_mof/mof_budget/release/itaku/seikabutsu/2020tsuuka_05.pdf",
+   "population": "全国15~79歳の男女個人1,222人(郵送調査、2021年1月29日~3月9日)",
+   "unit": "%(複数回答、各セルは該当者数÷そのグループの人数)",
+   "data": {
+    "under_1000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 71.4,
+      "bank_transfer": 2.0,
+      "credit_card": 17.7,
+      "debit_card": 3.5,
+      "e_money": 40.3,
+      "mobile_wallet": 18.4,
+      "other": 0.8,
+      "no_answer": 2.2
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 68.7,
+       "bank_transfer": 1.6,
+       "credit_card": 17.6,
+       "debit_card": 3.7,
+       "e_money": 38.2,
+       "mobile_wallet": 18.8,
+       "other": 1.0,
+       "no_answer": 2.7
+      },
+      "女性": {
+       "n": 593,
+       "cash": 74.4,
+       "bank_transfer": 2.4,
+       "credit_card": 17.7,
+       "debit_card": 3.4,
+       "e_money": 42.5,
+       "mobile_wallet": 18.0,
+       "other": 0.7,
+       "no_answer": 1.7
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 82.8,
+       "bank_transfer": 1.6,
+       "credit_card": 4.7,
+       "debit_card": 3.1,
+       "e_money": 32.8,
+       "mobile_wallet": 18.8,
+       "other": 3.1,
+       "no_answer": 0.0
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 73.5,
+       "bank_transfer": 2.7,
+       "credit_card": 17.0,
+       "debit_card": 7.5,
+       "e_money": 45.6,
+       "mobile_wallet": 29.9,
+       "other": 0.7,
+       "no_answer": 2.0
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 65.2,
+       "bank_transfer": 2.0,
+       "credit_card": 21.6,
+       "debit_card": 4.9,
+       "e_money": 45.1,
+       "mobile_wallet": 24.0,
+       "other": 0.0,
+       "no_answer": 1.0
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 67.6,
+       "bank_transfer": 1.4,
+       "credit_card": 21.0,
+       "debit_card": 1.9,
+       "e_money": 46.2,
+       "mobile_wallet": 21.9,
+       "other": 1.4,
+       "no_answer": 2.4
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 72.1,
+       "bank_transfer": 1.5,
+       "credit_card": 19.1,
+       "debit_card": 3.9,
+       "e_money": 43.6,
+       "mobile_wallet": 20.6,
+       "other": 1.0,
+       "no_answer": 0.5
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 72.2,
+       "bank_transfer": 2.7,
+       "credit_card": 16.6,
+       "debit_card": 3.6,
+       "e_money": 41.7,
+       "mobile_wallet": 12.1,
+       "other": 0.9,
+       "no_answer": 1.8
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 75.9,
+       "bank_transfer": 1.8,
+       "credit_card": 14.1,
+       "debit_card": 0.0,
+       "e_money": 19.4,
+       "mobile_wallet": 2.9,
+       "other": 0.0,
+       "no_answer": 7.1
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 75.6,
+       "bank_transfer": 1.7,
+       "credit_card": 14.5,
+       "debit_card": 2.6,
+       "e_money": 29.5,
+       "mobile_wallet": 10.7,
+       "other": 0.4,
+       "no_answer": 3.4
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 69.8,
+       "bank_transfer": 3.5,
+       "credit_card": 17.4,
+       "debit_card": 4.7,
+       "e_money": 31.4,
+       "mobile_wallet": 14.0,
+       "other": 1.2,
+       "no_answer": 5.2
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 77.0,
+       "bank_transfer": 0.6,
+       "credit_card": 14.5,
+       "debit_card": 4.8,
+       "e_money": 38.8,
+       "mobile_wallet": 24.8,
+       "other": 0.6,
+       "no_answer": 1.2
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 69.0,
+       "bank_transfer": 0.6,
+       "credit_card": 14.6,
+       "debit_card": 3.8,
+       "e_money": 44.9,
+       "mobile_wallet": 22.8,
+       "other": 0.6,
+       "no_answer": 1.9
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 77.7,
+       "bank_transfer": 0.9,
+       "credit_card": 19.6,
+       "debit_card": 1.8,
+       "e_money": 45.5,
+       "mobile_wallet": 14.3,
+       "other": 0.9,
+       "no_answer": 0.0
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 71.7,
+       "bank_transfer": 3.3,
+       "credit_card": 21.7,
+       "debit_card": 5.4,
+       "e_money": 44.6,
+       "mobile_wallet": 20.7,
+       "other": 2.2,
+       "no_answer": 3.3
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 70.2,
+       "bank_transfer": 2.3,
+       "credit_card": 23.7,
+       "debit_card": 3.1,
+       "e_money": 45.8,
+       "mobile_wallet": 22.9,
+       "other": 1.5,
+       "no_answer": 0.8
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 57.7,
+       "bank_transfer": 1.4,
+       "credit_card": 14.1,
+       "debit_card": 2.8,
+       "e_money": 50.7,
+       "mobile_wallet": 18.3,
+       "other": 0.0,
+       "no_answer": 0.0
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 57.1,
+       "bank_transfer": 2.9,
+       "credit_card": 28.6,
+       "debit_card": 2.9,
+       "e_money": 55.7,
+       "mobile_wallet": 28.6,
+       "other": 0.0,
+       "no_answer": 0.0
+      }
+     }
+    },
+    "1000_to_5000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 60.4,
+      "bank_transfer": 4.0,
+      "credit_card": 38.5,
+      "debit_card": 4.2,
+      "e_money": 33.2,
+      "mobile_wallet": 17.1,
+      "other": 0.9,
+      "no_answer": 1.8
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 62.8,
+       "bank_transfer": 3.3,
+       "credit_card": 36.4,
+       "debit_card": 4.6,
+       "e_money": 29.7,
+       "mobile_wallet": 18.1,
+       "other": 1.0,
+       "no_answer": 1.6
+      },
+      "女性": {
+       "n": 593,
+       "cash": 57.8,
+       "bank_transfer": 4.7,
+       "credit_card": 40.8,
+       "debit_card": 3.7,
+       "e_money": 36.9,
+       "mobile_wallet": 16.0,
+       "other": 0.8,
+       "no_answer": 2.0
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 78.1,
+       "bank_transfer": 1.6,
+       "credit_card": 6.2,
+       "debit_card": 7.8,
+       "e_money": 23.4,
+       "mobile_wallet": 17.2,
+       "other": 1.6,
+       "no_answer": 1.6
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 70.7,
+       "bank_transfer": 4.1,
+       "credit_card": 34.0,
+       "debit_card": 6.8,
+       "e_money": 38.8,
+       "mobile_wallet": 23.1,
+       "other": 0.7,
+       "no_answer": 1.4
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 52.5,
+       "bank_transfer": 2.9,
+       "credit_card": 43.1,
+       "debit_card": 3.9,
+       "e_money": 35.3,
+       "mobile_wallet": 21.1,
+       "other": 0.5,
+       "no_answer": 0.0
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 59.0,
+       "bank_transfer": 3.3,
+       "credit_card": 38.6,
+       "debit_card": 2.4,
+       "e_money": 39.0,
+       "mobile_wallet": 20.0,
+       "other": 1.0,
+       "no_answer": 1.4
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 56.4,
+       "bank_transfer": 3.9,
+       "credit_card": 45.1,
+       "debit_card": 5.4,
+       "e_money": 34.3,
+       "mobile_wallet": 18.6,
+       "other": 0.5,
+       "no_answer": 1.0
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 59.2,
+       "bank_transfer": 6.3,
+       "credit_card": 42.6,
+       "debit_card": 4.5,
+       "e_money": 36.8,
+       "mobile_wallet": 13.0,
+       "other": 1.8,
+       "no_answer": 0.9
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 62.4,
+       "bank_transfer": 4.1,
+       "credit_card": 35.9,
+       "debit_card": 1.2,
+       "e_money": 16.5,
+       "mobile_wallet": 7.1,
+       "other": 0.6,
+       "no_answer": 7.1
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 65.0,
+       "bank_transfer": 3.4,
+       "credit_card": 30.3,
+       "debit_card": 3.8,
+       "e_money": 23.9,
+       "mobile_wallet": 10.7,
+       "other": 0.9,
+       "no_answer": 3.4
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 60.5,
+       "bank_transfer": 5.8,
+       "credit_card": 37.8,
+       "debit_card": 5.2,
+       "e_money": 28.5,
+       "mobile_wallet": 13.4,
+       "other": 2.9,
+       "no_answer": 2.9
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 63.6,
+       "bank_transfer": 3.0,
+       "credit_card": 32.1,
+       "debit_card": 5.5,
+       "e_money": 32.7,
+       "mobile_wallet": 23.0,
+       "other": 0.0,
+       "no_answer": 1.8
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 61.4,
+       "bank_transfer": 2.5,
+       "credit_card": 40.5,
+       "debit_card": 3.8,
+       "e_money": 34.8,
+       "mobile_wallet": 20.3,
+       "other": 0.6,
+       "no_answer": 0.6
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 61.6,
+       "bank_transfer": 4.5,
+       "credit_card": 42.9,
+       "debit_card": 3.6,
+       "e_money": 39.3,
+       "mobile_wallet": 14.3,
+       "other": 0.9,
+       "no_answer": 0.0
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 64.1,
+       "bank_transfer": 5.4,
+       "credit_card": 39.1,
+       "debit_card": 5.4,
+       "e_money": 39.1,
+       "mobile_wallet": 19.6,
+       "other": 2.2,
+       "no_answer": 0.0
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 54.2,
+       "bank_transfer": 3.1,
+       "credit_card": 43.5,
+       "debit_card": 2.3,
+       "e_money": 38.2,
+       "mobile_wallet": 21.4,
+       "other": 0.0,
+       "no_answer": 1.5
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 56.3,
+       "bank_transfer": 2.8,
+       "credit_card": 43.7,
+       "debit_card": 4.2,
+       "e_money": 38.0,
+       "mobile_wallet": 12.7,
+       "other": 0.0,
+       "no_answer": 0.0
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 42.9,
+       "bank_transfer": 5.7,
+       "credit_card": 60.0,
+       "debit_card": 1.4,
+       "e_money": 42.9,
+       "mobile_wallet": 27.1,
+       "other": 0.0,
+       "no_answer": 1.4
+      }
+     }
+    },
+    "5000_to_10000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 52.9,
+      "bank_transfer": 6.1,
+      "credit_card": 50.6,
+      "debit_card": 2.9,
+      "e_money": 20.3,
+      "mobile_wallet": 10.5,
+      "other": 0.5,
+      "no_answer": 2.4
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 57.1,
+       "bank_transfer": 5.4,
+       "credit_card": 48.8,
+       "debit_card": 3.5,
+       "e_money": 17.8,
+       "mobile_wallet": 10.8,
+       "other": 0.5,
+       "no_answer": 2.1
+      },
+      "女性": {
+       "n": 593,
+       "cash": 48.6,
+       "bank_transfer": 6.7,
+       "credit_card": 52.4,
+       "debit_card": 2.4,
+       "e_money": 22.9,
+       "mobile_wallet": 10.1,
+       "other": 0.5,
+       "no_answer": 2.7
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 75.0,
+       "bank_transfer": 3.1,
+       "credit_card": 7.8,
+       "debit_card": 6.2,
+       "e_money": 15.6,
+       "mobile_wallet": 12.5,
+       "other": 0.0,
+       "no_answer": 3.1
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 56.5,
+       "bank_transfer": 3.4,
+       "credit_card": 53.1,
+       "debit_card": 4.8,
+       "e_money": 25.9,
+       "mobile_wallet": 15.6,
+       "other": 0.0,
+       "no_answer": 2.0
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 45.1,
+       "bank_transfer": 2.0,
+       "credit_card": 54.4,
+       "debit_card": 2.9,
+       "e_money": 22.1,
+       "mobile_wallet": 13.2,
+       "other": 0.0,
+       "no_answer": 2.9
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 51.9,
+       "bank_transfer": 8.1,
+       "credit_card": 51.0,
+       "debit_card": 1.9,
+       "e_money": 21.9,
+       "mobile_wallet": 11.4,
+       "other": 1.0,
+       "no_answer": 1.4
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 50.0,
+       "bank_transfer": 4.9,
+       "credit_card": 59.3,
+       "debit_card": 4.9,
+       "e_money": 18.6,
+       "mobile_wallet": 10.8,
+       "other": 0.5,
+       "no_answer": 1.0
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 53.4,
+       "bank_transfer": 8.5,
+       "credit_card": 54.7,
+       "debit_card": 1.8,
+       "e_money": 22.0,
+       "mobile_wallet": 7.6,
+       "other": 0.9,
+       "no_answer": 2.2
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 55.3,
+       "bank_transfer": 10.0,
+       "credit_card": 43.5,
+       "debit_card": 0.6,
+       "e_money": 12.9,
+       "mobile_wallet": 4.1,
+       "other": 0.6,
+       "no_answer": 4.7
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 57.7,
+       "bank_transfer": 5.1,
+       "credit_card": 42.3,
+       "debit_card": 2.1,
+       "e_money": 16.2,
+       "mobile_wallet": 6.8,
+       "other": 0.0,
+       "no_answer": 2.1
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 52.3,
+       "bank_transfer": 7.6,
+       "credit_card": 48.3,
+       "debit_card": 4.1,
+       "e_money": 19.2,
+       "mobile_wallet": 9.9,
+       "other": 1.7,
+       "no_answer": 2.9
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 57.6,
+       "bank_transfer": 4.8,
+       "credit_card": 43.6,
+       "debit_card": 2.4,
+       "e_money": 18.2,
+       "mobile_wallet": 15.2,
+       "other": 0.0,
+       "no_answer": 5.5
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 55.1,
+       "bank_transfer": 5.1,
+       "credit_card": 51.9,
+       "debit_card": 2.5,
+       "e_money": 20.3,
+       "mobile_wallet": 13.9,
+       "other": 0.6,
+       "no_answer": 1.9
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 56.2,
+       "bank_transfer": 5.4,
+       "credit_card": 51.8,
+       "debit_card": 1.8,
+       "e_money": 21.4,
+       "mobile_wallet": 5.4,
+       "other": 0.9,
+       "no_answer": 1.8
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 51.1,
+       "bank_transfer": 6.5,
+       "credit_card": 56.5,
+       "debit_card": 5.4,
+       "e_money": 21.7,
+       "mobile_wallet": 9.8,
+       "other": 1.1,
+       "no_answer": 1.1
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 46.6,
+       "bank_transfer": 7.6,
+       "credit_card": 57.3,
+       "debit_card": 0.8,
+       "e_money": 25.2,
+       "mobile_wallet": 12.2,
+       "other": 0.0,
+       "no_answer": 1.5
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 43.7,
+       "bank_transfer": 5.6,
+       "credit_card": 62.0,
+       "debit_card": 5.6,
+       "e_money": 21.1,
+       "mobile_wallet": 7.0,
+       "other": 0.0,
+       "no_answer": 0.0
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 38.6,
+       "bank_transfer": 7.1,
+       "credit_card": 68.6,
+       "debit_card": 2.9,
+       "e_money": 28.6,
+       "mobile_wallet": 17.1,
+       "other": 0.0,
+       "no_answer": 0.0
+      }
+     }
+    },
+    "10000_to_30000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 39.1,
+      "bank_transfer": 10.6,
+      "credit_card": 66.1,
+      "debit_card": 2.6,
+      "e_money": 8.5,
+      "mobile_wallet": 4.7,
+      "other": 0.3,
+      "no_answer": 2.4
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 43.1,
+       "bank_transfer": 10.3,
+       "credit_card": 63.3,
+       "debit_card": 2.9,
+       "e_money": 8.1,
+       "mobile_wallet": 4.8,
+       "other": 0.3,
+       "no_answer": 3.0
+      },
+      "女性": {
+       "n": 593,
+       "cash": 34.9,
+       "bank_transfer": 10.8,
+       "credit_card": 69.1,
+       "debit_card": 2.4,
+       "e_money": 8.9,
+       "mobile_wallet": 4.7,
+       "other": 0.3,
+       "no_answer": 1.7
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 62.5,
+       "bank_transfer": 15.6,
+       "credit_card": 20.3,
+       "debit_card": 6.2,
+       "e_money": 7.8,
+       "mobile_wallet": 6.2,
+       "other": 1.6,
+       "no_answer": 1.6
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 40.1,
+       "bank_transfer": 7.5,
+       "credit_card": 66.0,
+       "debit_card": 4.1,
+       "e_money": 10.2,
+       "mobile_wallet": 7.5,
+       "other": 0.0,
+       "no_answer": 4.1
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 30.9,
+       "bank_transfer": 4.4,
+       "credit_card": 77.9,
+       "debit_card": 3.4,
+       "e_money": 10.8,
+       "mobile_wallet": 5.4,
+       "other": 0.5,
+       "no_answer": 1.5
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 39.5,
+       "bank_transfer": 9.5,
+       "credit_card": 71.0,
+       "debit_card": 1.4,
+       "e_money": 9.5,
+       "mobile_wallet": 4.3,
+       "other": 0.0,
+       "no_answer": 1.9
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 34.8,
+       "bank_transfer": 7.8,
+       "credit_card": 70.6,
+       "debit_card": 3.9,
+       "e_money": 10.3,
+       "mobile_wallet": 5.4,
+       "other": 0.5,
+       "no_answer": 0.5
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 38.6,
+       "bank_transfer": 13.9,
+       "credit_card": 70.4,
+       "debit_card": 1.8,
+       "e_money": 5.8,
+       "mobile_wallet": 2.2,
+       "other": 0.4,
+       "no_answer": 1.8
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 44.7,
+       "bank_transfer": 18.8,
+       "credit_card": 52.4,
+       "debit_card": 0.0,
+       "e_money": 4.7,
+       "mobile_wallet": 4.1,
+       "other": 0.0,
+       "no_answer": 5.9
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 43.2,
+       "bank_transfer": 10.7,
+       "credit_card": 56.0,
+       "debit_card": 1.7,
+       "e_money": 4.7,
+       "mobile_wallet": 3.8,
+       "other": 0.4,
+       "no_answer": 3.4
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 41.9,
+       "bank_transfer": 14.5,
+       "credit_card": 62.8,
+       "debit_card": 1.7,
+       "e_money": 9.9,
+       "mobile_wallet": 5.2,
+       "other": 1.2,
+       "no_answer": 3.5
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 38.2,
+       "bank_transfer": 8.5,
+       "credit_card": 64.2,
+       "debit_card": 4.2,
+       "e_money": 7.9,
+       "mobile_wallet": 6.1,
+       "other": 0.0,
+       "no_answer": 3.6
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 43.7,
+       "bank_transfer": 10.8,
+       "credit_card": 66.5,
+       "debit_card": 2.5,
+       "e_money": 10.1,
+       "mobile_wallet": 8.2,
+       "other": 0.0,
+       "no_answer": 0.6
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 36.6,
+       "bank_transfer": 8.9,
+       "credit_card": 70.5,
+       "debit_card": 3.6,
+       "e_money": 7.1,
+       "mobile_wallet": 1.8,
+       "other": 0.0,
+       "no_answer": 1.8
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 38.0,
+       "bank_transfer": 9.8,
+       "credit_card": 70.7,
+       "debit_card": 5.4,
+       "e_money": 12.0,
+       "mobile_wallet": 5.4,
+       "other": 0.0,
+       "no_answer": 2.2
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 32.1,
+       "bank_transfer": 9.9,
+       "credit_card": 76.3,
+       "debit_card": 0.0,
+       "e_money": 8.4,
+       "mobile_wallet": 3.8,
+       "other": 0.8,
+       "no_answer": 1.5
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 31.0,
+       "bank_transfer": 8.5,
+       "credit_card": 76.1,
+       "debit_card": 2.8,
+       "e_money": 9.9,
+       "mobile_wallet": 2.8,
+       "other": 0.0,
+       "no_answer": 0.0
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 31.4,
+       "bank_transfer": 8.6,
+       "credit_card": 80.0,
+       "debit_card": 1.4,
+       "e_money": 11.4,
+       "mobile_wallet": 4.3,
+       "other": 0.0,
+       "no_answer": 1.4
+      }
+     }
+    },
+    "30000_to_50000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 29.6,
+      "bank_transfer": 12.8,
+      "credit_card": 70.9,
+      "debit_card": 2.0,
+      "e_money": 3.6,
+      "mobile_wallet": 2.1,
+      "other": 0.3,
+      "no_answer": 3.4
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 31.6,
+       "bank_transfer": 13.5,
+       "credit_card": 68.5,
+       "debit_card": 1.9,
+       "e_money": 3.2,
+       "mobile_wallet": 2.4,
+       "other": 0.3,
+       "no_answer": 3.8
+      },
+      "女性": {
+       "n": 593,
+       "cash": 27.5,
+       "bank_transfer": 12.0,
+       "credit_card": 73.4,
+       "debit_card": 2.2,
+       "e_money": 4.0,
+       "mobile_wallet": 1.9,
+       "other": 0.3,
+       "no_answer": 2.9
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 53.1,
+       "bank_transfer": 18.8,
+       "credit_card": 25.0,
+       "debit_card": 7.8,
+       "e_money": 4.7,
+       "mobile_wallet": 6.2,
+       "other": 3.1,
+       "no_answer": 1.6
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 25.2,
+       "bank_transfer": 9.5,
+       "credit_card": 70.7,
+       "debit_card": 2.0,
+       "e_money": 5.4,
+       "mobile_wallet": 2.0,
+       "other": 0.0,
+       "no_answer": 5.4
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 23.0,
+       "bank_transfer": 5.9,
+       "credit_card": 81.4,
+       "debit_card": 1.5,
+       "e_money": 2.9,
+       "mobile_wallet": 2.5,
+       "other": 0.5,
+       "no_answer": 2.5
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 34.3,
+       "bank_transfer": 10.5,
+       "credit_card": 76.2,
+       "debit_card": 1.4,
+       "e_money": 3.8,
+       "mobile_wallet": 3.3,
+       "other": 0.0,
+       "no_answer": 2.9
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 24.0,
+       "bank_transfer": 10.3,
+       "credit_card": 78.9,
+       "debit_card": 3.4,
+       "e_money": 4.4,
+       "mobile_wallet": 1.0,
+       "other": 0.0,
+       "no_answer": 2.0
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 30.5,
+       "bank_transfer": 17.0,
+       "credit_card": 72.6,
+       "debit_card": 1.8,
+       "e_money": 3.1,
+       "mobile_wallet": 0.4,
+       "other": 0.0,
+       "no_answer": 2.7
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 32.4,
+       "bank_transfer": 21.8,
+       "credit_card": 57.1,
+       "debit_card": 0.0,
+       "e_money": 1.8,
+       "mobile_wallet": 2.4,
+       "other": 0.6,
+       "no_answer": 6.5
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 32.9,
+       "bank_transfer": 12.8,
+       "credit_card": 61.1,
+       "debit_card": 0.9,
+       "e_money": 3.4,
+       "mobile_wallet": 2.1,
+       "other": 0.9,
+       "no_answer": 6.0
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 29.1,
+       "bank_transfer": 18.0,
+       "credit_card": 68.6,
+       "debit_card": 1.2,
+       "e_money": 4.1,
+       "mobile_wallet": 2.9,
+       "other": 0.0,
+       "no_answer": 3.5
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 31.5,
+       "bank_transfer": 11.5,
+       "credit_card": 67.3,
+       "debit_card": 3.6,
+       "e_money": 3.0,
+       "mobile_wallet": 1.8,
+       "other": 0.6,
+       "no_answer": 4.2
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 30.4,
+       "bank_transfer": 12.7,
+       "credit_card": 74.7,
+       "debit_card": 3.2,
+       "e_money": 3.8,
+       "mobile_wallet": 3.2,
+       "other": 0.0,
+       "no_answer": 1.3
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 26.8,
+       "bank_transfer": 11.6,
+       "credit_card": 75.0,
+       "debit_card": 3.6,
+       "e_money": 2.7,
+       "mobile_wallet": 0.9,
+       "other": 0.0,
+       "no_answer": 1.8
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 30.4,
+       "bank_transfer": 13.0,
+       "credit_card": 72.8,
+       "debit_card": 2.2,
+       "e_money": 5.4,
+       "mobile_wallet": 1.1,
+       "other": 0.0,
+       "no_answer": 2.2
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 26.0,
+       "bank_transfer": 9.2,
+       "credit_card": 78.6,
+       "debit_card": 0.0,
+       "e_money": 3.8,
+       "mobile_wallet": 1.5,
+       "other": 0.8,
+       "no_answer": 3.1
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 23.9,
+       "bank_transfer": 9.9,
+       "credit_card": 78.9,
+       "debit_card": 1.4,
+       "e_money": 4.2,
+       "mobile_wallet": 2.8,
+       "other": 0.0,
+       "no_answer": 2.8
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 22.9,
+       "bank_transfer": 12.9,
+       "credit_card": 85.7,
+       "debit_card": 1.4,
+       "e_money": 2.9,
+       "mobile_wallet": 2.9,
+       "other": 0.0,
+       "no_answer": 1.4
+      }
+     }
+    },
+    "50000_to_100000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 23.7,
+      "bank_transfer": 16.7,
+      "credit_card": 71.4,
+      "debit_card": 1.7,
+      "e_money": 2.0,
+      "mobile_wallet": 1.5,
+      "other": 0.5,
+      "no_answer": 3.8
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 25.3,
+       "bank_transfer": 17.6,
+       "credit_card": 69.6,
+       "debit_card": 1.6,
+       "e_money": 1.6,
+       "mobile_wallet": 1.3,
+       "other": 0.5,
+       "no_answer": 3.7
+      },
+      "女性": {
+       "n": 593,
+       "cash": 22.1,
+       "bank_transfer": 15.7,
+       "credit_card": 73.4,
+       "debit_card": 1.9,
+       "e_money": 2.4,
+       "mobile_wallet": 1.7,
+       "other": 0.5,
+       "no_answer": 4.0
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 42.2,
+       "bank_transfer": 23.4,
+       "credit_card": 32.8,
+       "debit_card": 4.7,
+       "e_money": 1.6,
+       "mobile_wallet": 6.2,
+       "other": 4.7,
+       "no_answer": 4.7
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 20.4,
+       "bank_transfer": 12.9,
+       "credit_card": 72.8,
+       "debit_card": 2.0,
+       "e_money": 2.7,
+       "mobile_wallet": 2.0,
+       "other": 0.0,
+       "no_answer": 5.4
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 17.2,
+       "bank_transfer": 9.8,
+       "credit_card": 82.8,
+       "debit_card": 1.0,
+       "e_money": 2.0,
+       "mobile_wallet": 2.0,
+       "other": 0.5,
+       "no_answer": 2.5
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 28.6,
+       "bank_transfer": 15.7,
+       "credit_card": 78.1,
+       "debit_card": 1.4,
+       "e_money": 1.4,
+       "mobile_wallet": 2.4,
+       "other": 0.0,
+       "no_answer": 2.4
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 19.1,
+       "bank_transfer": 9.8,
+       "credit_card": 77.9,
+       "debit_card": 2.9,
+       "e_money": 3.4,
+       "mobile_wallet": 1.0,
+       "other": 0.5,
+       "no_answer": 2.0
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 24.7,
+       "bank_transfer": 22.0,
+       "credit_card": 71.7,
+       "debit_card": 1.8,
+       "e_money": 1.3,
+       "mobile_wallet": 0.0,
+       "other": 0.0,
+       "no_answer": 3.1
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 25.9,
+       "bank_transfer": 28.2,
+       "credit_card": 54.7,
+       "debit_card": 0.0,
+       "e_money": 1.2,
+       "mobile_wallet": 0.0,
+       "other": 0.6,
+       "no_answer": 8.8
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 28.6,
+       "bank_transfer": 17.5,
+       "credit_card": 59.4,
+       "debit_card": 0.9,
+       "e_money": 2.1,
+       "mobile_wallet": 2.6,
+       "other": 0.9,
+       "no_answer": 5.1
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 25.0,
+       "bank_transfer": 20.9,
+       "credit_card": 68.0,
+       "debit_card": 1.2,
+       "e_money": 2.3,
+       "mobile_wallet": 1.2,
+       "other": 0.0,
+       "no_answer": 4.7
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 23.6,
+       "bank_transfer": 17.0,
+       "credit_card": 69.1,
+       "debit_card": 1.8,
+       "e_money": 1.8,
+       "mobile_wallet": 0.6,
+       "other": 1.8,
+       "no_answer": 4.8
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 22.8,
+       "bank_transfer": 18.4,
+       "credit_card": 75.3,
+       "debit_card": 3.2,
+       "e_money": 1.3,
+       "mobile_wallet": 2.5,
+       "other": 0.0,
+       "no_answer": 3.2
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 20.5,
+       "bank_transfer": 18.8,
+       "credit_card": 77.7,
+       "debit_card": 2.7,
+       "e_money": 1.8,
+       "mobile_wallet": 0.9,
+       "other": 0.0,
+       "no_answer": 1.8
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 22.8,
+       "bank_transfer": 13.0,
+       "credit_card": 73.9,
+       "debit_card": 2.2,
+       "e_money": 2.2,
+       "mobile_wallet": 1.1,
+       "other": 0.0,
+       "no_answer": 3.3
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 22.1,
+       "bank_transfer": 10.7,
+       "credit_card": 77.9,
+       "debit_card": 0.0,
+       "e_money": 2.3,
+       "mobile_wallet": 0.8,
+       "other": 0.8,
+       "no_answer": 3.1
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 18.3,
+       "bank_transfer": 11.3,
+       "credit_card": 83.1,
+       "debit_card": 1.4,
+       "e_money": 2.8,
+       "mobile_wallet": 2.8,
+       "other": 0.0,
+       "no_answer": 1.4
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 15.7,
+       "bank_transfer": 18.6,
+       "credit_card": 88.6,
+       "debit_card": 1.4,
+       "e_money": 1.4,
+       "mobile_wallet": 0.0,
+       "other": 0.0,
+       "no_answer": 2.9
+      }
+     }
+    },
+    "over_100000yen": {
+     "all": {
+      "n": 1222,
+      "cash": 21.3,
+      "bank_transfer": 23.1,
+      "credit_card": 68.8,
+      "debit_card": 2.0,
+      "e_money": 1.8,
+      "mobile_wallet": 1.3,
+      "other": 0.5,
+      "no_answer": 3.8
+     },
+     "by_sex": {
+      "男性": {
+       "n": 629,
+       "cash": 22.6,
+       "bank_transfer": 25.1,
+       "credit_card": 66.1,
+       "debit_card": 1.7,
+       "e_money": 1.4,
+       "mobile_wallet": 1.1,
+       "other": 0.5,
+       "no_answer": 3.8
+      },
+      "女性": {
+       "n": 593,
+       "cash": 19.9,
+       "bank_transfer": 20.9,
+       "credit_card": 71.7,
+       "debit_card": 2.2,
+       "e_money": 2.2,
+       "mobile_wallet": 1.5,
+       "other": 0.5,
+       "no_answer": 3.7
+      }
+     },
+     "by_age": {
+      "15〜19才": {
+       "n": 64,
+       "cash": 39.1,
+       "bank_transfer": 25.0,
+       "credit_card": 32.8,
+       "debit_card": 3.1,
+       "e_money": 1.6,
+       "mobile_wallet": 4.7,
+       "other": 4.7,
+       "no_answer": 6.2
+      },
+      "20〜29才": {
+       "n": 147,
+       "cash": 17.7,
+       "bank_transfer": 17.0,
+       "credit_card": 72.1,
+       "debit_card": 2.0,
+       "e_money": 2.7,
+       "mobile_wallet": 1.4,
+       "other": 0.7,
+       "no_answer": 4.8
+      },
+      "30〜39才": {
+       "n": 204,
+       "cash": 14.7,
+       "bank_transfer": 13.7,
+       "credit_card": 80.4,
+       "debit_card": 1.5,
+       "e_money": 1.0,
+       "mobile_wallet": 2.0,
+       "other": 0.5,
+       "no_answer": 2.0
+      },
+      "40〜49才": {
+       "n": 210,
+       "cash": 27.1,
+       "bank_transfer": 21.0,
+       "credit_card": 74.8,
+       "debit_card": 1.4,
+       "e_money": 1.4,
+       "mobile_wallet": 2.4,
+       "other": 0.0,
+       "no_answer": 2.4
+      },
+      "50〜59才": {
+       "n": 204,
+       "cash": 17.6,
+       "bank_transfer": 19.6,
+       "credit_card": 76.0,
+       "debit_card": 3.4,
+       "e_money": 3.4,
+       "mobile_wallet": 1.0,
+       "other": 0.0,
+       "no_answer": 2.0
+      },
+      "60〜69才": {
+       "n": 223,
+       "cash": 21.1,
+       "bank_transfer": 30.5,
+       "credit_card": 68.2,
+       "debit_card": 2.2,
+       "e_money": 1.3,
+       "mobile_wallet": 0.0,
+       "other": 0.0,
+       "no_answer": 3.1
+      },
+      "70〜79才": {
+       "n": 170,
+       "cash": 22.9,
+       "bank_transfer": 35.9,
+       "credit_card": 50.6,
+       "debit_card": 0.6,
+       "e_money": 1.2,
+       "mobile_wallet": 0.0,
+       "other": 0.6,
+       "no_answer": 8.8
+      }
+     },
+     "by_household_income": {
+      "〜300万円未満": {
+       "n": 234,
+       "cash": 25.2,
+       "bank_transfer": 23.9,
+       "credit_card": 56.4,
+       "debit_card": 1.3,
+       "e_money": 2.1,
+       "mobile_wallet": 2.1,
+       "other": 1.3,
+       "no_answer": 5.1
+      },
+      "〜400万円未満": {
+       "n": 172,
+       "cash": 21.5,
+       "bank_transfer": 28.5,
+       "credit_card": 64.5,
+       "debit_card": 1.7,
+       "e_money": 2.3,
+       "mobile_wallet": 1.2,
+       "other": 0.0,
+       "no_answer": 5.2
+      },
+      "〜500万円未満": {
+       "n": 165,
+       "cash": 20.0,
+       "bank_transfer": 21.8,
+       "credit_card": 67.3,
+       "debit_card": 2.4,
+       "e_money": 1.8,
+       "mobile_wallet": 0.6,
+       "other": 1.2,
+       "no_answer": 3.0
+      },
+      "〜600万円未満": {
+       "n": 158,
+       "cash": 19.6,
+       "bank_transfer": 21.5,
+       "credit_card": 72.2,
+       "debit_card": 3.2,
+       "e_money": 1.3,
+       "mobile_wallet": 2.5,
+       "other": 0.0,
+       "no_answer": 4.4
+      },
+      "〜700万円未満": {
+       "n": 112,
+       "cash": 18.8,
+       "bank_transfer": 24.1,
+       "credit_card": 74.1,
+       "debit_card": 2.7,
+       "e_money": 1.8,
+       "mobile_wallet": 0.9,
+       "other": 0.0,
+       "no_answer": 1.8
+      },
+      "〜800万円未満": {
+       "n": 92,
+       "cash": 18.5,
+       "bank_transfer": 20.7,
+       "credit_card": 72.8,
+       "debit_card": 2.2,
+       "e_money": 2.2,
+       "mobile_wallet": 0.0,
+       "other": 0.0,
+       "no_answer": 4.3
+      },
+      "〜1,000万円未満": {
+       "n": 131,
+       "cash": 23.7,
+       "bank_transfer": 18.3,
+       "credit_card": 74.8,
+       "debit_card": 0.0,
+       "e_money": 2.3,
+       "mobile_wallet": 0.8,
+       "other": 0.8,
+       "no_answer": 1.5
+      },
+      "〜1200万円未満": {
+       "n": 71,
+       "cash": 18.3,
+       "bank_transfer": 19.7,
+       "credit_card": 80.3,
+       "debit_card": 1.4,
+       "e_money": 1.4,
+       "mobile_wallet": 2.8,
+       "other": 0.0,
+       "no_answer": 1.4
+      },
+      "1200万円以上": {
+       "n": 70,
+       "cash": 14.3,
+       "bank_transfer": 28.6,
+       "credit_card": 87.1,
+       "debit_card": 2.9,
+       "e_money": 0.0,
+       "mobile_wallet": 0.0,
+       "other": 0.0,
+       "no_answer": 2.9
+      }
+     }
+    }
+   },
+   "definition": "問10「次のすべての支払い方法が利用可能であった場合、日々の買い物や飲食店での支払い等において主にどのような決済手段を利用するか」(価格帯ごと、複数回答、公共交通機関を除く)。mobile_wallet=モバイルウォレット(QRコード決済等のスマホ決済)。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしpdftotextで集計表(実数)を抽出、スクリプトで%に換算。1000~5000円の全体行(現金738/1222等)を目視確認",
+   "notes": "2021年初の調査で古い(コード決済はその後大きく伸びた)。水準は現在より現金寄り。年代差・年収差の『形』を係数に使い、水準は新しい全体値で補正するのがよい。複数回答なので合計は100を超える。小さいセル(15~19歳n=64、年収1200万以上n=70)は誤差大。"
+  },
+  {
+   "key": "payment_by_place_mof2021",
+   "title": "支払い場所別の決済手段(キャッシュレス利用者)",
+   "year": 2022,
+   "source_name": "財務省「通貨に関する実態調査」令和3(2021)年度結果概要",
+   "source_url": "https://www.mof.go.jp/about_mof/mof_budget/release/itaku/seikabutsu/2021tsuuka_02.pdf",
+   "population": "全国15~79歳の男女1,200人のうちキャッシュレス利用者806人(2022年2月調査)",
+   "unit": "%(複数回答)",
+   "data": {
+    "supermarket": {
+     "cash": 59.9,
+     "credit_card": 43.7,
+     "debit_card": 1.6,
+     "contactless": 13.6,
+     "qr_code": 18.5
+    },
+    "department_store": {
+     "cash": 45.9,
+     "credit_card": 59.2,
+     "debit_card": 1.1,
+     "contactless": 2.6,
+     "qr_code": 6.1
+    },
+    "electronics_store": {
+     "cash": 36.2,
+     "credit_card": 72.3,
+     "debit_card": 1.5,
+     "contactless": 2.1,
+     "qr_code": 8.3
+    },
+    "services_hotel_salon": {
+     "cash": 55.3,
+     "credit_card": 51.5,
+     "debit_card": 0.9,
+     "contactless": 2.0,
+     "qr_code": 6.8
+    },
+    "shopping_street_shop": {
+     "cash": 82.5,
+     "credit_card": 14.6,
+     "debit_card": 0.9,
+     "contactless": 2.2,
+     "qr_code": 9.1
+    }
+   },
+   "definition": "問12イ「それぞれの支払い場所ごとに、どのような決済手段を利用するか」(複数回答)。2021年度に新設された場所のみ収録。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して確認(単年のグラフのみ収録)",
+   "notes": "コンビニ・飲食店・駅売店・自販機は2019年度と2021年度の棒が並ぶグラフで、テキスト抽出では年度の対応が確定できなかったため収録していない。年代別はこの概要版にはない。"
+  },
+  {
+   "key": "emoney_household_use_by_age",
+   "title": "電子マネー利用世帯の割合(世帯主年齢別・年次推移)",
+   "year": 2025,
+   "source_name": "総務省統計局「2025年 家計消費状況調査 結果の概況」",
+   "source_url": "https://www.stat.go.jp/data/joukyou/2025ar/gaikyou/pdf/gkall.pdf",
+   "population": "全国の二人以上の世帯",
+   "unit": "%",
+   "data": {
+    "use_by_head_age_2025": {
+     "average": 63.5,
+     "under_40": 69.8,
+     "40_49": 75.1,
+     "50_59": 75.4,
+     "60_69": 69.5,
+     "70_plus": 45.5
+    },
+    "use_by_head_age_2024": {
+     "average": 63.5,
+     "under_40": 70.3,
+     "40_49": 75.9,
+     "50_59": 75.1,
+     "60_69": 68.2,
+     "70_plus": 45.2
+    },
+    "timeseries_holding": {
+     "2015": 49.6,
+     "2016": 51.9,
+     "2017": 54.3,
+     "2018": 59.2,
+     "2019": 62.4,
+     "2020": 69.2,
+     "2021": 69.1,
+     "2022": 68.8,
+     "2023": 73.0,
+     "2024": 74.1,
+     "2025": 74.3
+    },
+    "timeseries_use": {
+     "2015": 41.5,
+     "2016": 43.9,
+     "2017": 45.5,
+     "2018": 50.4,
+     "2019": 53.2,
+     "2020": 57.5,
+     "2021": 58.0,
+     "2022": 59.0,
+     "2023": 63.4,
+     "2024": 63.5,
+     "2025": 63.5
+    },
+    "avg_monthly_amount_yen_among_users": {
+     "2015": 16382,
+     "2019": 20567,
+     "2020": 24790,
+     "2023": 30282,
+     "2024": 31997,
+     "2025": 33933
+    }
+   },
+   "definition": "1か月間に電子マネーを利用した世帯員がいる世帯の割合(1~12月の月別結果の単純平均)。電子マネー=前払い式(Suica, nanaco, WAON, PayPayのチャージ利用分等)。クレジットカード・デビットは含まない。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して表Ⅱ-1, Ⅱ-2, Ⅱ-3を確認",
+   "notes": "世帯単位・世帯主年齢で、個人の年代別ではない。単身世帯を含まない。10年で41.5→63.5%という普及曲線(伸びが鈍る形)の実例として使える。年間収入階級別はe-Statの詳細表にあるが今回は未取得。"
+  },
+  {
+   "key": "online_purchase_payment_method",
+   "title": "ネット購入時の決済手段(時系列)",
+   "year": 2025,
+   "source_name": "総務省「令和7年通信利用動向調査報告書(世帯編)」",
+   "source_url": "https://www.soumu.go.jp/johotsusintokei/statistics/pdf/HR202500_001.pdf",
+   "population": "インターネットで商品等を購入した15歳以上の個人(令和7年 n=20,386)",
+   "unit": "%(複数回答)",
+   "data": {
+    "credit_card": {
+     "2023": 76.7,
+     "2024": 79.8,
+     "2025": 79.7
+    },
+    "e_money_incl_qr_code": {
+     "2023": 38.5,
+     "2024": 43.5,
+     "2025": 45.8
+    },
+    "convenience_store_payment": {
+     "2023": 34.7,
+     "2024": 33.7,
+     "2025": 35.2
+    },
+    "bank_post_atm_transfer": {
+     "2023": 23.0,
+     "2024": 23.0,
+     "2025": 23.3
+    },
+    "internet_banking": {
+     "2023": 21.9,
+     "2024": 23.0,
+     "2025": 21.3
+    },
+    "carrier_billing": {
+     "2023": 16.2,
+     "2024": 16.3,
+     "2025": 16.0
+    },
+    "cash_on_delivery": {
+     "2023": 17.8,
+     "2024": 16.1,
+     "2025": 15.2
+    }
+   },
+   "definition": "過去1年間にネットで商品購入・金融取引をした際に利用した決済手段。電子マネー=○○ペイなどのQRコード決済、楽天Edy、Suica等。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して図表5-14を確認",
+   "notes": "年齢階層別・年収別はe-Statの統計表(構17表)にあるが今回は未取得。"
+  },
+  {
+   "key": "telework_experience_by_age_soumu",
+   "title": "テレワーク実施率・実施希望(年齢階層別)",
+   "year": 2025,
+   "source_name": "総務省「令和7年通信利用動向調査報告書(世帯編)」第9章",
+   "source_url": "https://www.soumu.go.jp/johotsusintokei/statistics/pdf/HR202500_001.pdf",
+   "population": "15歳以上のインターネット利用者で企業等(公的機関・団体含む)に勤務している人(令和7年 n=19,369)",
+   "unit": "%",
+   "data": {
+    "did_telework_past_year": {
+     "all": 26.8,
+     "15_19": 5.9,
+     "20_29": 26.5,
+     "30_39": 32.4,
+     "40_49": 31.9,
+     "50_59": 30.8,
+     "60_69": 20.3,
+     "70_79": 7.6,
+     "80_plus": 1.9
+    },
+    "did_telework_timeseries": {
+     "2023": 27.1,
+     "2024": 28.1,
+     "2025": 26.8
+    },
+    "type_among_teleworkers_2025": {
+     "home": 92.6,
+     "satellite_office": 18.7,
+     "mobile_work": 37.2,
+     "workation": 9.0
+    },
+    "want_telework_among_non_teleworkers": {
+     "all": 19.2,
+     "15_19": 8.5,
+     "20_29": 25.8,
+     "30_39": 31.7,
+     "40_49": 23.1,
+     "50_59": 16.2,
+     "60_69": 9.2,
+     "70_79": 4.1,
+     "80_plus": 6.1
+    },
+    "want_telework_timeseries": {
+     "2023": 18.2,
+     "2024": 20.0,
+     "2025": 19.2
+    },
+    "reason_not_teleworking_2025": {
+     "job_not_suitable": 60.1,
+     "no_company_system": null
+    },
+    "enterprise_adoption_rate": {
+     "2024": 47.3,
+     "2025": 50.1
+    }
+   },
+   "definition": "過去1年間にインターネットを利用してテレワーク(在宅・サテライト・モバイル・ワーケーション)をしたことがある人の割合。希望は未実施者のうち「実施を希望する」。企業導入率は常用雇用者100人以上の企業でテレワークを導入している割合(企業編)。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して図表9-3~9-7を確認。企業導入率は同調査の報道資料PDF(260529_1.pdf)で確認",
+   "notes": "報道資料(比重調整・無回答除く)では実施26.9%/希望19.4%と0.1~0.2pt違う。性別・年収別はe-Statの統計表(構35表)にあり未取得。『制度がない』の割合は報道資料ベースで38.1%(母数定義が違うためここはnull)。"
+  },
+  {
+   "key": "telework_mlit_r7",
+   "title": "雇用型テレワーカーの割合(国交省 テレワーク人口実態調査)",
+   "year": 2025,
+   "source_name": "国土交通省「令和7年度テレワーク人口実態調査」結果概要(総務省サイト掲載の資料17-4)",
+   "source_url": "https://www.soumu.go.jp/main_content/001083319.pdf",
+   "population": "就業者40,000人のWEB調査のうち雇用型就業者",
+   "unit": "%",
+   "data": {
+    "system_based_teleworker_share": {
+     "2016": 7.7,
+     "2017": 9.0,
+     "2018": 10.8,
+     "2019": 9.8,
+     "2020": 19.7,
+     "2021": 24.5,
+     "2022": 22.7,
+     "2023": 21.3,
+     "2024": 20.9,
+     "2025": 22.1
+    },
+    "teleworked_in_last_year": {
+     "national": {
+      "R3": 21.4,
+      "R4": 18.8,
+      "R5": 16.1,
+      "R6": 15.6,
+      "R7": 16.8
+     },
+     "tokyo_area": {
+      "R3": 35.8,
+      "R4": 31.2,
+      "R5": 27.5,
+      "R6": 26.5,
+      "R7": 28.1
+     },
+     "kinki_area": {
+      "R3": 21.1,
+      "R4": 17.9,
+      "R5": 14.9,
+      "R6": 14.6,
+      "R7": 15.6
+     },
+     "chukyo_area": {
+      "R3": 18.0,
+      "R4": 14.7,
+      "R5": 13.5,
+      "R6": 12.0,
+      "R7": 14.3
+     },
+     "regional_cities": {
+      "R3": 12.6,
+      "R4": 11.7,
+      "R5": 9.4,
+      "R6": 9.4,
+      "R7": 9.8
+     }
+    },
+    "by_industry_R7": {
+     "information_communications": 74.1,
+     "academic_professional_services": 54.0,
+     "accommodation_food": 6.0,
+     "medical_welfare": 6.4
+    },
+    "ever_teleworked_share_R7_from_press_release": 25.2
+   },
+   "definition": "制度等に基づく雇用型テレワーカー=雇用型就業者のうち、勤務先のテレワーク制度等に基づきこれまでテレワークをしたことがある人。直近1年間の実施率=雇用型就業者のうち各年度の直近1年間にテレワークを実施した人。25.2%は制度の有無を問わない雇用型テレワーカー割合。",
+   "confidence": "medium",
+   "verified_via": "総務省サイト掲載の概要PDFをダウンロードしテキスト抽出。2025年の22.1%、業種別は本文で確認。折れ線グラフの系列は数値の大きさと位置から割り当て(全国R6→R7が15.6→16.8である点は検索結果の国交省発表要約と一致)。25.2%は検索結果要約のみ",
+   "notes": "国交省サイト(www.mlit.go.jp)は通信制限で開けず、性別・年齢別・年収別・実施頻度・希望頻度の表は未取得(not_found参照)。グラフ系列のうちR3の全国21.4と近畿圏21.1は取り違えの可能性あり。"
+  },
+  {
+   "key": "four_day_week_company_adoption",
+   "title": "週休制の形態別企業割合(週休3日制の導入)",
+   "year": 2025,
+   "source_name": "厚生労働省「令和7年就労条件総合調査 結果の概況」第2表",
+   "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/jikan/syurou/25/dl/gaikyou.pdf",
+   "population": "常用労働者30人以上の民営企業(最も多くの労働者に適用される週休制)",
+   "unit": "%(企業割合)",
+   "data": {
+    "2025": {
+     "some_4day_week(何らかの週休3日制)": 0.9,
+     "full_4day_week(完全週休3日制)": 0.0,
+     "more_than_full_3days_off": 0.2,
+     "some_2days_off(何らかの週休2日制)": 92.6,
+     "full_2days_off(完全週休2日制)": 65.5,
+     "less_than_full_2days": 27.1,
+     "1day_or_1.5day": 5.6
+    },
+    "2024": {
+     "some_4day_week": 1.6,
+     "full_4day_week": 0.3,
+     "more_than_full_3days_off": 0.0,
+     "some_2days_off": 90.9,
+     "full_2days_off": 56.7,
+     "less_than_full_2days": 34.2,
+     "1day_or_1.5day": 7.5
+    },
+    "some_4day_week_by_size_2025": {
+     "1000_plus": 2.1,
+     "300_999": 2.2,
+     "100_299": 1.0,
+     "30_99": 0.7
+    },
+    "full_2days_off_by_size_2025": {
+     "1000_plus": 77.9,
+     "300_999": 73.2,
+     "100_299": 70.7,
+     "30_99": 62.6
+    }
+   },
+   "definition": "『主な週休制』=企業で最も多くの労働者に適用される週休制。何らかの週休3日制=月1回以上の週休3日制等を含む。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して第2表を確認",
+   "notes": "『主な』週休制なので、一部の社員だけが選べる選択的週休3日制の導入企業はここに入らない(選択制の導入率はもっと高いはずだが別統計)。令和7年調査から区分が変わり、過去の『完全週休2日制より休日日数が実質的に多い制度』(令和5年7.5%等)とは直接つながらない。"
+  },
+  {
+   "key": "allowance_provision_by_company_size",
+   "title": "諸手当の種類別支給企業割合(住宅手当など)",
+   "year": 2024,
+   "source_name": "厚生労働省「令和7年就労条件総合調査 結果の概況」第17表(令和6年11月分)",
+   "source_url": "https://www.mhlw.go.jp/toukei/itiran/roudou/jikan/syurou/25/dl/gaikyou.pdf",
+   "population": "常用労働者30人以上の民営企業のうち諸手当を支給した企業(全企業の91.4%)",
+   "unit": "%(企業割合、複数回答)",
+   "data": {
+    "all": {
+     "commuting": 90.2,
+     "position": 84.2,
+     "family_dependents_childcare": 62.3,
+     "skill_qualification": 53.0,
+     "housing": 45.7,
+     "adjustment": 32.6,
+     "special_duty": 19.5,
+     "attendance": 17.4,
+     "performance": 13.7,
+     "other_living": 13.5,
+     "single_posting": 13.2,
+     "special_work": 11.9,
+     "regional": 11.6
+    },
+    "share_of_all_companies": {
+     "housing": 41.7,
+     "family_dependents_childcare": 56.9,
+     "commuting": 82.5
+    },
+    "housing_by_size": {
+     "1000_plus": 60.8,
+     "300_999": 59.0,
+     "100_299": 52.1,
+     "30_99": 41.6
+    },
+    "family_by_size": {
+     "1000_plus": 72.7,
+     "300_999": 70.6,
+     "100_299": 68.2,
+     "30_99": 59.1
+    },
+    "housing_2019": 47.2
+   },
+   "definition": "令和6年11月分として各手当を支給した企業の割合。share_of_all_companiesは諸手当を支給しなかった企業も含む全企業に対する割合。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して第17表を確認",
+   "notes": "企業が『制度を持つ』割合であり、従業員の利用率・希望率ではない。"
+  },
+  {
+   "key": "paid_video_streaming_by_age_income",
+   "title": "有料動画配信サービスの視聴(世帯主年齢別・世帯年収別)",
+   "year": 2025,
+   "source_name": "総務省「令和7年通信利用動向調査報告書(世帯編)」図表3-4",
+   "source_url": "https://www.soumu.go.jp/johotsusintokei/statistics/pdf/HR202500_001.pdf",
+   "population": "インターネットに接続したテレビ等を保有する世帯(n=9,249)",
+   "unit": "%(複数回答)",
+   "data": {
+    "all": 60.6,
+    "timeseries_all": {
+     "2023": 50.0,
+     "2024": 59.8,
+     "2025": 60.6
+    },
+    "by_head_age": {
+     "20_29": 74.2,
+     "30_39": 81.8,
+     "40_49": 71.5,
+     "50_59": 66.2,
+     "60_64": 59.9,
+     "65_69": 51.4,
+     "70_74": 36.8,
+     "75_plus": 29.1
+    },
+    "by_household_income": {
+     "under_2m": 37.2,
+     "2m_4m": 46.3,
+     "4m_6m": 58.2,
+     "6m_8m": 67.4,
+     "8m_10m": 72.3,
+     "10m_15m": 74.4,
+     "15m_20m": 65.7,
+     "20m_plus": 91.0
+    },
+    "free_video_sharing_by_head_age": {
+     "20_29": 75.4,
+     "30_39": 82.2,
+     "40_49": 78.0,
+     "50_59": 73.9,
+     "60_64": 70.0,
+     "65_69": 66.0,
+     "70_74": 64.9,
+     "75_plus": 52.6
+    },
+    "free_video_sharing_by_household_income": {
+     "under_2m": 55.4,
+     "2m_4m": 64.5,
+     "4m_6m": 71.3,
+     "6m_8m": 76.3,
+     "8m_10m": 78.4,
+     "10m_15m": 78.9,
+     "15m_20m": 67.5,
+     "20m_plus": 72.7
+    }
+   },
+   "definition": "テレビ等でインターネット上のサービスを利用する目的として「有料動画配信サービス(Amazon Prime Video, Netflixなど)の視聴」を挙げた世帯の割合。比較用に無料動画共有(YouTube等)も収録。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して図表3-3, 3-4を確認",
+   "notes": "母数が『ネット接続テレビ保有世帯』に限られるため全世帯の加入率より高く出る。『有料(お金)と無料』で年収による傾きが違う(有料37→74%、無料55→79%)点は『お金』係数の手がかりになる。15m_20m(n=218)、20m_plus(n=120)は誤差大。"
+  },
+  {
+   "key": "video_subscription_by_age_individual",
+   "title": "動画配信サービス利用率(個人・年代別・性別)",
+   "year": 2024,
+   "source_name": "総務省情報通信政策研究所「令和6年度情報通信メディアの利用時間と情報行動に関する調査報告書(概要)」",
+   "source_url": "https://www.soumu.go.jp/main_content/001017240.pdf",
+   "population": "全国13~79歳の男女1,800人(訪問留置調査、2024年12月)",
+   "unit": "%",
+   "data": {
+    "ondemand_video_streaming_service(Netflix,Amazonプライム,Hulu等)": {
+     "all": 53.7,
+     "10s": 78.6,
+     "20s": 74.8,
+     "30s": 70.0,
+     "40s": 62.1,
+     "50s": 51.5,
+     "60s": 44.3,
+     "70s": 15.8
+    },
+    "paid_multichannel(WOWOW,スカパー,CATV)": {
+     "all": 9.9,
+     "10s": 4.3,
+     "20s": 5.5,
+     "30s": 5.1,
+     "40s": 7.8,
+     "50s": 14.2,
+     "60s": 16.2,
+     "70s": 11.1
+    },
+    "none_of_video_services": {
+     "all": 13.1,
+     "10s": 3.6,
+     "20s": 0.9,
+     "30s": 0.8,
+     "40s": 2.0,
+     "50s": 9.7,
+     "60s": 17.7,
+     "70s": 47.3
+    },
+    "netflix": {
+     "all": 26.1,
+     "10s": 37.1,
+     "20s": 40.8,
+     "30s": 37.1,
+     "40s": 29.4,
+     "50s": 26.7,
+     "60s": 19.2,
+     "70s": 3.4,
+     "male": 25.8,
+     "female": 26.3
+    },
+    "amazon_prime_video": {
+     "all": 39.2,
+     "10s": 56.4,
+     "20s": 51.8,
+     "30s": 54.0,
+     "40s": 47.1,
+     "50s": 38.8,
+     "60s": 29.9,
+     "70s": 10.7,
+     "male": 41.4,
+     "female": 37.0
+    },
+    "youtube": {
+     "all": 83.3,
+     "10s": 96.4,
+     "20s": 98.2,
+     "30s": 98.7,
+     "40s": 94.1,
+     "50s": 85.8,
+     "60s": 76.0,
+     "70s": 47.0,
+     "male": 86.1,
+     "female": 80.6
+    },
+    "tver": {
+     "all": 32.2,
+     "10s": 32.1,
+     "20s": 37.2,
+     "30s": 43.5,
+     "40s": 39.2,
+     "50s": 39.4,
+     "60s": 25.5,
+     "70s": 10.7,
+     "male": 28.3,
+     "female": 36.2
+    },
+    "u_next": {
+     "all": 7.7,
+     "10s": 10.0,
+     "20s": 15.6,
+     "30s": 8.9,
+     "40s": 8.8,
+     "50s": 7.9,
+     "60s": 5.2,
+     "70s": 0.7
+    }
+   },
+   "definition": "各サービスを「利用している」と答えた人の割合(アンケート調査)。オンデマンド型動画配信サービスは定額制が中心だが、設問は有料・無料を区別していない(家族の契約で見ている人も含む)。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して第5章5-3の表を確認",
+   "notes": "サブスク全般(音楽・食品・衣類等)の年代別利用率ではなく、動画に限った数字。個人単位の年代別としては最も使いやすい。10代n=140。年収別はなし。"
+  },
+  {
+   "key": "myna_insurance_card_use_by_sex_age",
+   "title": "マイナ保険証等の行政オンライン手続の利用(性・年齢別、時系列)",
+   "year": 2025,
+   "source_name": "総務省「令和7年通信利用動向調査報告書(世帯編)」図表5-15, 5-16",
+   "source_url": "https://www.soumu.go.jp/johotsusintokei/statistics/pdf/HR202500_001.pdf",
+   "population": "電子政府・電子自治体の手続を利用したインターネット利用者(令和7年 n=12,050)",
+   "unit": "%(複数回答)",
+   "data": {
+    "timeseries": {
+     "myna_card_as_health_insurance": {
+      "2023": 23.7,
+      "2024": 30.4,
+      "2025": 52.6
+     },
+     "myna_portal_use": {
+      "2023": 42.0,
+      "2024": 45.2,
+      "2025": 46.8
+     },
+     "e_tax": {
+      "2023": 22.4,
+      "2024": 29.8,
+      "2025": 32.6
+     },
+     "myna_card_application": {
+      "2023": 67.3,
+      "2024": 61.7,
+      "2025": 57.5
+     },
+     "myna_point_application": {
+      "2023": 71.1,
+      "2024": 58.5,
+      "2025": 46.5
+     }
+    },
+    "myna_health_insurance_2025_by_sex_age": {
+     "male": {
+      "all": 51.0,
+      "13_19": 51.8,
+      "20_29": 45.8,
+      "30_39": 42.8,
+      "40_49": 43.5,
+      "50_59": 49.7,
+      "60_69": 58.8,
+      "70_79": 63.5,
+      "80_plus": 69.0
+     },
+     "female": {
+      "all": 54.3,
+      "13_19": 53.0,
+      "20_29": 41.9,
+      "30_39": 46.4,
+      "40_49": 51.7,
+      "50_59": 52.2,
+      "60_69": 65.2,
+      "70_79": 70.1,
+      "80_plus": 67.2
+     }
+    },
+    "e_tax_2025_by_sex_age": {
+     "male": {
+      "all": 38.8,
+      "20_29": 23.5,
+      "30_39": 40.6,
+      "40_49": 42.7,
+      "50_59": 38.7,
+      "60_69": 48.4,
+      "70_79": 43.3,
+      "80_plus": 31.3
+     },
+     "female": {
+      "all": 25.6,
+      "20_29": 18.0,
+      "30_39": 30.5,
+      "40_49": 31.3,
+      "50_59": 29.9,
+      "60_69": 27.6,
+      "70_79": 19.7,
+      "80_plus": 12.5
+     }
+    }
+   },
+   "definition": "過去1年間に電子政府・電子自治体で利用した行政手続として各項目を挙げた人の割合(母数は何らかの手続を利用した人)。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して図表5-15, 5-16を確認",
+   "notes": "母数が『オンライン行政手続の利用者』なので国民全体の利用率ではない。マイナ保険証は高齢層ほど高い(通院頻度が効く)という、新しさ好きとは逆の年齢傾向の実例。2024年12月の保険証新規発行停止で23.7→30.4→52.6%と急伸=『他の選択肢がなくなると一気に移る』例。"
+  },
+  {
+   "key": "cashless_ratio_2024_legacy_definition",
+   "title": "キャッシュレス決済比率 2024年(旧定義)",
+   "year": 2024,
+   "source_name": "キャッシュレス推進協議会「キャッシュレス決済に係る費用・収益構造に関する調査 報告書」(2026年3月、財務省委託)内の記述",
+   "source_url": "https://www.mof.go.jp/about_mof/mof_budget/release/itaku/seikabutsu/20260630cashless02.pdf",
+   "population": "日本全体の個人消費(金額ベース)",
+   "unit": "%",
+   "data": {
+    "2024": 42.8,
+    "government_target_40pct_deadline": "2025年6月(1年前倒しで達成)"
+   },
+   "definition": "旧定義(分母=民間最終消費支出)での政府公表値。",
+   "confidence": "high",
+   "verified_via": "財務省サイト掲載PDFをダウンロードしテキスト抽出して本文の記述を確認",
+   "notes": "2025年の新しい国内指標58.0%とは分母が違う。同じ物差しでは2024年42.8%→2025年46.3%(後者は報道経由)。"
+  },
+  {
+   "key": "self_development_by_sex_age",
+   "title": "自己啓発を行った労働者の割合(雇用形態・性・学歴・年齢別)と費用補助",
+   "year": 2024,
+   "source_name": "厚生労働省「令和7年度能力開発基本調査」調査結果の概要(個人調査、図77・図84)",
+   "source_url": "https://www.mhlw.go.jp/content/11801500/001728125.pdf",
+   "population": "常用労働者30人以上の事業所に勤める労働者(令和6年度1年間の実績)",
+   "unit": "%",
+   "data": {
+    "did_self_development": {
+     "all": 35.5,
+     "regular": 43.3,
+     "non_regular": 15.9,
+     "male": 40.3,
+     "female": 29.8,
+     "by_age": {
+      "under_20": 9.5,
+      "20_29": 41.9,
+      "30_39": 42.8,
+      "40_49": 37.0,
+      "50_59": 31.0,
+      "60_plus": 21.3
+     },
+     "by_education": {
+      "junior_high_high_school": 21.5,
+      "vocational_junior_college": 30.2,
+      "univ_humanities": 49.0,
+      "univ_science": 48.3,
+      "grad_humanities": 68.7,
+      "grad_science": 69.6
+     },
+     "regular_by_company_size": {
+      "30_49": 27.5,
+      "50_99": 33.2,
+      "100_299": 34.7,
+      "300_999": 52.3,
+      "1000_plus": 52.3
+     }
+    },
+    "received_cost_subsidy_among_doers": {
+     "all": 42.9,
+     "regular": 45.1,
+     "non_regular": 28.1,
+     "male": 43.6,
+     "female": 41.8,
+     "by_age": {
+      "20_29": 48.4,
+      "30_39": 44.2,
+      "40_49": 43.5,
+      "50_59": 39.0,
+      "60_plus": 33.5
+     }
+    },
+    "establishments_supporting_self_development": {
+     "for_regular": 81.4,
+     "for_non_regular": 63.9,
+     "support_type_regular": {
+      "tuition_financial_aid": 74.7,
+      "education_leave": 16.5,
+      "side_job_allowed": 16.7
+     }
+    }
+   },
+   "definition": "自己啓発=労働者が職業生活を継続するために行う、職業に関する能力を自発的に開発・向上させる活動。補助=自己啓発を行った者のうち費用の補助を受けた者。事業所の支援=正社員を雇用する事業所のうち支援を行っている割合。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して本文と図77・図84を確認",
+   "notes": "『制度がある(事業所の81%)』のに『実際にやった人は36%、補助を受けたのはその43%(=全体の約15%)』という、制度の有無と実利用の差の実例。年収別はない。"
+  },
+  {
+   "key": "furusato_nozei_users_timeseries",
+   "title": "ふるさと納税の控除適用者数・控除額の推移",
+   "year": 2026,
+   "source_name": "総務省自治税務局「ふるさと納税に関する現況調査結果(令和8年度実施)」",
+   "source_url": "https://www.soumu.go.jp/main_content/001084951.pdf",
+   "population": "全国の個人住民税納税者(控除適用者の実数)",
+   "unit": "万人 / 億円(%ではない)",
+   "data": {
+    "deduction_users_10k_persons_by_tax_year": {
+     "H21": 3.3,
+     "H22": 3.3,
+     "H23": 3.3,
+     "H24": 74.2,
+     "H25": 10.6,
+     "H26": 13.4,
+     "H27": 43.6,
+     "H28": 129.9,
+     "H29": 227.1,
+     "H30": 296.5,
+     "R1": 396.3,
+     "R2": 413.6,
+     "R3": 564.3,
+     "R4": 746.3,
+     "R5": 893.0,
+     "R6": 1001.4,
+     "R7": 1081.4,
+     "R8": 1151.4
+    },
+    "of_which_one_stop_exception_10k_persons": {
+     "H28": 41.9,
+     "H29": 77.2,
+     "H30": 110.1,
+     "R1": 161.5,
+     "R2": 177.3,
+     "R3": 269.8,
+     "R4": 375.5,
+     "R5": 465.0,
+     "R6": 536.3,
+     "R7": 569.9,
+     "R8": 614.2
+    },
+    "deduction_amount_100m_yen": {
+     "H28": 1001.9,
+     "H29": 1783.2,
+     "H30": 2456.6,
+     "R1": 3282.0,
+     "R2": 3479.3,
+     "R3": 4432.9,
+     "R4": 5716.8,
+     "R5": 6804.9,
+     "R6": 7689.0,
+     "R7": 8740.8,
+     "R8": 9524.4
+    }
+   },
+   "definition": "各課税年度の計数は前年1~12月の寄附に対する住民税控除の適用状況。例: R8年度=2025年中の寄附。H24年度の突出は東日本大震災の寄附。",
+   "confidence": "high",
+   "verified_via": "PDFをダウンロードしテキスト抽出して推移表を確認",
+   "notes": "利用『率』にするには分母(個人住民税の納税義務者数、およそ6千万人規模)が必要だが、今回その分母は一次資料で確認していない。手間を減らす仕組み(ワンストップ特例、H27年4月開始)の導入後に利用者が43.6万→129.9万→227.1万人と急増し、その後は伸び率が鈍化=『手間』係数と普及曲線の実例。年代別・年収別はこの資料にない。"
+  },
+  {
+   "key": "myna_insurance_card_usage_rate",
+   "title": "マイナ保険証の利用率(医療機関・薬局、月次推移と高齢層)",
+   "year": 2025,
+   "source_name": "厚生労働省保険局「マイナ保険証の利用促進等について」(第208回社会保障審議会医療保険部会 資料2、2025年12月18日)",
+   "source_url": "https://www.mhlw.go.jp/content/12401000/001614998.pdf",
+   "population": "医療機関・薬局でのオンライン資格確認(全国)",
+   "unit": "%",
+   "data": {
+    "receipt_based_rate_2025_10": 47.26,
+    "online_check_based_rate_selected_months": {
+     "2023-12": 4.29,
+     "2024-06": 9.9,
+     "2024-12": 25.42,
+     "2025-06": 30.64,
+     "2025-10": 37.14,
+     "latest_in_chart": 39.24
+    },
+    "elderly_2025_10_online_check_based": {
+     "70_74": 48,
+     "75_79": 37,
+     "80_84": 33,
+     "85_plus": 24
+    },
+    "card_holders_share_of_population_2025_10": 79.9,
+    "registered_as_insurance_card_share_of_holders_2025_10": 87.8
+   },
+   "definition": "オンライン資格確認件数ベース利用率=マイナ保険証利用件数÷オンライン資格確認利用件数。レセプト件数ベース利用率=マイナ保険証利用人数÷レセプト件数(2025年12月公表分から主指標)。",
+   "confidence": "medium",
+   "verified_via": "PDFをダウンロードしテキスト抽出。47.26%、高齢層4区分、保有率79.9%・登録率87.8%は本文で確認。月次の値はグラフのラベルを月の並びに当てはめたもの",
+   "notes": "月次系列はグラフからの読み取りで月の対応に1か月程度のずれがありうる(39.24%は2025年11月と思われる)。『登録済み(保有者の88%)』と『実際に使う(37~47%)』の差が大きい=登録と実利用は別、という実例。年齢別(5歳刻み)のグラフはテキスト抽出では系列を確定できず収録していない。"
+  },
+  {
+   "key": "telework_by_sex_mlit_r7_secondary",
+   "title": "雇用型テレワーカー割合(性別)",
+   "year": 2025,
+   "source_name": "国土交通省「令和7年度テレワーク人口実態調査」を引用した解説記事(LIMO)",
+   "source_url": "https://limo.media/articles/-/136181?page=2",
+   "population": "雇用型就業者",
+   "unit": "%",
+   "data": {
+    "male": 31.7,
+    "female": 17.8,
+    "all": 25.2
+   },
+   "definition": "雇用型就業者のうちこれまでにテレワークをしたことがある人の割合。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ(一次資料は開けず)",
+   "notes": "どの年度の数字かも一次資料で要確認。"
+  },
+  {
+   "key": "four_day_week_preference_private_surveys",
+   "title": "週休3日制の利用意向(給与条件別、民間調査)",
+   "year": 2021,
+   "source_name": "マイナビ転職「週休3日制の意識調査」(2021年12月調査、2022年発表)/学情「20代意識調査」(2021年)",
+   "source_url": "https://news.mynavi.jp/article/20220428-2332657/",
+   "population": "マイナビ: 正社員等(詳細は一次資料で要確認)/学情: 20代の転職サイト来訪者494人",
+   "unit": "%",
+   "data": {
+    "mynavi_2021": {
+     "pay_drops_with_fewer_days__do_not_want": 78.5,
+     "pay_same_but_longer_daily_hours__want": 46.1
+    },
+    "gakujo_2021_20s": {
+     "want_if_pay_maintained": 69.4,
+     "want_even_if_pay_drops": 20.4
+    },
+    "dime_2021_opposition_reason_pay_may_drop": 62.0
+   },
+   "definition": "週休3日制を『利用したい/したくない』の割合。条件(給与が減る/変わらず1日の労働時間が増える)ごとの設問。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ",
+   "notes": "年代別の数字は取れていない(20~30代は『休み』、40~50代は『給料』を選ぶ傾向、という記述のみ)。給与が減ると利用意向が約2割まで落ちる、という『お金』係数の強さの目安。2021年と古い。"
+  },
+  {
+   "key": "subscription_use_by_age_private",
+   "title": "定額制サブスクの利用率(年代別、民間調査)",
+   "year": 2025,
+   "source_name": "LINEリサーチ(2025年10月調査)。Web担当者Forumの記事経由",
+   "source_url": "https://webtan.impress.co.jp/n/2025/11/25/51719",
+   "population": "15~69歳の男女3,148人(スマホ調査)",
+   "unit": "%",
+   "data": {
+    "using_any_subscription": {
+     "all": 58.3,
+     "20s": 72.9,
+     "30s": 70.6,
+     "50s": null,
+     "60s": null
+    },
+    "monthly_spend_under_3000yen_share": "6割超"
+   },
+   "definition": "定額制サブスクリプションサービスを『利用している』人の割合(ジャンル問わず)。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ",
+   "notes": "50代・60代は『半数に満たない』との記述のみで数値なし。"
+  },
+  {
+   "key": "cashless_by_age_private",
+   "title": "普段の支払手段(民間調査、年代の手がかり)",
+   "year": 2025,
+   "source_name": "MMD研究所(2025年1月、25,000人)/JCB「キャッシュレスに関する総合調査」2025年版/インフキュリオン「決済動向調査」。いずれも記事経由",
+   "source_url": "https://webtan.impress.co.jp/n/2025/02/27/48715",
+   "population": "MMD: 18~69歳25,000人(詳細は要確認)/インフキュリオン: 16~69歳20,000人",
+   "unit": "%(複数回答)",
+   "data": {
+    "mmd_2025_01_usual_payment": {
+     "cash": 77.0,
+     "credit_card": 57.0,
+     "qr_code": 46.7,
+     "qr_code_40s_highest": 49.5,
+     "credit_card_60s_highest": 69.4
+    },
+    "jcb_2025": {
+     "credit_card_holding": 85,
+     "credit_card_use": 81
+    },
+    "infcurion_2025_online_payment": {
+     "credit_card": 68,
+     "code_payment_app": 27
+    },
+    "infcurion_2026": {
+     "brand_debit_use": 30,
+     "note": "コード決済の利用率が2019年以降で初めて減少"
+    }
+   },
+   "definition": "普段の支払いで利用している手段(複数回答)。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ",
+   "notes": "年代別の全系列は取れていない。"
+  },
+  {
+   "key": "nisa_accounts_timeseries",
+   "title": "NISA口座数の推移",
+   "year": 2025,
+   "source_name": "金融庁「NISA口座の利用状況調査」(各年12月末)。検索結果・報道経由",
+   "source_url": "https://www.fsa.go.jp/policy/nisa/20210615/01.pdf",
+   "population": "日本国内のNISA口座(一般・つみたて/新NISA)",
+   "unit": "万口座(%ではない)",
+   "data": {
+    "accounts_10k": {
+     "2017-12": 1099.3,
+     "2018-12": 1253.7,
+     "2020-12": 1523.2,
+     "2025-12": 2826
+    },
+    "by_age_2020_12_accounts_10k": {
+     "20s": 101.9,
+     "30s": 207.9,
+     "60s": 283.8
+    },
+    "increase_2025_10k": 267
+   },
+   "definition": "各年12月末時点のNISA口座数。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ(金融庁サイトは通信制限で開けず)",
+   "notes": "認知率・利用率の年代別年次推移は取れていない。2024年1月の新NISA開始で口座数が加速した例。"
+  },
+  {
+   "key": "welfare_benefits_company_provision_jilpt2017",
+   "title": "福利厚生施策がある企業の割合(JILPT)",
+   "year": 2017,
+   "source_name": "労働政策研究・研修機構「企業における福利厚生施策の実態に関する調査」(調査シリーズNo.203、2020年公表)",
+   "source_url": "https://www.jil.go.jp/institute/research/2020/203.html",
+   "population": "全国の10人以上規模の民間企業(12,000社に配布、2017年10~12月)",
+   "unit": "%(企業割合)",
+   "data": {
+    "bereavement_leave": 90.7,
+    "congratulatory_condolence_money": 86.5,
+    "sick_leave_system": 62.1,
+    "long_service_award": 49.5,
+    "health_checkup_subsidy(人間ドック受診補助)": 44.6
+   },
+   "definition": "48施策のうち『施策がある』と答えた企業の割合。",
+   "confidence": "low",
+   "verified_via": "WebSearchの検索結果要約のみ(JILPTサイトは通信制限で開けず)",
+   "notes": "従業員側の利用経験率・必要性の割合は取れていない。"
+  }
+ ],
+ "not_found": [
+  {
+   "what": "テレワーク・ネット決済手段の性別・世帯年収別クロス集計(通信利用動向調査 構17表・構35表)",
+   "why": "e-Statの統計表一覧ページがJavaScript描画で、ファイルIDを機械的に特定できなかった。報告書PDFに載っている年齢別のみ収録。"
+  },
+  {
+   "what": "週休3日制の利用意向(年代別、給与条件別)の最近の調査",
+   "why": "マイナビ・パーソル総研・学情等のサイトは通信許可リスト外。検索結果では2021年の全体値しか確認できなかった。年代別はnull。"
+  },
+  {
+   "what": "選択的週休3日制(希望者だけが使える制度)の導入企業割合",
+   "why": "就労条件総合調査は『主な週休制』しか集計しておらず該当統計が見つからなかった。"
+  },
+  {
+   "what": "消費者庁「消費者意識基本調査」のサブスク年代別利用率、キャッシュレス年代別",
+   "why": "www.caa.go.jp が通信許可リスト外。検索でも該当数値が出なかった。代わりに総務省の動画配信(年代別・年収別)を収録。"
+  },
+  {
+   "what": "JILPT調査の従業員側データ(住宅手当・自己啓発支援・健康支援の利用率・希望率)",
+   "why": "www.jil.go.jp が通信許可リスト外。検索結果には企業側の実施率しか出なかった。代わりに厚労省の手当支給企業割合と自己啓発実施率(性・年齢別)を収録。"
+  },
+  {
+   "what": "NISAの認知率・利用率の年次推移(年代別)",
+   "why": "金融庁・日本証券業協会・投資信託協会のサイトが通信許可リスト外。口座数のみ検索結果から収録(low)。"
+  },
+  {
+   "what": "金融広報中央委員会「家計の金融行動に関する世論調査」、インフキュリオン等の年代別の主な支払手段",
+   "why": "www.shiruporuto.jp, www.infcurion.com 等が通信許可リスト外。年代別・年収別は財務省の2021年調査で代替。"
+  },
+  {
+   "what": "マイナ保険証の年齢5歳刻み利用率、月次系列の厳密な値",
+   "why": "厚労省PDFではグラフのみで、テキスト抽出では系列と年齢の対応を確定できなかった。"
+  },
+  {
+   "what": "電子マネー利用世帯割合の年間収入階級別",
+   "why": "家計消費状況調査の概況PDFには年齢別のみ。収入別はe-Stat詳細表にあるが未取得。"
+  },
+  {
+   "what": "国交省テレワーク人口実態調査の性別・年齢別・年収別・実施頻度・希望頻度(出社と在宅の希望日数分布)",
+   "why": "www.mlit.go.jp がこのセッションの通信許可リスト外で開けなかった。総務省サイトに転載された2ページの概要にはこれらの表がない。"
+  },
+  {
+   "what": "日本銀行「生活意識に関するアンケート調査」の支払手段(年代別)",
+   "why": "www.boj.or.jp が通信許可リスト外。検索結果からは直近回に支払手段の設問があるか確認できなかった。"
+  },
+  {
+   "what": "経産省キャッシュレス決済比率の一次資料",
+   "why": "www.meti.go.jp は許可リスト内だが、サイト側がcurlに403(ボット対策ページ)を返した。数値は報道経由のためconfidence=low。"
+  }
+ ]
+}

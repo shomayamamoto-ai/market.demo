@@ -296,3 +296,34 @@ test("オリジナルの実験:条件を変えると結果が動き、割合の�
   assert.equal(runCustom(P, { ...cfg, target: { ageMin: 150, ageMax: 160, sex: "all" } }, 1), null);
   assert.ok(sensitivity(P, cfg, 1, 2, 1).rows.length >= 5);
 });
+
+import { regime } from "../public/js/regime.js";
+import { elders } from "../public/js/elders.js";
+import { maker } from "../public/js/maker.js";
+import { persist } from "../public/js/persist.js";
+import { customChecks, CUSTOM_ASSUMPTIONS } from "../public/js/custom.js";
+test("国の仕組み:最初は社会主義が先行し、あとで民主主義が追い抜く", () => {
+  const f = (k) => trial(regime, regime.presets[k].rules, 20, 1, 300).summary, base = f("base"), both = f("both");
+  assert.ok(base.soc100 > base.dem100 && base.dem300 > base.soc300 && base.crossed > 0.7, `${base.dem100} ${base.soc100} ${base.dem300} ${base.soc300}`);
+  assert.ok(f("noCoup").cross < base.cross - 50 && both.soc300 > both.dem300 && f("noError").soc300 < base.dem300);
+});
+test("長寿の村:飢饉を覚えている村は被害が小さい", () => {
+  const f = (k) => trial(elders, elders.presets[k].rules, 20, 1, 200).summary, long = f("long"), uba = f("ubasute");
+  assert.ok(long.avg > uba.avg + 10 && long.lost < uba.lost && f("hidden").lost < uba.lost, `${long.avg} ${uba.avg}`);
+  near(f("calmLong").pop100 / f("calmUbasute").pop100, 1, 0.1, "飢饉がなければ互角");
+});
+test("工場と工房:品質をかけない工場は負け、ちょうどよくかけた工場は勝つ", () => {
+  const f = (k) => trial(maker, maker.presets[k].rules, 15, 1, 60).summary, none = f("none"), good = f("good");
+  assert.ok(none.factory < none.workshop && none.bustFactory > 9 && none.bustWorkshop < 1);
+  assert.ok(good.factory > good.workshop && f("over").factory < good.factory && f("grow").factory > good.factory && f("shrink").factory < f("shrink").workshop);
+});
+test("続けるか見極めるか:理由なく動く人は実らず、向き不向きが小さいと愚直が勝つ", () => {
+  const base = trial(persist, persist.presets.base.rules, 3, 1, 40).summary, flat = trial(persist, persist.presets.flat.rules, 3, 1, 40).summary;
+  assert.ok(base.lost < base.stay && base.trend < base.stay && base.bestJudge > base.bestStay);
+  assert.ok(flat.stay >= flat.judge - 0.5 && flat.stay > flat.three);
+});
+test("オリジナルの実験:損は得より重く、調査との照合が計算できる", () => {
+  near(CUSTOM_ASSUMPTIONS.loss.value, 1.955, 1e-9, "損失回避");
+  const rows = customChecks(P, 1);
+  assert.ok(rows.length >= 5 && rows.every((r) => Number.isFinite(r.points)));
+});
