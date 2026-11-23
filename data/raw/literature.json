@@ -1,0 +1,961 @@
+{
+ "meta": {
+  "generated": "2026-11-23",
+  "method": "WebSearch の検索結果抜粋が主な根拠(WebFetch 不可)。総務省統計局の2資料のみ curl で一次取得。各 finding の verified_via に確認経路を記載。抜粋で確認できなかった数値は value に入れず not_confirmed に列挙。",
+  "confidence_scale": {
+   "high": "原論文の抄録/本文抜粋または一次資料で主張を確認",
+   "medium": "二次資料による引用、または主張の一部(数値・書誌)が未確認",
+   "low": "実務・ベンダー資料のみ、または単位等に不確かさ"
+  },
+  "side_files": [
+   "/tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/kakei_item_classification_2025.csv"
+  ]
+ },
+ "topics": [
+  {
+   "topic": "1. 購入意向と実購買の関係(意向→購買の換算・割引)",
+   "findings": [
+    {
+     "claim": "購入意向と実購買の相関は条件で変わる。既存商品>新商品、耐久財>非耐久財、短い予測期間、特定ブランド単位、総市場売上より試用(トライアル)率、比較形式で意向を取った場合に強い。",
+     "value": {
+      "stronger_when": [
+       "existing_product",
+       "durable",
+       "short_horizon",
+       "specific_brand_level",
+       "trial_rate_outcome",
+       "comparative_elicitation"
+      ],
+      "numeric_coefficients": null
+     },
+     "how_to_implement": "意向→購買の換算係数を一律にせず、商品フラグ(新/既存、耐久/非耐久、予測期間)ごとに不確実性幅を変える。新商品・非耐久・長期ほど割引を強く、信頼区間を広く取る。",
+     "citation": "Morwitz, V.G., Steckel, J.H., Gupta, A. (2007). When do purchase intentions predict sales? International Journal of Forecasting, 23(3), 347-364.",
+     "url": "https://www.sciencedirect.com/science/article/abs/pii/S0169207007000799",
+     "verified_via": "検索結果の抜粋(ScienceDirect/SSRN の抄録要約。6条件は抄録由来。相関係数の数値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "意向尺度と購買の関数形は財で違う。耐久財は線形関係が支持され、ブランド付き消費財(パッケージ財)では閾値があり区分線形が適する。",
+     "value": {
+      "durables": "linear",
+      "branded_packaged_goods": "piecewise_linear_with_threshold"
+     },
+     "how_to_implement": "耐久財は P(購入)=a+b×意向スコア の線形、日用品は下位ボックス(1〜3)をほぼ0、上位ボックスのみ正の購入率を持つ区分線形で換算する。",
+     "citation": "Kalwani, M.U., Silk, A.J. (1982). On the Reliability and Predictive Validity of Purchase Intention Measures. Marketing Science, 1(3), 243-286. doi:10.1287/mksc.1.3.243",
+     "url": "https://pubsonline.informs.org/doi/10.1287/mksc.1.3.243",
+     "verified_via": "検索結果の抜粋(原論文抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "11段階の購入確率尺度(Juster 尺度、0〜10に確率の言語ラベル)は、はい/いいえ型の購入意向より予測力が高い。自動車では確率尺度が購入率の横断面分散を意向の約2倍説明した。一方、回答者は購入確率を過小申告する傾向があると Juster 自身が指摘。",
+     "value": {
+      "scale_points": 11,
+      "variance_explained_ratio_vs_intentions_autos": "約2倍"
+     },
+     "how_to_implement": "LLM に 1〜5 ではなく 0〜10 の購入確率(各点に確率ラベル付き)を答えさせる設問を追加し、平均確率を期待購入率の第一近似として使う。耐久財で特に有効。",
+     "citation": "Juster, F.T. (1966). Consumer Buying Intentions and Purchase Probability: An Experiment in Survey Design. NBER Occasional Paper 99.",
+     "url": "https://www.nber.org/books-and-chapters/consumer-buying-intentions-and-purchase-probability-experiment-survey-design",
+     "verified_via": "検索結果の抜粋(NBER 原著の章 PDF の抜粋)",
+     "confidence": "high"
+    },
+    {
+     "claim": "5段階意向のトップボックス換算には公開された唯一の定数はない。実務例として『必ず買う』70〜75%、『たぶん買う』25% を掛ける重みが紹介されている(例示値であり検証済み係数ではない)。",
+     "value": {
+      "definitely_would_buy": [
+       0.7,
+       0.75
+      ],
+      "probably_would_buy": 0.25,
+      "others": 0.0,
+      "status": "practitioner_example"
+     },
+     "how_to_implement": "初期値として 期待試用率=0.70×P(5)+0.25×P(4) を置き、自社/カテゴリの実績が得られたら係数を再推定するパラメータとして外出しする。固定の真値として扱わない。",
+     "citation": "Sawtooth Software, 'Van Westendorp Pricing Model' 解説記事(Newton-Miller-Smith 拡張の説明内で 70%/25% を例示)。同種の 75%/25% は実務ブログで確認。",
+     "url": "https://sawtoothsoftware.com/resources/blog/posts/van-westendorp-pricing-sensitivity-meter",
+     "verified_via": "検索結果の抜粋(二次・実務資料。Jamieson & Bass 1989 の実測重みは抜粋で確認できず)",
+     "confidence": "low"
+    },
+    {
+     "claim": "購入意向尺度は2つのメタ分析で平均的には系統的バイアスがなく、ばらつきも従来想定より小さい。購入確率尺度のほうが意向尺度よりやや成績が良い。",
+     "value": {
+      "mean_bias": "none_found",
+      "probability_scale": "slightly_better"
+     },
+     "how_to_implement": "既存商品カテゴリでは確率尺度の平均をほぼそのまま購入率に使い、割引は新商品・仮想的状況に限定する、という分岐の根拠にする。",
+     "citation": "Wright, M., MacRae, M. (2007). Bias and variability in purchase intention scales. (掲載誌名は抜粋で未確認。Journal of the Academy of Marketing Science とされる)",
+     "url": "https://www.econbiz.de/Record/bias-and-variability-in-purchase-intention-scales-wright-malcolm/10007877457",
+     "verified_via": "検索結果の抜粋(図書館レコードの抄録)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "意向を測定する行為そのものが意向と行動の関連を水増しする(self-generated validity)。調査回答者で測った意向→購買の関係を非回答の母集団にそのまま当てはめると過大になる。",
+     "value": {
+      "direction": "survey_measured_association_overstates_population_association",
+      "magnitude": null
+     },
+     "how_to_implement": "調査由来の換算係数を母集団全体(調査されていない人)に適用する際は安全側に割り引く。LLM ペルソナは『質問された消費者』を模す点も同じ方向の偏りになる。",
+     "citation": "Chandon, P., Morwitz, V.G., Reinartz, W.J. (2005). Do Intentions Really Predict Behavior? Self-Generated Validity Effects in Survey Research. Journal of Marketing, 69(2), 1-14.",
+     "url": "https://business.columbia.edu/faculty/research/do-intentions-really-predict-behavior-self-generated-validity-effects-survey",
+     "verified_via": "検索結果の抜粋(抄録。水増しの大きさの数値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "仮想的な支払意思額(WTP)は実際より高い。メタ分析の中央値は 仮想/実際=1.35(28研究・83観測、分布は右に強く歪む)。先行メタ分析(List & Gallet 2001)は平均約3倍。",
+     "value": {
+      "median_ratio_hypothetical_to_actual": 1.35,
+      "n_studies": 28,
+      "n_observations": 83,
+      "list_gallet_2001_mean_factor": "約3"
+     },
+     "how_to_implement": "LLM/調査から得た WTP を需要曲線に入れる前に 1/1.35≒0.74 を掛ける補正を既定値にし、感度分析で 1/3 までを下限に置く。",
+     "citation": "Murphy, J.J., Allen, P.G., Stevens, T.H., Weatherhead, D. (2005). A Meta-analysis of Hypothetical Bias in Stated Preference Valuation. Environmental and Resource Economics, 30(3), 313-325. / List, J.A., Gallet, C.A. (2001). What Experimental Protocol Influence Disparities Between Actual and Hypothetical Stated Values? Environmental and Resource Economics, 20, 241-254. doi:10.1023/A:1012791822804",
+     "url": "https://ideas.repec.org/a/kap/enreec/v30y2005i3p313-325.html",
+     "verified_via": "検索結果の抜粋(Murphy et al. の抄録/WP本文抜粋。List & Gallet の『約3倍』は Murphy et al. による引用)",
+     "confidence": "high"
+    },
+    {
+     "claim": "消費財に限った WTP のメタ分析では仮想バイアスは平均約21%(仮想/実際≒1.21)。間接法(コンジョイント等)は直接質問より過大評価が大きく(約10ポイント差)、高価格品・専門品で大きい。",
+     "value": {
+      "mean_hypothetical_bias": 0.21,
+      "indirect_minus_direct_pp": 10,
+      "n_effect_sizes": 115,
+      "n_studies": 77,
+      "n_papers": 47
+     },
+     "how_to_implement": "消費財の価格受容の補正は 1/1.21≒0.83 を中心値に。高単価商品では補正を強める係数を持たせる。",
+     "citation": "Schmidt, J., Bijmolt, T.H.A. (2020). Accurately measuring willingness to pay for consumer goods: a meta-analysis of the hypothetical bias. Journal of the Academy of Marketing Science, 48(3), 499-518.",
+     "url": "https://link.springer.com/article/10.1007/s11747-019-00666-6",
+     "verified_via": "検索結果の抜粋(抄録および引用論文)",
+     "confidence": "high"
+    },
+    {
+     "claim": "131研究のメタ分析では、仮想の支払額は実際のほぼ2倍。選択実験、チープトーク、結果連動性(consequentiality)の教示、確信度フォローアップがバイアスを有意に減らす。",
+     "value": {
+      "approx_ratio": "ほぼ2倍(大学プレスリリースの表現)",
+      "n_studies": 131,
+      "mitigations": [
+       "choice_experiment",
+       "cheap_talk",
+       "consequentiality",
+       "certainty_follow_up"
+      ]
+     },
+     "how_to_implement": "LLM への設問文に『実際に自分の財布から払う前提で、買わない選択も普通』というチープトーク文と、回答後の確信度(0〜10)質問を足し、確信度が高い『買う』だけを購入に数える。",
+     "citation": "Penn, J.M., Hu, W. (2018). Understanding Hypothetical Bias: An Enhanced Meta-Analysis. American Journal of Agricultural Economics, 100(4), 1186-1206. doi:10.1093/ajae/aay021",
+     "url": "https://ideas.repec.org/a/oup/ajagec/v100y2018i4p1186-1206..html",
+     "verified_via": "検索結果の抜粋(抄録。『ほぼ2倍』は Ohio State のプレスリリース由来で論文表の値は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "既存の消費財・サービスでは、意向に基づく4種の予測法はいずれも過去売上の単純外挿より正確だった。",
+     "value": {
+      "result": "intentions_based_forecasts_beat_extrapolation",
+      "products": "existing"
+     },
+     "how_to_implement": "既存商品では『過去実績の外挿』を基準モデルにし、意向ベース推計との加重平均を出力する。",
+     "citation": "Armstrong, J.S., Morwitz, V.G., Kumar, V. (2000). Sales Forecasts for Existing Consumer Products and Services: Do Purchase Intentions Contribute to Accuracy? International Journal of Forecasting.",
+     "url": "https://repository.upenn.edu/entities/publication/9859e4e5-e4e2-4f3f-8895-33c857b6506c/full",
+     "verified_via": "検索結果の抜粋(リポジトリ抄録)",
+     "confidence": "medium"
+    }
+   ],
+   "not_confirmed": [
+    "Jamieson & Bass (1989, JMR 26(3), 336-345) の尺度点別の実購入率・重み(論文の存在と主題のみ確認)",
+    "BASES の公式な換算係数(非公開。論文中の例示 75% のみ)",
+    "Morwitz et al. 2007 の相関係数の数値",
+    "『definitely 80% / probably 30%』等の経験則の一次出典"
+   ]
+  },
+  {
+   "topic": "2. LLM を合成回答者(silicon sample)として使う知見・限界・精度向上手順",
+   "findings": [
+    {
+     "claim": "LLM に 1〜5 を直接答えさせると分布が非現実的に中央へ寄る。自由記述で購入意向を書かせ、その埋め込みと各尺度点の基準文5つとのコサイン類似度に比例させて1〜5の確率分布に直す方法(SSR)は、57調査・9,300人の実回答に対し、人間の再テスト信頼性の約90%の相関を達成し、分布の KS 類似度は 0.85 超。",
+     "value": {
+      "method": "semantic_similarity_rating",
+      "surveys": 57,
+      "human_responses": 9300,
+      "correlation_attainment_vs_test_retest": 0.9,
+      "ks_similarity": ">0.85",
+      "models": [
+       "GPT-4o",
+       "Gemini-2.0-flash"
+      ],
+      "secondary_reported_ks_by_method": {
+       "direct_likert": "0.26-0.39",
+       "followup_likert": "0.59-0.72",
+       "ssr": "0.80-0.88"
+      }
+     },
+     "how_to_implement": "手順: (1)ペルソナ+商品説明で『買うかどうかを短文で』自由記述させる (2)記述を埋め込み (3)尺度点1〜5それぞれの基準文(複数セット)との類似度を計算 (4)類似度に比例する確率質量に正規化し、基準文セット間で平均 (5)各ペルソナの期待値でなく分布のまま人数に換算。基準文の言い回しで結果が動くため複数セットを用意して平均する。",
+     "citation": "Maier, B.F. et al. (2025). LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings. arXiv:2510.08338 (PyMC Labs / Colgate-Palmolive). 実装: github.com/pymc-labs/semantic-similarity-rating",
+     "url": "https://arxiv.org/abs/2510.08338",
+     "verified_via": "検索結果の抜粋(arXiv 抄録で 57調査/9,300/90%/KS>0.85 を確認。手法別 KS の範囲は二次記事。埋め込みモデル名・温度等の細部は未確認。対象はパーソナルケア商品のみ)",
+     "confidence": "high"
+    },
+    {
+     "claim": "人口統計的な背景文(backstory)で条件づけた GPT-3 は、多様な下位集団の回答分布をかなり再現する(algorithmic fidelity)。",
+     "value": {
+      "conditioning": "thousands_of_sociodemographic_backstories_from_real_participants",
+      "numeric": null
+     },
+     "how_to_implement": "ペルソナは属性の箇条書きでなく、公的統計から合成した属性を一人称の背景文として与える。集団別の周辺分布が実データと合うかを検証指標にする。",
+     "citation": "Argyle, L.P., Busby, E.C., Fulda, N., Gubler, J.R., Rytting, C., Wingate, D. (2023). Out of One, Many: Using Language Models to Simulate Human Samples. Political Analysis, 31(3), 337-351.",
+     "url": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/035D7C8A55B237942FB6DBAD7CAA4E49/S1047198723000025a.pdf/out-of-one-many-using-language-models-to-simulate-human-samples.pdf",
+     "verified_via": "検索結果の抜粋(原論文の抄録・本文抜粋)",
+     "confidence": "high"
+    },
+    {
+     "claim": "ChatGPT(3.5)のペルソナ回答は平均は実調査(ANES)に近いが、分散が人間より小さく、回帰係数は実データと有意に違うことが多い。プロンプトの文言・モデル・実行時期(3か月間)で結果が変わり再現性に問題。",
+     "value": {
+      "mean": "close",
+      "variance": "too_small",
+      "regression_coefficients": "often_significantly_different",
+      "sensitive_to": [
+       "prompt",
+       "model",
+       "time_of_run"
+      ]
+     },
+     "how_to_implement": "LLM 出力の平均だけを使い、個人間ばらつきは別途(SSR の分布化や、実調査の分散に合わせた再スケール)で復元する。モデル名・版・日付・プロンプトを結果と一緒に保存し、同条件の再実行で差を監視する。",
+     "citation": "Bisbee, J., Clinton, J.D., Dorff, C., Kenkel, B., Larson, J.M. (2024). Synthetic Replacements for Human Survey Data? The Perils of Large Language Models. Political Analysis, 32, 401-416. doi:10.1017/pan.2024.5",
+     "url": "https://www.cambridge.org/core/product/B92267DC26195C7F36E63EA04A47D2FE",
+     "verified_via": "検索結果の抜粋(原論文の抄録・本文抜粋。分散の具体値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "LLM 回答から推定した WTP は人間の調査に近い場合もあるが、不正確なことが多く符号が逆になることもある。同カテゴリ・同母集団の過去の人間調査データで微調整すると改善する。",
+     "value": {
+      "wtp_from_llm": "sometimes_close_often_inaccurate_occasionally_wrong_sign",
+      "remedy": "fine_tune_on_prior_human_survey_data_same_category"
+     },
+     "how_to_implement": "LLM 由来の WTP を単独で価格決定に使わず、カテゴリの実調査や家計調査の支出水準で校正する。属性別の符号チェック(価格が上がると選択確率が下がるか)を自動テストに入れる。",
+     "citation": "Brand, J., Israeli, A., Ngwe, D. (2023, 改訂継続). Using LLMs for Market Research (旧題 Using GPT for Market Research). HBS Working Paper / SSRN 4395751.",
+     "url": "https://papers.ssrn.com/abstract=4395751",
+     "verified_via": "検索結果の抜粋(SSRN 抄録。版により評価の強さが異なる。2025年 MSI 版はより肯定的)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "ブランド類似度などの知覚分析で、LLM が生成したデータと人間のデータの一致率は 75% 超(報道発表では 75〜85%)。ただしカテゴリによっては人間の入力なしでは不正確。",
+     "value": {
+      "agreement_rate": ">0.75",
+      "press_release_range": [
+       0.75,
+       0.85
+      ]
+     },
+     "how_to_implement": "競合ブランド間の代替関係(どの既存品から客を奪うか)の初期値づくりに LLM を使い、購入確率そのものには使わない。",
+     "citation": "Li, P., Castelo, N., Katona, Z., Sarvary, M. (2024). Frontiers: Determining the Validity of Large Language Models for Automated Perceptual Analysis. Marketing Science, 43(2), 254-266. doi:10.1287/mksc.2023.0454",
+     "url": "https://pubsonline.informs.org/doi/abs/10.1287/mksc.2023.0454",
+     "verified_via": "検索結果の抜粋(原論文抄録と INFORMS プレスリリース)",
+     "confidence": "high"
+    },
+    {
+     "claim": "LLM に条件を伏せたまま価格だけ変えると、LLM が競合価格や過去価格など他の前提も暗黙に変えてしまい、需要曲線がもっともらしくなくなる。実験設計(比較する価格水準の全体)をプロンプトで明示する『unblinding』で全モデルで改善。",
+     "value": {
+      "problem": "confounding_from_unspecified_covariates",
+      "fix": "reveal_experimental_design_in_prompt"
+     },
+     "how_to_implement": "価格感度を LLM で測るときは、1回の問いかけに『この商品は A 円 / B 円 / C 円のいずれかで売られる可能性があり、今回は B 円』のように設計全体を示し、競合価格・通常価格を固定して明記する。",
+     "citation": "Gui, G., Toubia, O. (2023, v3 2025). The Challenge of Using LLMs to Simulate Human Behavior: A Causal Inference Perspective. arXiv:2312.15524.",
+     "url": "https://arxiv.org/abs/2312.15524",
+     "verified_via": "検索結果の抜粋(arXiv 抄録・本文抜粋)",
+     "confidence": "high"
+    },
+    {
+     "claim": "2時間のインタビュー記録を丸ごと与えたエージェントは、本人が2週間後に自分の回答を再現する精度の85%で社会調査(GSS)回答を再現。属性だけ・短いペルソナ文だけのエージェントより高い。",
+     "value": {
+      "normalized_accuracy_gss": 0.85,
+      "n_people": 1052,
+      "baseline_demographic_or_persona": "0.77(二次要約)"
+     },
+     "how_to_implement": "属性だけのペルソナには上限がある前提で精度目標を置く。可能なら少数の実インタビュー/自由回答をペルソナに混ぜる。",
+     "citation": "Park, J.S. et al. (2024). Generative Agent Simulations of 1,000 People. arXiv:2411.10109.",
+     "url": "https://arxiv.org/abs/2411.10109",
+     "verified_via": "検索結果の抜粋(arXiv 抄録と Stanford HAI 記事。77% は二次要約)",
+     "confidence": "high"
+    },
+    {
+     "claim": "GPT-4 による実験効果の予測は、70件の全国代表サーベイ実験の実測効果と r=0.85 で相関(学習データに含まれ得ない未公刊研究でも r=0.90)。ただし効果の大きさを系統的に過大に見積もる。",
+     "value": {
+      "r": 0.85,
+      "r_unpublished": 0.9,
+      "n_experiments": 70,
+      "bias": "overestimates_effect_sizes"
+     },
+     "how_to_implement": "LLM は『どの施策/訴求が相対的に効くか』の順位づけに使い、効果量の絶対値は縮小係数を掛ける(縮小率は自前の実績で推定)。",
+     "citation": "Hewitt, L., Ashokkumar, A., Ghezae, I., Willer, R. (2024). Predicting Results of Social Science Experiments Using Large Language Models. Working paper (Stanford).",
+     "url": "https://www.gsb.stanford.edu/faculty-research/publications/large-language-models-can-predict-results-social-science-experiments",
+     "verified_via": "検索結果の抜粋(Stanford GSB 掲載の抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "Pew Research Center の検証(2026年9月)では、合成回答は実世論調査を再現しきれず、下位集団間の差を誇張し、一部の回答をほぼ全員一致のように描く。設問によっては 20〜40 ポイント超のずれ。モデルを変えると結果が大きく変わり、時事的な設問で誤差が最大。",
+     "value": {
+      "item_level_gaps_pp": "20〜40超の例あり",
+      "patterns": [
+       "exaggerated_subgroup_differences",
+       "near_universal_answers",
+       "model_dependent",
+       "worst_on_recent_events"
+      ]
+     },
+     "how_to_implement": "属性別の差は LLM 出力をそのまま使わず縮小(全体平均への収縮)する。学習時点以降の新商品・時事要因は LLM の知識外として商品説明に必ず明記する。複数モデルで実行し差を不確実性として報告する。",
+     "citation": "Pew Research Center (2026-09-30). Can AI Stand In for Human Survey-Takers? Not Really (silicon samples report).",
+     "url": "https://www.pewresearch.org/data-labs/2026/09/30/how-well-synthetic-samples-replicate-public-opinion/",
+     "verified_via": "検索結果の抜粋(Pew 公式ページの要約抜粋)",
+     "confidence": "high"
+    },
+    {
+     "claim": "LLM に属性を与えて人間の代役をさせると、その集団を外部者の目線で誤って描き(misportray)、集団内の多様性を平板化(flatten)する。4モデル・16属性・3,200人の人間調査で検証。",
+     "value": {
+      "n_llms": 4,
+      "n_identities": 16,
+      "n_human_participants": 3200
+     },
+     "how_to_implement": "属性ごとにペルソナを1つの典型像にしない。同じ属性セルの中で価値観・生活状況を乱数で散らした複数ペルソナを作り、セル内分散を確保する。",
+     "citation": "Wang, A., Morgenstern, J., Dickerson, J.P. (2024/2025). Large language models that replace human participants can harmfully misportray and flatten identity groups. arXiv:2402.01908 (Nature Machine Intelligence 掲載とされるが掲載誌は抜粋で未確認).",
+     "url": "https://arxiv.org/abs/2402.01908",
+     "verified_via": "検索結果の抜粋(arXiv 抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "日本に関する知見: 10モデルでの World Values Survey 比較では、LLM の回答は日本を含む少数の国の人間回答と整合しやすい一方、日本人視点を指定すると逆に誇張が出る項目がある(子に勧める資質として『勤勉』を選ぶ日本の実回答は25%で最低水準なのに、LLM は平均51〜73%)。",
+     "value": {
+      "japan_human_wvs_hard_work": 0.25,
+      "llm_japan_persona": [
+       0.51,
+       0.72,
+       0.73
+      ]
+     },
+     "how_to_implement": "『日本人らしさ』のステレオタイプ(勤勉・集団主義など)に関わる設問は LLM が誇張する前提で、日本の実調査の周辺分布に合わせて事後補正(レイキング)する。",
+     "citation": "LLMs and Cultural Values: The Impact of Prompt Language and Explicit Cultural Framing. Computational Linguistics, 52(2), 407- (MIT Press). 著者名は抜粋で未確認。",
+     "url": "https://direct.mit.edu/coli/article/52/2/407/134313/LLMs-and-Cultural-Values-The-Impact-of-Prompt",
+     "verified_via": "検索結果の抜粋(論文本文抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "LLM は経済主体の代役(Homo silicus)として、属性・選好・情報を与えて古典的実験を定性的に再現できるが、結果は仮説であり人間データでの確認が必要、と著者自身が位置づけている。",
+     "value": {
+      "numeric": null
+     },
+     "how_to_implement": "LLM 段(②)の出力は『仮説』として扱い、①の統計ベース購入確率と大きく食い違う場合は警告を出す整合性チェックを置く。",
+     "citation": "Horton, J.J. (2023; 改訂版は Horton, Filippas, Manning). Large Language Models as Simulated Economic Agents: What Can We Learn from Homo Silicus? NBER Working Paper 31122 / arXiv:2301.07543.",
+     "url": "https://www.nber.org/papers/w31122",
+     "verified_via": "検索結果の抜粋(arXiv/NBER 抄録)",
+     "confidence": "high"
+    }
+   ],
+   "not_confirmed": [
+    "日本の消費者調査・世論調査を対象に LLM 合成回答の精度を定量評価した査読論文(検索では特定できず)",
+    "SSR 論文の埋め込みモデル名・温度・基準文の文言・属性条件づけの効果量(本文未読)",
+    "Bisbee et al. の分散の具体的数値",
+    "Brand et al. の WTP 誤差の数値"
+   ]
+  },
+  {
+   "topic": "3. Bass 普及モデルの係数",
+   "findings": [
+    {
+     "claim": "15論文・213適用例のメタ分析で、係数は製品の性質・国・モデル仕様・推定法で系統的に変わる。平均は革新係数 p≈0.03、模倣係数 q≈0.38(年次)。",
+     "value": {
+      "p_mean_annual": 0.03,
+      "q_mean_annual": 0.38,
+      "n_applications": 213,
+      "n_articles": 15
+     },
+     "how_to_implement": "カテゴリ情報がないときの事前値を p=0.03, q=0.38(年次)に置き、ベイズ更新で実績に寄せる(同論文もメタ分析結果を事前分布として新データと結合する手順を提案)。",
+     "citation": "Sultan, F., Farley, J.U., Lehmann, D.R. (1990). A Meta-Analysis of Applications of Diffusion Models. Journal of Marketing Research, 27(1), 70-77.",
+     "url": "https://business.columbia.edu/faculty/research/meta-analysis-applications-diffusion-models",
+     "verified_via": "検索結果の抜粋(213/15 は著者所属機関の抄録で確認。p=0.03, q=0.38 は二次資料による同論文の引用で、原論文の表は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "経験的な典型範囲は p が 0.01〜0.03、q が 0.3〜0.5(年次、平均 p=0.03, q=0.38)。",
+     "value": {
+      "p_typical_range_annual": [
+       0.01,
+       0.03
+      ],
+      "q_typical_range_annual": [
+       0.3,
+       0.5
+      ]
+     },
+     "how_to_implement": "感度分析の範囲として p∈[0.01,0.03], q∈[0.3,0.5] を既定にする。",
+     "citation": "Mahajan, V., Muller, E., Bass, F.M. (1995). Diffusion of New Products: Empirical Generalizations and Managerial Uses. Marketing Science, 14(3 suppl.), G79-G88. doi:10.1287/mksc.14.3.G79 (Wikipedia 'Bass diffusion model' が同論文を出典として記載)",
+     "url": "https://en.wikipedia.org/wiki/Bass_diffusion_model",
+     "verified_via": "検索結果の抜粋(Wikipedia 経由の二次確認。原論文本文は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "q/p 比のメタ分析(28か国)では、q/p は所得格差(ジニ係数)が大きい国ほど高く、国民文化(ホフステッド指標)で変わり、規格競争のある製品で高い。",
+     "value": {
+      "q_over_p_higher_when": [
+       "higher_gini",
+       "competing_standards"
+      ],
+      "varies_with": "hofstede_dimensions",
+      "n_countries": 28
+     },
+     "how_to_implement": "米国由来の p, q を日本に持ち込むときは q/p を固定せず、国差の不確実性として幅を広げる。規格競争型(プラットフォーム系)商品は q/p を高めに設定。",
+     "citation": "Van den Bulte, C., Stremersch, S. (2004). Social Contagion and Income Heterogeneity in New Product Diffusion: A Meta-Analytic Test. Marketing Science, 23(4), 530-544. doi:10.1287/mksc.1040.0054",
+     "url": "https://ideas.repec.org/a/inm/ormksc/v23y2004i4p530-544.html",
+     "verified_via": "検索結果の抜粋(原論文抄録。平均 q/p の数値や日本の値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "打ち切られた(普及途中の)データから非線形最小二乗で推定すると、モデルが正しくても系統的に偏る: 市場規模 m を約20%過小、p を約20%過小、q を約30%過大に推定しうる。観測が増えると推定値も動く。",
+     "value": {
+      "m_bias": -0.2,
+      "p_bias": -0.2,
+      "q_bias": 0.3,
+      "condition": "marketing_typical_short_series"
+     },
+     "how_to_implement": "発売初期の実績から p, q, m を当てはめた値はそのまま信じず、m は公的統計由来の合成人口から外生的に与え、p, q だけを推定する。推定後に q を下方、p を上方に補正する感度ケースを持つ。",
+     "citation": "Van den Bulte, C., Lilien, G.L. (1997). Bias and Systematic Change in the Parameter Estimates of Macro-Level Diffusion Models. Marketing Science, 16(4), 338-353.",
+     "url": "https://ideas.repec.org/a/inm/ormksc/v16y1997i4p338-353.html",
+     "verified_via": "検索結果の抜粋(原論文抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "時間集計の影響: 粗い集計(年次)ほど p は大きく、q は小さく推定される(理論上)。四半期・月次データを使うと連続時間モデルの離散近似の推定が有意に改善する。",
+     "value": {
+      "coarser_aggregation": {
+       "p": "larger",
+       "q": "smaller"
+      }
+     },
+     "how_to_implement": "年次推定の p, q を月次シミュレーションに使うときは単純な離散式 n_t=(p+q·N/m)(m−N) に年次値/12 を入れるのでなく、連続時間の累積分布 F(t)=(1−e^{−(p+q)t})/(1+(q/p)e^{−(p+q)t}) を t=月数/12 で評価して差分を取る(期間内で集計する Schmittlein-Mahajan 型)。",
+     "citation": "Franses, P.H., Non, M., Laheij, C., Rokers, T. (2003). Yet another look at temporal aggregation in diffusion models of first-time purchase. Technological Forecasting and Social Change, 70(5), 467-471. / Putsis, W.P. (1996). Temporal aggregation in diffusion models of first-time purchase: does choice of frequency matter?",
+     "url": "https://repub.eur.nl/pub/2187",
+     "verified_via": "検索結果の抜粋(リポジトリ抄録。閉形式 F(t) の利用は標準的な式に基づく実装上の提案で、月次換算の誤差の大きさを示す文献値は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "実務では月次で推定した係数を12倍して年次相当とする換算が使われる(逆に年次→月次は1/12)。ただし文献値は製品間で大きくばらつき、p の推定は仮定する市場規模 M に非常に敏感。",
+     "value": {
+      "monthly_to_annual_factor": 12,
+      "caveat": "p_highly_sensitive_to_assumed_M"
+     },
+     "how_to_implement": "p_month=p_year/12, q_month=q_year/12 を一次近似として使い、p, q が小さいことを確認する(連続時間では時間単位の変更は厳密に線形。離散近似では近似)。M を変えた再推定を必ず行う。",
+     "citation": "Massiani, J., Gohs, A. (2015). The choice of Bass model coefficients to forecast diffusion for innovative products: An empirical investigation for new automotive technologies. Research in Transportation Economics, 50, 17-28.",
+     "url": "https://ideas.repec.org/a/eee/retrec/v50y2015icp17-28.html",
+     "verified_via": "検索結果の抜粋(本文抜粋と抄録)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "製品別の参考値(実務ソフトの付録、文献値の平均とされる): ケーブルTV p=0.02116, q=0.2698 / 携帯電話 p=0.00471, q=0.506 / ボートトレーラー p=0.0088, q=0.37585。米国の国別当てはめ例: 携帯電話 p=0.0006, q=0.3285 / PC p=0.0022, q=0.141。",
+     "value": {
+      "cable_tv": {
+       "p": 0.02116,
+       "q": 0.2698
+      },
+      "cell_telephone": {
+       "p": 0.00471,
+       "q": 0.506
+      },
+      "boat_trailer": {
+       "p": 0.0088,
+       "q": 0.37585
+      },
+      "us_mobile_phone_fit": {
+       "p": 0.0006,
+       "q": 0.3285
+      },
+      "us_pc_fit": {
+       "p": 0.0022,
+       "q": 0.141
+      },
+      "unit": "annual"
+     },
+     "how_to_implement": "類似品アナロジー用の初期テーブルとして登録するが、出典が二次・実務資料であることをフラグし、Sultan らの平均値と併記して幅で使う。",
+     "citation": "Enginius (DecisionPro) 'Bass Forecasting Tutorial - Appendix (p & q Parameters)'(Lilien, Rangaswamy らの Marketing Engineering 系ソフトの付録)/ jgmackay.com 'Bass Diffusion model to forecast products'",
+     "url": "https://support.enginius.biz/support/solutions/articles/64000304644-bass-forecasting-tutorial-appendix-p-q-parameters-",
+     "verified_via": "検索結果の抜粋(実務資料。Lilien, Rangaswamy & Van den Bulte 2000 の原表とは照合できていない)",
+     "confidence": "low"
+    },
+    {
+     "claim": "p<q なら期間販売は増えてから減る(ピークあり)、p>q なら発売時が最大で以後減少(ピークなし)。",
+     "value": {
+      "rule": "peak_exists_iff_q>p"
+     },
+     "how_to_implement": "シミュレーション結果の形状チェック(単体テスト)に使う。",
+     "citation": "Bass, F.M. (1969). A New Product Growth for Model Consumer Durables. Management Science, 15(5), 215-227.",
+     "url": "https://en.wikipedia.org/wiki/Bass_diffusion_model",
+     "verified_via": "検索結果の抜粋(二次資料による原論文の説明)",
+     "confidence": "high"
+    }
+   ],
+   "not_confirmed": [
+    "日本市場での p, q 推定値(日本の3G携帯を都道府県別に推定した論文 'Empirical analysis of factors promoting the Japanese 3G mobile phone', Telecommunications Policy の存在は確認したが数値は未確認)",
+    "サブスクリプション/デジタルサービス(動画配信・アプリ等)の査読済み p, q 推定値",
+    "Bass (1969) Table I の製品別数値、Lilien, Rangaswamy & Van den Bulte (2000) の表の数値",
+    "Van den Bulte & Stremersch の平均 q/p の値"
+   ]
+  },
+  {
+   "topic": "4. 価格感度の測り方と経験値",
+   "findings": [
+    {
+     "claim": "ブランド水準の価格弾力性のメタ分析: 81研究・1,851推定の平均は −2.62。",
+     "value": {
+      "mean_price_elasticity": -2.62,
+      "n_elasticities": 1851,
+      "n_studies": 81,
+      "region_note": "推定値の96%が北大西洋地域(二次引用)"
+     },
+     "how_to_implement": "①の購入確率に価格を入れる際の弾力性の事前値を −2.6(ブランド選択水準)とし、カテゴリ全体の需要にはもっと小さい絶対値を使う(ブランド弾力性とカテゴリ弾力性を分ける)。日本固有値でない点を注記。",
+     "citation": "Bijmolt, T.H.A., van Heerde, H.J., Pieters, R.G.M. (2005). New Empirical Generalizations on the Determinants of Price Elasticity. Journal of Marketing Research, 42(2), 141-156.",
+     "url": "https://repository.tilburguniversity.edu/items/813834f9-4626-45f8-ad0a-2920a545e089",
+     "verified_via": "検索結果の抜粋(原論文抄録。耐久財別・ライフサイクル別の数値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "先行メタ分析: 約220ブランド/市場・367推定の平均価格弾力性は −1.76(補正なしの算術平均)。広告弾力性(0.22)の絶対値で約8倍。流通・品質の変数欠落、横断面データのみ、時間集計は推定を大きく歪める。",
+     "value": {
+      "mean_price_elasticity": -1.76,
+      "n_elasticities": 367,
+      "n_brands_markets": 220,
+      "ratio_to_ad_elasticity": 8
+     },
+     "how_to_implement": "弾力性の感度分析の範囲を −1.8〜−2.6 に置く。",
+     "citation": "Tellis, G.J. (1988). The Price Elasticity of Selective Demand: A Meta-Analysis of Econometric Models of Sales. Journal of Marketing Research, 25(4), 331-341.",
+     "url": "https://www.msi.org/working-papers/the-price-elasticity-of-selective-demand-a-metaanalysis-of-sales-response-models/",
+     "verified_via": "検索結果の抜粋(抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "Van Westendorp の PSM は4つの自由回答(安すぎて品質を疑う価格/お買い得な価格/高いと感じ始める価格/高すぎて買わない価格)の累積分布の交点から受容価格帯と最適価格点を出す。経済理論の裏付けは弱く、拡張版(Newton-Miller-Smith)では『お買い得』『高いと感じ始める』価格での購入意向を5段階で追加して需要・売上曲線を作る。",
+     "value": {
+      "questions": [
+       "too_cheap",
+       "bargain",
+       "getting_expensive",
+       "too_expensive"
+      ],
+      "extension_weights_example": {
+       "definitely": 0.7,
+       "probably": 0.25
+      }
+     },
+     "how_to_implement": "LLM ペルソナに4価格を答えさせ、累積曲線の交点で受容価格帯を算出。拡張版の購入意向は SSR で分布化し、上の割引重みを掛けて価格別の需要曲線にする。結果は方向性の指標として扱う。",
+     "citation": "Van Westendorp, P. (1976). NSS-Price Sensitivity Meter (PSM) – A new approach to study consumer perception of price. Proceedings of the ESOMAR Congress. / Newton, D., Miller, J., Smith, P. (1993). A market acceptance extension to traditional price sensitivity measurement. AMA Advanced Research Techniques Forum.",
+     "url": "https://en.wikipedia.org/wiki/Van_Westendorp%27s_Price_Sensitivity_Meter",
+     "verified_via": "検索結果の抜粋(Wikipedia と Sawtooth の解説。原論文は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "Gabor-Granger 法は、提示価格で買うかを尋ね、回答に応じて価格を上下させて各人の最高受容価格を特定し、価格別の購入率(需要曲線)と売上曲線から売上最大価格を求める。",
+     "value": {
+      "output": [
+       "demand_curve",
+       "revenue_curve",
+       "revenue_maximizing_price"
+      ]
+     },
+     "how_to_implement": "ペルソナごとに価格はしごを二分探索で提示し最高受容価格を記録。分布から需要曲線を作り、仮想バイアス補正(1/1.21〜1/1.35)を価格軸に掛ける。",
+     "citation": "Gabor, A., Granger, C.W.J. (1960年代). Gabor–Granger method(原著の書誌は抜粋で特定できず)",
+     "url": "https://en.wikipedia.org/wiki/Gabor%E2%80%93Granger_method",
+     "verified_via": "検索結果の抜粋(Wikipedia。1966年 Economica 論文との対応は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "WTP 測定4手法(自由回答、選択型コンジョイント CBC、BDM、誘因両立型 CBC)を実購買と比較すると、BDM と誘因両立型 CBC が統計的・意思決定的な検定に合格。自由回答と通常 CBC は仮想バイアスがあるが、需要曲線の形や価格決定は正しく導ける場合がある。",
+     "value": {
+      "pass": [
+       "BDM",
+       "incentive_aligned_CBC"
+      ],
+      "biased_but_usable_for_pricing": [
+       "open_ended",
+       "hypothetical_CBC"
+      ]
+     },
+     "how_to_implement": "LLM への価格設問は水準の絶対値より『価格の順位づけ・最適価格の位置』に使い、水準は補正係数で直す。",
+     "citation": "Miller, K.M., Hofstetter, R., Krohmer, H., Zhang, Z.J. (2011). How Should Consumers' Willingness to Pay Be Measured? An Empirical Comparison of State-of-the-Art Approaches. Journal of Marketing Research, 48(1), 172-184. doi:10.1509/jmkr.48.1.172",
+     "url": "https://boris.unibe.ch/68450",
+     "verified_via": "検索結果の抜粋(抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "日本の家計調査の公式な『支出弾力性』は、年間収入階級別(最低・最高階級を除く16階級)の1世帯当たり月間支出を使い、品目支出を消費支出総額に回帰(調整集計世帯数で重みづけた最小二乗)して求める。1.00未満=基礎的支出(米・野菜・家賃・電気代など)、1.00以上=選択的支出(ワイン・ケーキ・宿泊料など)。t値が2年以上10%有意の品目だけ採用。",
+     "value": {
+      "regression": "item_spending_on_total_consumption_across_16_income_classes_WLS",
+      "data_years": "2021-2023",
+      "threshold": 1.0,
+      "basic_examples": [
+       "米",
+       "野菜",
+       "家賃",
+       "電気代"
+      ],
+      "selective_examples": [
+       "ワイン",
+       "ケーキ",
+       "宿泊料"
+      ]
+     },
+     "how_to_implement": "同じ回帰を e-Stat の年間収入階級別集計で自前実行し、品目別の支出弾力性 η を得て、ペルソナの消費支出総額から品目支出(=購入余力)を η で伸縮させる。所得弾力性の代用であることを注記。",
+     "citation": "総務省統計局『家計調査 支出弾力性の計算方法及び基礎的・選択的支出の格付方法について(2025年(令和7年)1月から)』",
+     "url": "https://www.stat.go.jp/data/kakei/kou2025/dan2025.html",
+     "verified_via": "一次資料を curl で取得し本文を確認",
+     "confidence": "high"
+    },
+    {
+     "claim": "家計調査の収支項目分類表(2025年1月改定)は、消費支出の各品目に 財・サービス区分(耐久財D/半耐久財SD/非耐久財ND/サービスS)と 基礎的/選択的 の格付を付けている。格付のある502項目の内訳: 非耐久財×基礎的217、サービス×選択的84、半耐久財×選択的68、サービス×基礎的38、非耐久財×選択的37、耐久財×選択的27、半耐久財×基礎的14、耐久財×基礎的9。",
+     "value": {
+      "n_items_with_rating": 502,
+      "counts": {
+       "ND_basic": 217,
+       "S_selective": 84,
+       "SD_selective": 68,
+       "S_basic": 38,
+       "ND_selective": 37,
+       "D_selective": 27,
+       "SD_basic": 14,
+       "D_basic": 9,
+       "unclassified_goods_class": 8
+      },
+      "extracted_csv": "/tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/kakei_item_classification_2025.csv"
+     },
+     "how_to_implement": "対象商品を家計調査の品目コードに対応づけ、耐久性区分と基礎的/選択的フラグを引いて、(a)意向→購買の関数形(耐久財=線形/非耐久=閾値)、(b)所得感応度、(c)広告弾力性の高低 の切り替えキーにする。抽出済み CSV を同梱。",
+     "citation": "総務省統計局『家計調査 収支項目分類及びその内容例示(令和7年(2025年)1月改定)』kouh2025.xlsx",
+     "url": "https://www.stat.go.jp/data/kakei/kou2025/zuhyou/kouh2025.xlsx",
+     "verified_via": "一次資料(Excel)を curl で取得し集計(品目別の弾力性の数値そのものは同ファイルに無い)",
+     "confidence": "high"
+    },
+    {
+     "claim": "内閣府の QUAIDS 推計(1995年〜2018年第2四半期)では、各国とも耐久財・半耐久財の価格弾力性が大きく、日本は全般に他国より大きい。日本は非耐久財の価格弾力性が相対的に高く、耐久財・半耐久財は所得弾力性が大きい。交通・通信は若年世帯と高齢世帯で価格弾力性が高い。",
+     "value": {
+      "japan": {
+       "durable_semidurable": "high_price_elasticity_and_high_income_elasticity",
+       "nondurable": "relatively_high_price_elasticity_vs_other_countries",
+       "transport_communication": "higher_for_young_and_elderly_households"
+      },
+      "numeric": null
+     },
+     "how_to_implement": "世帯主年齢階級×費目で価格弾力性に相対倍率を持たせる(通信系サブスクは若年・高齢で高め)。数値は付注2-3の表から転記が必要。",
+     "citation": "内閣府『日本経済2017-2018』第2章第3節『価格変動と消費行動』、付注2-3『QUAIDS型需要関数の推計』(2018年1月)",
+     "url": "https://www5.cao.go.jp/keizai3/2018/0125nk/n18_2_3.html",
+     "verified_via": "検索結果の抜粋(本文抜粋。弾力性の数値は未取得)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "家計調査の49都市・2000〜2018年データに QUAIDS を当てはめた研究では、2013年以降の食料(外食除く)価格上昇がエンゲル係数を最大1.91ポイント押し上げた。同論文の表4に費目別の支出弾力性・非補償価格弾力性が掲載されている。",
+     "value": {
+      "engel_coefficient_effect_pp_max": 1.91,
+      "data": "49 cities, 2000-2018"
+     },
+     "how_to_implement": "食料品カテゴリの価格→支出シェアの反応の検算に使う。費目別弾力性は表4から転記する。",
+     "citation": "朏島大樹 (2021). 食料価格の上昇とエンゲル係数 ―QUAIDSモデルによる接近―. 経済研究(一橋大学), 72(2), 113-127.",
+     "url": "https://econ-review.ier.hit-u.ac.jp/wp-content/uploads/files/2021-72/keizaikenkyu7202113.pdf",
+     "verified_via": "検索結果の抜粋(抄録。表4の数値は未取得)",
+     "confidence": "medium"
+    }
+   ],
+   "not_confirmed": [
+    "日本の費目別の所得弾力性・価格弾力性の数値(内閣府付注2-3・朏島論文表4に存在するが抜粋で数値を確認できず)",
+    "Bijmolt et al. の耐久財/ライフサイクル段階別の弾力性の数値",
+    "Gabor & Granger の原著書誌"
+   ]
+  },
+  {
+   "topic": "5. 広告の効果と認知→購入の換算",
+   "findings": [
+    {
+     "claim": "ブランド広告弾力性のメタ分析: 短期の平均は 0.12(751推定)、長期の平均は 0.24(402推定、中央値は約0.10)。1984年のメタ分析(短期0.22、長期0.41)より低く、長期弾力性は時代とともに低下。耐久財>非耐久財、ライフサイクル初期>成熟期で高い。",
+     "value": {
+      "short_term_mean": 0.12,
+      "long_term_mean": 0.24,
+      "long_term_median": 0.1,
+      "n_short": 751,
+      "n_long": 402,
+      "prior_meta_1984": {
+       "short": 0.22,
+       "long": 0.41
+      },
+      "higher_for": [
+       "durables",
+       "early_lifecycle",
+       "yearly_data_vs_quarterly",
+       "GRP_measured"
+      ]
+     },
+     "how_to_implement": "Bass の p(外部影響)を広告費で動かす式 p_t=p_0×(A_t/A_0)^ε の ε を、成熟品 0.1、新商品・耐久財は 0.12〜0.24 の範囲で設定。広告費2倍で売上 +9%(2^0.12−1)程度が基準。",
+     "citation": "Sethuraman, R., Tellis, G.J., Briesch, R.A. (2011). How Well Does Advertising Work? Generalizations from Meta-Analysis of Brand Advertising Elasticities. Journal of Marketing Research, 48(3), 457-471.",
+     "url": "https://www.researchgate.net/publication/259888983_How_Well_Does_Advertising_Work_Generalizations_from_Meta-Analysis_of_Brand_Advertising_Elasticities",
+     "verified_via": "検索結果の抜粋(原論文抄録・本文抜粋、および NBER w27684 による引用で 0.12/0.24 を確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "消費財288ブランドの TV 広告効果を統一手法で推定すると、弾力性は 0.023 と 0.014(平均と中央値。どちらがどちらかは抜粋で未確定、Kellogg の解説は中央値を約0.01と記載)で、約3分の2は統計的にゼロと区別できない。80%超のブランドで限界 ROI が負。",
+     "value": {
+      "elasticities_reported": [
+       0.023,
+       0.014
+      ],
+      "share_not_different_from_zero": "約2/3",
+      "share_negative_marginal_ROI": ">0.80",
+      "n_brands": 288
+     },
+     "how_to_implement": "成熟した日用品の広告は弾力性 0.01〜0.02 を下限シナリオに使う。メタ分析値(0.12)は出版バイアスで高めの可能性があるため、楽観/悲観の両ケースを出す。",
+     "citation": "Shapiro, B.T., Hitsch, G.J., Tuchman, A.E. (2021). TV Advertising Effectiveness and Profitability: Generalizable Results from 288 Brands. Econometrica, 89(4), 1855-1879. doi:10.3982/ECTA17674",
+     "url": "https://econometricsociety.org/publications/econometrica/2021/07/01/tv-advertising-effectiveness-and-profitability-generalizable",
+     "verified_via": "検索結果の抜粋(WP 本文抜粋・抄録・Kellogg Insight)",
+     "confidence": "high"
+    },
+    {
+     "claim": "成熟した低価格・高頻度購入品では、広告の累積効果の90%は3〜9か月以内に現れる。",
+     "value": {
+      "share_of_cumulative_effect": 0.9,
+      "window_months": [
+       3,
+       9
+      ]
+     },
+     "how_to_implement": "月次の広告残存(アドストック)係数 λ を、90%が3〜9か月で出尽くす範囲(λ^n=0.1 → 3か月なら λ≈0.46、9か月なら λ≈0.77)で設定する。",
+     "citation": "Clarke, D.G. (1976). Econometric Measurement of the Duration of Advertising Effect on Sales. Journal of Marketing Research, 13(4), 345-357.",
+     "url": "https://ageconsearch.umn.edu/record/279492/files/rrp-nec63-1985-0014.pdf",
+     "verified_via": "検索結果の抜粋(1985年の別論文による Clarke p.355 の直接引用。λ の値は当方の換算)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "発売前テスト市場モデル(ASSESSOR)の検証: 予測シェアとテスト市場実績の差の標準偏差は調整前1.99ポイント、達成された認知・配荷・サンプリングで調整後1.12ポイント。テストした商品の63%が事前審査を通過し、その66%がテスト市場で成功。",
+     "value": {
+      "sd_share_points_before_adjustment": 1.99,
+      "sd_share_points_after_adjustment": 1.12,
+      "pass_rate": 0.63,
+      "success_given_pass": 0.66
+     },
+     "how_to_implement": "予測の誤差の大半は『認知率・配荷率の前提』から来るとみなし、シミュレーターの出力を 認知率×配荷率×試用率×リピート の分解で表示し、認知・配荷を入力として差し替え可能にする。シェア予測の誤差帯を±2ポイント(1σ)程度で示す。",
+     "citation": "Urban, G.L., Katz, G.M. (1983). Pre-Test-Market Models: Validation and Managerial Implications. Journal of Marketing Research, 20(3), 221-234.",
+     "url": "https://dspace.mit.edu/handle/1721.1/48817",
+     "verified_via": "検索結果の抜粋(原論文抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "NIQ BASES の検証済みマーケティング計画80件では、75%の計画が実際の実行と10%超ずれ、計画と実績の差は平均30%。予測誤差の多くは計画前提(認知・配荷・投下量)に起因するとベンダー自身が報告。『平均±9%以内』という精度主張は出所がベンダー発表のみ。",
+     "value": {
+      "plans": 80,
+      "share_deviating_over_10pct": 0.75,
+      "mean_gap_plan_vs_actual": 0.3,
+      "vendor_accuracy_claim": "±9%(独立検証なし)"
+     },
+     "how_to_implement": "入力前提(広告投下・配荷)の不確実性を±30%で振るモンテカルロを既定にする。",
+     "citation": "NielsenIQ (2026). Why sales forecasting matters more than ever in innovation planning (BASES).",
+     "url": "https://nielseniq.com/global/en/insights/analysis/2026/why-sales-forecasting-matters-more-than-ever-in-innovation-planning/",
+     "verified_via": "検索結果の抜粋(ベンダー公表資料)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "分割ケーブル実験141ブランドの要約では、既存(確立済み)商品の TV 広告弾力性の平均は 0.05。複数のメタ分析で新商品の広告弾力性は既存品より高い。",
+     "value": {
+      "established_products_mean": 0.05,
+      "new_products": "higher(数値未確認)"
+     },
+     "how_to_implement": "発売後の月数で広告弾力性を高→低に逓減させる(例: 発売期は上限 0.24、成熟期 0.05)。",
+     "citation": "Lodish, L.M. et al. (1995). How T.V. Advertising Works: A Meta-Analysis of 389 Real World Split Cable T.V. Advertising Experiments. Journal of Marketing Research, 32(2).",
+     "url": "https://lirias.kuleuven.be/bitstream/123456789/229404/3/MO_0902.pdf",
+     "verified_via": "検索結果の抜粋(他論文による引用。原論文未確認、新商品の数値は未確認)",
+     "confidence": "low"
+    }
+   ],
+   "not_confirmed": [
+    "認知→興味→試用→購入のファネル各段の一般的な換算率(査読済みの経験値は検索で確認できず)",
+    "Sethuraman et al. の地域別(欧州)の数値",
+    "Lodish et al. の新商品の弾力性の数値",
+    "日本市場の広告弾力性"
+   ]
+  },
+  {
+   "topic": "6. 口コミ・ネットワーク効果、解約率(チャーン)",
+   "findings": [
+    {
+     "claim": "SNS サイトの新規登録に対する口コミ紹介の長期弾力性は 0.53。マーケティングイベントの約20倍、メディア露出の約30倍(ワーキングペーパー版ではイベントの弾力性 0.026)。",
+     "value": {
+      "wom_long_run_elasticity": 0.53,
+      "ratio_vs_events": 20,
+      "ratio_vs_media": 30,
+      "events_elasticity_wp": 0.026
+     },
+     "how_to_implement": "デジタルサービスでは Bass の q(内部影響)を p(広告)より一桁以上強く効かせる。紹介数→新規の弾力性の上限として 0.5 を使う。",
+     "citation": "Trusov, M., Bucklin, R.E., Pauwels, K. (2009). Effects of Word-of-Mouth Versus Traditional Marketing: Findings from an Internet Social Networking Site. Journal of Marketing, 73(5), 90-102.",
+     "url": "https://core.ac.uk/download/67674082.pdf",
+     "verified_via": "検索結果の抜粋(原論文抄録。0.026 は2008年 WP 版)",
+     "confidence": "high"
+    },
+    {
+     "claim": "オンライン口コミの売上弾力性のメタ分析(51研究): 量(件数)の弾力性は 0.236(339推定)、評価(valence)の弾力性は 0.417(271推定)。私的に消費され試用しにくい商品、競争の弱い業界、独立系レビューサイトで高い。",
+     "value": {
+      "volume_elasticity": 0.236,
+      "valence_elasticity": 0.417,
+      "n_studies": 51,
+      "n_volume": 339,
+      "n_valence": 271
+     },
+     "how_to_implement": "レビュー件数・平均評価を状態変数に持ち、月次の採用率に (件数比)^0.24 ×(評価比)^0.42 を掛ける。",
+     "citation": "You, Y., Vadakkepatt, G.G., Joshi, A.M. (2015). A Meta-Analysis of Electronic Word-of-Mouth Elasticity. Journal of Marketing, 79(2), 19-39. doi:10.1509/jm.14.0169",
+     "url": "https://ama.org/2018/12/01/a-meta-analysis-of-electronic-word-of-mouth-elasticity",
+     "verified_via": "検索結果の抜粋(原論文抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "オンライン口コミと売上の相関は平均 0.091(96研究・1,532効果量・40プラットフォーム・26カテゴリ)。量の効果は評価の効果より強く、評価のばらつきが大きいと売上を損なう。市場に新しい有形財で効果が強い。",
+     "value": {
+      "mean_correlation": 0.091,
+      "n_effect_sizes": 1532,
+      "n_studies": 96
+     },
+     "how_to_implement": "口コミ効果は有意だが小さい(r≈0.09)前提で、口コミ項だけで売上が何倍にもならないよう上限を設ける。",
+     "citation": "Babić Rosario, A., Sotgiu, F., De Valck, K., Bijmolt, T.H.A. (2016). The Effect of Electronic Word of Mouth on Sales: A Meta-Analytic Review of Platform, Product, and Metric Factors. Journal of Marketing Research, 53(3), 297-318.",
+     "url": "https://research.vu.nl/en/publications/the-effect-of-electronic-word-of-mouth-on-sales-a-meta-analytic-r/",
+     "verified_via": "検索結果の抜粋(原論文抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "7つのオンライン領域で、拡散カスケードの大多数は小さく、最初の採用者から1次(直接のつながり)で止まる。連鎖的に広がった採用は全体のごく一部(報道要約では1人より先に広がったのは4%未満、後続論文は99%超が1世代で終わると記述)。",
+     "value": {
+      "multi_step_share": "ごく一部(<4% という二次要約あり)",
+      "domains": 7
+     },
+     "how_to_implement": "ネットワーク上の伝播をエージェントで回す場合、1人の採用者が生む追加採用の期待値(再生産数)を1より十分小さく(バイラルは例外)設定し、採用の大半は広告・一斉告知(p)と直接の知人1段で説明する。",
+     "citation": "Goel, S., Watts, D.J., Goldstein, D.G. (2012). The Structure of Online Diffusion Networks. Proceedings of the 13th ACM Conference on Electronic Commerce (EC '12), 623-638. doi:10.1145/2229012.2229058",
+     "url": "https://5harad.com/papers/diffusion.pdf",
+     "verified_via": "検索結果の抜粋(原論文抄録。4%未満・99%超は二次情報)",
+     "confidence": "high"
+    },
+    {
+     "claim": "紹介プログラム経由で獲得した顧客(銀行)は、他経路の顧客より利益率が高く解約が少なく、長期の顧客価値は 16〜25% 高い。",
+     "value": {
+      "clv_premium": [
+       0.16,
+       0.25
+      ],
+      "churn": "lower"
+     },
+     "how_to_implement": "口コミ・紹介経由の採用者には解約率を低め、LTV を +16〜25% とする属性を付ける。",
+     "citation": "Schmitt, P., Skiera, B., Van den Bulte, C. (2011). Referral Programs and Customer Value. Journal of Marketing, 75(1), 46-59.",
+     "url": "https://faculty.wharton.upenn.edu/wp-content/uploads/2012/04/Schmitt-Skiera-vandenBulte-2011-Referral-Programs-Customer-Value.pdf",
+     "verified_via": "検索結果の抜粋(Wharton の解説記事による要約。論文表は未確認)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "米国の有料動画配信(Premium SVOD)の加重平均月次解約率は2025年通年で 4.6%。専門系(Specialty)SVOD は 6.6%、スポーツ系は 5.1%(2025年Q3時点)。広告付きプラン 4.96% に対し広告なし 4.13%(2025年5月報告)。",
+     "value": {
+      "premium_svod_monthly_churn_2025": 0.046,
+      "specialty_svod": 0.066,
+      "sports_svod": 0.051,
+      "ad_supported": 0.0496,
+      "ad_free": 0.0413,
+      "market": "US"
+     },
+     "how_to_implement": "動画・デジタル系サブスクの月次解約率の既定値を 4〜5%、ニッチ系は 6〜7% に置く。日本値ではない点を注記し、月次生存率 (1−c)^t で継続者を計算。",
+     "citation": "Antenna, State of Subscriptions reports (Q3'25 Specialty SVOD; Q1'26 Premium SVOD 2025 Year in Review).",
+     "url": "https://antenna.live/insights/antenna-q126-state-of-subscriptions-report-premium-svod-2025-year-in-review",
+     "verified_via": "検索結果の抜粋(Antenna 公式ページと業界メディア)",
+     "confidence": "medium"
+    },
+    {
+     "claim": "サブスク課金基盤 Recurly の集計(2021年1月〜2022年7月)では自発的解約 3.95%、非自発的(決済失敗等)解約 1.38%。2019年報告では B2C 6.81%、B2B 5.15%。",
+     "value": {
+      "voluntary": 0.0395,
+      "involuntary": 0.0138,
+      "b2c_2019": 0.0681,
+      "b2b_2019": 0.0515,
+      "unit_caveat": "Recurly は月次ベースで算出と説明しているが、ページにより年次表記が混在し単位は要確認"
+     },
+     "how_to_implement": "解約を『自発的』と『決済失敗』の2本に分け、後者(全体の約1/4)は価格や満足度と無関係に一定率で発生させる。",
+     "citation": "Recurly Research, Churn rate benchmarks / Subscriber churn benchmarks.",
+     "url": "https://recurly.com/research/churn-rate-benchmarks/",
+     "verified_via": "検索結果の抜粋(ベンダー公表ページ。単位の確認が不十分)",
+     "confidence": "low"
+    }
+   ],
+   "not_confirmed": [
+    "日本のサブスクリプション(動画配信・定期通販)の業界別月次解約率(信頼できる一次調査は検索で確認できず。『月3〜10%』は根拠不明の解説記事のみ)",
+    "日本の携帯キャリアの解約率の数値(各社 IR に存在するが抜粋で確認できず)",
+    "Trusov et al. の刊行版でのイベント・メディア露出の弾力性"
+   ]
+  },
+  {
+   "topic": "7. 合成人口(synthetic population)の作り方",
+   "findings": [
+    {
+     "claim": "標準的な IPF は一度に一つの階層しか制御できず、世帯と個人を結んだ人口を作れない。ゼロセル(標本に存在しない組合せ)は収束を妨げ、対処はごく小さい値で置換するかカテゴリを統合すること。出力は非整数の重みで、整数化(比例確率抽出や TRS 法)が別途必要。疎な高次元表では計算量とゼロセル問題が悪化する。",
+     "value": {
+      "limitations": [
+       "single_level_control",
+       "zero_cells",
+       "non_integer_weights",
+       "sparse_high_dimensional_tables"
+      ],
+      "two_level_alternatives": [
+       "hierarchical_IPF",
+       "IPU",
+       "generalized_raking",
+       "relative_entropy_minimization"
+      ]
+     },
+     "how_to_implement": "世帯属性と個人属性を同時に合わせる必要があるなら IPF 単体でなく IPU か階層 IPF を使う。ゼロセルは小さな正の値で初期化、整数化は TRS 等で行い、整数化後に周辺分布との誤差を再計測する。",
+     "citation": "Yaméogo, B.F., Vandanjon, P.-O., Gastineau, P., Hankach, P. (2021). Generating a Two-Layered Synthetic Population for French Municipalities: Results and Evaluation of Four Synthetic Reconstruction Methods. JASSS, 24(2), 5. / Guo, J.Y., Bhat, C.R. Population Synthesis for Microsimulating Travel Behavior.",
+     "url": "https://www.jasss.org/24/2/5.html",
+     "verified_via": "検索結果の抜粋(JASSS 論文の本文抜粋ほか。4手法の優劣の数値は未確認)",
+     "confidence": "high"
+    },
+    {
+     "claim": "IPF の性能評価では、結果は初期条件、特に空セルの有無に敏感で、実装(ソフトウェア)の選択が計算効率に大きく影響する。",
+     "value": {
+      "sensitive_to": [
+       "initial_weights",
+       "empty_cells"
+      ],
+      "numeric": null
+     },
+     "how_to_implement": "IPF の種(初期表)を複数用意して結果の頑健性を確認し、空セルの扱いを設定ファイルで明示する。",
+     "citation": "Lovelace, R., Birkin, M., Ballas, D., van Leeuwen, E. (2015). Evaluating the Performance of Iterative Proportional Fitting for Spatial Microsimulation: New Tests for an Established Technique. JASSS, 18(2), 21.",
+     "url": "https://www.jasss.org/18/2/21.html",
+     "verified_via": "検索結果の抜粋(抄録)",
+     "confidence": "high"
+    },
+    {
+     "claim": "日本の合成人口プロジェクト(村田・原田ら)は IPF ではなく、仮に作った世帯の構成員属性を入れ替え、合成人口から計算した統計値と公開統計表との誤差を最小化する焼きなまし法(SA)を使う。国勢調査2000/2005/2010/2015年に基づき全国の市区町村別に世帯構成(年齢・性別・続柄・家族類型、のち所得等)を合成済み。",
+     "value": {
+      "method": "simulated_annealing_swapping_attributes_to_minimize_error_vs_published_tables",
+      "census_years": [
+       2000,
+       2005,
+       2010,
+       2015
+      ],
+      "granularity": "municipality",
+      "family_types": 9
+     },
+     "how_to_implement": "世帯内の続柄・年齢差の整合が要る場合は SA 型(誤差関数=複数統計表との絶対誤差の和)を採用するか、同プロジェクトの配布データを利用申請して種データにする。IPF で作った人口は世帯内整合を別途検査する。",
+     "citation": "原田拓弥・村田忠彦 (2018). 家族類型と世帯内の役割を考慮したSA法による大規模世帯の合成. 計測自動制御学会論文集, 54(9), 705-717. / 原田拓弥・村田忠彦 (2022). 市区町村の統計表を考慮した都道府県単位の個票データの合成. 計測自動制御学会論文集, 58(6), 281-289. / 大阪大学 RSSS 研究室『合成人口データ』",
+     "url": "https://www.jstage.jst.go.jp/article/sicetr/54/9/54_705/_pdf",
+     "verified_via": "検索結果の抜粋(J-STAGE 論文題目・抜粋、JHPCN 報告書、大阪大学 RSSS ページ)",
+     "confidence": "high"
+    },
+    {
+     "claim": "同プロジェクトは、合成に使っていない統計との整合性は保証しないと明記。都道府県統計に過度に合わせた世帯構成になる問題や、都道府県単位の統計表を市区町村規模に縮小したことによる年齢差分布のゆがみが報告され、手法が改良されてきた。評価には ARD(絶対相対差)による有用性・秘匿性の検証が使われている。",
+     "value": {
+      "caveat": "no_guarantee_for_statistics_not_used_in_synthesis",
+      "evaluation_metric": "ARD(Absolute Relative Difference)"
+     },
+     "how_to_implement": "検証は『合成に使った表での適合』と『使っていない表(保留した統計表)での適合』を分けて報告する。保留表に対する絶対相対差を精度指標にし、地域規模の小さいセルを別集計する。",
+     "citation": "原田拓弥・松本渉・村田忠彦. 合成人口データの意義と利用可能性 ―仮想都市データの有用性と秘匿性の評価から―. 統計研究彙報, 第81号. / JHPCN 共同研究最終報告書 (jh190056, jh200022 ほか)",
+     "url": "https://www.stat.go.jp/training/2kenkyu/ihou/81/pdf/2-2-814.pdf",
+     "verified_via": "検索結果の抜粋(統計研究彙報・JHPCN 報告書の抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "not_confirmed": [
+    "IPF の検証指標(SRMSE, TAE 等)の標準的な閾値を示す文献値",
+    "Yaméogo et al. の4手法の比較結果の数値",
+    "日本の合成人口の統計表別の誤差の数値"
+   ]
+  }
+ ]
+}

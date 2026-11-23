@@ -89,3 +89,13 @@ test("組織:歩合制ではエースが減らず、生産力が100%を下回ら
   const t = trialOrg(ORG, PRESETS.piece.rules, 30, 10);
   assert.ok(t.ace >= 0.19 && t.productivity >= 1);
 });
+
+// ---- 税率と助け合い ----
+import { trialSociety } from "../public/js/society.js";
+test("社会:助け合いのある税率20%は、税率0%より生産力が高く、税率80%では崩れる", () => {
+  const cfg = { n: 300, ages: ORG.ages, seed: 1 };
+  const p = (tax) => trialSociety(cfg, { tax }, 30, 10).last;
+  assert.ok(p(0.2).productivity > p(0).productivity * 1.5);
+  assert.ok(p(0.8).productivity < p(0).productivity);
+  assert.ok(p(0.8).revenue < p(0.4).revenue); // 税率を上げすぎると税収が減る
+});

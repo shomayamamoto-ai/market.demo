@@ -8,6 +8,7 @@ import {
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, esc } from "./charts.js";
 import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
+import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
 import { makeRng } from "./rng.js";
 import { PURPOSES, buildReport } from "./report.js";
 import JAPAN from "./japan-data.js";
@@ -64,6 +65,12 @@ async function init() {
   $("o-preset").innerHTML = Object.entries(PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("o-preset").value = "fixedPush";
   $("o-preset").onchange = () => ($("o-push").value = Math.round(PRESETS[$("o-preset").value].rules.push * 100));
+  $("t-preset").innerHTML = Object.entries(SOCIETY_PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
+  $("t-preset").value = "heavy";
+  $("t-preset").onchange = () => ($("t-tax").value = Math.round(SOCIETY_PRESETS[$("t-preset").value].rules.tax * 100));
+  $("t-run").onclick = () => busy("t-msg", socRun);
+  $("t-compare").onclick = () => busy("t-msg", socCompare);
+  $("t-sweep").onclick = () => busy("t-msg", socSweep);
   $("o-run").onclick = () => busy("o-msg", orgRun);
   $("o-compare").onclick = () => busy("o-msg", orgCompare);
   $("o-sweep").onclick = () => busy("o-msg", orgSweep);
@@ -293,6 +300,7 @@ function runStat() {
       ${kpi("購入見込み(全員が知った場合)", fmtPeople(m.potentialBuyers), `対象の${pct(m.targetPeople ? m.potentialBuyers / m.targetPeople : 0)}`)}
       ${kpi("年間売上の上限の目安", fmtYen(m.potentialRevenue), `費目支出の${pct(m.walletShare)}`)}
     </div>
+    <p class="note">価格への敏感さ:このモデルでは、価格を1%上げると購入者が約${num(-m.elasticity, 2)}%減ります。<br>参考:実際の商品を調べた研究の平均は、1%の値上げで1.8〜2.6%の減少です(Tellis 1988; Bijmolt ほか 2005。同じ分野の他社商品へ乗り換える分を含む値)。</p>
     <p class="note">統計モードの試算です。「価格と普段の支出のつり合い」と「価値観との相性」から計算しています。<br>実際の売上は、商品を知ってもらえる割合(認知)で大きく変わります。④の普及シミュレーションで確かめてください。</p>
     ${breakdownTable(m.breakdown)}`;
 }
@@ -557,6 +565,100 @@ function orgSweep() {
       <p class="a-note">${edge != null ? `このモデルの条件では、回す割合が${pct(edge, 0)}までならエースは残り、それを超えると崩れ始めます。` : safe.length ? "このルールでは、回す割合を100%にしてもエースは残りました。" : "このルールでは、回す割合が0%でもエースがいなくなる試行がありました。"}境目の位置は、「出典と仮定」にある係数で変わります。</p></div>`;
 }
 
+// ---------- ⑧-2 税率と助け合い ----------
+const CHOICE = { risky: { label: "森(危険・多い)", color: "#1a8f5a" }, safe: { label: "広場(安全・少ない)", color: "#58c4dd" }, home: { label: "自分の畑だけ", color: "#f2c94c" }, gone: { label: "隣の村へ", color: "#3a4256" } };
+function socConfig() {
+  const { config, years, runs } = orgConfig();
+  const preset = SOCIETY_PRESETS[$("t-preset").value];
+  return { config: { n: config.n, ages: config.ages, seed: config.seed }, years, runs: Math.min(runs, 100), label: preset.label,
+    rules: { ...preset.rules, tax: Math.min(95, Math.max(0, Number($("t-tax").value) || 0)) / 100 } };
+}
+function socAdvice(L, first, rules) {
+  const out = [];
+  if (rules.tax === 0) out.push("助け合いが無いため、けがを恐れて森に行く人が少なく、生産力は頭打ちです。");
+  if (L.risky > 0.6 && rules.tax > 0 && rules.tax <= 0.4) out.push("けがをしても支えてもらえる安心があるため、多くの人が森に挑戦し、生産力が伸びています。");
+  if (L.home > 0.3) out.push(`税のかからない「自分の畑だけ」を選ぶ人が${pct(L.home, 0)}います。働いても手元に残りにくく、挑戦する意味が薄れています。`);
+  if (L.population < 0.8) out.push(`人口が最初の${pct(L.population, 0)}まで減りました。条件の良い隣の村へ、腕の良い人から移っています。`);
+  if (L.trust < 0.7 && rules.tax > 0) out.push(`助け合いの支払いが、必要な額の${pct(L.trust, 0)}しかまかなえていません。税を払う人が減り、約束した保障を守れなくなっています。`);
+  if (L.admin > 0.3 * Math.max(L.revenue, 1e-9)) out.push(`税収の${pct(L.admin / Math.max(L.revenue, 1e-9), 0)}が管理に使われ、助け合いに回っていません。`);
+  if (L.productivity < first.productivity * 0.7) out.push(`生産力は、最初の年の${pct(L.productivity / first.productivity, 0)}まで落ちました。`);
+  return out;
+}
+function socRun() {
+  const { config, years, runs, rules, label } = socConfig();
+  const t = trialSociety(config, rules, years, runs), L = t.last, S = t.series;
+  const one = runSociety(config, rules, years);
+  const advice = socAdvice(L, S[0], rules);
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>${esc(label.slice(2))}を${runs}回検証</h2>
+      <p class="a-sub">${num(config.n)}人の村、税率 ${pct(rules.tax, 0)}${rules.rebuildAt != null ? `(${rules.rebuildAt}年目に立て直し策を実施)` : ""}、${years}年後までを計算</p>
+      <div class="a-cards">
+        ${aCard(`${years}年後の生産力`, pct(L.productivity, 0), "全員が広場で働く場合を100%として")}
+        ${aCard("森に挑戦する人", pct(L.risky, 0), `自分の畑だけの人は${pct(L.home, 0)}`)}
+        ${aCard("1人あたりの税収", `${num(L.revenue, 2)}個`, `うち管理に${num(L.admin, 2)}個`)}
+        ${aCard("人口", pct(L.population, 0), "最初を100%として")}
+        ${aCard("助け合いの支払い", pct(L.trust, 0), "必要な額に対して")}
+      </div><p class="a-note">数字は${runs}回の試行の平均です。食料の単位は「個」です。</p></div>
+    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["このルールでは、大きな問題は出ませんでした。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="grid2" style="margin:0"><div><h3>働き方の割合</h3>${multiLine(["risky", "safe", "home"].map((m) => ({ name: CHOICE[m].label.split("(")[0], color: CHOICE[m].color, points: S.map((s, x) => ({ x, y: s[m] })) })), { xLabel: "年" })}</div>
+      <div><h3>生産力と人口</h3>${multiLine([{ name: "生産力", color: "#1a8f5a", points: S.map((s, x) => ({ x, y: s.productivity })) }, { name: "人口", color: "#8b93a7", points: S.map((s, x) => ({ x, y: s.population })) }], { xLabel: "年" })}</div></div>
+      <h3>1人ずつの選択(代表例:${runs}回のうちの1回)</h3>
+      <div class="o-play"><button id="o-playbtn">再生</button><input id="o-year" type="range" min="0" max="${years}" value="0"><b id="o-year-label"></b></div>
+      <div id="o-people" class="o-grid"></div>
+      <p class="note">■ 緑=森 ■ 水色=広場 ■ 黄=自分の畑だけ ■ 灰=隣の村へ移った人(最大1,000人まで表示)。</p></div>`;
+  playGrid(years, (y) => { const h = one.history[y]; return { label: `${y}年目 森 ${pct(h.risky, 0)}・生産力 ${pct(h.productivity, 0)}`, cells: h.choices.slice(0, 1000).map((c) => CHOICE[c].color) }; });
+}
+function playGrid(years, frameOf) {
+  const draw = () => { const f = frameOf(Number($("o-year").value)); $("o-year-label").textContent = f.label; $("o-people").innerHTML = f.cells.map((c) => `<i style="background:${c}"></i>`).join(""); };
+  $("o-year").oninput = draw;
+  let timer = null;
+  $("o-playbtn").onclick = () => {
+    if (timer) { clearInterval(timer); timer = null; $("o-playbtn").textContent = "再生"; return; }
+    if (Number($("o-year").value) >= years) $("o-year").value = 0;
+    $("o-playbtn").textContent = "停止";
+    timer = setInterval(() => {
+      if (!document.getElementById("o-year") || Number($("o-year").value) >= years) { clearInterval(timer); timer = null; if ($("o-playbtn")) $("o-playbtn").textContent = "再生"; return; }
+      $("o-year").value = Number($("o-year").value) + 1; draw();
+    }, 350);
+  };
+  draw();
+}
+function socCompare() {
+  const { config, years, runs } = socConfig();
+  const colors = ["#8b93a7", "#1a8f5a", "#e2574c", "#f2a53c", "#b277d9", "#2f6fe4"];
+  const rows = Object.values(SOCIETY_PRESETS).map((p) => ({ label: p.label, t: trialSociety(config, p.rules, years, runs) }));
+  const best = rows.reduce((a, b) => (b.t.last.productivity > a.t.last.productivity ? b : a));
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>6つの制度を${runs}回ずつ検証</h2>
+      <p class="a-sub">${num(config.n)}人の村、${years}年後。Fは8年目に立て直し策(税率20%へ減税・管理の簡素化・挑戦への還元)を実施</p>
+      <div class="table-scroll"><table><tr><th>制度</th><th class="num">生産力</th><th class="num">森に挑戦</th><th class="num">自分の畑だけ</th><th class="num">税収/人</th><th class="num">人口</th><th class="num">助け合いの支払い</th></tr>
+      ${rows.map((r) => { const L = r.t.last; return `<tr><td>${esc(r.label)}</td><td class="num">${pct(L.productivity, 0)}</td><td class="num">${pct(L.risky, 0)}</td><td class="num">${pct(L.home, 0)}</td><td class="num">${num(L.revenue, 2)}個</td><td class="num">${pct(L.population, 0)}</td><td class="num">${pct(L.trust, 0)}</td></tr>`; }).join("")}</table></div>
+      <div class="a-cards">${aCard("生産力が最も高い", pct(best.t.last.productivity, 0), esc(best.label))}</div>
+      <p class="a-note">生産力は「全員が広場で働く場合」を100%、人口は最初を100%とした値です。</p></div>
+    <div class="card"><h3>生産力の推移</h3>${multiLine(rows.map((r, i) => ({ name: r.label.slice(0, 1), color: colors[i], points: r.t.series.map((s, x) => ({ x, y: s.productivity })) })), { xLabel: "年" })}</div>`;
+}
+function socSweep() {
+  const { config, years, runs, rules, label } = socConfig();
+  const values = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8];
+  const sw = sweepTax(config, rules, values, years, runs);
+  const maxRev = Math.max(...sw.map((s) => s.last.revenue), 1e-9);
+  const top = sw.reduce((a, b) => (b.last.productivity > a.last.productivity ? b : a));
+  const rev = sw.reduce((a, b) => (b.last.revenue > a.last.revenue ? b : a));
+  const fall = sw.find((s) => s.value > top.value && s.last.productivity < top.last.productivity * 0.8);
+  $("o-out").innerHTML = `<div class="analysis">
+      <h2>税率を変えて${runs}回ずつ検証</h2>
+      <p class="a-sub">${esc(label.slice(2))}の条件で、税率だけを0〜80%に変えた(${years}年後)</p>
+      <p class="a-key">1人あたりの税収(棒)と、${years}年後の生産力・森に挑戦する人の割合(線)</p>
+      ${combo(sw.map((s) => ({ label: pct(s.value, 0), bar: Math.round((s.last.revenue / maxRev) * 100), a: s.last.productivity, b: s.last.risky })), { barMax: 100, barUnit: "", legend: { a: "生産力(平均)", b: "森に挑戦する人(平均)", bar: "税収(最大を100とした値)" }, xLabel: "税率" })}
+      <div class="a-cards">
+        ${aCard("生産力が最大の税率", pct(top.value, 0), `生産力 ${pct(top.last.productivity, 0)}`)}
+        ${aCard("税収が最大の税率", pct(rev.value, 0), `1人あたり ${num(rev.last.revenue, 2)}個`)}
+        ${aCard("税率0%の生産力", pct(sw[0].last.productivity, 0), "助け合いなし")}
+        ${aCard("税率80%の生産力", pct(sw[sw.length - 1].last.productivity, 0), `税収 ${num(sw[sw.length - 1].last.revenue, 2)}個`)}
+      </div>
+      <p class="a-note">${fall ? `このモデルの条件では、税率${pct(fall.value, 0)}で生産力が最大時の8割を下回ります。` : ""}税率を上げても、ある所から税収は増えなくなります(ラッファー曲線と呼ばれる形)。山の位置は「出典と仮定」の係数で変わり、現実の税率の目安を示すものではありません。</p></div>`;
+}
+
 // ---------- ⑦ 3Dビジュアル ----------
 function openVisual() {
   if (!state.visual) {
@@ -648,6 +750,7 @@ function renderSources() {
   add("市場規模", MARKET_ASSUMPTIONS);
   add("普及シミュレーション", DIFFUSION_ASSUMPTIONS);
   add("組織シミュレーター", ORG_ASSUMPTIONS);
+  add("税率と助け合い", SOCIETY_ASSUMPTIONS);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");

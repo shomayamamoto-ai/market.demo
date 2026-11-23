@@ -5,7 +5,11 @@ import { AGE_BANDS, ageBandOf, CATEGORY_KEYS } from "./constants.js";
 export const MARKET_ASSUMPTIONS = {
   intentWeights: {
     value: { 5: 0.7, 4: 0.25, 3: 0.05, 2: 0, 1: 0 },
-    note: "「買う」と答えた人が実際に買う割合。アンケートの意向は実際より高く出るため割り引く(市場調査で一般的な考え方。数値は仮定)",
+    note: "「買う」と答えた人が実際に買う割合。アンケートの意向は実際より高く出るため割り引く。実務資料では「必ず買う」70〜75%、「たぶん買う」25%の例があるが、査読論文での裏づけは確認できていない",
+  },
+  wtpDiscount: {
+    value: 0.8,
+    note: "「払ってもよい」と答えた金額を実際の支払いに直す割引。仮の質問では実際より高く答える傾向があり、消費財で平均約21%、全体の中央値で1.35倍の過大と報告されている(Schmidt & Bijmolt 2020; Murphy et al. 2005)",
   },
   baseInterest: { value: 0.12, note: "統計モードで、条件が合う人のうち関心を持つ人の基準割合" },
 };
@@ -57,6 +61,8 @@ export function marketSize(personas, product) {
     potentialBuyers: buyers, // 全員が商品を知った場合の購入者数
     potentialRevenue: buyers * yearCost,
     walletShare: categorySpend > 0 ? (buyers * yearCost) / categorySpend : 0,
+    // 価格を1%上げたとき、購入者が何%減るか(このモデルが想定している価格への敏感さ)
+    elasticity: buyers > 0 ? (sum(target, (p) => p.weight * buyProbability(p, { ...product, price: product.price * 1.01 })) / buyers - 1) / 0.01 : 0,
     breakdown: breakdown(target, (p) => p.weight * buyProbability(p, product)),
   };
 }
@@ -154,10 +160,12 @@ export function aggregateReactions(sample, reactions, brief, intentWeights = MAR
     share: people ? sum(rows.filter((x) => x.r.intent === i), (x) => x.p.sampleWeight) / people : 0,
   }));
   // 価格を変えたら買う人がどう変わるか(各人の「払ってもよい上限」から作る需要曲線)
+  // 「払ってもよい上限」は実際より高く答えやすいので、割り引いてから使う
+  const wtp = (x) => Math.round((x.r.max_price_yen * MARKET_ASSUMPTIONS.wtpDiscount.value) / 10) * 10;
   const interested = rows.filter((x) => x.r.max_price_yen > 0);
-  const prices = [...new Set(interested.map((x) => x.r.max_price_yen))].sort((a, b) => a - b);
+  const prices = [...new Set(interested.map(wtp))].sort((a, b) => a - b);
   const demandCurve = prices.map((price) => {
-    const q = sum(interested.filter((x) => x.r.max_price_yen >= price), (x) => x.p.sampleWeight * Math.max(x.prob, 0.05));
+    const q = sum(interested.filter((x) => wtp(x) >= price), (x) => x.p.sampleWeight * Math.max(x.prob, 0.05));
     return { price, buyers: q, revenue: q * price * brief.purchases_per_year };
   });
   const best = demandCurve.reduce((a, b) => (b.revenue > (a?.revenue ?? -1) ? b : a), null);

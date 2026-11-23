@@ -22,7 +22,7 @@
     <button data-tab="game">⑤ 経営ゲーム</button>
     <button data-tab="report">⑥ 用途別レポート</button>
     <button data-tab="visual">⑦ 3Dで見る</button>
-    <button data-tab="org">⑧ 組織シミュレーター</button>
+    <button data-tab="org">⑧ 制度シミュレーター</button>
     <button data-tab="source">出典と仮定</button>
   </nav>
 </header>
@@ -258,6 +258,21 @@
       <button id="o-compare">4つのルールを比べる</button>
       <button id="o-sweep">回す割合を変えて検証する</button>
       <span id="o-msg" class="msg"></span>
+    </div>
+  </div>
+  <div class="card">
+    <h2>税率と助け合いの仕組みを試す</h2>
+    <p class="note">村の人は毎年、「安全な広場(1個・確実)」「危険な森(4個・けがの恐れ)」「自分の畑だけ(0.5個・税なし)」から選びます。<br>
+      税はけがをした人を支えるために使われ、税率が上がるほど管理にかかる分も増えます。人数・年齢構成・期間・試行回数は、上の欄の値を使います。</p>
+    <div class="form-grid">
+      <label>制度 <select id="t-preset"></select></label>
+      <label>税率(%) <input id="t-tax" type="number" value="50" min="0" max="95" step="5"></label>
+    </div>
+    <div class="form-row">
+      <button id="t-run" class="primary">この制度で試す</button>
+      <button id="t-compare">6つの制度を比べる</button>
+      <button id="t-sweep">税率を変えて検証する</button>
+      <span id="t-msg" class="msg"></span>
     </div>
   </div>
   <div id="o-out"></div>

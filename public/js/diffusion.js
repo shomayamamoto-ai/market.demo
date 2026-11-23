@@ -7,13 +7,15 @@ import { ageBandOf } from "./constants.js";
 import { buyProbability, inTarget } from "./market.js";
 
 export const DIFFUSION_ASSUMPTIONS = {
-  p: { value: 0.03, note: "広告などに反応して自分から買い始める強さ(Bassモデルの革新係数・年あたり)" },
-  q: { value: 0.38, note: "周りの利用者に影響されて買い始める強さ(Bassモデルの模倣係数・年あたり)" },
+  p: { value: 0.03, note: "広告などに反応して自分から買い始める強さ(Bassモデルの革新係数・年あたり)。213の適用例の平均(Sultan, Farley & Lehmann 1990)。典型的な範囲は0.01〜0.03" },
+  q: { value: 0.38, note: "周りの利用者に影響されて買い始める強さ(Bassモデルの模倣係数・年あたり)。同じ研究の平均。典型的な範囲は0.3〜0.5" },
   adopterMult: {
     value: { innovator: 5, early_adopter: 2.5, early_majority: 1, late_majority: 0.4, laggard: 0.1 },
     note: "採用タイプごとの「自分から買い始める強さ」の倍率",
   },
   costPerReach: { value: { tv: 3, net: 2, store: 6 }, note: "広告を1人に1回届けるのにかかる費用(円)" },
+  churnRef: { value: "月3%(初期値)", note: "解約率の参考:米国の有料動画配信は2025年に月4.6%(Antenna調べ)。日本の業界別の値は確認できていない" },
+  adRef: { value: "短期0.12・長期0.24", note: "広告の効き方の参考:広告費を1%増やしたときの売上の伸び(Sethuraman, Tellis & Briesch 2011)。消費財のテレビ広告では0.01〜0.02台という報告もある(Shapiro, Hitsch & Tuchman 2021)。このモデルの広告の効き方は、これらに合わせ込んでいない" },
   wom: { value: 0.6, note: "口コミで商品を知る強さ(身近な層の利用率に比例)" },
   groupBlend: { value: 0.6, note: "周りの影響のうち、同じ地域・年代から受ける割合(残りは全国平均)" },
   events: {
