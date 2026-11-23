@@ -1,0 +1,1341 @@
+{
+ "generated": "2026-11-23",
+ "method_note": "学術文献の数値は Web 検索結果の抜粋・要約で確認できたものだけを記載(本文 PDF は取得不可)。抜粋で確認できなかった数値は null または not_confirmed に記載し、記憶では補っていない。『本調査で計算』と明記した値は理論式からの数値計算で、文献値ではない。日本の賃金・物価は厚生労働省・総務省統計局のファイルを直接取得。",
+ "confidence_scale": {
+  "high": "原論文の抄録・本文抜粋、または一次統計で確認。あるいは理論式からの計算",
+  "medium": "原論文を引用する二次資料で確認、または抜粋が部分的",
+  "low": "二次資料1件のみ、または文脈・設定が不明確"
+ },
+ "models": [
+  {
+   "key": "schelling",
+   "name_ja": "Schelling の住み分けモデル",
+   "citation": "Schelling, T. C. (1971). Dynamic models of segregation. Journal of Mathematical Sociology, 1(2), 143-186. doi:10.1080/0022250X.1971.9989794",
+   "url": "https://doi.org/10.1080/0022250X.1971.9989794",
+   "related_citations": [
+    "Wilensky, U. (1997). NetLogo Segregation model. Center for Connected Learning and Computer-Based Modeling, Northwestern University. https://ccl.northwestern.edu/netlogo/models/Segregation",
+    "Hatna, E. & Benenson, I. (2012). The Schelling Model of Ethnic Residential Dynamics: Beyond the Integrated-Segregated Dichotomy of Patterns. JASSS 15(1), 6. doi:10.18564/jasss.1873",
+    "Hegselmann, R. (2012). Thomas C. Schelling and the Computer. JASSS 15(4), 9. https://www.jasss.org/15/4/9.html (原論文の盤面を記述する二次資料)"
+   ],
+   "standard_setup": {
+    "grid": "13 x 16 (原論文の2次元チェッカーボード。JASSS 15(4)9 の記述による)",
+    "agents": null,
+    "vacancy_fraction": null,
+    "threshold_original": "同類が近傍の 1/3 を超えること(strictly more than one-third)を求める設定が代表例。原論文 p.158 で『1/3 の要求でもわずかな住み分けが始まる』とされる(二次資料経由)",
+    "neighborhood": "Moore 近傍(周囲8マス)。原論文の値としては抜粋で未確認、NetLogo 版は8近傍",
+    "netlogo_parameters": {
+     "%-similar-wanted_example": 30,
+     "density": "スライダーで可変。既定値は抜粋で未確認"
+    },
+    "move_rule": "不満な主体が、満足できる最寄りの空きマスへ移動(原論文) / ランダムな空きマスへ移動(NetLogo)"
+   },
+   "benchmarks": [
+    {
+     "what": "同類を30%以上求めるだけで、最終的な同類隣人割合は平均およそ70%になる(NetLogo 系モデルのコード注記)",
+     "value": 70,
+     "unit": "% (同類隣人割合の平均)",
+     "verified_via": "二次資料: NetLogo コミュニティモデル SegregationExpanded のコード注記(検索抜粋)。公式 Segregation モデルの解説文では数値未確認",
+     "confidence": "medium"
+    },
+    {
+     "what": "閾値ごとの最終同類隣人割合(各設定20盤面の平均。再実行例)",
+     "value": {
+      "10%": 51,
+      "20%": 57,
+      "50%": 88,
+      "60%": 98,
+      "70%": 99.6,
+      "initial_random": 50
+     },
+     "unit": "% (同類隣人割合)",
+     "verified_via": "二次資料: claude.com/docs の Schelling 再実行例(検索抜粋)。格子の大きさ・空き地率は抜粋で未確認。30%・40% の値は抜粋に無い",
+     "confidence": "low"
+    },
+    {
+     "what": "原論文の盤面は 13×16 マス",
+     "value": {
+      "rows": 13,
+      "cols": 16
+     },
+     "unit": "マス",
+     "verified_via": "二次資料: Hegselmann (2012) JASSS 15(4)9(検索抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "what": "弱い選好でも初期に混在していた盤面が強い住み分けへ傾く(定性的結論)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "二次資料複数(Grauwin ら総説、Iowa State の解説ページ等の検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "主体 i の満足条件: (近傍の同類数)/(近傍の占有マス数) >= 閾値 τ",
+    "同類隣人割合(% similar) = Σ同類隣人数 / Σ隣人総数 × 100 (NetLogo の定義)"
+   ],
+   "not_confirmed": [
+    "原論文の主体数・空き地の割合(25〜30% 等)",
+    "原論文が報告する閾値別の『同類:異類』比の数値",
+    "NetLogo 公式モデルの既定 density と、%-similar-wanted=30 のときの % similar の公式値",
+    "Hatna & Benenson (2012) の格子サイズ・密度・数値結果(書誌のみ確認)",
+    "閾値30%・40%での再現値(抜粋に無いので null 相当)"
+   ]
+  },
+  {
+   "key": "public_goods",
+   "name_ja": "公共財ゲーム(罰の有無)",
+   "citation": "Fehr, E. & Gächter, S. (2000). Cooperation and Punishment in Public Goods Experiments. American Economic Review, 90(4), 980-994. doi:10.1257/aer.90.4.980 / Fehr, E. & Gächter, S. (2002). Altruistic punishment in humans. Nature, 415, 137-140. doi:10.1038/415137a",
+   "url": "https://doi.org/10.1257/aer.90.4.980",
+   "related_citations": [
+    "Herrmann, B., Thöni, C. & Gächter, S. (2008). Antisocial Punishment Across Societies. Science, 319(5868), 1362-1367. doi:10.1126/science.1153808 (データ: doi:10.5061/dryad.87301)",
+    "Cason, T. N., Saijo, T. & Yamato, T. (2002). Voluntary Participation and Spite in Public Good Provision Experiments: An International Comparison. Experimental Economics, 5, 133-153. doi:10.1023/A:1020317321607",
+    "Funaki, Y., Gächter, S., Ogaki, M., Ohtake, F. & Veszteg, R. F. Punishment in public goods games in Japan. ワーキングペーパー(慶應 IES 掲載 PDF)。刊行年・掲載誌は抜粋で未確認"
+   ],
+   "standard_setup": {
+    "group_size": 4,
+    "endowment": 20,
+    "mpcr": 0.4,
+    "fg2000": {
+     "periods_per_condition": null,
+     "treatments": [
+      "Stranger(毎期ランダム再編成)",
+      "Partner(固定グループ)"
+     ],
+     "note": "期数(10期)は抜粋で未確認"
+    },
+    "fg2002": {
+     "subjects": 240,
+     "sessions": 10,
+     "periods_per_condition": 6,
+     "matching": "perfect stranger(同じ相手と二度会わない)",
+     "punishment_cost_to_punisher": 1,
+     "punishment_impact_on_target": 3,
+     "max_punishment_points_per_target": 10,
+     "punishment_acts_total": 1270
+    },
+    "herrmann2008": {
+     "participant_pools": 16
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "罰ありの条件では平均拠出率が初期保有の50〜95%で維持され、罰なしでは非常に低い水準に収束する(FG2000)",
+     "value": {
+      "min": 50,
+      "max": 95
+     },
+     "unit": "% of endowment",
+     "verified_via": "原論文の抄録・本文抜粋(AER 版/ワーキングペーパー版の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "罰なし条件の最終期に、被験者の53〜75%が完全にただ乗り(拠出0)する(FG2000)",
+     "value": {
+      "min": 53,
+      "max": 75
+     },
+     "unit": "% of subjects",
+     "verified_via": "ワーキングペーパー版(CESifo WP 183)の本文抜粋",
+     "confidence": "high"
+    },
+    {
+     "what": "罰あり条件の最終期に、被験者の82.5%が初期保有の全額を拠出する(FG2000。本文の文脈上 Partner 処理)",
+     "value": 82.5,
+     "unit": "% of subjects",
+     "verified_via": "ワーキングペーパー版(CESifo WP 183)の本文抜粋。どの処理かは抜粋では断定できない",
+     "confidence": "medium"
+    },
+    {
+     "what": "Partner 処理: 罰なしでは最終期に約3トークンまで低下、罰ありでは18トークン超(20中)(FG2000)",
+     "value": {
+      "no_punishment_final": 3,
+      "punishment_final_above": 18
+     },
+     "unit": "tokens (of 20)",
+     "verified_via": "AER 版 PDF の本文抜粋(検索要約経由)",
+     "confidence": "medium"
+    },
+    {
+     "what": "罰あり処理では被験者の91.4%が罰なし処理より多く拠出した(FG2002)",
+     "value": 91.4,
+     "unit": "% of subjects",
+     "verified_via": "二次資料: EconPort の実験解説ページ(検索抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "what": "Herrmann ら(2008)のドイツ人被験者: 罰なし平均 約9.2、罰あり平均 約14.5(20トークン中)",
+     "value": {
+      "no_punishment": 9.2,
+      "punishment": 14.5
+     },
+     "unit": "tokens (of 20)",
+     "verified_via": "二次資料: Funaki ら『Punishment in public goods games in Japan』が引用する値(検索抜粋)",
+     "confidence": "low"
+    },
+    {
+     "what": "日本(大阪・東京)の実験では、罰の機会が協力を高めない(Funaki ら)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "ワーキングペーパーの抄録・本文抜粋(検索要約)。拠出額の数値は未確認",
+     "confidence": "medium"
+    },
+    {
+     "what": "日米比較(Cason, Saijo & Yamato 2002): 日本人被験者は初期に意地悪(spite)行動が多いが、結果として米国より効率的な公共財供給に至る",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の抄録(EconPapers / DOI レコードの検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "利得 π_i = 20 − g_i + 0.4 × Σ_j g_j (n=4)",
+    "罰あり: π_i' = π_i − 3×(受けた罰点) − 1×(与えた罰点) (FG2002 の費用構造)",
+    "理論予測(利己的・合理的): g_i = 0、罰も行われない"
+   ],
+   "not_confirmed": [
+    "FG2000 の処理別・期別の平均拠出額(Stranger 罰なし/罰ありの平均、最終期の値)",
+    "FG2000 の期数(10期)と罰の費用表",
+    "FG2002 の罰あり/罰なしの平均拠出額(MU)と最終期の値",
+    "Herrmann ら(2008)の16プールの完全な一覧と国別平均。確認できたのは9都市(成都、ボン、リヤド、ソウル、チューリッヒ、メルボルン、ノッティンガム、コペンハーゲン、ドニプロペトロウシク)で、この中に日本は無い。残り7プールに日本が含まれないことは抜粋では最終確認できていない(日本での結果は Funaki らが別途実施しており、Herrmann らの値を外部比較対象として引用している)",
+    "Funaki らの日本での拠出額・罰支出の数値、被験者数、刊行情報"
+   ]
+  },
+  {
+   "key": "ultimatum",
+   "name_ja": "最後通牒ゲーム",
+   "citation": "Oosterbeek, H., Sloof, R. & van de Kuilen, G. (2004). Cultural Differences in Ultimatum Game Experiments: Evidence from a Meta-Analysis. Experimental Economics, 7(2), 171-188. doi:10.1023/B:EXEC.0000026978.14316.74",
+   "url": "https://doi.org/10.1023/B:EXEC.0000026978.14316.74",
+   "related_citations": [
+    "Güth, W., Schmittberger, R. & Schwarze, B. (1982). An experimental analysis of ultimatum bargaining. Journal of Economic Behavior & Organization, 3(4), 367-388. doi:10.1016/0167-2681(82)90011-7"
+   ],
+   "standard_setup": {
+    "players": 2,
+    "rule": "提案者がパイの分け方を提案し、応答者が受諾なら提案どおり、拒否なら双方0",
+    "meta_analysis_sample": {
+     "papers": 37,
+     "observations": 75
+    },
+    "guth1982": {
+     "pie_sizes_DM": [
+      4,
+      10
+     ],
+     "subjects": "未経験者、1回限り"
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "メタ分析での平均提案額はパイの約40%",
+     "value": 40,
+     "unit": "% of pie",
+     "verified_via": "原論文の抄録(Cambridge / UvA / EconPapers の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "メタ分析での平均拒否率は約16%",
+     "value": 16,
+     "unit": "% of offers",
+     "verified_via": "原論文の抄録(同上)",
+     "confidence": "high"
+    },
+    {
+     "what": "Güth ら(1982)の未経験者: 平均提案は約37%、最頻値は半々(21件中7件)",
+     "value": {
+      "mean_offer": 37,
+      "modal_offer": 50,
+      "modal_count": "7/21"
+     },
+     "unit": "% of pie",
+     "verified_via": "二次資料: A. Falk の講義スライド(IZA)の検索抜粋",
+     "confidence": "medium"
+    },
+    {
+     "what": "パイが大きいほど提案割合と拒否率は下がる。地域差は応答者側に現れ、提案者側には現れない",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の抄録",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "部分ゲーム完全均衡(利己的): 提案者は最小単位 ε を提示、応答者は正の額なら受諾",
+    "提案者利得 = (1−s)×パイ×1[受諾], 応答者利得 = s×パイ×1[受諾]"
+   ],
+   "not_confirmed": [
+    "Güth ら(1982)の拒否率と、経験者セッションの平均提案額",
+    "提案額別の拒否確率の曲線(例: 20%未満の提案の拒否率)"
+   ]
+  },
+  {
+   "key": "axelrod_ipd",
+   "name_ja": "Axelrod の繰り返し囚人のジレンマ大会",
+   "citation": "Axelrod, R. (1980a). Effective Choice in the Prisoner's Dilemma. Journal of Conflict Resolution, 24(1), 3-25. / Axelrod, R. (1980b). More Effective Choice in the Prisoner's Dilemma. Journal of Conflict Resolution, 24(3), 379-403. / Axelrod, R. (1984). The Evolution of Cooperation. Basic Books.",
+   "url": "https://econpapers.repec.org/RePEc:sae:jocore:v:24:y:1980:i:1:p:3-25",
+   "related_citations": [
+    "Rapoport, A., Seale, D. A. & Colman, A. M. (2015). Is Tit-for-Tat the Answer? On the Conclusions Drawn from Axelrod's Tournaments. PLoS ONE. https://pmc.ncbi.nlm.nih.gov/articles/PMC4520619 (数値の確認元)"
+   ],
+   "standard_setup": {
+    "payoff": {
+     "T": null,
+     "R": 3,
+     "P": 1,
+     "S": null,
+     "note": "R=3, P=1 は『200手で相互協力600点・相互裏切り200点』という基準値から確認。T=5, S=0 は依頼文の値で、検索抜粋では直接確認していない"
+    },
+    "tournament1": {
+     "entries": 14,
+     "plus_random": true,
+     "moves_per_game": 200,
+     "format": "総当たり"
+    },
+    "tournament2": {
+     "entries": 62,
+     "plus_random": true,
+     "total_rules": 63,
+     "game_length": "確率的に決定(終盤効果を避けるため)。試合長は5種類でプレイヤーには非公開"
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "第1回大会で TIT FOR TAT が優勝し、1試合(200手)あたり平均504点",
+     "value": 504,
+     "unit": "points per 200-move game",
+     "verified_via": "二次資料: Rapoport, Seale & Colman (2015) が Axelrod (1984, p.33) を引用(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "基準点: 双方が常に協力すると各600点、双方が常に裏切ると各200点(200手)",
+     "value": {
+      "mutual_cooperation": 600,
+      "mutual_defection": 200
+     },
+     "unit": "points",
+     "verified_via": "同上",
+     "confidence": "high"
+    },
+    {
+     "what": "第2回大会(RANDOM を含め63プログラム)でも TIT FOR TAT が優勝",
+     "value": {
+      "rank": 1,
+      "rules": 63
+     },
+     "unit": null,
+     "verified_via": "二次資料: Rapoport ら(2015)、arXiv:2510.15438 の再現研究(検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "囚人のジレンマの条件: T > R > P > S かつ 2R > T + S",
+    "TIT FOR TAT: 初手は協力、以後は相手の直前の手をまねる"
+   ],
+   "not_confirmed": [
+    "利得 T=5, S=0 の原典での明示(広く流布した値だが抜粋では未確認)",
+    "第2回大会での TIT FOR TAT の平均得点と試合長の中央値",
+    "各参加戦略の順位表・得点表"
+   ]
+  },
+  {
+   "key": "granovetter",
+   "name_ja": "Granovetter の閾値モデル(集合行動)",
+   "citation": "Granovetter, M. (1978). Threshold Models of Collective Behavior. American Journal of Sociology, 83(6), 1420-1443.",
+   "url": "https://sociology.stanford.edu/publications/threshold-models-collective-behavior",
+   "standard_setup": {
+    "population": 100,
+    "uniform_case": "閾値 0,1,2,...,99 を1人ずつ",
+    "perturbed_case": "閾値1の人を閾値2に替える(閾値1の人がいない)",
+    "normal_case": {
+     "mean": 25,
+     "sd": "可変",
+     "population": 100
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "閾値が 0〜99 の一様分布なら、連鎖が最後まで進み100人全員が参加する",
+     "value": 100,
+     "unit": "人",
+     "verified_via": "原論文の本文抜粋と二次資料(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "閾値1の人を1人ずらす(閾値1が不在)と、参加は扇動者1人で止まる",
+     "value": 1,
+     "unit": "人",
+     "verified_via": "原論文の記述を要約した二次資料(『2群は閾値1の有無だけが違い、結果は劇的に異なる』)。1人という値は定義からの計算",
+     "confidence": "high"
+    },
+    {
+     "what": "正規分布(平均25, N=100)では、標準偏差が臨界値 約12.2 に達するまで均衡参加者数は約6人まで緩やかに増え、臨界を超えると不連続にほぼ全員へ跳ぶ",
+     "value": {
+      "critical_sd": 12.2,
+      "equilibrium_below_critical": 6
+     },
+     "unit": "sd / 人",
+     "verified_via": "原論文の本文抜粋(『約6まで緩やかに増加』)+二次資料(σ=12.2)",
+     "confidence": "medium"
+    },
+    {
+     "what": "正規分布の累積分布による不動点反復 r←100·Φ((r−25)/σ) の計算値(本調査で計算): σ=10→0.8, 12→4.0, 12.2→5.5, 12.3→100, 20→100, 50→90.5",
+     "value": {
+      "10": 0.77,
+      "12": 4.02,
+      "12.2": 5.48,
+      "12.3": 100.0,
+      "20": 99.99,
+      "50": 90.49
+     },
+     "unit": "人 (σ別の均衡参加者数)",
+     "verified_via": "理論式からの数値計算(文献値ではない)。臨界 12.2 と『約6』が文献の記述と一致",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "r(t+1) = N × F(r(t)) (F は閾値の累積分布、r は参加者数)",
+    "均衡: r* = N × F(r*) を下から最初に満たす点"
+   ],
+   "not_confirmed": [
+    "原論文 Figure 2 の、臨界超過後の正確な均衡値と、σ がさらに大きいときの低下の数値(計算値で代用可)"
+   ]
+  },
+  {
+   "key": "sir",
+   "name_ja": "感染・口コミの SIR モデル",
+   "citation": "Kermack, W. O. & McKendrick, A. G. (1927). A Contribution to the Mathematical Theory of Epidemics. Proceedings of the Royal Society of London, Series A, 115(772), 700-721.",
+   "url": "https://mathshistory.st-andrews.ac.uk/Extras/Epidemic_theory/",
+   "related_citations": [
+    "Cinelli, M. et al. (2020). The COVID-19 Social Media Infodemic. arXiv:2003.05004",
+    "Bass, F. M. (1969). A New Product Growth for Model Consumer Durables. Management Science, 15(5), 215-227.",
+    "Sultan, F., Farley, J. U. & Lehmann, D. R. (1990). A Meta-Analysis of Applications of Diffusion Models. Journal of Marketing Research, 27, 70-77.",
+    "Skaza, J. & Blais, B. (2017). Modeling the infectiousness of Twitter hashtags. Physica A, 465, 289-296. (arXiv:1603.00074)"
+   ],
+   "standard_setup": {
+    "compartments": [
+     "S",
+     "I",
+     "R"
+    ],
+    "parameters": {
+     "beta": "感染率",
+     "gamma": "回復率",
+     "R0": "beta/gamma"
+    },
+    "initial": "s(0)≈1, i(0) は微小"
+   },
+   "benchmarks": [
+    {
+     "what": "最終規模方程式から求めた最終的な累積感染割合(本調査で計算): R0=1.2→31.4%, 1.5→58.3%, 2→79.7%, 2.5→89.3%, 3→94.1%, 4→98.0%",
+     "value": {
+      "1.2": 0.3137,
+      "1.5": 0.5828,
+      "2": 0.7968,
+      "2.5": 0.8926,
+      "3": 0.9405,
+      "4": 0.9802
+     },
+     "unit": "最終規模(割合)",
+     "verified_via": "理論式からの数値計算。式は Brauer の講義資料・Ma & Earn の総説(検索抜粋)で確認",
+     "confidence": "high"
+    },
+    {
+     "what": "ソーシャルメディア上の情報拡散に当てはめた R0 の推定例(Twitter): 指数モデルで 1.65〜2.06、SIR モデルで 4.0〜5.1(5〜95% ブートストラップ区間)",
+     "value": {
+      "twitter_exponential_fit": [
+       1.65,
+       2.06
+      ],
+      "twitter_sir_fit": [
+       4.0,
+       5.1
+      ]
+     },
+     "unit": "R0",
+     "verified_via": "原論文(arXiv:2003.05004)の検索要約。利用者の参入数に対する当てはめで、個々のうわさの R0 ではない",
+     "confidence": "medium"
+    },
+    {
+     "what": "同研究の Instagram の SIR 当てはめは R0 が 10^2 程度になり、著者自身が非現実的としている",
+     "value": 100,
+     "unit": "R0 (オーダー)",
+     "verified_via": "同上",
+     "confidence": "low"
+    },
+    {
+     "what": "Bass (1969) は11種の耐久消費財で検証。Sultan ら(1990)のメタ分析は15論文・213件の当てはめを対象",
+     "value": {
+      "bass_products": 11,
+      "meta_applications": 213,
+      "meta_articles": 15
+     },
+     "unit": "件",
+     "verified_via": "抄録(EconPapers / Columbia Business School の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "Twitter ハッシュタグの多くは『わずかに感染的』で、トレンド入りするものはごく少数(Skaza & Blais)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "抄録(検索抜粋)。R0 の数値は未確認",
+     "confidence": "medium"
+    }
+   ],
+   "formulas": [
+    "dS/dt = −βSI/N, dI/dt = βSI/N − γI, dR/dt = γI",
+    "R0 = β/γ",
+    "最終規模: ln(s0/s∞) = R0 (1 − s∞) (s0≈1 なら z = 1 − exp(−R0 z), z=1−s∞)",
+    "流行の閾値: R0 > 1 のときだけ流行が起きる",
+    "Bass モデル: dF/dt = (p + qF)(1 − F)"
+   ],
+   "not_confirmed": [
+    "Bass モデルの p, q の平均値(p≈0.03, q≈0.38 と言われる値は抜粋で未確認のため null)",
+    "個別のうわさ・ニュース(#Deflategate、ハリケーン・ハービーのデマ等)に SIR を当てた研究の R0 数値",
+    "Kermack & McKendrick 原論文の記法(原論文は R0 を明示的に導入していない、という指摘あり)"
+   ]
+  },
+  {
+   "key": "queue_erlang_c",
+   "name_ja": "待ち行列(M/M/c、Erlang C)とコールセンター",
+   "citation": "Gans, N., Koole, G. & Mandelbaum, A. (2003). Telephone Call Centers: Tutorial, Review, and Research Prospects. Manufacturing & Service Operations Management, 5(2), 79-141. doi:10.1287/msom.5.2.79.16071",
+   "url": "https://doi.org/10.1287/msom.5.2.79.16071",
+   "standard_setup": {
+    "model": "M/M/c(ポアソン到着、指数サービス時間、放棄なし、待合室無限)",
+    "inputs": {
+     "lambda": "到着率",
+     "mu": "1/平均処理時間",
+     "c": "応対者数",
+     "a": "提供負荷 λ/μ(アーラン)"
+    },
+    "service_level_target": {
+     "fraction": 0.8,
+     "within_seconds": 20,
+     "note": "業界の慣行値(80/20)。90/10 や 80/30 も使われる"
+    },
+    "occupancy_cap": "80〜85%(実務目安)"
+   },
+   "benchmarks": [
+    {
+     "what": "実務目安『80/20』: 着信の80%を20秒以内に応答",
+     "value": {
+      "fraction": 0.8,
+      "seconds": 20
+     },
+     "unit": null,
+     "verified_via": "二次資料: コールセンター実務解説(TechTarget、ベンダー記事等の検索抜粋)。Gans ら(2003)本文での記載は抜粋で未確認",
+     "confidence": "medium"
+    },
+    {
+     "what": "計算例(1時間200件、平均処理時間180秒 → a=10アーラン): 応対者11人で待ち確率68.2%・20秒以内応答39.0%、13人で79.6%、14人で88.8%",
+     "value": {
+      "11": {
+       "p_wait": 0.6821,
+       "sl_20s": 0.3896,
+       "asa_s": 122.8
+      },
+      "12": {
+       "p_wait": 0.4494,
+       "sl_20s": 0.6402,
+       "asa_s": 40.4
+      },
+      "13": {
+       "p_wait": 0.2853,
+       "sl_20s": 0.7956,
+       "asa_s": 17.1
+      },
+      "14": {
+       "p_wait": 0.1741,
+       "sl_20s": 0.8884,
+       "asa_s": 7.8
+      },
+      "15": {
+       "p_wait": 0.102,
+       "sl_20s": 0.9415,
+       "asa_s": 3.7
+      }
+     },
+     "unit": "確率 / 秒",
+     "verified_via": "理論式からの数値計算。11人=68%/39%、14人=88.8% がベンダー計算例(検索抜粋)と一致",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "a = λ/μ, ρ = a/c (< 1 が安定条件)",
+    "Erlang C: C(c,a) = [a^c/c! · c/(c−a)] / [Σ_{k=0}^{c−1} a^k/k! + a^c/c! · c/(c−a)]",
+    "待ち時間が t 以下の確率: SL(t) = 1 − C(c,a)·exp(−(cμ − λ) t)",
+    "平均待ち時間: ASA = C(c,a) / (cμ − λ)"
+   ],
+   "not_confirmed": [
+    "Gans, Koole & Mandelbaum (2003) 本文中の 80/20 への言及箇所",
+    "放棄を含む Erlang A での対応値"
+   ]
+  },
+  {
+   "key": "newsvendor",
+   "name_ja": "新聞売り子問題と発注の偏り",
+   "citation": "Schweitzer, M. E. & Cachon, G. P. (2000). Decision Bias in the Newsvendor Problem with a Known Demand Distribution: Experimental Evidence. Management Science, 46(3), 404-420.",
+   "url": "https://faculty.wharton.upenn.edu/wp-content/uploads/2012/04/Cachon_schweitzer_ms.pdf",
+   "related_citations": [
+    "Arrow, K. J., Harris, T. & Marschak, J. (1951). Optimal Inventory Policy. Econometrica, 19(3), 250-272."
+   ],
+   "standard_setup": {
+    "demand": {
+     "distribution": "一様分布",
+     "mean": 150,
+     "range": "1〜300(平均150・最適値225/75 と整合するが、範囲そのものは抜粋で未確認)"
+    },
+    "conditions": {
+     "high_profit": {
+      "optimal_order": 225,
+      "critical_ratio": 0.75
+     },
+     "low_profit": {
+      "optimal_order": 75,
+      "critical_ratio": 0.25
+     }
+    },
+    "price_cost": null
+   },
+   "benchmarks": [
+    {
+     "what": "高利益条件: 最適発注225に対し、被験者の平均発注は176.68(約177)",
+     "value": {
+      "optimal": 225,
+      "observed_mean": 176.68
+     },
+     "unit": "個",
+     "verified_via": "原論文の記述を引用する再現報告(Management Science Replication Project)と Aalto 大の再現論文(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "低利益条件: 最適発注75に対し、被験者の平均発注は134",
+     "value": {
+      "optimal": 75,
+      "observed_mean": 134
+     },
+     "unit": "個",
+     "verified_via": "二次資料: Aalto 大の再現論文(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "平均需要への引き寄せ度(本調査で計算): 高利益 (225−176.68)/(225−150)=0.64、低利益 (134−75)/(150−75)=0.79",
+     "value": {
+      "high_profit": 0.644,
+      "low_profit": 0.787
+     },
+     "unit": "0=最適, 1=平均需要",
+     "verified_via": "上記の文献値からの算術計算",
+     "confidence": "medium"
+    }
+   ],
+   "formulas": [
+    "臨界比: CR = c_u / (c_u + c_o) = (p − c)/(p − s) (残存価値 s=0 なら (p−c)/p)",
+    "最適発注量: q* = F^{-1}(CR)",
+    "一様分布 U(a,b) なら q* = a + CR·(b − a)",
+    "pull-to-center: q_obs = q* + α(μ − q*) (α は引き寄せ度)"
+   ],
+   "not_confirmed": [
+    "実験で使われた売価・原価の具体値",
+    "期ごとの発注の推移・学習効果の数値",
+    "Arrow, Harris & Marschak (1951) 本文での臨界比の記法"
+   ]
+  },
+  {
+   "key": "explore_exploit",
+   "name_ja": "探索と活用(March モデル、NK 地形、成功例バイアス)",
+   "citation": "March, J. G. (1991). Exploration and Exploitation in Organizational Learning. Organization Science. (巻号ページは検索抜粋で未確認) / Levinthal, D. A. (1997). Adaptation on Rugged Landscapes. Management Science, 43(7), 934-950. doi:10.1287/mnsc.43.7.934 / Denrell, J. (2003). Vicarious Learning, Undersampling of Failure, and the Myths of Management. Organization Science, 14(3), 227-243. doi:10.1287/orsc.14.2.227.15164",
+   "url": "https://doi.org/10.1287/mnsc.43.7.934",
+   "standard_setup": {
+    "march1991": {
+     "m_dimensions_of_reality": 30,
+     "n_individuals": 50,
+     "iterations": 80,
+     "p1": "個人が組織コードから学ぶ速さ(社会化率)",
+     "p2": "組織コードが優れた個人から学ぶ速さ",
+     "beliefs": "各次元 −1, 0, +1"
+    },
+    "levinthal1997": {
+     "N": 10,
+     "organizations": 100,
+     "K": "0〜N−1 で可変(相互依存の度合い)",
+     "search": "局所探索(1属性ずつ変更)+長距離探索"
+    },
+    "denrell2003": "生き残った組織だけを観察すると、リスクの高い慣行が成果と相関して見える"
+   },
+   "benchmarks": [
+    {
+     "what": "社会化が遅い(p1 が小さい)ほど均衡での知識水準が高い。特に組織コードの学習が速い(p2 が大きい)とき顕著(March 1991)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の本文抜粋(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "March (1991) の設定: 現実の次元 m=30、個人 n=50、80回の反復。結果は m, n に対して定性的に頑健",
+     "value": {
+      "m": 30,
+      "n": 50,
+      "iterations": 80
+     },
+     "unit": null,
+     "verified_via": "原論文の本文抜粋",
+     "confidence": "high"
+    },
+    {
+     "what": "March の Figure 1 の最大値は約0.95。再現コードでは尺度が合わず 0.95 に届かないとの報告あり",
+     "value": 0.95,
+     "unit": "均衡知識(正答割合)",
+     "verified_via": "二次資料: M. Workiewicz の再現コード(GitHub)の説明文(検索抜粋)",
+     "confidence": "low"
+    },
+    {
+     "what": "NK モデル(N=10、100組織、局所適応): K=0 では全組織が同一の形態に収束、K=1 では少数の形態に集中、K が増えると局所峰の数が増える(Levinthal 1997)",
+     "value": {
+      "K0_distinct_forms_final": 1
+     },
+     "unit": "形態の種類数",
+     "verified_via": "二次資料: 再現研究(System Dynamics Society 2010, P1075)と原論文抜粋",
+     "confidence": "medium"
+    },
+    {
+     "what": "初期時点では100組織がほぼすべて異なる形態(平均 約95.4〜95.6 種類)(Levinthal 1997)",
+     "value": {
+      "approx": 95.5
+     },
+     "unit": "形態の種類数",
+     "verified_via": "原論文スキャンの断片(検索抜粋)。どの設定の値かは未確認",
+     "confidence": "low"
+    },
+    {
+     "what": "生存者だけを標本にすると、成果と無関係なリスクの高い慣行が成功と相関して見える(Denrell 2003)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の抄録(Stanford GSB / INFORMS の検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "March: 各期、個人は確率 p1 で組織コードの値を採用、コードは確率 p2 で自分より知識の高い個人の多数派の値を採用",
+    "NK: 適応度 W = (1/N) Σ_i w_i(s_i; s_{i1..iK})、各 w_i は一様乱数 [0,1]",
+    "局所峰の数は K とともに増加(K=0 では峰は1個)"
+   ],
+   "not_confirmed": [
+    "March (1991) の巻号ページ、p1・p2 の組み合わせごとの均衡知識の数値",
+    "Levinthal (1997) の K 別・期別の形態数の数値表",
+    "Denrell (2003) のシミュレーション設定と数値結果"
+   ]
+  },
+  {
+   "key": "majority_condorcet",
+   "name_ja": "多数決の精度(Condorcet の陪審定理と集合知)",
+   "citation": "Condorcet, M. de (1785). Essai sur l'application de l'analyse à la probabilité des décisions rendues à la pluralité des voix. / Galton, F. (1907). Vox Populi. Nature, 75, 450-451.",
+   "url": "https://galton.org/cgi-bin/searchImages/search/essays/pages/galton-1907-vox-populi_1.htm",
+   "standard_setup": {
+    "condorcet": {
+     "voters": "n(奇数)",
+     "p": "各人が正しい確率(独立、p>0.5)"
+    },
+    "galton": {
+     "estimates": 787,
+     "event": "プリマスの家畜品評会での牛の重量当て"
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "Galton (1907): 787人の推定の中央値は1207ポンド、実際の枝肉重量は1198ポンド(誤差 +9ポンド、0.8%)",
+     "value": {
+      "median": 1207,
+      "actual": 1198,
+      "error_lb": 9,
+      "error_pct": 0.8,
+      "n": 787
+     },
+     "unit": "lb",
+     "verified_via": "原論文の本文(galton.org の画像テキスト、検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "陪審定理の計算値(本調査で計算、p=0.6): n=1→0.600, 3→0.648, 11→0.753, 51→0.927, 101→0.979, 1001→1.000",
+     "value": {
+      "1": 0.6,
+      "3": 0.648,
+      "11": 0.7535,
+      "51": 0.9265,
+      "101": 0.9791,
+      "1001": 1.0
+     },
+     "unit": "多数決が正しい確率",
+     "verified_via": "理論式からの数値計算",
+     "confidence": "high"
+    },
+    {
+     "what": "陪審定理の計算値(本調査で計算、n=101): p=0.51→0.580, p=0.55→0.844, p=0.60→0.979",
+     "value": {
+      "0.51": 0.5799,
+      "0.55": 0.8438,
+      "0.6": 0.9791
+     },
+     "unit": "多数決が正しい確率",
+     "verified_via": "理論式からの数値計算",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "P_n = Σ_{k=(n+1)/2}^{n} C(n,k) p^k (1−p)^{n−k} (n は奇数)",
+    "p > 1/2 なら P_n は n とともに単調増加し 1 に収束、p < 1/2 なら 0 に収束"
+   ],
+   "not_confirmed": [
+    "Galton のデータの算術平均(1197ポンドとされる値)は抜粋で確認できず null。Galton の草稿では中央値1208という不一致も指摘されている"
+   ]
+  },
+  {
+   "key": "incentive_pay",
+   "name_ja": "賃金・評価制度と努力(歩合と定額)",
+   "citation": "Lazear, E. P. (2000). Performance Pay and Productivity. American Economic Review, 90(5), 1346-1361.",
+   "url": "https://www.nber.org/papers/w5672",
+   "related_citations": [
+    "Bandiera, O., Barankay, I. & Rasul, I. (2005). Social Preferences and the Response to Incentives: Evidence from Personnel Data. Quarterly Journal of Economics, 120(3), 917-962.",
+    "Gneezy, U. & Rustichini, A. (2000). Pay Enough or Don't Pay at All. Quarterly Journal of Economics, 115(3), 791-810."
+   ],
+   "standard_setup": {
+    "lazear": {
+     "firm": "Safelite Glass(自動車ガラス取付)",
+     "change": "時給から出来高払いへ、1994〜1995年"
+    },
+    "bandiera": {
+     "setting": "英国の果物農場、相対評価から出来高払いへ"
+    },
+    "gneezy_rustichini": {
+     "subjects": 160,
+     "task": "IQ テスト50問",
+     "groups": 4,
+     "fixed_payment_NIS": 60
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "出来高払いへの切り替えで労働者1人あたり産出が44%増加(Lazear 2000)",
+     "value": 44,
+     "unit": "% increase",
+     "verified_via": "原論文の抄録・本文抜粋(Stanford GSB / AER PDF の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "44%のうち、同じ労働者がより多く働く誘因効果が約22%。残りは能力の高い労働者が集まる選別効果",
+     "value": {
+      "incentive_effect": 22,
+      "sorting_and_other": 22
+     },
+     "unit": "% points",
+     "verified_via": "原論文の本文抜粋(『incentive effect ... about 22 percent』)。残り22は差し引きの計算",
+     "confidence": "high"
+    },
+    {
+     "what": "労働者個人の生産性上昇分のうち約半分が賃金上昇として労働者に還元された",
+     "value": 0.5,
+     "unit": "割合",
+     "verified_via": "NBER ワーキングペーパー版(w5672)の抄録",
+     "confidence": "medium"
+    },
+    {
+     "what": "出来高払いの下での平均生産性は、相対評価の下より少なくとも50%高い(Bandiera, Barankay & Rasul 2005)",
+     "value": 50,
+     "unit": "% (下限)",
+     "verified_via": "原論文の抄録(EconBiz / RePEc の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "少額の金銭報酬を与えた群は、無報酬の群より成績が悪い(Gneezy & Rustichini 2000)",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の抄録(検索抜粋)。群別の平均正答数は未確認",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "出来高払い: 賃金 w = b·q (最低保証つきなら w = max(w0, b·q − K))",
+    "労働者の最適努力: 限界費用 C'(e) = 限界報酬 b"
+   ],
+   "not_confirmed": [
+    "Lazear (2000) の賃金上昇率(10% とも 7% とも言われる値は一次資料の抜粋で確認できず null)",
+    "Gneezy & Rustichini (2000) の群別平均正答数(28.4、23.07 など)",
+    "NBER 版の『産出の約20〜36%』という別の幅と、AER 版 44% との対応関係"
+   ]
+  },
+  {
+   "key": "laffer",
+   "name_ja": "税率と労働供給・税収(Laffer 曲線)",
+   "citation": "Trabandt, M. & Uhlig, H. (2011). The Laffer curve revisited. Journal of Monetary Economics, 58(4), 305-327. (NBER Working Paper 15343)",
+   "url": "https://econpapers.repec.org/RePEc:eee:moneco:v:58:y:2011:i:4:p:305-327",
+   "related_citations": [
+    "Diamond, P. & Saez, E. (2011). The Case for a Progressive Tax: From Basic Research to Policy Recommendations. Journal of Economic Perspectives, 25(4), 165-190. doi:10.1257/jep.25.4.165",
+    "Saez, E., Slemrod, J. & Giertz, S. H. (2012). The Elasticity of Taxable Income with Respect to Marginal Tax Rates: A Critical Review. Journal of Economic Literature, 50(1), 3-50. doi:10.1257/jel.50.1.3",
+    "Nutahara, K. (2015). Laffer curves in Japan. Journal of the Japanese and International Economies, 36, 56-72. (CIGS Working Paper 13-007E)"
+   ],
+   "standard_setup": {
+    "trabandt_uhlig": "新古典派成長モデル、Frisch 弾力性一定の選好。労働税・資本税・消費税それぞれの Laffer 曲線を計算",
+    "diamond_saez": {
+     "pareto_parameter_a": 1.5,
+     "elasticity_e": 0.25,
+     "social_weight_on_top_g": 0
+    },
+    "nutahara": "Trabandt & Uhlig の枠組みを日本に適用"
+   },
+   "benchmarks": [
+    {
+     "what": "米国は労働税の引き上げで税収を最大30%、資本税の引き上げで最大6%増やせる",
+     "value": {
+      "labor": 30,
+      "capital": 6
+     },
+     "unit": "% (税収の増加余地)",
+     "verified_via": "原論文の抄録(EconPapers の検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "EU-14 の増収余地は労働税で8%、資本税で1%",
+     "value": {
+      "labor": 8,
+      "capital": 1
+     },
+     "unit": "% (税収の増加余地)",
+     "verified_via": "原論文の抄録",
+     "confidence": "high"
+    },
+    {
+     "what": "EU-14 では労働税減税の54%、資本税減税の79%が自己資金化(self-financing)される",
+     "value": {
+      "labor": 54,
+      "capital": 79
+     },
+     "unit": "%",
+     "verified_via": "原論文の抄録",
+     "confidence": "high"
+    },
+    {
+     "what": "米国では労働税減税の32%、資本税減税の51%が自己資金化される",
+     "value": {
+      "labor": 32,
+      "capital": 51
+     },
+     "unit": "%",
+     "verified_via": "ワーキングペーパー版の抄録(検索抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "what": "最高限界税率の税収最大化水準は約73%(a=1.5, e=0.25 のとき τ*=1/(1+a·e)=0.727)。当時の米国の合算最高限界税率は42.5%",
+     "value": {
+      "optimal_top_rate": 73,
+      "current_combined_top_rate": 42.5,
+      "a": 1.5,
+      "e": 0.25
+     },
+     "unit": "%",
+     "verified_via": "原論文の本文抜粋(検索要約)と Cato Journal の批評が引用する p.171。式の形は検索要約に基づき、数値は式から再計算して一致",
+     "confidence": "high"
+    },
+    {
+     "what": "課税所得の弾力性の文献上の中位値は 0.25",
+     "value": 0.25,
+     "unit": "弾力性",
+     "verified_via": "二次資料: Diamond & Saez (2011) が『中位の値』として使用、Wikipedia の Saez-Slemrod-Giertz 要約(検索抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "what": "日本(Nutahara 2015): 労働税率は Laffer 曲線の頂点より下、資本税率は頂点のごく近くか上。税収最大化には労働税を上げ資本税を下げるべき。消費税の Laffer 曲線は単調増加",
+     "value": "qualitative",
+     "unit": null,
+     "verified_via": "原論文の抄録(ScienceDirect / CIGS / RePEc の検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "税収 T(τ) = τ · B(τ) (B は課税ベース。τ の上昇で B が縮む)",
+    "税収最大化の最高限界税率: τ* = 1 / (1 + a·e) (a: パレート係数, e: 課税所得の弾力性)",
+    "社会的ウェイト g を置く場合: τ* = (1 − g) / (1 − g + a·e)"
+   ],
+   "not_confirmed": [
+    "Trabandt & Uhlig の頂点税率そのもの(労働税・資本税の税収最大化税率の%値)",
+    "Saez, Slemrod & Giertz (2012) の弾力性の幅 0.12〜0.40(抜粋で確認できず null)",
+    "Nutahara (2015) の日本の頂点税率・現行税率・増収余地の数値(抄録は定性的記述のみ)"
+   ]
+  },
+  {
+   "key": "subcontracting",
+   "name_ja": "多重下請け・中間マージン(重層下請構造)",
+   "citation": "国土交通省 不動産・建設経済局「重層下請構造実態調査」(2025年度)。確認は建設専門紙の報道経由。/ 国土交通省「重層下請構造の改善に向けた取組について」 https://www.mlit.go.jp/common/001236203.pdf / 公正取引委員会 (2022)「ソフトウェア業の下請取引等に関する実態調査報告書」令和4年6月29日",
+   "url": "https://www.mlit.go.jp/common/001236203.pdf",
+   "standard_setup": {
+    "construction": "元請 → 1次 → 2次 → 3次 … の請負階層",
+    "software": "公取委調査: 資本金3億円以下のソフトウェア業 約21,000社へのアンケート"
+   },
+   "benchmarks": [
+    {
+     "what": "土木工事の下請次数の分布(回答1026件): 1次 26.9%、2次 43.1%、3次 24.4%、4次 4.9%、5次以上 0.8%",
+     "value": {
+      "1": 26.9,
+      "2": 43.1,
+      "3": 24.4,
+      "4": 4.9,
+      "5+": 0.8,
+      "n": 1026
+     },
+     "unit": "%",
+     "verified_via": "二次資料: 国交省2025年度調査を報じる建設専門紙(日本工業経済新聞ほか、検索抜粋)。集計単位(現場ごとの最大次数か)は未確認",
+     "confidence": "medium"
+    },
+    {
+     "what": "建築工事の下請次数の分布(回答433件): 1次 10.2%、2次 25.4%、3次 33.3%、4次 21.5%、5次以上 9.7%",
+     "value": {
+      "1": 10.2,
+      "2": 25.4,
+      "3": 33.3,
+      "4": 21.5,
+      "5+": 9.7,
+      "n": 433
+     },
+     "unit": "%",
+     "verified_via": "同上",
+     "confidence": "medium"
+    },
+    {
+     "what": "2016年7月以降に技能者(職長・班長以外)の賃金を引き上げた企業の割合: 2次下請 約5割に対し、3次以下は約3割(元請〜2次は4〜5割、3次以下は3〜4割)",
+     "value": {
+      "second_tier": 50,
+      "third_tier_and_below": 30
+     },
+     "unit": "% of firms",
+     "verified_via": "二次資料: 日経コンストラクション記事と国交省資料(001236203.pdf)の検索抜粋",
+     "confidence": "medium"
+    },
+    {
+     "what": "建築工事の下請の約3割が『適切な報酬を得られない』と回答(2025年度調査)",
+     "value": 30,
+     "unit": "%",
+     "verified_via": "二次資料: 建設通信新聞の報道(検索抜粋)",
+     "confidence": "medium"
+    },
+    {
+     "what": "公取委のソフトウェア業調査(2022年)は約21,000社を対象に実施",
+     "value": 21000,
+     "unit": "社",
+     "verified_via": "公取委の報道発表を紹介する記事(検索抜粋)",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "k 次下請の受取額 = 元請の発注額 × Π_{j=1}^{k} (1 − m_j) (m_j: j 段目の中間マージン率。マージン率そのものの公的な定量値は未確認)"
+   ],
+   "not_confirmed": [
+    "下請次数別の賃金水準・労務単価の金額(公的調査の表として検索抜粋では確認できなかった。国交省資料は『下位になるほど技能者の賃金が減る傾向』と定性的に記述)",
+    "各段階の中間マージン率(中抜き率)の公的な定量値。建設業・IT業とも確認できず",
+    "公取委報告書の多重下請の段階数分布や取引条件の数値",
+    "中小企業庁の該当調査"
+   ]
+  },
+  {
+   "key": "saving_multiplier",
+   "name_ja": "貯蓄と景気(節約のパラドックス、乗数、限界消費性向)",
+   "citation": "内閣府政策統括官(経済財政分析担当) (2010)「定額給付金に関連した消費等に関する調査」の結果について(平成22年1月15日)。 https://www5.cao.go.jp/keizai3/2010/0115kyufukin.pdf",
+   "url": "https://www5.cao.go.jp/keizai3/kyufukin.html",
+   "related_citations": [
+    "Kaneda, M., Kubota, S. & Tanaka, S. (2021). Who spent their COVID-19 stimulus payment? Evidence from personal finance software in Japan. The Japanese Economic Review, 72, 409-437. doi:10.1007/s42973-021-00080-0",
+    "Kubota, S., Onishi, K. & Toyama, Y. (2021). Consumption responses to COVID-19 payments: Evidence from a natural experiment and bank account data. Journal of Economic Behavior & Organization, 188, 1-17.",
+    "Hattori, T., Komura & Unayama, T.(服部孝洋ほか)(2021)「コロナ禍における現金給付の家計消費への影響」RIETI Discussion Paper 21-J-022(英語版 21-E-043)。共著者の日本語表記は抜粋で未確認"
+   ],
+   "standard_setup": {
+    "teigaku_2009": {
+     "survey_period": "2009年4月〜9月",
+     "households_surveyed": 15000,
+     "valid_responses": 9194,
+     "response_rate_pct": 61.3,
+     "mean_receipt_yen": 44840
+    },
+    "tokubetsu_2020": {
+     "payment_per_person_yen": 100000
+    }
+   },
+   "benchmarks": [
+    {
+     "what": "2009年定額給付金: 給付額のうち『給付金がなければ購入しなかった』支出は29.0%(消費の純増分)",
+     "value": 29.0,
+     "unit": "% of payment",
+     "verified_via": "内閣府調査の公表ページ・PDF の検索抜粋",
+     "confidence": "high"
+    },
+    {
+     "what": "2009年定額給付金の限界消費性向は内閣府(2010)の推計で約0.33(29.0%に前倒し・増額分を加えた値と整合)",
+     "value": 0.33,
+     "unit": "MPC",
+     "verified_via": "二次資料: 推計値を比較する資料(検索抜粋)。内訳の3.8%・合計32.8%は抜粋で未確認",
+     "confidence": "medium"
+    },
+    {
+     "what": "2009年定額給付金: 受け取った額のうち消費に充てたと答えた割合は平均64.5%(全額消費の世帯50.0%、0%の世帯26.9%)",
+     "value": {
+      "mean_share_spent": 64.5,
+      "all_spent_households": 50.0,
+      "none_spent_households": 26.9
+     },
+     "unit": "%",
+     "verified_via": "内閣府調査の検索抜粋。純増ではなく使途の回答",
+     "confidence": "high"
+    },
+    {
+     "what": "2020年特別定額給付金: 家計簿アプリのデータによる限界消費性向は、消費の定義により6%〜27%(Kaneda, Kubota & Tanaka 2021)",
+     "value": {
+      "min": 0.06,
+      "max": 0.27
+     },
+     "unit": "MPC",
+     "verified_via": "二次資料: Hattori, Komura & Unayama(RIETI DP)による紹介(検索抜粋)。原論文本文では未照合",
+     "confidence": "medium"
+    },
+    {
+     "what": "2020年特別定額給付金: 家計調査の都市別データによる限界消費性向は約10%(Hattori, Komura & Unayama)",
+     "value": 0.1,
+     "unit": "MPC",
+     "verified_via": "RIETI DP 21-J-022 の要旨(検索抜粋)",
+     "confidence": "high"
+    },
+    {
+     "what": "2020年特別定額給付金: 銀行口座データでは約50%(Kubota, Onishi & Toyama 2021)。ATM 引き出しや振込の扱いに批判あり",
+     "value": 0.5,
+     "unit": "MPC (口座からの流出ベース)",
+     "verified_via": "二次資料: Hattori, Komura & Unayama による紹介(検索抜粋)",
+     "confidence": "low"
+    },
+    {
+     "what": "内閣府(2023)の家計簿アプリ分析では限界消費性向は家計全体で約0.22",
+     "value": 0.22,
+     "unit": "MPC",
+     "verified_via": "二次資料(検索抜粋)。原資料の特定は不十分",
+     "confidence": "low"
+    }
+   ],
+   "formulas": [
+    "ケインズ乗数: ΔY = ΔG / (1 − c) (c: 限界消費性向)",
+    "給付・減税の乗数: ΔY = c·ΔT / (1 − c)",
+    "節約のパラドックス: 均衡所得 Y = (a + I) / (1 − c)。全員が貯蓄率を上げる(c を下げる)と Y が縮み、総貯蓄 S = I は増えない",
+    "例: c=0.1 → 乗数1.11、c=0.33 → 1.49、c=0.5 → 2.0"
+   ],
+   "not_confirmed": [
+    "内閣府(2010)の消費増加効果の合計 32.8% と内訳 3.8%(抜粋で未確認)",
+    "坂本(2010)の 0.22、中村(2007)の 0.4 など比較資料経由の値の一次資料",
+    "日本銀行の限界消費性向推計",
+    "Kaneda ら・Kubota らの原論文本文での正確な推定値と信頼区間"
+   ]
+  },
+  {
+   "key": "prices_wages_japan",
+   "name_ja": "物価と賃金(日本の名目賃金・実質賃金・消費者物価)",
+   "citation": "厚生労働省「毎月勤労統計調査 2025(令和7)年分結果確報」「同 令和4年分結果確報」(時系列第1表 賃金指数、付表)。総務省統計局「2020年基準 消費者物価指数 全国 2025年(令和7年)平均」(2026年1月23日公表) 表7。",
+   "url": "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r07/25cr/25cr.html",
+   "source_files": [
+    "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r07/25cr/xls/25ct01r.xlsx",
+    "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r07/25cr/xls/fu25cr.xlsx",
+    "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r07/25cr/dl/pdf25cr.pdf",
+    "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r04/22cr/xls/22ct01r.xlsx",
+    "https://www.mhlw.go.jp/toukei/itiran/roudou/monthly/r04/22cr/xls/fu22cr.xlsx",
+    "https://www.stat.go.jp/data/cpi/sokuhou/nen/pdf/zen-n.pdf"
+   ],
+   "standard_setup": {
+    "wage_scope": "調査産業計、事業所規模5人以上、就業形態計、現金給与総額",
+    "index_base": "2020年平均=100",
+    "real_wage_definition": "名目賃金指数 ÷ 消費者物価指数(持家の帰属家賃を除く総合)。2025年分から『総合』で実質化した系列も併記",
+    "caveat": "2024年1月にベンチマーク更新があり、2024年の前年比は参考値との比較で算出されているため、指数の水準(2023年103.5→2024年109.2)から計算した伸び率とは一致しない。伸び率は公表の前年比を使うこと",
+    "years": [
+     2015,
+     2016,
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025
+    ]
+   },
+   "benchmarks": [
+    {
+     "what": "消費者物価指数(総合、2020年=100)の年平均",
+     "value": {
+      "2015": 98.2,
+      "2016": 98.1,
+      "2017": 98.6,
+      "2018": 99.5,
+      "2019": 100.0,
+      "2020": 100.0,
+      "2021": 99.8,
+      "2022": 102.3,
+      "2023": 105.6,
+      "2024": 108.5,
+      "2025": 111.9
+     },
+     "unit": "指数 (2020=100)",
+     "verified_via": "一次資料: 統計局 PDF 表7 を curl で取得",
+     "confidence": "high"
+    },
+    {
+     "what": "消費者物価指数(総合)の前年比",
+     "value": {
+      "2015": 0.8,
+      "2016": -0.1,
+      "2017": 0.5,
+      "2018": 1.0,
+      "2019": 0.5,
+      "2020": 0.0,
+      "2021": -0.2,
+      "2022": 2.5,
+      "2023": 3.2,
+      "2024": 2.7,
+      "2025": 3.2
+     },
+     "unit": "%",
+     "verified_via": "一次資料: 同上(前年比は各基準年の公表値)",
+     "confidence": "high"
+    },
+    {
+     "what": "消費者物価指数(生鮮食品を除く総合、2020年=100)の年平均",
+     "value": {
+      "2015": 98.5,
+      "2016": 98.2,
+      "2017": 98.7,
+      "2018": 99.5,
+      "2019": 100.2,
+      "2020": 100.0,
+      "2021": 99.8,
+      "2022": 102.1,
+      "2023": 105.2,
+      "2024": 107.9,
+      "2025": 111.2
+     },
+     "unit": "指数 (2020=100)",
+     "verified_via": "一次資料: 同上",
+     "confidence": "high"
+    },
+    {
+     "what": "名目賃金指数(現金給与総額、2020年=100)",
+     "value": {
+      "2015": 99.1,
+      "2016": 99.7,
+      "2017": 100.2,
+      "2018": 101.6,
+      "2019": 101.2,
+      "2020": 100.0,
+      "2021": 100.3,
+      "2022": 102.3,
+      "2023": 103.5,
+      "2024": 109.2,
+      "2025": 111.7
+     },
+     "unit": "指数 (2020=100)",
+     "verified_via": "一次資料: 厚労省 時系列第1表(2015〜2017年は令和4年分確報、2018〜2025年は2025年分確報)を curl で取得",
+     "confidence": "high"
+    },
+    {
+     "what": "名目賃金(現金給与総額)の前年比",
+     "value": {
+      "2015": 0.1,
+      "2016": 0.6,
+      "2017": 0.4,
+      "2018": 1.4,
+      "2019": -0.4,
+      "2020": -1.2,
+      "2021": 0.3,
+      "2022": 2.0,
+      "2023": 1.2,
+      "2024": 2.8,
+      "2025": 2.3
+     },
+     "unit": "%",
+     "verified_via": "一次資料: 同上・付表",
+     "confidence": "high"
+    },
+    {
+     "what": "実質賃金(現金給与総額、持家の帰属家賃を除く総合で実質化)の前年比",
+     "value": {
+      "2015": -0.8,
+      "2016": 0.8,
+      "2017": -0.2,
+      "2018": 0.2,
+      "2019": -1.0,
+      "2020": -1.2,
+      "2021": 0.6,
+      "2022": -1.0,
+      "2023": -2.5,
+      "2024": -0.3,
+      "2025": -1.3
+     },
+     "unit": "%",
+     "verified_via": "一次資料: 厚労省 付表(2015〜2017年は令和4年分、2018〜2025年は2025年分確報)",
+     "confidence": "high"
+    },
+    {
+     "what": "実質賃金(総合で実質化)の前年比",
+     "value": {
+      "2018": 0.5,
+      "2019": -0.9,
+      "2020": -1.2,
+      "2021": 0.5,
+      "2022": -0.5,
+      "2023": -2.0,
+      "2024": 0.0,
+      "2025": -0.8
+     },
+     "unit": "%",
+     "verified_via": "一次資料: 厚労省 2025年分確報 付表",
+     "confidence": "high"
+    },
+    {
+     "what": "消費者物価指数(持家の帰属家賃を除く総合)の前年比(実質化に使う系列)",
+     "value": {
+      "2015": 1.0,
+      "2016": -0.1,
+      "2017": 0.6,
+      "2018": 1.2,
+      "2019": 0.6,
+      "2020": 0.0,
+      "2021": -0.3,
+      "2022": 3.0,
+      "2023": 3.8,
+      "2024": 3.2,
+      "2025": 3.7
+     },
+     "unit": "%",
+     "verified_via": "一次資料: 厚労省 付表の参考欄",
+     "confidence": "high"
+    },
+    {
+     "what": "2025年の実質賃金指数(2020年=100): 持家の帰属家賃を除く総合で実質化 98.0(前年比 −1.3%)、総合で実質化 99.8(−0.8%)",
+     "value": {
+      "excl_imputed_rent": 98.0,
+      "all_items": 99.8
+     },
+     "unit": "指数 (2020=100)",
+     "verified_via": "一次資料: 厚労省 2025年分確報 概況 PDF",
+     "confidence": "high"
+    },
+    {
+     "what": "2025年の現金給与総額(月額、就業形態計)は355,941円(前年比 +2.3%)。一般労働者465,923円、パートタイム114,527円",
+     "value": {
+      "all": 355941,
+      "full_time": 465923,
+      "part_time": 114527
+     },
+     "unit": "円/月",
+     "verified_via": "一次資料: 同上",
+     "confidence": "high"
+    }
+   ],
+   "formulas": [
+    "実質賃金指数 = 名目賃金指数 ÷ 消費者物価指数 × 100",
+    "実質賃金の伸び ≈ 名目賃金の伸び − 物価の伸び"
+   ],
+   "not_confirmed": [
+    "2015〜2024年の実質賃金指数の水準(前年比のみ取得。水準は e-Stat の長期時系列表が必要)",
+    "2026年の年平均(未公表。月次は2026年9月分速報まで公表済み)",
+    "消費者物価指数は2025年基準への改定が進行中で、月次は2025年基準に移行している(年平均の2020年基準値は上記のとおり)"
+   ]
+  }
+ ]
+}

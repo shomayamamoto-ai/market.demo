@@ -16,6 +16,10 @@ import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
 import { queue, spreadModel, schelling, newsvendor } from "./theory.js";
+import { threshold, tournament, commons, split } from "./experiments.js";
+import { future } from "./future.js";
+import LITERATURE from "./literature-data.js";
+import COHORT from "./cohort-data.js";
 import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
 import { makeRng } from "./rng.js";
@@ -133,12 +137,16 @@ const NAV = [
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
   { key: "behavior", label: "経済と行動", tabs: [] },
   { key: "theory", label: "理論で確かめる", tabs: [] },
+  { key: "experiment", label: "実験と比べる", tabs: [] },
   { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
 ];
 const LABS = [economy, town, island, council, climb];
 const THEORY_LABS = [queue, spreadModel, schelling, newsvendor];
+const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
+  for (const def of EXPERIMENT_LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "experiment").tabs.push([def.key, def.title]); }
+  mountLab(future, { seedOf: () => 1 }); NAV.find((g) => g.key === "japan").tabs.push([future.key, future.title]);
   for (const def of THEORY_LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "theory").tabs.push([def.key, def.title]); }
   $("toc").firstElementChild.innerHTML = NAV.map((g) =>
     `${g.tabs.length > 1 ? `<h2>${g.label}</h2>` : ""}<div class="grp" data-group="${g.key}">${g.tabs.map(([id, label]) => `<a href="#${id}" data-tab="${id}">${label}</a>`).join("")}</div>`).join("");
@@ -882,7 +890,7 @@ const HUB = () => [
   { key: "org", initial: "fixedPush", label: "職場のルール", presets: PRESETS, play: org3d, param: { key: "push", label: "早い人に回す割合(%)", scale: 100, min: 0, max: 100, step: 10 } },
   { key: "tax", initial: "heavy", label: "税率と助け合い", presets: SOCIETY_PRESETS, play: soc3d, param: { key: "tax", label: "税率(%)", scale: 100, min: 0, max: 90, step: 10 } },
   { key: "chain", initial: "shortcut", label: "多重下請け", presets: CHAIN_PRESETS, play: chain3d, param: { key: "layers", label: "中抜きの段階数", scale: 1, min: 0, max: 6, step: 1 } },
-  ...[...LABS, ...THEORY_LABS].filter((def) => def.frames).map((def) => ({ key: def.key, label: def.title, presets: def.presets, def, param: def.params?.[0] && { ...def.params[0], scale: def.params[0].scale ?? 1 } })),
+  ...[...LABS, ...THEORY_LABS, ...EXPERIMENT_LABS, future].filter((def) => def.frames).map((def) => ({ key: def.key, label: def.title, presets: def.presets, def, param: def.params?.[0] && { ...def.params[0], scale: def.params[0].scale ?? 1 } })),
 ];
 function buildHub() {
   const hub = HUB();
@@ -1056,6 +1064,8 @@ function renderSources() {
   $("sources").innerHTML = `<table><tr><th>データ</th><th>年次</th><th>出典</th><th>確かさ</th></tr>${
     state.D.sources.map((s) => `<tr><td>${esc(s.use)}</td><td>${esc(s.year)}</td><td>${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a>` : esc(s.name)}</td><td>${esc(s.quality)}</td></tr>`).join("")
   }</table>`;
+  $("literature").innerHTML = `<table><tr><th>モデル</th><th>文献</th><th>文献から確認できた値</th></tr>${LITERATURE.map((m) => `<tr><td>${esc(m.name)}</td><td>${m.url ? `<a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.citation)}</a>` : esc(m.citation)}</td><td>${m.benchmarks.length ? `<ul class="facts">${m.benchmarks.map((b) => `<li>${esc(b.what)}(確かさ:${b.c})</li>`).join("")}</ul>` : "―"}${m.missing ? `<small>確認できなかった項目:${m.missing}件</small>` : ""}</td></tr>`).join("")}</table>`;
+  $("sources").insertAdjacentHTML("beforeend", `<table><tr><th>将来人口の計算に使うデータ</th></tr>${COHORT.sources.map((x) => `<tr><td><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.name)}</a></td></tr>`).join("")}</table>`);
   const rows = [];
   const add = (group, obj) => Object.values(obj).forEach((a) => rows.push(`<tr><td>${group}</td><td>${esc(a.note)}</td><td>${esc(typeof a.value === "object" ? JSON.stringify(a.value) : String(a.value))}</td></tr>`));
   add("ペルソナ生成", ASSUMPTIONS);
@@ -1064,7 +1074,7 @@ function renderSources() {
   add("組織シミュレーター", ORG_ASSUMPTIONS);
   add("税率と助け合い", SOCIETY_ASSUMPTIONS);
   add("多重下請け", CHAIN_ASSUMPTIONS);
-  for (const def of [...LABS, ...THEORY_LABS]) add(def.title, def.assumptions);
+  for (const def of [...LABS, ...THEORY_LABS, ...EXPERIMENT_LABS, future]) add(def.title, def.assumptions);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");

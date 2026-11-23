@@ -201,3 +201,36 @@ test("理論:寄り合いの的中率が、多数決の理論値と合う", () =
   near(m.hitCouncil, m.theoryCouncil, 0.01, "寄り合い");
   near(m.hitKing, 0.9, 0.02, "王");
 });
+
+// ---- 実験と比べる・将来人口 ----
+import { threshold, tournament, commons, split } from "../public/js/experiments.js";
+import { future } from "../public/js/future.js";
+
+test("実験:閾値モデルが原論文の結果を再現する", () => {
+  const f = (k) => trial(threshold, threshold.presets[k].rules, 5, 1, 100).summary;
+  assert.equal(f("uniform").final, 100); assert.equal(f("shifted").final, 1);
+  assert.ok(f("narrow").expected < 7 && f("wide").expected > 99);
+});
+
+test("実験:総当たり戦の点数が、点数表からの手計算と合う", () => {
+  const r = tournament.presets.standard.rules, m = trial(tournament, r, 5, 1, 200).summary;
+  for (const row of tournament.verify(m, r)) assert.equal(row.model, row.theory, row.label);
+  assert.ok(m.tft > m.alld, "しっぺ返しは、いつも裏切りより得点が高い");
+});
+
+test("実験:公共財ゲームが、罰なしで崩れ、罰ありで保たれる(文献値の範囲)", () => {
+  const none = trial(commons, commons.presets.none.rules, 20, 1, 10).summary, pun = trial(commons, commons.presets.punish.rules, 20, 1, 10).summary;
+  assert.ok(none.last < 4 && none.zero > 0.53 && none.zero < 0.75, `罰なし ${none.last} ${none.zero}`);
+  assert.ok(pun.last >= 17.5 && pun.rate > 0.5 && pun.rate < 0.95, `罰あり ${pun.last} ${pun.rate}`);
+});
+
+test("実験:最後通牒ゲームが、実験の平均(提案40%・拒否16%)に近い", () => {
+  const m = trial(split, split.presets.standard.rules, 10, 1, 1).summary;
+  near(m.offer, 0.40, 0.02, "提案"); near(m.reject, 0.16, 0.02, "拒否");
+});
+
+test("将来人口:自前の推計が、公式推計と総人口で1%以内に合う", () => {
+  const r = future.presets.medium.rules, m = future.run(r).summary;
+  for (const row of future.verify(m, r).filter((x) => x.label.endsWith("総人口"))) near(row.model / row.theory, 1, 0.01, row.label);
+  assert.ok(future.run(future.presets.high.rules).summary.p2070 > m.p2070 && future.run(future.presets.closed.rules).summary.p2070 < m.p2070);
+});
