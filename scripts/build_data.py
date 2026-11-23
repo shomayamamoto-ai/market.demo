@@ -131,23 +131,25 @@ for key in ["6_12", "13_19", "20_29", "30_39", "40_49", "50_59", "60_69", "70_79
                              "sns": round(net * IS[key]["sns_use_pct"] / 100, 4),  # 人口に対する割合に直す
                              "ec": round(net * IS[key]["online_shopping_excl_digital_pct"] / 100, 4)})
 
-# ---------- メディアの届きやすさ ----------
-TV = fut["media_usage_time"]["data"]["previous_year_reference_r6"]["weekday_avg_minutes"]["tv_realtime"]
-SNS = fut["sns_usage_rate"]["data"]
-net_of = lambda dec: sum(SNS[s][dec] for s in ["YouTube", "Instagram", "X", "TikTok"]) / 4
-media = {"bands": [], "mean": {"tv": TV["all"], "net": round(net_of("all"), 2)}}
+# ---------- メディアの届きやすさ(平日1日あたりの利用時間) ----------
+MU = fut["media_usage_time"]["data"]["weekday_avg_minutes"]
+TV, NET = MU["tv_realtime"], MU["internet"]
+media = {"bands": [], "mean": {"tv": TV["all"], "net": NET["all"]}}
 for dec, lo, hi in [("10s", 0, 19), ("20s", 20, 29), ("30s", 30, 39), ("40s", 40, 49), ("50s", 50, 59), ("60s", 60, 69), ("70s", 70, None)]:
-    media["bands"].append({"min": lo, "max": hi, "tv": TV[dec], "net": round(net_of(dec), 2)})
+    media["bands"].append({"min": lo, "max": hi, "tv": TV[dec], "net": NET[dec]})
 
-# ---------- 将来推計人口(年齢3区分) ----------
+# ---------- 将来推計人口(5歳階級 × 性別) ----------
 proj = {"years": {}}
 for year, v in fut["population_projection"]["data"].items():
     if not year.isdigit(): continue
-    proj["years"][year] = [
-        {"min": 0, "max": 14, "male": v["male"]["age_0_14"], "female": v["female"]["age_0_14"]},
-        {"min": 15, "max": 64, "male": v["male"]["age_15_64"], "female": v["female"]["age_15_64"]},
-        {"min": 65, "max": None, "male": v["male"]["age_65_plus"], "female": v["female"]["age_65_plus"]},
-    ]
+    rows = []
+    for key, g in v["five_year"].items():
+        lo, hi = rng(key)
+        rows.append({"min": lo, "max": hi, "male": g["male"], "female": g["female"]})
+    # 現在人口の最上位階級(90歳以上)に合わせて、90歳以上をまとめる
+    top = [r for r in rows if r["min"] >= 90]
+    rows = [r for r in rows if r["min"] < 90] + [{"min": 90, "max": None, "male": round(sum(r["male"] for r in top), 3), "female": round(sum(r["female"] for r in top), 3)}]
+    proj["years"][year] = rows
 
 # ---------- 産業・市場 ----------
 CS, RT, EC = ind["economic_census_2021"]["data"], ind["retail_trade_statistics"]["data"], ind["ecommerce_market_survey"]["data"]
@@ -182,10 +184,9 @@ sources = [
     src("就業率", demo["employment_rate_by_age_sex"], DIRECT), src("正規・非正規の割合", demo["employment_type_by_age_sex"], DIRECT),
     src("賃金", cons["wage_structure_by_age_sex"], DIRECT), src("家計の支出(二人以上世帯)", cons["kakei_two_plus_by_head_age"], DIRECT),
     src("家計の支出(単身世帯)", cons["kakei_single_by_age_sex"], DIRECT), src("ネット・SNS利用率", cons["ict_usage_by_age"], DIRECT),
-    src("将来推計人口(年齢3区分)", fut["population_projection"], DIRECT),
-    src("年代別テレビ視聴時間", {"year": "令和6年度", "source_name": "総務省情報通信政策研究所「情報通信メディアの利用時間と情報行動に関する調査」",
-                         "source_url": fut["media_usage_time"]["data"]["previous_year_reference_r6"]["source_url"]}, SEARCH),
-    src("年代別SNS・動画サービス利用率", fut["sns_usage_rate"], SEARCH),
+    {"use": "将来推計人口(5歳階級×性別)", "year": "令和5年推計", "name": "国立社会保障・人口問題研究所「日本の将来推計人口」出生中位・死亡中位(厚生労働省「令和6年財政検証」の入力データとして公開されたファイルから取得。総数は日本統計年鑑の転載値と一致)",
+     "url": fut["population_projection"]["five_year_source"]["source_url"], "quality": "公的機関のファイルから直接取得(社人研の原表とは未照合)"},
+    src("年代別のテレビ・ネット利用時間", fut["media_usage_time"], DIRECT),
     src("産業別の売上", ind["economic_census_2021"], SEARCH), src("全産業の売上高", ind["corporate_statistics"], SEARCH),
     src("小売の業態別販売額", ind["retail_trade_statistics"], SEARCH), src("ネット通販の市場規模", ind["ecommerce_market_survey"], SEARCH),
     {"use": "採用者の5区分", "year": "2003", "name": fut["diffusion_models"]["data"]["rogers_adopter_categories"]["citation"], "url": None, "quality": "書誌情報を確認(比率は解説ページで確認)"},
@@ -202,8 +203,8 @@ out = {
         {"note": "55歳以上の雇用形態別賃金は、50〜54歳の「全体との比」を当てはめる", "value": "比率を流用"},
         {"note": "70歳以上の賃金は、65〜69歳の値を使う", "value": "公表値なし"},
         {"note": "2人以上の世帯の支出は、世帯人員で割って1人あたりにする。24歳以下で親と同居の人は40代後半の世帯とみなす", "value": "家計調査の平均世帯人員"},
-        {"note": "ネット広告の届きやすさは、YouTube・Instagram・X・TikTokの年代別利用率の平均で代用する", "value": "全年代平均=1"},
-        {"note": "将来の人口は年齢3区分(0〜14歳/15〜64歳/65歳以上)×性別の人数に合わせる。区分の中の年齢構成は現在と同じとみなす", "value": "5歳階級の推計は未取得"},
+        {"note": "広告の届きやすさは、年代別のテレビ・ネットの平日利用時間に比例させる(10歳未満は10代、80歳以上は70代の値)", "value": "全年代平均=1"},
+        {"note": "将来の人口は、年齢5歳階級×性別の推計人数に合わせる", "value": "出生中位・死亡中位"},
         {"note": "将来の年でも、賃金・支出・ネット利用率は現在の値のまま", "value": "物価・賃金の変化は未反映"},
     ],
     "limits": [
