@@ -58,11 +58,12 @@ export const island = {
     this.run(rules, seed, years, detail);
     const frames = thin(detail.map((d, x) => ({ ...d, x }))).map((d) => {
       const total = d.v.reduce((a, b) => a + b.pop, 0), raid = d.v.filter((b) => b.s === "raid").length, tft = d.v.filter((b) => b.s === "tft").length;
-      return { label: `${d.x}年目`, caption: `${d.x}年目:島の人口は${Math.round(total).toLocaleString("ja-JP")}人。略奪の村 ${raid}、仕返しの村 ${tft}。`,
+      return { label: `${d.x}年目`, caption: `${d.x}年目:島の人口は${Math.round(total).toLocaleString("ja-JP")}人。略奪の村 ${raid}、仕返しの村 ${tft}。${d.raids ? `この年の襲撃は${d.raids}回。` : ""}`,
+        flows: d.moves,
         gauges: [{ label: "島の人口", text: `${Math.round(total).toLocaleString("ja-JP")}人`, value: total / 3600, color: "#2f8f6b" }],
         zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: LABEL[b.s], color: COLOR[b.s], count: b.pop, hideBar: true, build: { self: "field", trade: "market", raid: "fort", tft: "tower", lord: "manor", hungry: "market" }[b.s] })) };
     });
-    return { frames, opts: { layout: "ring", sub: "色は村のやり方(青=交換、赤=略奪、金=仕返し、紫=年貢)。", maxFigures: 420 } };
+    return { frames, opts: { layout: "ring", sub: "色は村のやり方(青=交換、赤=略奪、金=仕返し、紫=年貢)。赤い玉は襲撃、水色の玉は交易の荷。", maxFigures: 420 } };
   },
   run(rules, seed, years, detail = null) {
     const rng = makeRng(seed), A = ISLAND_ASSUMPTIONS, n = 12;
@@ -74,6 +75,7 @@ export const island = {
     for (let year = 0; year <= years; year++) {
       const bad = rng.next() < A.badYear.value;
       let raids = 0;
+      const moves = [];
       const protectedBy = v.map((_, i) => nb(i).some((x) => x.s === "lord") || v[i].s === "lord");
       // 1) その年に養える人数
       const cap = v.map((a, i) => {
@@ -101,6 +103,7 @@ export const island = {
         t.pop -= lost; a.pop += lost * A.gain.value - a.pop * (A.cost.value + (guarded ? 0.2 : 0));
         t.take -= lost; a.take += lost * A.gain.value - (guarded ? a.pop * 0.2 : 0);
         if (a.s !== "tft") t.hit = year;
+        moves.push({ from: i, to: v.indexOf(t), color: a.s === "tft" ? "#e6c56a" : "#d2584c", n: 4 }); // 襲いに行く人(仕返しは金色)
         raids++;
       });
       // 3) 人口が、養える人数に近づく
@@ -119,7 +122,11 @@ export const island = {
         v.forEach((a, i) => { a.s = next[i]; a.score = 0; });
       }
       raidsTotal += raids;
-      detail?.push({ v: v.map((a) => ({ s: a.s, pop: a.pop })) });
+      if (detail) {
+        // 交換している隣どうしには、荷を運ぶ人が行き来する
+        v.forEach((a, i) => { const b = v[(i + 1) % n]; if (friendly(a) && friendly(b) && !((a.s === "tft" && b.s === "raid") || (b.s === "tft" && a.s === "raid"))) moves.push({ from: i, to: (i + 1) % n, color: "#8ab8ff", n: 1, back: true }); });
+        detail.push({ v: v.map((a) => ({ s: a.s, pop: a.pop })), moves, raids });
+      }
       const count = (s) => v.filter((a) => a.s === s).length;
       series.push({ x: year, pop: v.reduce((x, a) => x + a.pop, 0), trade: count("trade") + count("hungry"), raid: count("raid"), tft: count("tft"), lord: count("lord") });
     }

@@ -58,7 +58,8 @@ export const council = {
     this.run(rules, seed, years, detail);
     const frames = thin(detail.map((d, x) => ({ ...d, x }))).map((d) => {
       const n = (t) => d.v.filter((b) => b.alive && b.type === t).length;
-      return { label: `${d.x}年目`, caption: `${d.x}年目:王の村 ${n("king")}、寄り合いの村 ${n("council")}${rules.mix.includes("chief") ? `、選ばれた長の村 ${n("chief")}` : ""}。`,
+      return { label: `${d.x}年目`, caption: `${d.x}年目:王の村 ${n("king")}、寄り合いの村 ${n("council")}${rules.mix.includes("chief") ? `、選ばれた長の村 ${n("chief")}` : ""}。${d.moves.length ? "攻め取られた村があります。" : ""}`,
+        flows: d.moves,
         zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: b.alive ? NAME[b.type] : "消滅", color: b.alive ? COLOR[b.type] : "#8b93a7", count: b.alive ? b.pop : 0, hideBar: true, build: b.alive ? { king: "castle", council: "hall", chief: "tower" }[b.type] : null })) };
     });
     return { frames, opts: { layout: "ring", sub: "色は決め方(赤=王、青=寄り合い、金=選ばれた長)。", maxFigures: 420 } };
@@ -92,6 +93,7 @@ export const council = {
         else { a.pop *= 1 - A.famine.value; if (a.type === "king" && rng.next() < 0.3) a.pop *= 0.9; }
         if (a.pop < 12) a.alive = false; // 村が消える
       }
+      const moves = [];
       if (rules.war) v.forEach((a, i) => {
         if (!a.alive || rng.next() > 0.035) return;
         const S = A.speed.value;
@@ -99,10 +101,10 @@ export const council = {
         for (const b of targets.sort((x, y) => y.pop - x.pop)) {
           const j = v.indexOf(b);
           const friends = rules.ally && b.type === "council" ? [v[(j + n - 1) % n], v[(j + 1) % n]].filter((c) => c.alive && c.type === "council" && c !== a).reduce((x, c) => x + c.pop * 0.5, 0) : 0;
-          if (a.pop * S[a.type] > (b.pop + friends) * S[b.type] * 1.3) { a.pop *= 0.95; b.pop *= 0.6; b.type = a.type; b.king = newKing(); b.reign = 0; break; } // 攻め取られた村は、攻めた側の決め方になる
+          if (a.pop * S[a.type] > (b.pop + friends) * S[b.type] * 1.3) { moves.push({ from: i, to: j, color: COLOR[a.type], n: 5 }); a.pop *= 0.95; b.pop *= 0.6; b.type = a.type; b.king = newKing(); b.reign = 0; break; } // 攻め取られた村は、攻めた側の決め方になる
         }
       });
-      detail?.push({ v: v.map((a) => ({ type: a.type, pop: a.pop, alive: a.alive })) });
+      detail?.push({ v: v.map((a) => ({ type: a.type, pop: a.pop, alive: a.alive })), moves });
       const row = { x: year };
       for (const t of TYPES) {
         const list = v.filter((a) => a.alive && a.type === t), K = t[0].toUpperCase() + t.slice(1);

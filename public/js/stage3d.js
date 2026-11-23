@@ -19,8 +19,17 @@ function buildProp(THREE, kind, color = "#b4473b") {
     case "factory":
       add(box(7.5, 3.2, 4.6), WALL, 0, 1.6, 0);
       for (const x of [-2.5, 0, 2.5]) { const r = add(box(2.5, 1.2, 4.6), color, x, 3.6, 0); r.rotation.z = 0.35; }
-      add(cyl(0.45, 0.55, 5.4, 10), STONE, 3.1, 2.7, -1.2); add(new THREE.SphereGeometry(0.7, 8, 6), 0xeeeeee, 3.4, 6, -1.2); add(new THREE.SphereGeometry(0.5, 8, 6), 0xf6f6f6, 4, 6.8, -1.2);
+      add(cyl(0.45, 0.55, 5.4, 10), STONE, 3.1, 2.7, -1.2);
       add(box(1.6, 2, 0.12), DARK, -1.6, 1, 2.32); add(box(5.5, 0.35, 1), DARK, 0, 0.5, 3.2); // 入口とベルトコンベア
+      {
+        const puffs = [0, 1, 2].map(() => add(new THREE.SphereGeometry(0.6, 8, 6), 0xf2f2f2, 3.1, 5.6, -1.2));
+        const crates = [0, 1, 2].map(() => add(box(0.7, 0.6, 0.7), color, 0, 0.98, 3.2));
+        // 人がいる工場だけ、煙が上がり、箱が流れる
+        g.userData.tick = (t, active) => {
+          puffs.forEach((m, i) => { const p = (t * 0.35 + i / 3) % 1; m.visible = active; m.position.set(3.1 + p * 1.6, 5.6 + p * 3.2, -1.2); m.scale.setScalar(0.6 + p * 1.1); });
+          crates.forEach((m, i) => { const p = (t * 0.25 + i / 3) % 1; m.visible = active; m.position.x = -2.5 + p * 5; });
+        };
+      }
       break;
     case "office":
       add(box(4.2, 5.6, 3.6), WALL, 0, 2.8, 0); add(box(4.5, 0.5, 3.9), color, 0, 5.85, 0);
@@ -30,7 +39,8 @@ function buildProp(THREE, kind, color = "#b4473b") {
     case "houses": house(-2.4, 0, 1); house(0.4, -0.8, 1.15); house(2.9, 0.3, 0.95); break;
     case "forest": tree(-2.6, 0, 1.2); tree(-0.6, -1.2, 1.5); tree(1.4, 0.2, 1.1); tree(3, -1, 1.35); tree(0.6, 1.4, 0.9); break;
     case "plaza":
-      add(cyl(2.6, 2.6, 0.5, 20), STONE, 0, 0.25, 0); add(cyl(2.1, 2.1, 0.2, 20), 0x6db7e8, 0, 0.56, 0); add(cyl(0.3, 0.4, 1.6, 8), STONE, 0, 1.1, 0); add(new THREE.SphereGeometry(0.55, 10, 8), 0x9fd0ea, 0, 2.1, 0);
+      add(cyl(2.6, 2.6, 0.5, 20), STONE, 0, 0.25, 0); add(cyl(2.1, 2.1, 0.2, 20), 0x6db7e8, 0, 0.56, 0); add(cyl(0.3, 0.4, 1.6, 8), STONE, 0, 1.1, 0);
+      { const w = add(new THREE.SphereGeometry(0.55, 10, 8), 0x9fd0ea, 0, 2.1, 0); g.userData.tick = (t) => { w.position.y = 2.1 + Math.sin(t * 3) * 0.25; w.scale.setScalar(1 + Math.sin(t * 3) * 0.15); }; }
       break;
     case "field":
       add(box(7, 0.25, 4.2), 0x9a7b4f, 0, 0.12, 0);
@@ -77,7 +87,8 @@ function buildProp(THREE, kind, color = "#b4473b") {
       add(cone(2.6, 2.6, 6), 0xffffff, 0, 1.3, 0); add(box(1, 0.3, 0.08), color, 0, 1.3, 1.5); add(box(0.3, 1, 0.08), color, 0, 1.3, 1.5);
       break;
     case "flag":
-      add(cyl(0.12, 0.12, 6, 6), WOOD, 0, 3, 0); add(box(2.4, 1.4, 0.1), color, 1.25, 5.2, 0);
+      add(cyl(0.12, 0.12, 6, 6), WOOD, 0, 3, 0);
+      { const f = add(box(2.4, 1.4, 0.1), color, 1.25, 5.2, 0); g.userData.tick = (t) => { f.rotation.y = Math.sin(t * 2.5) * 0.35; f.position.x = 1.25 * Math.cos(f.rotation.y); f.position.z = -1.25 * Math.sin(f.rotation.y); }; }
       break;
     default: return null;
   }
@@ -111,12 +122,14 @@ export function createStage(root) {
   const inst = (geo, color, n = MAX) => { const m = new THREE.InstancedMesh(geo, new THREE.MeshLambertMaterial({ color }), n); m.frustumCulled = false; scene.add(m); return m; };
   const body = inst(new THREE.CylinderGeometry(0.34, 0.5, 0.95, 8), 0xffffff);
   const head = inst(new THREE.SphereGeometry(0.56, 12, 9), 0xfbe3cf);
-  const hair = inst(new THREE.SphereGeometry(0.6, 12, 7, 0, Math.PI * 2, 0, Math.PI * 0.55), 0x3a2b26);
+  const hair = inst(new THREE.SphereGeometry(0.62, 12, 7, 0, Math.PI * 2, 0, Math.PI * 0.55), 0xffffff); // 帽子(場所の色に染める)
   // 「人」の代わりに「家」を並べる画面用
   const hWall = inst(new THREE.BoxGeometry(1.5, 1.15, 1.5), 0xf3ede2), hRoof = inst(new THREE.ConeGeometry(1.3, 1, 4), 0xffffff);
   const dummy = new THREE.Object3D(), col = new THREE.Color();
   const structure = new THREE.Group(); scene.add(structure); // 橋など、コマごとに形が変わるもの
+  const RUN = 60, runner = inst(new THREE.SphereGeometry(0.75, 10, 8), 0xffffff, RUN); // 村から村へ動く人や荷
 
+  let t = 0; // 舞台の経過時間(秒)
   const S = { frames: [], zones: [], agents: [], at: 0, playing: true, timer: 0, R: 60, mode: "zones", terrain: null };
   const cam = { az: 0, pol: 0.98, dist: 150, target: new THREE.Vector3(0, 0, 0) };
 
@@ -150,10 +163,10 @@ export function createStage(root) {
     });
     S.R = (ring ? R + Math.max(...rad) + 16 : Math.max(span / 2, Math.max(...rad) * 1.6 + 24)) + 14;
     // 画面ごとの置き物(工場・商店街・事務所など)。位置は島の半径に対する割合
-    S.extra = [];
+    S.extra = []; S.propGroups = []; S.flows = [];
     for (const p of opts.props ?? []) {
       const g = buildProp(THREE, p.kind, p.color); if (!g) continue;
-      g.position.set(p.x * S.R, 0, p.z * S.R); g.scale.setScalar((p.size ?? 1.3) * clamp(S.R / 42, 1, 2.6)); g.rotation.y = p.ry ?? 0; world.add(g);
+      g.position.set(p.x * S.R, 0, p.z * S.R); g.scale.setScalar((p.size ?? 1.3) * clamp(S.R / 42, 1, 2.6)); g.rotation.y = p.ry ?? 0; world.add(g); S.propGroups.push(g);
       if (p.label) { const label = document.createElement("div"); label.className = "s-label s-prop"; label.innerHTML = `<b>${esc(p.label)}</b>${esc(p.note ?? "")}`; labels.appendChild(label); S.extra.push({ x: p.x * S.R, z: p.z * S.R, label }); }
     }
     while (structure.children.length) structure.remove(structure.children[0]);
@@ -164,7 +177,7 @@ export function createStage(root) {
       const river = new THREE.Mesh(new THREE.BoxGeometry(S.R * 2.1, 0.3, wide), mat(0x6db7e8)); river.position.set(0, 0.06, z0); world.add(river);
       const bx = 0, n = 20, len = (wide + 6) / n, deck = [];
       for (let i = 0; i < n; i++) {
-        const seg = new THREE.Mesh(new THREE.BoxGeometry(5 * k, 0.9 * k, len * 0.94), new THREE.MeshLambertMaterial({ color: 0xb9b4ac })); seg.position.set(bx, 2.2 * k, z0 + wide / 2 + 3 - len * (i + 0.5)); seg.visible = false; structure.add(seg); deck.push(seg);
+        const seg = new THREE.Mesh(new THREE.BoxGeometry(5 * k, 0.9 * k, len * 0.94), new THREE.MeshLambertMaterial({ color: 0xb9b4ac })); seg.position.set(bx, 2.2 * k, z0 + wide / 2 + 3 - len * (i + 0.5)); seg.y0 = 2.2 * k; seg.visible = false; structure.add(seg); deck.push(seg);
         if (i % 4 === 2) { const pier = new THREE.Mesh(new THREE.BoxGeometry(1.4 * k, 2.2 * k, 1.4 * k), mat(0x9a948c)); pier.position.set(bx, 1.1 * k, seg.position.z); pier.visible = false; structure.add(pier); seg.pier = pier; }
       }
       const label = document.createElement("div"); label.className = "s-label s-prop"; labels.appendChild(label);
@@ -172,7 +185,7 @@ export function createStage(root) {
       S.extra.push({ x: bx, z: z0, label });
     }
     island.scale.set(S.R, 1, S.R);
-    cam.dist = S.R * 2.5; cam.pol = ring ? 0.8 : 0.98; cam.az = 0;
+    cam.goal = S.R * 2.5; cam.dist = cam.goal * 1.7; cam.pol = ring ? 0.8 : 0.98; cam.az = -0.5; // 遠くから寄っていく
     const count = Math.min(MAX, Math.ceil(total / S.scale) + 4);
     S.agents = Array.from({ length: count }, (_, i) => ({ i, x: 0, z: 0, tx: 0, tz: 0, zone: -1, show: 0, heading: 0, phase: i * 0.7, color: 0xffffff }));
     seek.max = frames.length - 1; seek.value = 0;
@@ -208,10 +221,16 @@ export function createStage(root) {
     if (S.bridge && f.bridge) {
       const B = S.bridge, built = Math.round(clamp(f.bridge.progress, 0, 1) * B.deck.length);
       col.set(0x8a6a4a).lerp(new THREE.Color(0xb9b4ac), clamp((f.bridge.quality - 0.4) / 0.6, 0, 1)); // 泥が多いほど茶色
-      B.deck.forEach((seg, i) => { seg.visible = i < built && !f.bridge.fallen; seg.material.color.copy(col); if (seg.pier) seg.pier.visible = i < built; });
+      B.deck.forEach((seg, i) => { seg.built = i < built; seg.material.color.copy(col); if (!f.bridge.fallen) { seg.visible = seg.built; seg.position.y = seg.y0; seg.rotation.set(0, 0, 0); if (seg.pier) seg.pier.visible = seg.built; } });
+      B.fallAt = f.bridge.fallen ? (B.fallAt ?? t) : null;
       B.label.innerHTML = `<b>橋</b>${f.bridge.fallen ? "崩れました" : `進み ${Math.round(f.bridge.progress * 100)}%・強度 ${Math.round(f.bridge.strength * 100)}%`}`;
     }
     for (const a of free) { a.zone = -1; if (S.figure === "house") { a.tx = a.x; a.tz = a.z; continue; } const ang = Math.atan2(a.z, a.x); a.tx = Math.cos(ang) * (S.R - 2); a.tz = Math.sin(ang) * (S.R - 2); } // 島を出ていく
+    S.flows = [];
+    for (const fl of f.flows ?? []) {
+      const a = S.zones[fl.from], b = S.zones[fl.to]; if (!a || !b) continue;
+      for (let k = 0; k < (fl.n ?? 3) && S.flows.length < RUN; k++) S.flows.push({ ax: a.x, az: a.z, bx: b.x, bz: b.z, color: fl.color, back: fl.back, delay: k * 0.07 });
+    }
     const total = f.zones.reduce((x, z) => x + z.count, 0) || 1;
     panel.innerHTML = `<h4>${esc(f.label)}</h4>${f.zones.filter((z) => !z.hideBar).map((z) => `<div class="v-row"><span style="color:${z.color}">${esc(z.name)}</span><i><u style="width:${(z.count / total) * 100}%;background:${z.color}"></u></i></div>`).join("")}
       ${(f.gauges ?? []).map((g) => `<div class="v-row"><span>${esc(g.label)} ${esc(g.text)}</span><i><u style="width:${clamp(g.value, 0, 1) * 100}%;background:${g.color}"></u></i></div>`).join("")}`;
@@ -236,10 +255,10 @@ export function createStage(root) {
     // いちばん高い場所に旗を立てる
     let top = { h: -1, x: 0.5, y: 0.5 };
     for (let i = 0; i <= 60; i++) for (let j = 0; j <= 60; j++) { const h = height(i / 60, j / 60); if (h > top.h) top = { h, x: i / 60, y: j / 60 }; }
-    const flag = buildProp(THREE, "flag", "#b4473b"); flag.position.set((top.x - 0.5) * size, top.h * 0.3 + 0.2, (0.5 - top.y) * size); flag.scale.setScalar(1.5); world.add(flag);
+    const flag = buildProp(THREE, "flag", "#b4473b"); flag.position.set((top.x - 0.5) * size, top.h * 0.3 + 0.2, (0.5 - top.y) * size); flag.scale.setScalar(1.5); world.add(flag); S.propGroups = [flag]; S.flows = [];
     for (const [x, z] of [[-0.8, 0.75], [-0.7, 0.82], [0.78, 0.8]]) { const h = buildProp(THREE, "house", "#c98bb5"); h.position.set(x * 62, 0, z * 62); world.add(h); } // ふもとの家
     S.size = size; S.R = 80; island.scale.set(S.R, 1, S.R);
-    cam.dist = 190; cam.pol = 0.95; cam.az = 0.5;
+    cam.goal = 190; cam.dist = 320; cam.pol = 0.95; cam.az = 0;
     S.agents = paths.map((_, i) => ({ i, x: 0, z: 0, tx: 0, tz: 0, zone: 0, show: 1, heading: 0, phase: i, color: 0xb4473b, y: 0 }));
     seek.max = S.frames.length - 1; seek.value = 0;
     title.innerHTML = `<div class="v-card blue"><b>${esc(t)}</b><span>${paths.length}人が同じ山を歩きます。明るい色ほど高い場所です</span></div>`;
@@ -267,10 +286,10 @@ export function createStage(root) {
   dom.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY }; dom.setPointerCapture(e.pointerId); });
   dom.addEventListener("pointermove", (e) => { if (!drag) return; cam.az -= (e.clientX - drag.x) * 0.005; cam.pol = clamp(cam.pol - (e.clientY - drag.y) * 0.004, 0.2, 1.45); drag = { x: e.clientX, y: e.clientY }; });
   dom.addEventListener("pointerup", () => (drag = null));
-  dom.addEventListener("wheel", (e) => { e.preventDefault(); cam.dist = clamp(cam.dist * (1 + e.deltaY * 0.001), 20, 420); }, { passive: false });
+  dom.addEventListener("wheel", (e) => { e.preventDefault(); cam.goal = cam.dist = clamp(cam.dist * (1 + e.deltaY * 0.001), 20, 420); }, { passive: false });
 
   const v = new THREE.Vector3();
-  let last = performance.now(), running = false, t = 0;
+  let last = performance.now(), running = false;
   function frame(now) {
     if (!running) return;
     requestAnimationFrame(frame);
@@ -280,7 +299,7 @@ export function createStage(root) {
     const interval = Number(speedSel.value) * (S.mode === "terrain" ? 0.12 : 1);
     if (S.playing && S.frames.length) {
       S.timer += dt * 1000;
-      if (S.timer > interval) { S.timer = 0; if (S.at < S.frames.length - 1) step(S.at + 1); else { S.playing = false; btn.textContent = "再生"; } }
+      if (S.timer > interval) { S.timer = 0; if (S.at < S.frames.length - 1) step(S.at + 1); else { S.playing = false; btn.textContent = "最初から"; } }
     }
     const pace = (S.mode === "terrain" ? 40 : 26) * (1300 / Number(speedSel.value));
     for (let i = 0; i < MAX; i++) {
@@ -294,7 +313,7 @@ export function createStage(root) {
         a.show += ((visible ? 1 : 0) - a.show) * Math.min(1, dt * 6);
         sc = a.show * (S.mode === "terrain" ? 2.6 : 1.25);
         y = (a.y ?? 0) + (walking ? Math.abs(Math.sin(t * 9 + a.phase)) * 0.16 : 0);
-        col.set(a.color); body.setColorAt(i, col); hRoof.setColorAt(i, col);
+        col.set(a.color); body.setColorAt(i, col); hRoof.setColorAt(i, col); hair.setColorAt(i, col); // 帽子と服を、その場所の色にする
       }
       const isHouse = S.figure === "house";
       dummy.rotation.set(0, isHouse ? Math.PI / 4 + (i % 3) * 0.1 : a?.heading ?? 0, 0);
@@ -312,7 +331,30 @@ export function createStage(root) {
     body.instanceMatrix.needsUpdate = head.instanceMatrix.needsUpdate = hair.instanceMatrix.needsUpdate = hWall.instanceMatrix.needsUpdate = hRoof.instanceMatrix.needsUpdate = true;
     if (body.instanceColor) body.instanceColor.needsUpdate = true;
     if (hRoof.instanceColor) hRoof.instanceColor.needsUpdate = true;
+    if (hair.instanceColor) hair.instanceColor.needsUpdate = true;
+    // 建物の動き(煙、流れる箱、噴水、旗)
+    for (const z of S.zones) z.prop?.userData.tick?.(t, z.list.length > 0);
+    for (const g of S.propGroups ?? []) g.userData.tick?.(t, true);
+    // 村から村へ動く人や荷
+    const prog = S.mode === "zones" && S.playing ? clamp(S.timer / interval, 0, 1) : 1;
+    for (let i = 0; i < RUN; i++) {
+      const f = S.flows?.[i];
+      let sc = 0.0001, x = 0, y = 0, z = 0;
+      if (f && prog < 1) {
+        const p = clamp(prog * 1.25 - f.delay, 0, 1), q = f.back ? 1 - Math.abs(1 - 2 * p) : p; // 交易は行って帰る
+        x = f.ax + (f.bx - f.ax) * q; z = f.az + (f.bz - f.az) * q; y = 1 + Math.sin(Math.PI * q) * 5; sc = p > 0 && p < 1 ? 1 : 0.0001;
+        col.set(f.color); runner.setColorAt(i, col);
+      }
+      dummy.rotation.set(0, 0, 0); dummy.scale.setScalar(sc); dummy.position.set(x, y, z); dummy.updateMatrix(); runner.setMatrixAt(i, dummy.matrix);
+    }
+    runner.instanceMatrix.needsUpdate = true; if (runner.instanceColor) runner.instanceColor.needsUpdate = true;
+    // 橋が崩れる
+    if (S.bridge?.fallAt != null) {
+      const e = t - S.bridge.fallAt;
+      S.bridge.deck.forEach((seg, i) => { const d = Math.max(0, e - i * 0.06); seg.visible = seg.built && d < 2.2; seg.position.y = seg.y0 - d * d * 9; seg.rotation.x = d * 1.6 * (i % 2 ? 1 : -1); seg.rotation.z = d * 0.9; if (seg.pier) seg.pier.visible = seg.built && d < 0.4; });
+    }
     if (!drag && S.playing) cam.az += dt * 0.02;
+    if (cam.goal) cam.dist += (cam.goal - cam.dist) * Math.min(1, dt * 1.4);
     const sp = Math.sin(cam.pol), cp = Math.cos(cam.pol);
     camera.position.set(cam.target.x + Math.sin(cam.az) * sp * cam.dist, cp * cam.dist, cam.target.z + Math.cos(cam.az) * sp * cam.dist);
     camera.lookAt(cam.target);

@@ -644,12 +644,20 @@ function soc3d() {
 function chain3d() {
   const { config, days, rules, label } = chainConfig();
   const stage = showStage($("c-stage")); if (!stage) return;
-  const frames = runChain(config, rules, days).history.map((h) => ({
+  const result = runChain(config, rules, days);
+  const frames = result.history.map((h) => ({
     label: `${h.day}日目`, caption: `${h.day}日目:働いている人 ${pct(h.alive, 0)}、進み具合 ${pct(h.progress, 0)}、強度 ${pct(h.strength, 0)}${h.cut > 0.05 ? `。${pct(h.cut, 0)}の人が泥ブロックを使っています` : ""}。`,
     gauges: [{ label: "進み具合", text: pct(h.progress, 0), value: h.progress, color: "#4a7fb5" }, { label: "強度", text: pct(h.strength, 0), value: h.strength / 1.25, color: "#2f8f6b" }],
     bridge: { progress: h.progress, strength: h.strength, quality: h.progress > 0 ? h.strength / h.progress : 1 },
     zones: [{ name: "現場で働いている人", color: "#4a7fb5", count: config.n * h.alive, build: "site" }, { name: "倒れて離れた人", color: "#8b93a7", count: config.n * (1 - h.alive), build: "tent" }],
   }));
+  // 最後に、引き渡した後のようすを1コマ足す
+  const end = frames[frames.length - 1];
+  frames.push({ ...end, label: "引き渡しのあと",
+    bridge: { ...end.bridge, fallen: result.collapsed },
+    caption: !result.complete ? `工期の${days}日では完成しませんでした(進み具合 ${pct(result.progress, 0)})。`
+      : result.collapsed ? `引き渡しのあと、橋は崩れました。強度は${pct(result.strength, 0)}。やり直しの費用は、発注した側に返ってきます。`
+      : `橋は崩れずに持ちこたえました。強度は${pct(result.strength, 0)}。` });
   const R = relay(config.n, rules), steps = [{ label: "発注者", note: ` 予算 ${num(config.n)}個`, color: "#c9a45c" }, ...R.steps.map((st) => ({ label: st.label, note: ` −${num(st.take)}個`, color: "#b4473b" }))];
   const props = steps.map((st, i) => ({ kind: "office", color: st.color, label: st.label, note: st.note, x: -0.72 + i * (1.1 / Math.max(steps.length - 1, 1)) * 0.75, z: 0.5, size: 1.15 }));
   stage.setFrames(frames, { title: label.slice(2), sub: `現場に届く予算は${pct(R.delivered / config.n, 0)}。`, bridge: true, props });
