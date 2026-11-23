@@ -563,8 +563,9 @@ function orgRun() {
         ${aCard("平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり")}
         ${aCard("過労による離脱", `${num(t.burnout)}人`, "期間中の延べ人数")}
       </div>
+      <p class="a-headline">${esc(advice[0] ?? "このルールでは、働き方と生産力に大きな変化は出ませんでした。")}</p>
       <p class="a-note">数字は${runs}回の試行の平均です。</p></div>
-    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["このルールでは、働き方と生産力に大きな変化は出ませんでした。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    <div class="card"><div class="form-row" id="o-copy"></div>${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
       <div class="grid2" style="margin:0"><div><h3>働き方の割合</h3>${multiLine(["ace", "std", "low"].map((m) => ({ name: MODES[m].label, color: MODES[m].color, points: S.map((s, x) => ({ x, y: s[m] })) })), { xLabel: "年" })}</div>
       <div><h3>生産力(最初 = 100%)</h3>${multiLine([{ name: "生産力", color: "#1a8f5a", points: S.map((s, x) => ({ x, y: s.productivity })) }], { xLabel: "年" })}</div></div>
       <h3>1人ずつの働き方(代表例:${runs}回のうちの1回)</h3>
@@ -588,6 +589,7 @@ function orgRun() {
     }, 350);
   };
   draw();
+  attachCopy("o-copy", "o-out");
 }
 
 function orgCompare() {
@@ -625,6 +627,15 @@ function orgSweep() {
         ${aCard("回す割合100%の生産力", `平均${pct(sw[sw.length - 1].productivity)}`)}
       </div>
       <p class="a-note">${edge != null ? `このモデルの条件では、回す割合が${pct(edge, 0)}までならエースは残り、それを超えると崩れ始めます。` : safe.length ? "このルールでは、回す割合を100%にしてもエースは残りました。" : "このルールでは、回す割合が0%でもエースがいなくなる試行がありました。"}境目の位置は、「出典と仮定」にある係数で変わります。</p></div>`;
+}
+
+// 検証結果のパネルから、題名・数字・読み取りを集めてコピー用の文章にする
+function attachCopy(slotId, outId) {
+  const out = $(outId), panel = out.querySelector(".analysis");
+  const lines = [panel.querySelector("h2").textContent + "(" + panel.querySelector(".a-sub").textContent + ")",
+    ...[...panel.querySelectorAll(".a-card")].map((c) => `・${c.querySelector("small").textContent}:${c.querySelector("b").textContent} ${c.querySelector("i").textContent}`.trim()),
+    `→ ${panel.querySelector(".a-headline").textContent}`, ...[...out.querySelectorAll(".advice li")].map((li) => `→ ${li.textContent}`), "※ 仮定にもとづく試算です。"];
+  $(slotId).appendChild(copyButton(lines.join("\n")));
 }
 
 // ---------- 制度を試す:3Dで見る ----------
@@ -704,8 +715,9 @@ function socRun() {
         ${aCard("1人あたりの税収", `${num(L.revenue, 2)}個`, `うち管理に${num(L.admin, 2)}個`)}
         ${aCard("人口", pct(L.population, 0), "最初を100%として")}
         ${aCard("助け合いの支払い", pct(L.trust, 0), "必要な額に対して")}
-      </div><p class="a-note">数字は${runs}回の試行の平均です。食料の単位は「個」です。</p></div>
-    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["このルールでは、大きな問題は出ませんでした。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      </div><p class="a-headline">${esc(advice[0] ?? "この制度では、大きな問題は出ませんでした。")}</p>
+      <p class="a-note">数字は${runs}回の試行の平均です。食料の単位は「個」です。</p></div>
+    <div class="card"><div class="form-row" id="t-copy"></div>${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
       <div class="grid2" style="margin:0"><div><h3>働き方の割合</h3>${multiLine(["risky", "safe", "home"].map((m) => ({ name: CHOICE[m].label.split("(")[0], color: CHOICE[m].color, points: S.map((s, x) => ({ x, y: s[m] })) })), { xLabel: "年" })}</div>
       <div><h3>生産力と人口</h3>${multiLine([{ name: "生産力", color: "#1a8f5a", points: S.map((s, x) => ({ x, y: s.productivity })) }, { name: "人口", color: "#8b93a7", points: S.map((s, x) => ({ x, y: s.population })) }], { xLabel: "年" })}</div></div>
       <h3>1人ずつの選択(代表例:${runs}回のうちの1回)</h3>
@@ -713,6 +725,7 @@ function socRun() {
       <div id="o-people" class="o-grid"></div>
       <p class="note">■ 緑=森 ■ 水色=広場 ■ 黄=自分の畑だけ ■ 灰=隣の村へ移った人(最大1,000人まで表示)。</p></div>`;
   playGrid(years, (y) => { const h = one.history[y]; return { label: `${y}年目 森 ${pct(h.risky, 0)}・生産力 ${pct(h.productivity, 0)}`, cells: h.choices.slice(0, 1000).map((c) => CHOICE[c].color) }; });
+  attachCopy("t-copy", "t-out");
 }
 function playGrid(years, frameOf) {
   const draw = () => { const f = frameOf(Number($("o-year").value)); $("o-year-label").textContent = f.label; $("o-people").innerHTML = f.cells.map((c) => `<i style="background:${c}"></i>`).join(""); };
@@ -799,8 +812,9 @@ function chainRun() {
         ${aCard("工事の進み具合", pct(t.progress, 0), t.doneDay ? `平均${num(t.doneDay, 0)}日で完成` : "工期内に完成せず")}
         ${aCard("できあがりの強度", pct(t.strength, 0), "正規の材料で完成 = 100%")}
         ${aCard("引き渡し後に崩れた回数", `${t.collapsed}`, `/ ${runs}回`)}
-      </div><p class="a-note">数字は${runs}回の試行の平均です。</p></div>
-    <div class="card"><h3>診断</h3><div class="advice"><ul>${(advice.length ? advice : ["予算がそのまま現場に届き、工期どおりに正規の強度で完成しました。"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      </div><p class="a-headline">${esc(advice[0] ?? "予算がそのまま現場に届き、工期どおりに正規の強度で完成しました。")}</p>
+      <p class="a-note">数字は${runs}回の試行の平均です。</p></div>
+    <div class="card"><div class="form-row" id="c-copy"></div>${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
       <div class="grid2" style="margin:0"><div><h3>予算のリレー</h3>${relayTable(config.n, rules)}</div>
       <div><h3>現場の推移</h3>${multiLine([{ name: "働いている人", color: "#4a7fb5", points: S.map((s, i) => ({ x: i + 1, y: s.alive })) }, { name: "進み具合", color: "#2f8f6b", points: S.map((s, i) => ({ x: i + 1, y: s.progress })) }, { name: "強度", color: "#b4473b", points: S.map((s, i) => ({ x: i + 1, y: s.strength })) }, { name: "手抜きをした人", color: "#c9a45c", points: S.map((s, i) => ({ x: i + 1, y: s.cut })) }], { xLabel: "日" })}</div></div>
       <h3>職人1人ずつの様子(代表例:${runs}回のうちの1回)</h3>
@@ -808,6 +822,7 @@ function chainRun() {
       <div id="o-people" class="o-grid"></div>
       <p class="note">■ 青=働いている人 ■ 灰=倒れて現場を離れた人(最大1,000人まで表示)。</p></div>`);
   playGrid(days - 1, (d) => { const h = one.history[d]; return { label: `${h.day}日目 働いている人 ${pct(h.alive, 0)}・進み具合 ${pct(h.progress, 0)}`, cells: h.cells.slice(0, 1000).map((c) => (c === "ok" ? "#4a7fb5" : "#56423e")) }; });
+  attachCopy("c-copy", "c-out");
 }
 function chainCompare() {
   const { config, runs, days } = chainConfig();

@@ -107,8 +107,12 @@ export function createStage(root) {
   const title = mk("v-cards"), panel = mk("v-result"), caption = mk("v-caption"), labels = mk("s-labels");
   const endCard = mk("s-end"); endCard.hidden = true;
   const bar = mk("s-bar");
-  bar.innerHTML = `<button class="s-play">一時停止</button><input class="s-seek" type="range" min="0" max="0" value="0"><select class="s-speed"><option value="2200">ゆっくり</option><option value="1300" selected>ふつう</option><option value="600">速い</option></select>`;
-  const [btn, seek, speedSel] = bar.children;
+  bar.innerHTML = `<button class="s-play">一時停止</button><input class="s-seek" type="range" min="0" max="0" value="0"><select class="s-speed"><option value="2200">ゆっくり</option><option value="1300" selected>ふつう</option><option value="600">速い</option></select><button class="s-big">大きく</button>`;
+  const [btn, seek, speedSel, bigBtn] = bar.children;
+  // 画面いっぱいに広げる(人に見せるとき用)。もう一度押すか、Escキーで戻る
+  const setBig = (on) => { root.classList.toggle("big", on); document.documentElement.classList.toggle("stage-big", on); bigBtn.textContent = on ? "戻す" : "大きく"; };
+  bigBtn.onclick = () => setBig(!root.classList.contains("big"));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setBig(false); });
 
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0xbfe3f7, 140, 300);
@@ -143,6 +147,7 @@ export function createStage(root) {
   const body = inst(new THREE.CylinderGeometry(0.34, 0.5, 0.95, 8), 0xffffff);
   const head = inst(new THREE.SphereGeometry(0.56, 12, 9), 0xfbe3cf);
   const hair = inst(new THREE.SphereGeometry(0.62, 12, 7, 0, Math.PI * 2, 0, Math.PI * 0.55), 0xffffff); // 帽子(場所の色に染める)
+  const eyes = new THREE.InstancedMesh(new THREE.SphereGeometry(0.085, 6, 5), new THREE.MeshBasicMaterial({ color: 0x2a1f1e }), MAX * 2); eyes.frustumCulled = false; scene.add(eyes);
   // 「人」の代わりに「家」を並べる画面用
   const hWall = inst(new THREE.BoxGeometry(1.5, 1.15, 1.5), 0xf3ede2), hRoof = inst(new THREE.ConeGeometry(1.3, 1, 4), 0xffffff);
   const dummy = new THREE.Object3D(), col = new THREE.Color();
@@ -181,6 +186,9 @@ export function createStage(root) {
       const out = ring ? Math.hypot(zx, zz) : 1, bx = ring ? zx + (zx / out) * far : zx, bz = ring ? zz + (zz / out) * far : zz - far;
       return { name, x: zx, z: zz, r: rad[i], ring: post, label, list: [], bx, bz, face: ring ? Math.atan2(-zx, -zz) : 0, prop: null, propKey: null };
     });
+    // 場所どうしをつなぐ道
+    const road = (ax, az, bx2, bz2) => { const len = Math.hypot(bx2 - ax, bz2 - az); const m = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.08, len), mat(0xd9c89a)); m.position.set((ax + bx2) / 2, 0.03, (az + bz2) / 2); m.rotation.y = Math.atan2(bx2 - ax, bz2 - az); world.add(m); };
+    S.zones.forEach((z, i) => { const nx = S.zones[(i + 1) % n]; if (n > 1 && (ring || i < n - 1)) road(z.x, z.z, nx.x, nx.z); road(z.x, z.z, z.bx, z.bz); });
     S.R = (ring ? R + Math.max(...rad) + 16 : Math.max(span / 2, Math.max(...rad) * 1.6 + 24)) + 14;
     // 画面ごとの置き物(工場・商店街・事務所など)。位置は島の半径に対する割合
     S.extra = []; S.propGroups = []; S.flows = [];
@@ -366,7 +374,12 @@ export function createStage(root) {
       dummy.position.set(px, y + 0.5 * sc, pz); dummy.updateMatrix(); body.setMatrixAt(i, dummy.matrix);
       dummy.position.set(px, y + 1.42 * sc, pz); dummy.updateMatrix(); head.setMatrixAt(i, dummy.matrix);
       dummy.position.set(px, y + 1.47 * sc, pz); dummy.updateMatrix(); hair.setMatrixAt(i, dummy.matrix);
+      { // 目(進む向きの正面に2つ)
+        const hd = a?.heading ?? 0, sn = Math.sin(hd), cs = Math.cos(hd);
+        for (const e of [0, 1]) { const ox = (e ? 0.2 : -0.2) * sc, oz = 0.5 * sc; dummy.position.set(px + cs * ox + sn * oz, y + 1.4 * sc, pz - sn * ox + cs * oz); dummy.updateMatrix(); eyes.setMatrixAt(i * 2 + e, dummy.matrix); }
+      }
     }
+    eyes.instanceMatrix.needsUpdate = true;
     body.instanceMatrix.needsUpdate = head.instanceMatrix.needsUpdate = hair.instanceMatrix.needsUpdate = hWall.instanceMatrix.needsUpdate = hRoof.instanceMatrix.needsUpdate = true;
     if (body.instanceColor) body.instanceColor.needsUpdate = true;
     if (hRoof.instanceColor) hRoof.instanceColor.needsUpdate = true;
