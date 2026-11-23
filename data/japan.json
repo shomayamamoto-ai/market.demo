@@ -5033,6 +5033,34 @@
     }
    ]
   },
+  "elasticity": {
+   "food": 0.639,
+   "housing": 0.637,
+   "utilities": 0.199,
+   "furniture": 0.889,
+   "clothing": 1.805,
+   "medical": 0.519,
+   "transport_comm": 1.406,
+   "education": 3.701,
+   "recreation": 1.313,
+   "other": 1.195
+  },
+  "quintileTotal": {
+   "twoPlus": [
+    0.682,
+    0.849,
+    0.944,
+    1.07,
+    1.455
+   ],
+   "single": [
+    0.683,
+    0.83,
+    0.985,
+    1.077,
+    1.425
+   ]
+  },
   "region": {
    "hokkaido": {
     "food": 0.893,
@@ -6226,6 +6254,13 @@
    "name": "総務省統計局「家計調査(家計収支編)」2025年 年次 二人以上の世帯 詳細結果表 第2-4表(用途分類)全国",
    "url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409527&fileKind=4",
    "quality": "一次資料のファイルから直接取得"
+  },
+  {
+   "use": "費目ごとの支出弾力性(年間収入18階級から推定)",
+   "year": "2025",
+   "name": "総務省統計局「家計調査(家計収支編)」2025年 年次 二人以上の世帯 詳細結果表 第2-3表(用途分類)全国",
+   "url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409526&fileKind=4",
+   "quality": "一次資料の数値から、このツールで回帰計算"
   },
   {
    "use": "地方別の支出",

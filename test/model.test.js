@@ -163,3 +163,41 @@ test("学び方:なだらかな山ではふり返る人、でこぼこの山で�
   assert.ok(lab(climb, "smooth_reflect", 40).day90 < lab(climb, "smooth_volume", 40).day90);
   assert.ok(lab(climb, "rugged_volume", 40).score > lab(climb, "rugged_reflect", 40).score * 1.8);
 });
+
+// ---- 理論で確かめる:シミュレーションが、数式の理論値と合うこと ----
+import { queue, spreadModel, schelling, newsvendor, erlangC, finalSize } from "../public/js/theory.js";
+const near = (model, theory, tol, what) => assert.ok(Math.abs(model - theory) <= tol, `${what}: ${model} / 理論 ${theory}`);
+
+test("理論:待ち行列がアーランC式と合う", () => {
+  near(erlangC(1, 0.5), 0.5, 1e-9, "M/M/1 の待たされる確率 = 混み具合");
+  for (const key of ["two", "three", "four"]) {
+    const r = queue.presets[key].rules, m = trial(queue, r, 20, 1, 480).summary, rows = queue.verify(m, r);
+    for (const row of rows) near(row.model, row.theory, Math.max(0.01, Math.abs(row.theory) * 0.06), `${key} ${row.label}`);
+  }
+});
+
+test("理論:感染の最終規模が、最終規模方程式と合う", () => {
+  near(finalSize(2), 0.7968, 1e-3, "R0=2 の最終規模");
+  for (const key of ["r15", "r25", "r40", "cut"]) {
+    const r = spreadModel.presets[key].rules, m = trial(spreadModel, r, 60, 1, 120).summary, row = spreadModel.verify(m, r)[0];
+    near(row.model, row.theory, 0.03, key);
+  }
+  assert.ok(trial(spreadModel, spreadModel.presets.r08.rules, 60, 1, 120).summary.took < 0.05);
+});
+
+test("理論:仕入れ量の利益が理論式と合い、臨界比の量で最大になる", () => {
+  const p = (key) => { const r = newsvendor.presets[key].rules, m = trial(newsvendor, r, 30, 1, 60).summary; return { m, rows: newsvendor.verify(m, r) }; };
+  for (const key of ["mean", "best", "more", "less"]) { const { rows } = p(key); near(rows[0].model, rows[0].theory, rows[0].theory * 0.005, `${key} 利益`); }
+  assert.ok(p("best").m.profit > p("mean").m.profit && p("best").m.profit > p("more").m.profit);
+});
+
+test("理論:住み分けは、弱い好みでも希望を大きく超えて分かれる", () => {
+  const m = trial(schelling, schelling.presets.t30.rules, 10, 1, 40).summary;
+  assert.ok(m.similar > 0.65 && m.unhappy < 0.02, `仲間の割合 ${m.similar}`);
+});
+
+test("理論:寄り合いの的中率が、多数決の理論値と合う", () => {
+  const m = trial(council, council.presets.peace.rules, 30, 1, 300).summary;
+  near(m.hitCouncil, m.theoryCouncil, 0.01, "寄り合い");
+  near(m.hitKing, 0.9, 0.02, "王");
+});

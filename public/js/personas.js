@@ -9,7 +9,7 @@ export const ASSUMPTIONS = {
   selfEmployedFactor: { value: 0.8, note: "自営業・家族従業者の年収(正規雇用に対する倍率)" },
   executiveFactor: { value: 1.5, note: "役員の年収(正規雇用に対する倍率)" },
   spendSigma: { value: 0.3, note: "費目ごとの支出の個人差(対数正規分布の標準偏差)" },
-  quintileDamp: { value: 0.5, note: "所得階層による支出の差を、統計の倍率の何乗で効かせるか。統計の差には年齢の違いも混ざっているため、半分だけ反映する" },
+  quintileDamp: { value: 0.5, note: "所得階層による支出総額の差を、どれだけ効かせるか。統計の差には年齢の違いも混ざっているため、半分だけ反映する。費目ごとの差は、家計調査から推定した支出弾力性で決める" },
   marriedCompat: { value: { single: 0.03, singleParent: 0.05 }, note: "既婚者が一人暮らしをする割合の上限(単身赴任など)と、ひとり親世帯になる重み" },
   unmarriedCompat: { value: { coupleOnly: 0.03 }, note: "未婚・離死別の人が「夫婦のみ」の世帯になる重み" },
   traits: { value: "年齢・年収・ネット利用から作った指標", note: "価値観(価格感度・新しもの好き等)は公的統計に無いため、傾向を仮定して乱数で付与" },
@@ -196,9 +196,10 @@ function applyIncomeTier(D, A, personas) {
   }
   const overall = D.wage.overallAnnualManYen;
   for (const p of personas) {
-    const f = D.spending.quintile[p.single ? "single" : "twoPlus"][p.tier].f;
+    // 所得階層ごとの支出総額の差に、費目ごとの支出弾力性(家計調査から推定)を掛けて、費目別の差を出す
+    const level = D.spending.quintileTotal[p.single ? "single" : "twoPlus"][p.tier], E = D.spending.elasticity;
     let total = 0;
-    for (const key of CATEGORY_KEYS) { p.spend[key] = Math.round(p.spend[key] * f[key] ** A.quintileDamp.value); total += p.spend[key]; }
+    for (const key of CATEGORY_KEYS) { p.spend[key] = Math.round(p.spend[key] * level ** (A.quintileDamp.value * E[key])); total += p.spend[key]; }
     p.spendTotal = total;
     p.householdIncome = Math.round(p.householdIncome);
     const [z1, z2, z3, z4, z5, u] = p._z;

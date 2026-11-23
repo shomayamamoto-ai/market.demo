@@ -15,6 +15,7 @@ import { town } from "./town.js";
 import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
+import { queue, spreadModel, schelling, newsvendor } from "./theory.js";
 import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
 import { makeRng } from "./rng.js";
@@ -131,11 +132,14 @@ const NAV = [
   { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
   { key: "behavior", label: "経済と行動", tabs: [] },
+  { key: "theory", label: "理論で確かめる", tabs: [] },
   { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
 ];
 const LABS = [economy, town, island, council, climb];
+const THEORY_LABS = [queue, spreadModel, schelling, newsvendor];
 function buildNav() {
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
+  for (const def of THEORY_LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "theory").tabs.push([def.key, def.title]); }
   $("toc").firstElementChild.innerHTML = NAV.map((g) =>
     `${g.tabs.length > 1 ? `<h2>${g.label}</h2>` : ""}<div class="grp" data-group="${g.key}">${g.tabs.map(([id, label]) => `<a href="#${id}" data-tab="${id}">${label}</a>`).join("")}</div>`).join("");
   document.querySelectorAll(".viewtabs button").forEach((b) => (b.onclick = () => (location.hash = NAV.find((g) => g.key === b.dataset.group).tabs[0][0])));
@@ -257,6 +261,9 @@ function renderSpending() {
   const ref = state.D.industry.householdConsumption;
   $("spend-check").innerHTML = `ペルソナ全員の年間支出の合計:<b>${fmtYen(c.total)}</b><br>` +
     (ref ? `参考:${esc(ref.label)} ${fmtYen(ref.value * 1e8)}。${esc(ref.note)}` : "");
+  const E = state.D.spending.elasticity;
+  $("spend-elasticity").innerHTML = `<table><tr><th>費目</th><th class="num">支出弾力性</th><th>性質</th></tr>${CATEGORIES.map((k) => ({ k, e: E[k.key] })).sort((a, b) => a.e - b.e).map(({ k, e }) => `<tr><td>${k.label}</td><td class="num">${num(e, 2)}</td><td>${e < 1 ? "基礎的(暮らしに欠かせない)" : "選択的(余裕があると増える)"}</td></tr>`).join("")}</table>
+    <p class="note">消費支出の総額が1%多い世帯が、その費目に何%多く使っているかを、家計調査(二人以上の世帯、年間収入18階級)から推定した値です。<br>収入の高い世帯は子育て世代が多いため、教育などは年齢の違いも混ざった値になっています。</p>`;
   const rows = AGE_BANDS.map((b) => {
     const g = P.filter((p) => ageBandOf(p.age) === b.label);
     const w = Math.max(sum(g, (p) => p.weight), 1);
@@ -875,7 +882,7 @@ const HUB = () => [
   { key: "org", initial: "fixedPush", label: "職場のルール", presets: PRESETS, play: org3d, param: { key: "push", label: "早い人に回す割合(%)", scale: 100, min: 0, max: 100, step: 10 } },
   { key: "tax", initial: "heavy", label: "税率と助け合い", presets: SOCIETY_PRESETS, play: soc3d, param: { key: "tax", label: "税率(%)", scale: 100, min: 0, max: 90, step: 10 } },
   { key: "chain", initial: "shortcut", label: "多重下請け", presets: CHAIN_PRESETS, play: chain3d, param: { key: "layers", label: "中抜きの段階数", scale: 1, min: 0, max: 6, step: 1 } },
-  ...LABS.map((def) => ({ key: def.key, label: def.title, presets: def.presets, def, param: def.params?.[0] && { ...def.params[0], scale: def.params[0].scale ?? 1 } })),
+  ...[...LABS, ...THEORY_LABS].filter((def) => def.frames).map((def) => ({ key: def.key, label: def.title, presets: def.presets, def, param: def.params?.[0] && { ...def.params[0], scale: def.params[0].scale ?? 1 } })),
 ];
 function buildHub() {
   const hub = HUB();
@@ -1057,7 +1064,7 @@ function renderSources() {
   add("組織シミュレーター", ORG_ASSUMPTIONS);
   add("税率と助け合い", SOCIETY_ASSUMPTIONS);
   add("多重下請け", CHAIN_ASSUMPTIONS);
-  for (const def of LABS) add(def.title, def.assumptions);
+  for (const def of [...LABS, ...THEORY_LABS]) add(def.title, def.assumptions);
   (state.D.dataAssumptions ?? []).forEach((a) => rows.push(`<tr><td>データの補い方</td><td>${esc(a.note)}</td><td>${esc(a.value)}</td></tr>`));
   $("assumptions").innerHTML = `<table><tr><th>区分</th><th>内容</th><th>値</th></tr>${rows.join("")}</table>`;
   $("limits").innerHTML = state.D.limits.map((l) => `<li>${esc(l)}</li>`).join("");

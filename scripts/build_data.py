@@ -242,6 +242,19 @@ def factors(groups, base):
 Q2P = acc["fies_two_plus_by_income_quintile_2025"]["data"]["two_plus_households"]
 Q1P = acc["fies_single_by_income_2025"]["data"]["by_income_quintile"]["single_households"]
 spending["quintile"] = {"twoPlus": factors(Q2P, Q2P["all"]), "single": factors(Q1P, Q1P["all"])}
+# 費目ごとの「支出弾力性」:消費支出の総額が1%多い世帯は、その費目に何%多く使うか。
+# 家計調査の年間収入18階級について、ln(費目の支出) を ln(消費支出) に世帯数の重みつきで回帰した傾き。
+# 1未満は暮らしに欠かせない支出(基礎的)、1以上は余裕があると増える支出(選択的)。総務省統計局と同じ考え方。
+import math
+IC = acc["fies_two_plus_by_income_class_2025"]["data"]
+classes = [v for k, v in IC.items() if k != "all" and v.get("consumption_total")]
+def elasticity(cat):
+    pts = [(math.log(v["consumption_total"]), math.log(v["categories"][cat]), v["household_share_per_10000"]) for v in classes if v["categories"][cat] > 0]
+    W = sum(w for _, _, w in pts); mx = sum(x * w for x, _, w in pts) / W; my = sum(y * w for _, y, w in pts) / W
+    return sum(w * (x - mx) * (y - my) for x, y, w in pts) / sum(w * (x - mx) ** 2 for x, _, w in pts)
+spending["elasticity"] = {CAT[k]: round(elasticity(k), 3) for k in CAT}
+spending["quintileTotal"] = {"twoPlus": [round(Q2P[q]["consumption_total"] / Q2P["all"]["consumption_total"], 3) for q in ["Q1", "Q2", "Q3", "Q4", "Q5"]],
+                             "single": [round(Q1P[q]["consumption_total"] / Q1P["all"]["consumption_total"], 3) for q in ["Q1", "Q2", "Q3", "Q4", "Q5"]]}
 # 地方による支出の違い(二人以上の世帯、全国平均 = 1)
 RG = acc["fies_two_plus_by_region_2025"]["data"]["two_plus_households"]
 FIES_REGION = {"hokkaido": ["01"], "tohoku": ["02", "03", "04", "05", "06", "07"], "kanto": ["08", "09", "10", "11", "12", "13", "14", "19", "20"],
@@ -298,7 +311,8 @@ sources = [
     src("居住地(都道府県×年齢×性別)", acc["population_by_prefecture_age_sex_2025"], DIRECT),
     src("就業の内訳(正規・非正規・自営・学生・家事など)", acc["labour_force_status_by_age_sex_2025"], DIRECT),
     src("世帯の種類(年齢×性別)", acc["household_family_type_members_by_age_sex_2020"], DIRECT),
-    src("所得階層別の支出", acc["fies_two_plus_by_income_quintile_2025"], DIRECT), src("地方別の支出", acc["fies_two_plus_by_region_2025"], DIRECT),
+    src("所得階層別の支出", acc["fies_two_plus_by_income_quintile_2025"], DIRECT),
+    src("費目ごとの支出弾力性(年間収入18階級から推定)", acc["fies_two_plus_by_income_class_2025"], "一次資料の数値から、このツールで回帰計算"), src("地方別の支出", acc["fies_two_plus_by_region_2025"], DIRECT),
     src("年金の受給割合と受給額", acc["kokumin_public_pension_receipt_by_age_sex_2025"], DIRECT),
     src("貯蓄額(世帯主の年齢別)", acc["fies_savings_liabilities_by_head_age_2025"] | {"source_url": acc["fies_savings_liabilities_by_head_age_2025"]["source_url"]["means_table8_5"]}, DIRECT), src("家計の支出(二人以上世帯)", cons["kakei_two_plus_by_head_age"], DIRECT),
     src("家計の支出(単身世帯)", cons["kakei_single_by_age_sex"], DIRECT), src("ネット・SNS利用率", cons["ict_usage_by_age"], DIRECT),

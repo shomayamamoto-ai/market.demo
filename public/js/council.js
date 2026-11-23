@@ -45,6 +45,12 @@ export const council = {
     peace: { hitKing: 0.9, hitCouncil: 0.97, popKing: 127, popCouncil: 259 },
     hard: { nKing: 0 }, rumor: { hitCouncil: 0.9 }, war: { nKing: 7, nCouncil: 2 },
   },
+  verify(m, rules) {
+    if (rules.war || rules.rumor) return []; // 噂や戦いがあると、単純な多数決の式が当てはまらない
+    const A = COUNCIL_ASSUMPTIONS, dk = rules.hard ? A.hard.value.king : 0;
+    return [{ label: "寄り合いの的中率(多数決)", model: m.hitCouncil, theory: m.theoryCouncil, fmt: "pct1", note: "コンドルセの陪審定理。1人ずつの当たる確率から正確に計算" },
+      { label: "王の的中率", model: m.hitKing, theory: 0.9 - dk, fmt: "pct1", note: "王の当たる確率(80〜100%)の平均" }];
+  },
   advise(m, rules) {
     const out = [];
     if (!rules.war && !rules.rumor) out.push("1人ずつの読みが外れても、多数決では互いに打ち消し合うので、寄り合いのほうがよく当たります(コンドルセの陪審定理)。");
@@ -72,6 +78,9 @@ export const council = {
       type: rules.mix[i % rules.mix.length], pop: 100, alive: true, king: newKing(), reign: Math.floor(rng.next() * 25),
       skills: Array.from({ length: A.members.value }, () => 0.6 + rng.next() * 0.3), record: Array(A.members.value).fill(0), chief: 0, term: 0, miss: 0,
     }));
+    // 多数決が当たる確率の理論値(1人ずつ当たる確率が違う場合の、過半数が当たる確率を正確に計算)
+    const majority = (ps) => { let dist = [1]; for (const p of ps) { const next = Array(dist.length + 1).fill(0); dist.forEach((q, k) => { next[k] += q * (1 - p); next[k + 1] += q * p; }); dist = next; } return dist.reduce((a, q, k) => a + (k > ps.length / 2 ? q : 0), 0); };
+    const cv = v.filter((a) => a.type === "council"), theoryCouncil = cv.length ? cv.reduce((x, a) => x + majority(a.skills.map((p) => p - down)), 0) / cv.length : 0;
     const hits = { king: [0, 0], council: [0, 0], chief: [0, 0] }, series = [];
     for (let year = 0; year <= years; year++) {
       for (const a of v) {
@@ -114,6 +123,6 @@ export const council = {
       series.push(row);
     }
     const last = series[years], rate = (t) => (hits[t][1] ? hits[t][0] / hits[t][1] : 0);
-    return { series, summary: { hitKing: rate("king"), hitCouncil: rate("council"), popKing: last.popKing, popCouncil: last.popCouncil, nKing: last.nKing, nCouncil: last.nCouncil, nChief: last.nChief } };
+    return { series, summary: { theoryCouncil, hitKing: rate("king"), hitCouncil: rate("council"), popKing: last.popKing, popCouncil: last.popCouncil, nKing: last.nKing, nCouncil: last.nCouncil, nChief: last.nChief } };
   },
 };

@@ -16,6 +16,8 @@ const FMT = {
   days: (v) => (v >= 9999 ? "届かず" : `${Math.round(v)}日`),
   points: (v) => `${Math.round(v)}点`,
   times: (v) => `${Math.round(v)}回`,
+  min1: (v) => (Number.isFinite(v) ? `${v.toFixed(1)}分` : "行列が伸び続ける"),
+  yen: (v) => `${Math.round(v).toLocaleString("ja-JP")}円`,
 };
 const fmt = (m, v) => (v == null || Number.isNaN(v) ? "―" : FMT[m.fmt](v));
 export const formatMetric = fmt;
@@ -34,16 +36,28 @@ export function copyButton(text) {
 
 // 同じ条件で何回も試して平均する
 export function trial(def, rules, runs, seed, years) {
-  const sum = {}, series = [];
+  const sum = {}, series = [], cond = { n: 0, sum: {}, key: null };
   for (let r = 0; r < runs; r++) {
     const out = def.run(rules, seed * 1000 + r, years);
     for (const [k, v] of Object.entries(out.summary)) sum[k] = (sum[k] ?? 0) + v / runs;
+    if (out.weightKey) { cond.n += out.summary[out.weightKey]; for (const [k, v] of Object.entries(out.summary)) cond.sum[k] = (cond.sum[k] ?? 0) + v * out.summary[out.weightKey]; cond.key = out.weightKey; }
     out.series.forEach((row, i) => {
       const s = (series[i] ??= { x: row.x });
       for (const [k, v] of Object.entries(row)) if (k !== "x") s[k] = (s[k] ?? 0) + v / runs;
     });
   }
+  // 「広がった回だけの平均」のように、条件に合う回だけで平均し直す項目
+  if (cond.key && cond.n > 0) for (const k of def.conditional ?? []) sum[k] = cond.sum[k] / cond.n;
   return { summary: sum, series };
+}
+
+// 理論値との照合表
+export function verifyTable(def, summary, rules) {
+  const rows = def.verify?.(summary, rules); if (!rows?.length) return "";
+  const diff = (r) => (!Number.isFinite(r.theory) || Math.abs(r.theory) < 1e-9 ? "―" : `${((r.model / r.theory - 1) * 100 >= 0 ? "+" : "")}${((r.model / r.theory - 1) * 100).toFixed(1)}%`);
+  return `<h3>理論値との照合</h3><div class="table-scroll"><table><tr><th>項目</th><th class="num">このシミュレーション</th><th class="num">理論値</th><th class="num">ずれ</th></tr>${
+    rows.map((r) => `<tr><td>${esc(r.label)}${r.note ? `<br><small>${esc(r.note)}</small>` : ""}</td><td class="num">${FMT[r.fmt](r.model)}</td><td class="num">${FMT[r.fmt](r.theory)}</td><td class="num">${diff(r)}</td></tr>`).join("")}</table></div>
+    <p class="note">理論値は数式から計算した値です。ずれが小さいほど、このツールの計算が理論どおりに動いていることを示します(現実に合っていることの証明ではありません)。</p>`;
 }
 
 export function mountLab(def, { seedOf }) {
@@ -92,7 +106,7 @@ export function mountLab(def, { seedOf }) {
         <div class="a-cards">${def.metrics.map((m) => card(m.label, fmt(m, t.summary[m.key]), [m.sub, ref(key, m)].filter(Boolean).join("・"))).join("")}</div>
         ${advice[0] ? `<p class="a-headline">${esc(advice[0])}</p>` : ""}
         ${def.reference?.[key] ? `<p class="a-note">「参考」は、もとにした実験で示されていた値です。係数はこの値に近づくよう調整していますが、一致はしません。</p>` : ""}</div>
-      <div class="card"><div class="form-row" id="${id("copy")}"></div>${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+      <div class="card"><div class="form-row" id="${id("copy")}"></div>${verifyTable(def, t.summary, rules)}${def.extra?.(rules, seedOf()) ?? ""}${advice.length > 1 ? `<h3>ほかに読み取れること</h3><div class="advice"><ul>${advice.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
         ${def.charts.map((c) => `<h3>${esc(c.title)}</h3>${multiLine(c.lines.map((l) => ({ name: l.name, color: l.color, points: t.series.map((s) => ({ x: s.x, y: s[l.key] ?? 0 })) })), { xLabel: def.xLabel ?? "世代", fmt: FMT[c.fmt ?? "pct"] })}`).join("")}</div>`;
     const text = [`${def.title}:${title}(${runs}回の平均、${def.xLabel ?? "世代"} ${years}まで)`,
       ...def.metrics.map((m) => `・${m.label}:${fmt(m, t.summary[m.key])}`), ...advice.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n");

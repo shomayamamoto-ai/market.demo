@@ -41,6 +41,13 @@ export const economy = {
     handout: { productivity: 0.38 },
     reform: { productivity: 2.364, unemployment: 0, peakUnemployment: 0.736, apples: 2.99 },
   },
+  verify(m, rules) {
+    if (rules.reform || rules.handout) return [];
+    // このモデルの行き着く先(定常状態)は、式で解ける:雇われる人の割合 e = (e×働く人が買う数 + (1−e)×失業者が買う数) ÷ 1人が作る数
+    const A = ECONOMY_ASSUMPTIONS, real = (2 * rules.wage) / rules.price, calm = clamp((real - 1.2) / 0.65, 0, 1), buy = calm * Math.min(real, 3) + (1 - calm) * Math.min(real, 1), cu = A.jobless.value;
+    const e = clamp(cu / (2 - buy + cu), 0, 1);
+    return [{ label: "失業率(行き着く先)", model: m.unemployment, theory: buy >= 2 ? 0 : 1 - e, fmt: "pct1", note: "モデルの式を解いた値。30世代ではまだ近づいている途中のことがある" }];
+  },
   advise(m, rules) {
     const out = [];
     if (m.unemployment > 0.3) out.push("1人ずつが節約するのは合理的ですが、全員が同時に節約すると売上が落ち、雇用が減り、さらに節約が広がります(節約のパラドックス)。");
