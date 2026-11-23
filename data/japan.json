@@ -3022,306 +3022,306 @@
     "min": 15,
     "max": 19,
     "male": {
-     "single": 0.0579,
+     "single": 0.0655,
      "coupleOnly": 0.0003,
-     "coupleKids": 0.6299,
-     "singleParent": 0.1582,
-     "other": 0.1537
+     "coupleKids": 0.6249,
+     "singleParent": 0.157,
+     "other": 0.1523
     },
     "female": {
-     "single": 0.0471,
+     "single": 0.0523,
      "coupleOnly": 0.0007,
-     "coupleKids": 0.6346,
-     "singleParent": 0.1619,
-     "other": 0.1557
+     "coupleKids": 0.6312,
+     "singleParent": 0.161,
+     "other": 0.1548
     }
    },
    {
     "min": 20,
     "max": 24,
     "male": {
-     "single": 0.3153,
-     "coupleOnly": 0.0146,
-     "coupleKids": 0.4051,
-     "singleParent": 0.1206,
-     "other": 0.1444
+     "single": 0.3441,
+     "coupleOnly": 0.014,
+     "coupleKids": 0.3881,
+     "singleParent": 0.1156,
+     "other": 0.1382
     },
     "female": {
-     "single": 0.2638,
-     "coupleOnly": 0.0248,
-     "coupleKids": 0.4285,
-     "singleParent": 0.1264,
-     "other": 0.1565
+     "single": 0.2858,
+     "coupleOnly": 0.024,
+     "coupleKids": 0.4157,
+     "singleParent": 0.1226,
+     "other": 0.1519
     }
    },
    {
     "min": 25,
     "max": 29,
     "male": {
-     "single": 0.3469,
-     "coupleOnly": 0.1011,
-     "coupleKids": 0.3353,
-     "singleParent": 0.0819,
-     "other": 0.1348
+     "single": 0.377,
+     "coupleOnly": 0.0964,
+     "coupleKids": 0.3198,
+     "singleParent": 0.0781,
+     "other": 0.1287
     },
     "female": {
-     "single": 0.2483,
-     "coupleOnly": 0.1364,
-     "coupleKids": 0.3792,
-     "singleParent": 0.0925,
-     "other": 0.1436
+     "single": 0.2694,
+     "coupleOnly": 0.1326,
+     "coupleKids": 0.3685,
+     "singleParent": 0.0899,
+     "other": 0.1396
     }
    },
    {
     "min": 30,
     "max": 34,
     "male": {
-     "single": 0.2379,
-     "coupleOnly": 0.1217,
-     "coupleKids": 0.4674,
-     "singleParent": 0.0663,
-     "other": 0.1067
+     "single": 0.2623,
+     "coupleOnly": 0.1178,
+     "coupleKids": 0.4524,
+     "singleParent": 0.0642,
+     "other": 0.1033
     },
     "female": {
-     "single": 0.1509,
-     "coupleOnly": 0.1335,
-     "coupleKids": 0.5149,
-     "singleParent": 0.0853,
-     "other": 0.1154
+     "single": 0.1656,
+     "coupleOnly": 0.1311,
+     "coupleKids": 0.506,
+     "singleParent": 0.0838,
+     "other": 0.1135
     }
    },
    {
     "min": 35,
     "max": 39,
     "male": {
-     "single": 0.1815,
-     "coupleOnly": 0.0935,
-     "coupleKids": 0.5658,
-     "singleParent": 0.0642,
-     "other": 0.095
+     "single": 0.2016,
+     "coupleOnly": 0.0912,
+     "coupleKids": 0.5518,
+     "singleParent": 0.0626,
+     "other": 0.0928
     },
     "female": {
-     "single": 0.1027,
-     "coupleOnly": 0.0935,
-     "coupleKids": 0.5929,
-     "singleParent": 0.0983,
-     "other": 0.1126
+     "single": 0.1133,
+     "coupleOnly": 0.0924,
+     "coupleKids": 0.5859,
+     "singleParent": 0.0971,
+     "other": 0.1113
     }
    },
    {
     "min": 40,
     "max": 44,
     "male": {
-     "single": 0.1622,
-     "coupleOnly": 0.0867,
-     "coupleKids": 0.5827,
-     "singleParent": 0.0726,
-     "other": 0.0958
+     "single": 0.1806,
+     "coupleOnly": 0.0848,
+     "coupleKids": 0.5699,
+     "singleParent": 0.071,
+     "other": 0.0937
     },
     "female": {
-     "single": 0.0869,
-     "coupleOnly": 0.0898,
-     "coupleKids": 0.5859,
-     "singleParent": 0.1182,
-     "other": 0.1192
+     "single": 0.0961,
+     "coupleOnly": 0.0889,
+     "coupleKids": 0.5801,
+     "singleParent": 0.117,
+     "other": 0.1179
     }
    },
    {
     "min": 45,
     "max": 49,
     "male": {
-     "single": 0.1723,
-     "coupleOnly": 0.1019,
-     "coupleKids": 0.5331,
-     "singleParent": 0.0889,
-     "other": 0.1038
+     "single": 0.1916,
+     "coupleOnly": 0.0996,
+     "coupleKids": 0.5207,
+     "singleParent": 0.0868,
+     "other": 0.1013
     },
     "female": {
-     "single": 0.094,
-     "coupleOnly": 0.1173,
-     "coupleKids": 0.5168,
-     "singleParent": 0.1419,
-     "other": 0.13
+     "single": 0.1038,
+     "coupleOnly": 0.116,
+     "coupleKids": 0.5112,
+     "singleParent": 0.1403,
+     "other": 0.1287
     }
    },
    {
     "min": 50,
     "max": 54,
     "male": {
-     "single": 0.1906,
-     "coupleOnly": 0.1403,
-     "coupleKids": 0.4495,
-     "singleParent": 0.0986,
-     "other": 0.121
+     "single": 0.2115,
+     "coupleOnly": 0.1367,
+     "coupleKids": 0.4379,
+     "singleParent": 0.096,
+     "other": 0.1179
     },
     "female": {
-     "single": 0.1123,
-     "coupleOnly": 0.1719,
-     "coupleKids": 0.4179,
-     "singleParent": 0.1481,
-     "other": 0.1498
+     "single": 0.1238,
+     "coupleOnly": 0.1697,
+     "coupleKids": 0.4125,
+     "singleParent": 0.1462,
+     "other": 0.1478
     }
    },
    {
     "min": 55,
     "max": 59,
     "male": {
-     "single": 0.1936,
-     "coupleOnly": 0.2112,
-     "coupleKids": 0.3537,
-     "singleParent": 0.0911,
-     "other": 0.1504
+     "single": 0.2147,
+     "coupleOnly": 0.2057,
+     "coupleKids": 0.3445,
+     "singleParent": 0.0887,
+     "other": 0.1464
     },
     "female": {
-     "single": 0.1272,
-     "coupleOnly": 0.2619,
-     "coupleKids": 0.3126,
-     "singleParent": 0.1262,
-     "other": 0.1721
+     "single": 0.14,
+     "coupleOnly": 0.2581,
+     "coupleKids": 0.308,
+     "singleParent": 0.1244,
+     "other": 0.1695
     }
    },
    {
     "min": 60,
     "max": 64,
     "male": {
-     "single": 0.1837,
-     "coupleOnly": 0.3048,
-     "coupleKids": 0.2741,
-     "singleParent": 0.0674,
-     "other": 0.17
+     "single": 0.204,
+     "coupleOnly": 0.2972,
+     "coupleKids": 0.2673,
+     "singleParent": 0.0657,
+     "other": 0.1658
     },
     "female": {
-     "single": 0.1346,
-     "coupleOnly": 0.3546,
-     "coupleKids": 0.2389,
-     "singleParent": 0.0974,
-     "other": 0.1745
+     "single": 0.148,
+     "coupleOnly": 0.3491,
+     "coupleKids": 0.2352,
+     "singleParent": 0.0959,
+     "other": 0.1718
     }
    },
    {
     "min": 65,
     "max": 69,
     "male": {
-     "single": 0.1799,
-     "coupleOnly": 0.3968,
-     "coupleKids": 0.2305,
-     "singleParent": 0.0409,
-     "other": 0.1519
+     "single": 0.1999,
+     "coupleOnly": 0.3871,
+     "coupleKids": 0.2249,
+     "singleParent": 0.0399,
+     "other": 0.1482
     },
     "female": {
-     "single": 0.1554,
-     "coupleOnly": 0.4115,
-     "coupleKids": 0.1977,
-     "singleParent": 0.0838,
-     "other": 0.1516
+     "single": 0.1704,
+     "coupleOnly": 0.4042,
+     "coupleKids": 0.1942,
+     "singleParent": 0.0823,
+     "other": 0.1489
     }
    },
    {
     "min": 70,
     "max": 74,
     "male": {
-     "single": 0.1611,
-     "coupleOnly": 0.471,
-     "coupleKids": 0.2139,
-     "singleParent": 0.0288,
-     "other": 0.1252
+     "single": 0.1795,
+     "coupleOnly": 0.4607,
+     "coupleKids": 0.2093,
+     "singleParent": 0.0282,
+     "other": 0.1223
     },
     "female": {
-     "single": 0.1939,
-     "coupleOnly": 0.411,
-     "coupleKids": 0.1682,
-     "singleParent": 0.0913,
-     "other": 0.1356
+     "single": 0.2118,
+     "coupleOnly": 0.4019,
+     "coupleKids": 0.1644,
+     "singleParent": 0.0893,
+     "other": 0.1326
     }
    },
    {
     "min": 75,
     "max": 79,
     "male": {
-     "single": 0.1332,
-     "coupleOnly": 0.5112,
-     "coupleKids": 0.21,
-     "singleParent": 0.0306,
-     "other": 0.115
+     "single": 0.149,
+     "coupleOnly": 0.5019,
+     "coupleKids": 0.2062,
+     "singleParent": 0.03,
+     "other": 0.1129
     },
     "female": {
-     "single": 0.2472,
-     "coupleOnly": 0.352,
-     "coupleKids": 0.1355,
-     "singleParent": 0.1184,
-     "other": 0.1469
+     "single": 0.2683,
+     "coupleOnly": 0.3421,
+     "coupleKids": 0.1317,
+     "singleParent": 0.115,
+     "other": 0.1429
     }
    },
    {
     "min": 80,
     "max": 84,
     "male": {
-     "single": 0.1302,
-     "coupleOnly": 0.4996,
-     "coupleKids": 0.1937,
-     "singleParent": 0.0413,
-     "other": 0.1352
+     "single": 0.1456,
+     "coupleOnly": 0.4907,
+     "coupleKids": 0.1903,
+     "singleParent": 0.0406,
+     "other": 0.1328
     },
     "female": {
-     "single": 0.3127,
-     "coupleOnly": 0.2504,
-     "coupleKids": 0.089,
-     "singleParent": 0.1524,
-     "other": 0.1955
+     "single": 0.3369,
+     "coupleOnly": 0.2415,
+     "coupleKids": 0.0859,
+     "singleParent": 0.147,
+     "other": 0.1887
     }
    },
    {
     "min": 85,
     "max": 89,
     "male": {
-     "single": 0.1538,
-     "coupleOnly": 0.4481,
-     "coupleKids": 0.1583,
-     "singleParent": 0.0586,
-     "other": 0.1812
+     "single": 0.1715,
+     "coupleOnly": 0.4387,
+     "coupleKids": 0.1549,
+     "singleParent": 0.0574,
+     "other": 0.1775
     },
     "female": {
-     "single": 0.3587,
-     "coupleOnly": 0.1364,
-     "coupleKids": 0.0444,
-     "singleParent": 0.1828,
-     "other": 0.2777
+     "single": 0.3845,
+     "coupleOnly": 0.1309,
+     "coupleKids": 0.0426,
+     "singleParent": 0.1754,
+     "other": 0.2666
     }
    },
    {
     "min": 90,
     "max": 94,
     "male": {
-     "single": 0.198,
-     "coupleOnly": 0.3465,
-     "coupleKids": 0.1134,
-     "singleParent": 0.0851,
-     "other": 0.257
+     "single": 0.2195,
+     "coupleOnly": 0.3372,
+     "coupleKids": 0.1103,
+     "singleParent": 0.0828,
+     "other": 0.2502
     },
     "female": {
-     "single": 0.3412,
-     "coupleOnly": 0.0514,
-     "coupleKids": 0.0165,
-     "singleParent": 0.2064,
-     "other": 0.3845
+     "single": 0.3665,
+     "coupleOnly": 0.0495,
+     "coupleKids": 0.0158,
+     "singleParent": 0.1985,
+     "other": 0.3697
     }
    },
    {
     "min": 95,
     "max": null,
     "male": {
-     "single": 0.2448,
-     "coupleOnly": 0.2095,
-     "coupleKids": 0.0697,
-     "singleParent": 0.1288,
-     "other": 0.3472
+     "single": 0.2697,
+     "coupleOnly": 0.2026,
+     "coupleKids": 0.0674,
+     "singleParent": 0.1245,
+     "other": 0.3358
     },
     "female": {
-     "single": 0.2686,
-     "coupleOnly": 0.0117,
-     "coupleKids": 0.0041,
-     "singleParent": 0.2378,
-     "other": 0.4778
+     "single": 0.2909,
+     "coupleOnly": 0.0113,
+     "coupleKids": 0.004,
+     "singleParent": 0.2305,
+     "other": 0.4633
     }
    }
   ]

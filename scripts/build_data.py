@@ -230,8 +230,12 @@ for key in [k for k in HT["male"] if k not in ("total", "unknown")]:
     lo, hi = rng(key)
     row = {"min": lo, "max": hi}
     for sex in ("male", "female"):
-        v = HT[sex][key]; n = v["total"]
-        row[sex] = {"single": round(v["single_person"] / n, 4), "coupleOnly": round(v["couple_only"] / n, 4), "coupleKids": round(v["couple_with_children"] / n, 4),
+        v = HT[sex][key]
+        # 年齢が分からない一人暮らし(全国で約240万人、一人暮らしの11%)を、年齢の分かる一人暮らしと同じ年齢構成で割り振る
+        known = sum(x["single_person"] for k2, x in HT[sex].items() if k2 not in ("total", "unknown"))
+        single = v["single_person"] * HT[sex]["total"]["single_person"] / known
+        n = v["total"] + single - v["single_person"]
+        row[sex] = {"single": round(single / n, 4), "coupleOnly": round(v["couple_only"] / n, 4), "coupleKids": round(v["couple_with_children"] / n, 4),
                     "singleParent": round(v["single_parent_with_children"] / n, 4)}
         row[sex]["other"] = round(1 - sum(row[sex].values()), 4)
     household["typeBands"].append(row)

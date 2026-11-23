@@ -151,6 +151,7 @@ function buildPersona(D, A, rng, base) {
   if (p.single) { row = bandOf(S.single[sex], age); members = 1; }
   else { row = bandOf(S.twoPlus, p.asChild ? age + 30 : age); members = row.members; }
   const regionF = S.region[pref.spendRegion];
+  p._row = row; p._members = members;
   p.spend = {};
   for (const key of CATEGORY_KEYS) {
     let v = (row.items[key] / members) * regionF[key] * lognormal(rng, 1, A.spendSigma.value);
@@ -201,6 +202,21 @@ function applyIncomeTier(D, A, personas) {
     let total = 0;
     for (const key of CATEGORY_KEYS) { p.spend[key] = Math.round(p.spend[key] * level ** (A.quintileDamp.value * E[key])); total += p.spend[key]; }
     p.spendTotal = total;
+  }
+  // ばらつき・地方差・所得差を掛けたあとで、年齢階級ごとの平均が家計調査の表の値に戻るようにそろえる
+  // (掛け算を重ねると平均が少しずつ上にずれるため。人ごとの差は保ったまま、平均だけを合わせる)
+  const cells = new Map();
+  for (const p of personas) { if (!cells.has(p._row)) cells.set(p._row, []); cells.get(p._row).push(p); }
+  for (const [row, list] of cells) {
+    const w = list.reduce((a, p) => a + p.weight, 0);
+    for (const key of CATEGORY_KEYS) {
+      const mean = list.reduce((a, p) => a + p.weight * p.spend[key], 0) / w, target = row.items[key] / list[0]._members;
+      if (mean > 0) for (const p of list) p.spend[key] = Math.round((p.spend[key] * target) / mean);
+    }
+  }
+  for (const p of personas) {
+    p.spendTotal = CATEGORY_KEYS.reduce((a, key) => a + p.spend[key], 0);
+    delete p._row; delete p._members;
     p.householdIncome = Math.round(p.householdIncome);
     const [z1, z2, z3, z4, z5, u] = p._z;
     delete p._z;

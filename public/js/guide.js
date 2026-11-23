@@ -52,7 +52,7 @@ export function scoreboard(D, personas, groups, seed = 1) {
   const rows = [];
   for (const t of validate(D, personas)) { const f = (v) => (Math.abs(v) < 1 ? `${(v * 100).toFixed(1)}%` : Math.round(v).toLocaleString("ja-JP")); rows.push({ basis: "公的統計", model: "人口とペルソナ", label: t.label, a: f(t.model), b: f(t.value), diff: t.error }); }
   for (const { basis, defs } of groups) for (const def of defs) for (const [key, p] of Object.entries(def.presets)) {
-    const years = p.years ?? def.years, summary = trial(def, p.rules, basis === "動画の実験値" ? Math.min(def.runs ?? 30, 10) : def.runs ?? 20, seed, years).summary;
+    const years = p.years ?? def.years, summary = trial(def, p.rules, def.runs ?? 20, seed, years).summary;
     for (const v of def.verify?.(summary, p.rules) ?? []) {
       if (v.label.startsWith("参考")) continue;
       const row = { basis: def.verifyHead === "公式推計" ? "公式推計" : def.verifyHead ? "実験" : "理論", model: `${def.title}:${p.label}`, label: v.label, a: formatMetric(v, v.model), b: v.theoryText ?? formatMetric(v, v.theory) };
