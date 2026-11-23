@@ -71,9 +71,10 @@ async function init() {
   $("c-preset").innerHTML = Object.entries(CHAIN_PRESETS).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("");
   $("c-preset").value = "shortcut";
   $("c-preset").onchange = () => { const r = CHAIN_PRESETS[$("c-preset").value].rules; $("c-layers").value = r.layers; $("c-rate").value = Math.round(r.rate * 100); };
-  $("o-3d").onclick = () => busy("o-msg", org3d);
-  $("t-3d").onclick = () => busy("t-msg", soc3d);
-  $("c-3d").onclick = () => busy("c-msg", chain3d);
+  $("o-3d").onclick = () => busy("o-msg", () => org3d());
+  $("t-3d").onclick = () => busy("t-msg", () => soc3d());
+  $("c-3d").onclick = () => busy("c-msg", () => chain3d());
+  buildHub();
   $("c-run").onclick = () => busy("c-msg", chainRun);
   $("c-compare").onclick = () => busy("c-msg", chainCompare);
   $("c-sweep").onclick = () => busy("c-msg", chainSweep);
@@ -153,7 +154,7 @@ function showTab() {
   // 「制度を試す」の2画面は、人数や期間の入力欄を共有する
   const slot = document.querySelector(`#tab-${tab} .slot`);
   if (slot) { slot.appendChild($("org-common")); $("org-common").hidden = false; }
-  if (tab === "visual") openVisual(); else state.visual?.run(false);
+  if (tab === "visual") { if (state.hubOn) state.hubPlay(); else openVisual(); } else state.visual?.run(false);
   // 初めて開いた画面は、標準の条件で結果を出しておく
   if (!state.opened[tab]) {
     state.opened[tab] = true;
@@ -627,9 +628,9 @@ function orgSweep() {
 }
 
 // ---------- 制度を試す:3Dで見る ----------
-function org3d() {
-  const { config, years, rules, presetLabel } = orgConfig();
-  const stage = showStage($("o-stage")); if (!stage) return;
+function org3d(o = {}) {
+  const c = orgConfig(), { config, years } = c, rules = o.rules ?? c.rules, presetLabel = o.label ?? c.presetLabel;
+  const stage = showStage(o.container ?? $("o-stage"), !o.container); if (!stage) return;
   const frames = thin(runOrg(config, rules, years).history).map((h) => ({
     label: `${h.year}年目`, caption: `${h.year}年目:エース ${pct(h.share.ace)}、生産力 ${pct(h.productivity, 0)}、1日の労働時間 ${num(h.hours, 1)}時間。`,
     gauges: [{ label: "生産力", text: pct(h.productivity, 0), value: h.productivity / 2.2, color: "#2f8f6b" }],
@@ -637,9 +638,9 @@ function org3d() {
   }));
   stage.setFrames(frames, { title: presetLabel.replace(/^. /, ""), sub: "働き方を変えた人が、場所を移ります。" });
 }
-function soc3d() {
-  const { config, years, rules, label } = socConfig();
-  const stage = showStage($("t-stage")); if (!stage) return;
+function soc3d(o = {}) {
+  const c = socConfig(), { config, years } = c, rules = o.rules ?? c.rules, label = o.label ?? c.label;
+  const stage = showStage(o.container ?? $("t-stage"), !o.container); if (!stage) return;
   const frames = thin(runSociety(config, rules, years).history).map((h) => {
     const n = config.n * h.population;
     return { label: `${h.year}年目(税率 ${pct(h.tax, 0)})`, caption: `${h.year}年目:森に挑戦する人 ${pct(h.risky, 0)}、生産力 ${pct(h.productivity, 0)}、人口 ${pct(h.population, 0)}。`,
@@ -648,9 +649,9 @@ function soc3d() {
   });
   stage.setFrames(frames, { title: label.slice(2), sub: "隣の村へ移る人は、島の外へ出ていきます。", props: [{ kind: "house", color: "#c9a45c", x: 0, z: 0.42, label: "村の貯蔵庫", size: 1.6 }, { kind: "houses", color: "#c98bb5", x: -0.6, z: 0.5 }, { kind: "houses", color: "#6da7d8", x: 0.6, z: 0.5 }] });
 }
-function chain3d() {
-  const { config, days, rules, label } = chainConfig();
-  const stage = showStage($("c-stage")); if (!stage) return;
+function chain3d(o = {}) {
+  const c = chainConfig(), { config, days } = c, rules = o.rules ?? c.rules, label = o.label ?? c.label;
+  const stage = showStage(o.container ?? $("c-stage"), !o.container); if (!stage) return;
   const result = runChain(config, rules, days);
   const frames = result.history.map((h) => ({
     label: `${h.day}日目`, caption: `${h.day}日目:働いている人 ${pct(h.alive, 0)}、進み具合 ${pct(h.progress, 0)}、強度 ${pct(h.strength, 0)}${h.cut > 0.05 ? `。${pct(h.cut, 0)}の人が泥ブロックを使っています` : ""}。`,
@@ -853,7 +854,67 @@ function chainSweep() {
 }
 
 // ---------- ⑦ 3Dビジュアル ----------
+// 「3Dで見る」の画面で、どの内容でもその場で選んで検証できるようにする
+const HUB = () => [
+  { key: "product", label: "商品を試す(お題と市場規模の条件)" },
+  { key: "org", initial: "fixedPush", label: "職場のルール", presets: PRESETS, play: org3d, param: { key: "push", label: "早い人に回す割合(%)", scale: 100, min: 0, max: 100, step: 10 } },
+  { key: "tax", initial: "heavy", label: "税率と助け合い", presets: SOCIETY_PRESETS, play: soc3d, param: { key: "tax", label: "税率(%)", scale: 100, min: 0, max: 90, step: 10 } },
+  { key: "chain", initial: "shortcut", label: "多重下請け", presets: CHAIN_PRESETS, play: chain3d, param: { key: "layers", label: "中抜きの段階数", scale: 1, min: 0, max: 6, step: 1 } },
+  ...LABS.map((def) => ({ key: def.key, label: def.title, presets: def.presets, def, param: def.params?.[0] && { ...def.params[0], scale: def.params[0].scale ?? 1 } })),
+];
+function buildHub() {
+  const hub = HUB();
+  $("v-hub").innerHTML = hub.map((h) => `<option value="${h.key}">${esc(h.label)}</option>`).join("");
+  const current = () => hub.find((h) => h.key === $("v-hub").value);
+  const fillPresets = () => {
+    const h = current(), on = h.key !== "product";
+    $("v-product").hidden = on; $("v-hub-stage").hidden = !on; $("v-hub-preset-wrap").hidden = !on; $("v-hub-again").hidden = !on;
+    if (on) $("v-hub-preset").innerHTML = Object.entries(h.presets).map(([k, p]) => `<option value="${k}">${esc(p.label)}</option>`).join("");
+    if (on && (h.initial ?? h.def?.initial)) $("v-hub-preset").value = h.initial ?? h.def.initial;
+    fillParam();
+  };
+  const fillParam = () => {
+    const h = current(), p = h.param, v = p && h.presets[$("v-hub-preset").value].rules[p.key];
+    $("v-hub-param-wrap").hidden = !p || h.key === "product";
+    if (p) { $("v-hub-param-label").textContent = p.label; Object.assign($("v-hub-param"), { min: p.min, max: p.max, step: p.step ?? 1, value: Math.round((v ?? 0) * p.scale) }); }
+  };
+  const play = () => {
+    const h = current();
+    if (h.key === "product") { state.hubOn = false; openVisual(); $("v-hub-next").innerHTML = `条件を変えるには <a href="#sim">お題と市場規模</a> へ。`; return; }
+    state.hubOn = true; state.visual?.run(false);
+    const preset = h.presets[$("v-hub-preset").value], rules = { ...preset.rules };
+    let changed = "";
+    if (h.param) {
+      const v = Math.min(h.param.max, Math.max(h.param.min, Number($("v-hub-param").value) || 0));
+      // 条件の標準の値から変えたときは、題名にもそれを書く
+      if (Math.round((preset.rules[h.param.key] ?? 0) * h.param.scale) !== v) changed = `(${h.param.label.replace(/\(.*?\)/, "")}を${v}に変更)`;
+      rules[h.param.key] = v / h.param.scale;
+    }
+    const label = preset.label + changed, container = $("v-hub-stage");
+    setMsg("v-hub-msg", "計算中です…");
+    setTimeout(() => {
+      try {
+        if (h.play) h.play({ container, rules, label });
+        else {
+          const stage = showStage(container, false); if (!stage) return;
+          const scene = h.def.frames(rules, Number($("seed").value) || 1, preset.years ?? h.def.years), title = label.replace(/^[A-Z] /, "");
+          if (scene.terrain) stage.setTerrain({ ...scene.terrain, title }); else stage.setFrames(scene.frames, { ...scene.opts, title });
+        }
+        setMsg("v-hub-msg", "");
+      } catch (err) { setMsg("v-hub-msg", err.message, true); }
+    }, 30);
+    $("v-hub-next").innerHTML = `ここで見ているのは1回分の結果です。100回の平均や条件どうしの比較は <a href="#${h.key}">${esc(h.label)}</a> へ。`;
+  };
+  $("v-hub").onchange = () => { fillPresets(); play(); };
+  $("v-hub-preset").onchange = () => { fillParam(); play(); };
+  $("v-hub-param").onchange = play;
+  $("v-hub-again").onclick = play;
+  state.hubPlay = play;
+  fillPresets();
+}
+
 function openVisual() {
+  if (state.hubOn) return; // ほかの内容を表示中は、商品の3Dを動かさない
   if (!state.visual) {
     state.visual = createVisual($("visual"), { fmtYen, fmtPeople, pct, num, esc });
     if (!state.visual) return;

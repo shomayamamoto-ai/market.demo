@@ -381,11 +381,11 @@ export function thin(list, max = 61) {
 
 // 舞台は1つだけ作り、表示する場所へ移して使い回す(3D描画の枠を増やしすぎないため)
 let shared = null, sharedRoot = null;
-export function showStage(container) {
+export function showStage(container, scroll = true) {
   if (!sharedRoot) { sharedRoot = document.createElement("div"); shared = createStage(sharedRoot); }
   container.innerHTML = "";
   container.appendChild(sharedRoot);
   shared?.run(true);
-  sharedRoot.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  if (scroll) sharedRoot.scrollIntoView({ block: "nearest", behavior: "smooth" });
   return shared;
 }

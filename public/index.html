@@ -201,23 +201,34 @@
 
 <!-- 3Dで見る -->
 <section id="tab-visual" class="tab">
-  <div class="page-head"><h1>3Dで見る</h1><p>対象者の1人ずつが、自分の家計と価値観で選び、ゲートに並びます。</p></div>
+  <div class="page-head"><h1>3Dで見る</h1><p>見たい内容と条件を選ぶと、その場で動きを確かめられます。</p></div>
   <div class="card">
-    <div class="form-row">
-      <button id="v-start" class="primary">スタート</button>
-      <button id="v-set">人を集め直す</button>
-      <label>速さ <select id="v-speed"><option value="0.5">ゆっくり</option><option value="1" selected>ふつう</option><option value="2.5">速い</option></select></label>
-      <label>人数 <select id="v-n"><option>300</option><option selected>600</option><option>1000</option></select></label>
+    <div class="form-grid">
+      <label>見る内容 <select id="v-hub"></select></label>
+      <label id="v-hub-preset-wrap" hidden>条件 <select id="v-hub-preset"></select></label>
+      <label id="v-hub-param-wrap" hidden><span id="v-hub-param-label"></span> <input id="v-hub-param" type="number"></label>
     </div>
-    <details><summary>A案とB案を比べる</summary>
+    <div class="form-row"><button id="v-hub-again" class="primary" hidden>この条件で、もう一度見る</button></div>
+    <p id="v-hub-msg" class="msg"></p>
+    <div id="v-hub-stage" hidden></div>
+    <div id="v-product">
       <div class="form-row">
-        <label class="check"><input id="v-ab" type="checkbox"> 比べる</label>
-        <label>B案の価格(円) <input id="v-price-b" type="number" min="0" disabled></label>
-        <label>B案の年間回数 <input id="v-per-b" type="number" min="0.1" step="0.1" disabled></label>
+        <button id="v-start" class="primary">スタート</button>
+        <button id="v-set">人を集め直す</button>
+        <label>速さ <select id="v-speed"><option value="0.5">ゆっくり</option><option value="1" selected>ふつう</option><option value="2.5">速い</option></select></label>
+        <label>人数 <select id="v-n"><option>300</option><option selected>600</option><option>1000</option></select></label>
       </div>
-    </details>
-    <div id="visual" class="visual"></div>
-    <p class="note">髪が灰色の人は65歳以上、服が青い人は男性、白い人は女性、小さい人は子どもです。<br>人をクリックすると近くに寄り、その人の事情が見られます。何もない所をクリックすると全体に戻ります。</p>
+      <details><summary>A案とB案を比べる</summary>
+        <div class="form-row">
+          <label class="check"><input id="v-ab" type="checkbox"> 比べる</label>
+          <label>B案の価格(円) <input id="v-price-b" type="number" min="0" disabled></label>
+          <label>B案の年間回数 <input id="v-per-b" type="number" min="0.1" step="0.1" disabled></label>
+        </div>
+      </details>
+      <div id="visual" class="visual"></div>
+      <p class="note">対象者の1人ずつが、自分の家計と価値観で選び、ゲートに並びます。髪が灰色の人は65歳以上、服が青い人は男性、白い人は女性、小さい人は子どもです。<br>人をクリックすると近くに寄り、その人の事情が見られます。何もない所をクリックすると全体に戻ります。</p>
+    </div>
+    <p id="v-hub-next" class="next"></p>
   </div>
 </section>
 
