@@ -626,7 +626,7 @@ function org3d() {
   const frames = thin(runOrg(config, rules, years).history).map((h) => ({
     label: `${h.year}年目`, caption: `${h.year}年目:エース ${pct(h.share.ace)}、生産力 ${pct(h.productivity, 0)}、1日の労働時間 ${num(h.hours, 1)}時間。`,
     gauges: [{ label: "生産力", text: pct(h.productivity, 0), value: h.productivity / 2.2, color: "#2f8f6b" }],
-    zones: ["ace", "std", "low"].map((m) => ({ name: MODES[m].label, note: `(1日${MODES[m].boxes}箱)`, color: MODES[m].color, count: config.n * h.share[m] })),
+    zones: ["ace", "std", "low"].map((m) => ({ name: MODES[m].label, note: `(1日${MODES[m].boxes}箱)`, color: MODES[m].color, count: config.n * h.share[m], build: "factory" })),
   }));
   stage.setFrames(frames, { title: presetLabel.replace(/^. /, ""), sub: "働き方を変えた人が、場所を移ります。" });
 }
@@ -637,9 +637,9 @@ function soc3d() {
     const n = config.n * h.population;
     return { label: `${h.year}年目(税率 ${pct(h.tax, 0)})`, caption: `${h.year}年目:森に挑戦する人 ${pct(h.risky, 0)}、生産力 ${pct(h.productivity, 0)}、人口 ${pct(h.population, 0)}。`,
       gauges: [{ label: "生産力", text: pct(h.productivity, 0), value: h.productivity / 2.5, color: "#2f8f6b" }, { label: "助け合いの支払い", text: pct(h.trust, 0), value: h.trust, color: "#c9a45c" }],
-      zones: ["risky", "safe", "home"].map((m) => ({ name: CHOICE[m].label.split("(")[0], color: CHOICE[m].color, count: n * h[m] })) };
+      zones: ["risky", "safe", "home"].map((m) => ({ name: CHOICE[m].label.split("(")[0], color: CHOICE[m].color, count: n * h[m], build: { risky: "forest", safe: "plaza", home: "field" }[m] })) };
   });
-  stage.setFrames(frames, { title: label.slice(2), sub: "隣の村へ移る人は、島の外へ出ていきます。" });
+  stage.setFrames(frames, { title: label.slice(2), sub: "隣の村へ移る人は、島の外へ出ていきます。", props: [{ kind: "house", color: "#c9a45c", x: 0, z: 0.42, label: "村の貯蔵庫", size: 1.6 }, { kind: "houses", color: "#c98bb5", x: -0.6, z: 0.5 }, { kind: "houses", color: "#6da7d8", x: 0.6, z: 0.5 }] });
 }
 function chain3d() {
   const { config, days, rules, label } = chainConfig();
@@ -647,9 +647,12 @@ function chain3d() {
   const frames = runChain(config, rules, days).history.map((h) => ({
     label: `${h.day}日目`, caption: `${h.day}日目:働いている人 ${pct(h.alive, 0)}、進み具合 ${pct(h.progress, 0)}、強度 ${pct(h.strength, 0)}${h.cut > 0.05 ? `。${pct(h.cut, 0)}の人が泥ブロックを使っています` : ""}。`,
     gauges: [{ label: "進み具合", text: pct(h.progress, 0), value: h.progress, color: "#4a7fb5" }, { label: "強度", text: pct(h.strength, 0), value: h.strength / 1.25, color: "#2f8f6b" }],
-    zones: [{ name: "現場で働いている人", color: "#4a7fb5", count: config.n * h.alive }, { name: "倒れて離れた人", color: "#8b93a7", count: config.n * (1 - h.alive) }],
+    bridge: { progress: h.progress, strength: h.strength, quality: h.progress > 0 ? h.strength / h.progress : 1 },
+    zones: [{ name: "現場で働いている人", color: "#4a7fb5", count: config.n * h.alive, build: "site" }, { name: "倒れて離れた人", color: "#8b93a7", count: config.n * (1 - h.alive), build: "tent" }],
   }));
-  stage.setFrames(frames, { title: label.slice(2), sub: `現場に届く予算は${pct(relay(config.n, rules).delivered / config.n, 0)}。` });
+  const R = relay(config.n, rules), steps = [{ label: "発注者", note: ` 予算 ${num(config.n)}個`, color: "#c9a45c" }, ...R.steps.map((st) => ({ label: st.label, note: ` −${num(st.take)}個`, color: "#b4473b" }))];
+  const props = steps.map((st, i) => ({ kind: "office", color: st.color, label: st.label, note: st.note, x: -0.72 + i * (1.1 / Math.max(steps.length - 1, 1)) * 0.75, z: 0.5, size: 1.15 }));
+  stage.setFrames(frames, { title: label.slice(2), sub: `現場に届く予算は${pct(R.delivered / config.n, 0)}。`, bridge: true, props });
 }
 
 // ---------- ⑧-2 税率と助け合い ----------

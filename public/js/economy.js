@@ -54,9 +54,9 @@ export const economy = {
       const n = 1000 * s.population, jobless = n * s.unemployment, saver = n * s.saving;
       return { label: `${s.x}世代目`, caption: `${s.x}世代目:失業率 ${P(s.unemployment)}、生産力 ${P(s.productivity)}。1人が買う数は ${s.apples.toFixed(2)}個。`,
         gauges: [{ label: "生産力", text: P(s.productivity), value: s.productivity / 2.5, color: "#2f8f6b" }],
-        zones: [{ name: "働いて、よく買う人", color: "#2f8f6b", count: Math.max(0, n - jobless - saver) }, { name: "働いて、節約する人", color: "#c9a45c", count: saver }, { name: "仕事を失った人", color: "#b4473b", count: jobless }] };
+        zones: [{ name: "働いて、よく買う人", color: "#2f8f6b", count: Math.max(0, n - jobless - saver), build: "market" }, { name: "働いて、節約する人", color: "#c9a45c", count: saver, build: "house" }, { name: "仕事を失った人", color: "#b4473b", count: jobless, build: "houses" }] };
     });
-    return { frames, opts: { sub: "色は暮らしぶり。" } };
+    return { frames, opts: { sub: "色は暮らしぶり。", props: [{ kind: "factory", color: "#4f9a52", x: -0.45, z: 0.5, label: "生活必需品の工場" }, { kind: "factory", color: "#d2584c", x: 0.45, z: 0.5, label: "嗜好品の工場" }] } };
   },
   run(rules, seed, years) {
     const rng = makeRng(seed), A = ECONOMY_ASSUMPTIONS;

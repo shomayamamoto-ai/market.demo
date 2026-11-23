@@ -6,6 +6,84 @@ import { esc } from "./charts.js";
 
 const MAX = 720; // 一度に描く人の上限
 
+// ---- 建物の部品(低ポリゴン)。どれも幅6〜8ほどの大きさで、原点が足もと ----
+function buildProp(THREE, kind, color = "#b4473b") {
+  const g = new THREE.Group();
+  const M = (c) => new THREE.MeshLambertMaterial({ color: c });
+  const add = (geo, c, x = 0, y = 0, z = 0, ry = 0) => { const m = new THREE.Mesh(geo, M(c)); m.position.set(x, y, z); m.rotation.y = ry; g.add(m); return m; };
+  const box = (w, h, d) => new THREE.BoxGeometry(w, h, d), cyl = (r1, r2, h, n = 12) => new THREE.CylinderGeometry(r1, r2, h, n), cone = (r, h, n = 4) => new THREE.ConeGeometry(r, h, n);
+  const WALL = 0xf3ede2, WOOD = 0x8a6a4a, STONE = 0xb9b4ac, DARK = 0x4a4340;
+  const house = (x, z, s = 1, roof = color) => { add(box(2.2 * s, 1.7 * s, 2.2 * s), WALL, x, 0.85 * s, z); add(cone(1.9 * s, 1.4 * s), roof, x, 2.4 * s, z, Math.PI / 4); add(box(0.5 * s, 0.9 * s, 0.1), WOOD, x, 0.45 * s, z + 1.11 * s); };
+  const tree = (x, z, s = 1) => { add(cyl(0.22 * s, 0.3 * s, 1.4 * s, 6), WOOD, x, 0.7 * s, z); add(new THREE.SphereGeometry(1.2 * s, 8, 6), 0x4f9a52, x, 2.2 * s, z); };
+  switch (kind) {
+    case "factory":
+      add(box(7.5, 3.2, 4.6), WALL, 0, 1.6, 0);
+      for (const x of [-2.5, 0, 2.5]) { const r = add(box(2.5, 1.2, 4.6), color, x, 3.6, 0); r.rotation.z = 0.35; }
+      add(cyl(0.45, 0.55, 5.4, 10), STONE, 3.1, 2.7, -1.2); add(new THREE.SphereGeometry(0.7, 8, 6), 0xeeeeee, 3.4, 6, -1.2); add(new THREE.SphereGeometry(0.5, 8, 6), 0xf6f6f6, 4, 6.8, -1.2);
+      add(box(1.6, 2, 0.12), DARK, -1.6, 1, 2.32); add(box(5.5, 0.35, 1), DARK, 0, 0.5, 3.2); // 入口とベルトコンベア
+      break;
+    case "office":
+      add(box(4.2, 5.6, 3.6), WALL, 0, 2.8, 0); add(box(4.5, 0.5, 3.9), color, 0, 5.85, 0);
+      for (const y of [1.4, 2.9, 4.4]) for (const x of [-1.2, 0, 1.2]) add(box(0.8, 0.9, 0.1), 0x9fd0ea, x, y, 1.81);
+      break;
+    case "house": house(0, 0, 1.5); break;
+    case "houses": house(-2.4, 0, 1); house(0.4, -0.8, 1.15); house(2.9, 0.3, 0.95); break;
+    case "forest": tree(-2.6, 0, 1.2); tree(-0.6, -1.2, 1.5); tree(1.4, 0.2, 1.1); tree(3, -1, 1.35); tree(0.6, 1.4, 0.9); break;
+    case "plaza":
+      add(cyl(2.6, 2.6, 0.5, 20), STONE, 0, 0.25, 0); add(cyl(2.1, 2.1, 0.2, 20), 0x6db7e8, 0, 0.56, 0); add(cyl(0.3, 0.4, 1.6, 8), STONE, 0, 1.1, 0); add(new THREE.SphereGeometry(0.55, 10, 8), 0x9fd0ea, 0, 2.1, 0);
+      break;
+    case "field":
+      add(box(7, 0.25, 4.2), 0x9a7b4f, 0, 0.12, 0);
+      for (let i = -3; i <= 3; i++) add(box(0.5, 0.5, 3.6), 0x6fae4f, i, 0.45, 0);
+      break;
+    case "market":
+      for (const [x, z] of [[-1.9, -1], [1.9, -1], [-1.9, 1], [1.9, 1]]) add(cyl(0.12, 0.12, 2.6, 6), WOOD, x, 1.3, z);
+      for (let i = 0; i < 4; i++) add(box(1.05, 0.25, 2.8), i % 2 ? 0xffffff : color, -1.57 + i * 1.05, 2.7, 0);
+      add(box(3.6, 1, 1.6), WOOD, 0, 0.5, 0);
+      for (let i = 0; i < 5; i++) add(new THREE.SphereGeometry(0.3, 8, 6), color, -1.2 + i * 0.6, 1.25, 0);
+      break;
+    case "bank":
+      add(box(6, 0.5, 4.4), STONE, 0, 0.25, 0); add(box(5, 3, 3.4), WALL, 0, 2, -0.2);
+      for (const x of [-1.9, -0.65, 0.65, 1.9]) add(cyl(0.26, 0.26, 3, 8), 0xffffff, x, 2, 1.7);
+      { const r = add(cone(3.6, 1.5, 3), 0xc9a45c, 0, 4.3, 0.2); r.rotation.set(0, Math.PI / 6, 0); r.scale.z = 0.6; }
+      break;
+    case "castle":
+      add(box(4.2, 3.4, 4.2), STONE, 0, 1.7, 0);
+      for (const [x, z] of [[-2.1, -2.1], [2.1, -2.1], [-2.1, 2.1], [2.1, 2.1]]) { add(cyl(0.8, 0.9, 5, 10), STONE, x, 2.5, z); add(cone(1.05, 1.6, 10), color, x, 5.8, z); }
+      add(cyl(0.06, 0.06, 2.2, 5), DARK, 0, 4.5, 0); add(box(1, 0.6, 0.06), color, 0.52, 5.2, 0);
+      break;
+    case "hall":
+      add(cyl(3, 3.1, 2.2, 16), WALL, 0, 1.1, 0); add(cone(3.6, 2, 16), color, 0, 3.2, 0);
+      for (let i = 0; i < 6; i++) { const a = (i / 6) * Math.PI * 2; add(box(0.5, 0.35, 0.5), WOOD, Math.cos(a) * 4, 0.18, Math.sin(a) * 4); } // 寄り合いの腰かけ
+      break;
+    case "tower":
+      add(box(1.6, 5.6, 1.6), WOOD, 0, 2.8, 0); add(box(2.8, 0.3, 2.8), WOOD, 0, 5.7, 0); add(cone(2.1, 1.3), color, 0, 7.2, 0, Math.PI / 4);
+      for (const [x, z] of [[-1.2, -1.2], [1.2, -1.2], [-1.2, 1.2], [1.2, 1.2]]) add(cyl(0.1, 0.1, 1.3, 5), WOOD, x, 6.4, z);
+      break;
+    case "fort":
+      add(box(5.4, 2.8, 4.4), DARK, 0, 1.4, 0);
+      for (let i = -2; i <= 2; i++) { add(box(0.7, 0.7, 0.7), DARK, i * 1.15, 3.15, 1.85); add(box(0.7, 0.7, 0.7), DARK, i * 1.15, 3.15, -1.85); }
+      add(cyl(0.06, 0.06, 2.6, 5), WOOD, 0, 4, 0); add(box(1.2, 0.7, 0.06), color, 0.62, 4.9, 0);
+      break;
+    case "manor":
+      add(box(5.6, 2.6, 3.6), WALL, 0, 1.3, 0); add(cone(4.3, 2, 4), color, 0, 3.6, 0, Math.PI / 4).scale.z = 0.7; add(box(1.4, 3.8, 1.4), WALL, 2.6, 1.9, -1); add(cone(1.3, 1.4), color, 2.6, 4.5, -1, Math.PI / 4);
+      break;
+    case "site":
+      for (const [x, z] of [[-2, -1.2], [2, -1.2], [-2, 1.2], [2, 1.2]]) add(cyl(0.1, 0.1, 4, 5), WOOD, x, 2, z);
+      for (const y of [1.3, 2.6, 3.9]) { add(box(4.2, 0.12, 0.12), WOOD, 0, y, 1.2); add(box(4.2, 0.12, 0.12), WOOD, 0, y, -1.2); }
+      for (let i = 0; i < 6; i++) add(box(0.9, 0.6, 0.9), STONE, 3.6 + (i % 2) * 1, 0.3 + Math.floor(i / 2) * 0.62, 0);
+      break;
+    case "tent":
+      add(cone(2.6, 2.6, 6), 0xffffff, 0, 1.3, 0); add(box(1, 0.3, 0.08), color, 0, 1.3, 1.5); add(box(0.3, 1, 0.08), color, 0, 1.3, 1.5);
+      break;
+    case "flag":
+      add(cyl(0.12, 0.12, 6, 6), WOOD, 0, 3, 0); add(box(2.4, 1.4, 0.1), color, 1.25, 5.2, 0);
+      break;
+    default: return null;
+  }
+  return g;
+}
+
 export function createStage(root) {
   const THREE = window.THREE;
   root.innerHTML = "";
@@ -34,12 +112,15 @@ export function createStage(root) {
   const body = inst(new THREE.CylinderGeometry(0.34, 0.5, 0.95, 8), 0xffffff);
   const head = inst(new THREE.SphereGeometry(0.56, 12, 9), 0xfbe3cf);
   const hair = inst(new THREE.SphereGeometry(0.6, 12, 7, 0, Math.PI * 2, 0, Math.PI * 0.55), 0x3a2b26);
+  // 「人」の代わりに「家」を並べる画面用
+  const hWall = inst(new THREE.BoxGeometry(1.5, 1.15, 1.5), 0xf3ede2), hRoof = inst(new THREE.ConeGeometry(1.3, 1, 4), 0xffffff);
   const dummy = new THREE.Object3D(), col = new THREE.Color();
+  const structure = new THREE.Group(); scene.add(structure); // 橋など、コマごとに形が変わるもの
 
   const S = { frames: [], zones: [], agents: [], at: 0, playing: true, timer: 0, R: 60, mode: "zones", terrain: null };
   const cam = { az: 0, pol: 0.98, dist: 150, target: new THREE.Vector3(0, 0, 0) };
 
-  const slot = (z, k) => { const r = 0.95 * Math.sqrt(k + 0.5), t = k * 2.39996; return [z.x + Math.cos(t) * r, z.z + Math.sin(t) * r]; };
+  const slot = (z, k) => { const r = (S.gap ?? 0.95) * Math.sqrt(k + 0.5), t = k * 2.39996; return [z.x + Math.cos(t) * r, z.z + Math.sin(t) * r]; };
 
   function setFrames(frames, opts = {}) {
     S.mode = "zones"; S.frames = frames; S.opts = opts; S.at = 0; S.timer = 0;
@@ -49,7 +130,8 @@ export function createStage(root) {
     const maxCount = names.map((_, i) => Math.max(...frames.map((f) => f.zones[i].count)));
     const total = Math.max(...frames.map((f) => f.zones.reduce((a, z) => a + z.count, 0)));
     S.scale = Math.max(1, Math.ceil(total / (opts.maxFigures ?? 520))); // 人形1体が表す人数
-    const rad = maxCount.map((c) => 0.95 * Math.sqrt(c / S.scale + 1) + 2.2);
+    S.figure = opts.figure ?? "person"; S.gap = S.figure === "house" ? 1.75 : 0.95;
+    const rad = maxCount.map((c) => S.gap * Math.sqrt(c / S.scale + 1) + 2.2);
     const ring = opts.layout === "ring";
     const span = rad.reduce((a, r) => a + r * 2 + 5, 0);
     const R = ring ? Math.max(30, span / (2 * Math.PI) + 4) : 0;
@@ -61,9 +143,34 @@ export function createStage(root) {
       const pad = new THREE.Mesh(new THREE.CylinderGeometry(rad[i], rad[i], 0.3, 40), mat(0xeadfbd)); pad.position.set(zx, 0.05, zz); world.add(pad);
       const post = new THREE.Mesh(new THREE.CylinderGeometry(rad[i] + 0.5, rad[i] + 0.5, 0.12, 40), mat(0xffffff)); post.position.set(zx, 0.02, zz); world.add(post);
       const label = document.createElement("div"); label.className = "s-label"; labels.appendChild(label);
-      return { name, x: zx, z: zz, r: rad[i], ring: post, label, list: [] };
+      // 建物を置く位置:輪なら外側、横並びなら奥
+      const far = rad[i] + 3 + clamp(rad[i] / 5.5, 1.3, 3) * 3;
+      const out = ring ? Math.hypot(zx, zz) : 1, bx = ring ? zx + (zx / out) * far : zx, bz = ring ? zz + (zz / out) * far : zz - far;
+      return { name, x: zx, z: zz, r: rad[i], ring: post, label, list: [], bx, bz, face: ring ? Math.atan2(-zx, -zz) : 0, prop: null, propKey: null };
     });
-    S.R = (ring ? R + Math.max(...rad) : span / 2) + 14;
+    S.R = (ring ? R + Math.max(...rad) + 16 : Math.max(span / 2, Math.max(...rad) * 1.6 + 24)) + 14;
+    // 画面ごとの置き物(工場・商店街・事務所など)。位置は島の半径に対する割合
+    S.extra = [];
+    for (const p of opts.props ?? []) {
+      const g = buildProp(THREE, p.kind, p.color); if (!g) continue;
+      g.position.set(p.x * S.R, 0, p.z * S.R); g.scale.setScalar((p.size ?? 1.3) * clamp(S.R / 42, 1, 2.6)); g.rotation.y = p.ry ?? 0; world.add(g);
+      if (p.label) { const label = document.createElement("div"); label.className = "s-label s-prop"; label.innerHTML = `<b>${esc(p.label)}</b>${esc(p.note ?? "")}`; labels.appendChild(label); S.extra.push({ x: p.x * S.R, z: p.z * S.R, label }); }
+    }
+    while (structure.children.length) structure.remove(structure.children[0]);
+    S.bridge = null;
+    if (opts.bridge) {
+      // 川と橋。橋は進み具合に合わせて手前から伸び、色は強度で変わる
+      const z0 = -S.R * 0.72, wide = S.R * 0.2, k = clamp(S.R / 42, 1, 2.6);
+      const river = new THREE.Mesh(new THREE.BoxGeometry(S.R * 2.1, 0.3, wide), mat(0x6db7e8)); river.position.set(0, 0.06, z0); world.add(river);
+      const bx = 0, n = 20, len = (wide + 6) / n, deck = [];
+      for (let i = 0; i < n; i++) {
+        const seg = new THREE.Mesh(new THREE.BoxGeometry(5 * k, 0.9 * k, len * 0.94), new THREE.MeshLambertMaterial({ color: 0xb9b4ac })); seg.position.set(bx, 2.2 * k, z0 + wide / 2 + 3 - len * (i + 0.5)); seg.visible = false; structure.add(seg); deck.push(seg);
+        if (i % 4 === 2) { const pier = new THREE.Mesh(new THREE.BoxGeometry(1.4 * k, 2.2 * k, 1.4 * k), mat(0x9a948c)); pier.position.set(bx, 1.1 * k, seg.position.z); pier.visible = false; structure.add(pier); seg.pier = pier; }
+      }
+      const label = document.createElement("div"); label.className = "s-label s-prop"; labels.appendChild(label);
+      S.bridge = { deck, label, x: bx, z: z0 };
+      S.extra.push({ x: bx, z: z0, label });
+    }
     island.scale.set(S.R, 1, S.R);
     cam.dist = S.R * 2.5; cam.pol = ring ? 0.8 : 0.98; cam.az = 0;
     const count = Math.min(MAX, Math.ceil(total / S.scale) + 4);
@@ -88,11 +195,23 @@ export function createStage(root) {
         if (a.zone === -1 && !jump) { const ang = Math.atan2(z.z, z.x) + (a.i % 7 - 3) * 0.05; a.x = Math.cos(ang) * (S.R - 3); a.z = Math.sin(ang) * (S.R - 3); } // 島の端から入ってくる
         a.zone = i; z.list.push(a);
       }
-      z.list.forEach((a, k) => { [a.tx, a.tz] = slot(z, k); a.color = f.zones[i].color; if (jump) { a.x = a.tx; a.z = a.tz; } });
+      z.list.forEach((a, k) => { [a.tx, a.tz] = slot(z, k); a.color = f.zones[i].color; if (jump || S.figure === "house") { a.x = a.tx; a.z = a.tz; } }); // 家は歩かず、その場に建つ
+      const key = f.zones[i].build ? `${f.zones[i].build}|${f.zones[i].color}` : null;
+      if (key !== z.propKey) {
+        if (z.prop) world.remove(z.prop);
+        z.prop = key ? buildProp(THREE, f.zones[i].build, f.zones[i].color) : null; z.propKey = key;
+        if (z.prop) { z.prop.position.set(z.bx, 0, z.bz); z.prop.rotation.y = z.face; z.prop.scale.setScalar(clamp(z.r / 5.5, 1.3, 3)); world.add(z.prop); }
+      }
       col.set(f.zones[i].color); z.ring.material.color.copy(col);
       z.label.innerHTML = `<b>${esc(f.zones[i].name)}</b>${esc(f.zones[i].note ?? "")} ${f.zones[i].count >= 0 ? `${Math.round(f.zones[i].count).toLocaleString("ja-JP")}${esc(S.opts.unit ?? "人")}` : ""}`;
     });
-    for (const a of free) { a.zone = -1; const ang = Math.atan2(a.z, a.x); a.tx = Math.cos(ang) * (S.R - 2); a.tz = Math.sin(ang) * (S.R - 2); } // 島を出ていく
+    if (S.bridge && f.bridge) {
+      const B = S.bridge, built = Math.round(clamp(f.bridge.progress, 0, 1) * B.deck.length);
+      col.set(0x8a6a4a).lerp(new THREE.Color(0xb9b4ac), clamp((f.bridge.quality - 0.4) / 0.6, 0, 1)); // 泥が多いほど茶色
+      B.deck.forEach((seg, i) => { seg.visible = i < built && !f.bridge.fallen; seg.material.color.copy(col); if (seg.pier) seg.pier.visible = i < built; });
+      B.label.innerHTML = `<b>橋</b>${f.bridge.fallen ? "崩れました" : `進み ${Math.round(f.bridge.progress * 100)}%・強度 ${Math.round(f.bridge.strength * 100)}%`}`;
+    }
+    for (const a of free) { a.zone = -1; if (S.figure === "house") { a.tx = a.x; a.tz = a.z; continue; } const ang = Math.atan2(a.z, a.x); a.tx = Math.cos(ang) * (S.R - 2); a.tz = Math.sin(ang) * (S.R - 2); } // 島を出ていく
     const total = f.zones.reduce((x, z) => x + z.count, 0) || 1;
     panel.innerHTML = `<h4>${esc(f.label)}</h4>${f.zones.filter((z) => !z.hideBar).map((z) => `<div class="v-row"><span style="color:${z.color}">${esc(z.name)}</span><i><u style="width:${(z.count / total) * 100}%;background:${z.color}"></u></i></div>`).join("")}
       ${(f.gauges ?? []).map((g) => `<div class="v-row"><span>${esc(g.label)} ${esc(g.text)}</span><i><u style="width:${clamp(g.value, 0, 1) * 100}%;background:${g.color}"></u></i></div>`).join("")}`;
@@ -103,7 +222,8 @@ export function createStage(root) {
   function setTerrain({ height, paths, title: t, caption: capOf, labelOf }) {
     S.mode = "terrain"; S.frames = paths[0].map((_, i) => i); S.at = 0; S.timer = 0; S.paths = paths; S.capOf = capOf; S.labelOf = labelOf; S.height = height;
     while (world.children.length) world.remove(world.children[0]);
-    labels.innerHTML = ""; for (const z of S.zones) z.list = []; S.zones = [];
+    labels.innerHTML = ""; for (const z of S.zones) z.list = []; S.zones = []; S.extra = []; S.figure = "person"; S.bridge = null;
+    while (structure.children.length) structure.remove(structure.children[0]);
     const N = 70, size = 110, geo = new THREE.PlaneGeometry(size, size, N, N); geo.rotateX(-Math.PI / 2);
     const pos = geo.attributes.position, colors = new Float32Array(pos.count * 3);
     for (let i = 0; i < pos.count; i++) {
@@ -113,6 +233,11 @@ export function createStage(root) {
     }
     geo.setAttribute("color", new THREE.BufferAttribute(colors, 3)); geo.computeVertexNormals();
     const mesh = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true })); mesh.position.y = 0.2; world.add(mesh);
+    // いちばん高い場所に旗を立てる
+    let top = { h: -1, x: 0.5, y: 0.5 };
+    for (let i = 0; i <= 60; i++) for (let j = 0; j <= 60; j++) { const h = height(i / 60, j / 60); if (h > top.h) top = { h, x: i / 60, y: j / 60 }; }
+    const flag = buildProp(THREE, "flag", "#b4473b"); flag.position.set((top.x - 0.5) * size, top.h * 0.3 + 0.2, (0.5 - top.y) * size); flag.scale.setScalar(1.5); world.add(flag);
+    for (const [x, z] of [[-0.8, 0.75], [-0.7, 0.82], [0.78, 0.8]]) { const h = buildProp(THREE, "house", "#c98bb5"); h.position.set(x * 62, 0, z * 62); world.add(h); } // ふもとの家
     S.size = size; S.R = 80; island.scale.set(S.R, 1, S.R);
     cam.dist = 190; cam.pol = 0.95; cam.az = 0.5;
     S.agents = paths.map((_, i) => ({ i, x: 0, z: 0, tx: 0, tz: 0, zone: 0, show: 1, heading: 0, phase: i, color: 0xb4473b, y: 0 }));
@@ -169,21 +294,30 @@ export function createStage(root) {
         a.show += ((visible ? 1 : 0) - a.show) * Math.min(1, dt * 6);
         sc = a.show * (S.mode === "terrain" ? 2.6 : 1.25);
         y = (a.y ?? 0) + (walking ? Math.abs(Math.sin(t * 9 + a.phase)) * 0.16 : 0);
-        col.set(a.color); body.setColorAt(i, col);
+        col.set(a.color); body.setColorAt(i, col); hRoof.setColorAt(i, col);
       }
+      const isHouse = S.figure === "house";
+      dummy.rotation.set(0, isHouse ? Math.PI / 4 + (i % 3) * 0.1 : a?.heading ?? 0, 0);
+      const hs = isHouse ? Math.max(a?.show ?? 0, 0.0001) : 0.0001, hx = a?.x ?? 0, hz = a?.z ?? 0;
+      dummy.scale.setScalar(hs); dummy.position.set(hx, 0.58 * hs, hz); dummy.updateMatrix(); hRoof.setMatrixAt(i, dummy.matrix); // 仮置き(下で屋根の位置に直す)
+      dummy.rotation.set(0, (i % 3) * 0.1, 0); dummy.updateMatrix(); hWall.setMatrixAt(i, dummy.matrix);
+      dummy.rotation.set(0, Math.PI / 4 + (i % 3) * 0.1, 0); dummy.position.set(hx, 1.65 * hs, hz); dummy.updateMatrix(); hRoof.setMatrixAt(i, dummy.matrix);
+      if (isHouse) sc = 0;
       dummy.rotation.set(0, a?.heading ?? 0, 0); dummy.scale.setScalar(Math.max(sc, 0.0001));
       const px = a?.x ?? 0, pz = a?.z ?? 0;
       dummy.position.set(px, y + 0.5 * sc, pz); dummy.updateMatrix(); body.setMatrixAt(i, dummy.matrix);
       dummy.position.set(px, y + 1.42 * sc, pz); dummy.updateMatrix(); head.setMatrixAt(i, dummy.matrix);
       dummy.position.set(px, y + 1.47 * sc, pz); dummy.updateMatrix(); hair.setMatrixAt(i, dummy.matrix);
     }
-    body.instanceMatrix.needsUpdate = head.instanceMatrix.needsUpdate = hair.instanceMatrix.needsUpdate = true;
+    body.instanceMatrix.needsUpdate = head.instanceMatrix.needsUpdate = hair.instanceMatrix.needsUpdate = hWall.instanceMatrix.needsUpdate = hRoof.instanceMatrix.needsUpdate = true;
     if (body.instanceColor) body.instanceColor.needsUpdate = true;
+    if (hRoof.instanceColor) hRoof.instanceColor.needsUpdate = true;
     if (!drag && S.playing) cam.az += dt * 0.02;
     const sp = Math.sin(cam.pol), cp = Math.cos(cam.pol);
     camera.position.set(cam.target.x + Math.sin(cam.az) * sp * cam.dist, cp * cam.dist, cam.target.z + Math.cos(cam.az) * sp * cam.dist);
     camera.lookAt(cam.target);
     renderer.render(scene, camera);
+    for (const e of S.extra ?? []) { v.set(e.x, 9 * clamp(S.R / 42, 1, 2.6), e.z).project(camera); e.label.style.left = `${clamp(((v.x + 1) / 2) * w, 50, w - 50)}px`; e.label.style.top = `${clamp(((1 - v.y) / 2) * h, 64, h - 60)}px`; }
     for (const z of S.zones) {
       v.set(z.x, 3.4, z.z - z.r).project(camera);
       z.label.style.left = `${clamp(((v.x + 1) / 2) * w, 50, w - 50)}px`; z.label.style.top = `${clamp(((1 - v.y) / 2) * h, 64, h - 60)}px`;

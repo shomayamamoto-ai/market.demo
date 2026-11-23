@@ -59,7 +59,7 @@ export const council = {
     const frames = thin(detail.map((d, x) => ({ ...d, x }))).map((d) => {
       const n = (t) => d.v.filter((b) => b.alive && b.type === t).length;
       return { label: `${d.x}年目`, caption: `${d.x}年目:王の村 ${n("king")}、寄り合いの村 ${n("council")}${rules.mix.includes("chief") ? `、選ばれた長の村 ${n("chief")}` : ""}。`,
-        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: b.alive ? NAME[b.type] : "消滅", color: b.alive ? COLOR[b.type] : "#8b93a7", count: b.alive ? b.pop : 0, hideBar: true })) };
+        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: b.alive ? NAME[b.type] : "消滅", color: b.alive ? COLOR[b.type] : "#8b93a7", count: b.alive ? b.pop : 0, hideBar: true, build: b.alive ? { king: "castle", council: "hall", chief: "tower" }[b.type] : null })) };
     });
     return { frames, opts: { layout: "ring", sub: "色は決め方(赤=王、青=寄り合い、金=選ばれた長)。", maxFigures: 420 } };
   },

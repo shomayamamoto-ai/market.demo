@@ -60,7 +60,7 @@ export const island = {
       const total = d.v.reduce((a, b) => a + b.pop, 0), raid = d.v.filter((b) => b.s === "raid").length, tft = d.v.filter((b) => b.s === "tft").length;
       return { label: `${d.x}年目`, caption: `${d.x}年目:島の人口は${Math.round(total).toLocaleString("ja-JP")}人。略奪の村 ${raid}、仕返しの村 ${tft}。`,
         gauges: [{ label: "島の人口", text: `${Math.round(total).toLocaleString("ja-JP")}人`, value: total / 3600, color: "#2f8f6b" }],
-        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: LABEL[b.s], color: COLOR[b.s], count: b.pop, hideBar: true })) };
+        zones: d.v.map((b, i) => ({ name: `村${i + 1}`, note: LABEL[b.s], color: COLOR[b.s], count: b.pop, hideBar: true, build: { self: "field", trade: "market", raid: "fort", tft: "tower", lord: "manor", hungry: "market" }[b.s] })) };
     });
     return { frames, opts: { layout: "ring", sub: "色は村のやり方(青=交換、赤=略奪、金=仕返し、紫=年貢)。", maxFigures: 420 } };
   },

@@ -57,7 +57,9 @@ export const town = {
       label: `${s.x}年目`, caption: `${s.x}年目:町は${Math.round(s.houses)}軒。貯める家 ${Math.round(s.ants)}軒、使う家 ${Math.round(s.grass)}軒。`,
       zones: [{ name: "貯める家", color: "#b4473b", count: s.ants }, { name: "使う家", color: "#4a7fb5", count: s.grass }],
     }));
-    return { frames, opts: { unit: "軒", sub: "町を出る家は島の外へ、引っ越してくる家は外から入ります。" } };
+    const props = [-0.3, -0.1, 0.1, 0.3].map((x, i) => ({ kind: "market", color: ["#d98a5c", "#6da7d8", "#c98bb5", "#e2c15a"][i], x, z: 0.5, label: i === 1 ? "商店街" : null }));
+    if (rules.bank) props.push({ kind: "bank", color: "#c9a45c", x: 0.6, z: 0.46, label: "銀行", size: 1.5 });
+    return { frames, opts: { unit: "軒", figure: "house", sub: "赤い屋根は貯める家、青い屋根は使う家。空いた場所は、町を出ていった家です。", props } };
   },
   run(rules, seed, years) {
     const rng = makeRng(seed), A = TOWN_ASSUMPTIONS;
