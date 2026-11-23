@@ -7,7 +7,7 @@ import {
 } from "./market.js";
 import { createSim, runMany, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 import { hbar, pyramid, line, combo, multiLine, vbar, esc } from "./charts.js";
-import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg } from "./org.js";
+import { MODES, PRESETS, ORG_ASSUMPTIONS, runOrg, trialOrg, sweepOrg, nationalSeparation } from "./org.js";
 import { mountLab, trial, formatMetric, copyButton } from "./lab.js";
 import { showStage, thin } from "./stage3d.js";
 import { economy } from "./economy.js";
@@ -15,7 +15,7 @@ import { town } from "./town.js";
 import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
-import { queue, spreadModel, schelling, newsvendor } from "./theory.js";
+import { queue, spreadModel, schelling, newsvendor, laffer } from "./theory.js";
 import { threshold, tournament, commons, split } from "./experiments.js";
 import { future } from "./future.js";
 import LITERATURE from "./literature-data.js";
@@ -141,7 +141,7 @@ const NAV = [
   { key: "source", label: "出典と仮定", tabs: [["source", "出典と仮定"]] },
 ];
 const LABS = [economy, town, island, council, climb];
-const THEORY_LABS = [queue, spreadModel, schelling, newsvendor];
+const THEORY_LABS = [queue, spreadModel, schelling, newsvendor, laffer];
 const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
@@ -576,7 +576,8 @@ function orgRun() {
         ${aCard("エースの割合", pct(t.ace), `最初は${pct(config.mix.ace, 0)}`)}
         ${aCard("エースが全滅した回数", `${t.wiped}`, `/ ${runs}回`)}
         ${aCard("平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり")}
-        ${aCard("過労による離脱", `${num(t.burnout)}人`, "期間中の延べ人数")}
+        ${aCard("過労による離脱", `${num(t.burnout)}人`, `期間中の延べ人数(年${pct(t.burnout / years / config.n)})`)}
+        ${aCard("世間並みの離職", `年${pct(nationalSeparation(config.ages))}`, `この年齢構成なら年${num(nationalSeparation(config.ages) * config.n)}人。雇用動向調査2025`)}
       </div>
       <p class="a-headline">${esc(advice[0] ?? "このルールでは、働き方と生産力に大きな変化は出ませんでした。")}</p>
       <p class="a-note">数字は${runs}回の試行の平均です。</p></div>
@@ -865,6 +866,12 @@ function chainSweep() {
       <tr><td>強度:このモデル</td>${sw.map((s) => `<td class="num">${pct(s.strength, 0)}</td>`).join("")}</tr><tr><td>強度:参考値</td>${R.strength.map((v) => `<td class="num">${v}%</td>`).join("")}</tr>
       <tr><td>崩れた回数:このモデル</td>${sw.map((s) => `<td class="num">${num((s.collapsed / runs) * 100)}回</td>`).join("")}</tr><tr><td>崩れた回数:参考値</td>${R.collapsed.map((v) => `<td class="num">${v}回</td>`).join("")}</tr></table></div>
       <p class="note">崩れた回数は100回あたりに直した値です。係数は、この参考値に近づくよう調整しています。</p>` : `<p class="note">人数100人・工期30日・1段階30%・手抜きあり(条件C)にすると、参考にした実験の値と並べて比べられます。</p>`;
+  // 実際の現場の下請け次数の分布(国土交通省「重層下請構造実態調査」2025年度。建設専門紙の報道経由で確認、確かさ:中)
+  const TIERS = { 土木: [26.9, 43.1, 24.4, 4.9, 0.8], 建築: [10.2, 25.4, 33.3, 21.5, 9.7] };
+  const weighted = (dist, f) => dist.reduce((a, w, i) => a + (w / 100) * f(sw[i + 1]), 0);
+  const tierTable = `<h3>実際の現場の次数の分布で平均すると</h3><div class="table-scroll"><table><tr><th>工事の種類</th><th class="num">1次</th><th class="num">2次</th><th class="num">3次</th><th class="num">4次</th><th class="num">5次以上</th><th class="num">働いている人</th><th class="num">強度</th><th class="num">崩れる割合</th></tr>${
+    Object.entries(TIERS).map(([k, d]) => `<tr><td>${k}</td>${d.map((x) => `<td class="num">${x}%</td>`).join("")}<td class="num">${pct(weighted(d, (s) => s.survivors), 0)}</td><td class="num">${pct(weighted(d, (s) => s.strength), 0)}</td><td class="num">${pct(weighted(d, (s) => s.collapsed / runs), 0)}</td></tr>`).join("")}</table></div>
+    <p class="note">次数の分布は実際の調査の値です(国土交通省「重層下請構造実態調査」2025年度、土木1,026件・建築433件。専門紙の報道経由で確認)。<br>ここでは「n次の業者が作業する現場 = 中抜きn段」と置いています。1段階で抜かれる割合(${pct(rules.rate, 0)})は入力した値で、実際の割合を示す公的な統計は見つかっていません。右の3列は、その前提での試算です。</p>`;
   chainOut(`<div class="card">
       <h2>中抜きの段数を変えて 各${runs}回</h2>
       <p class="note">職人${num(config.n)}人・予算${num(config.n)}個/日・1段階で${pct(rules.rate, 0)}・工期${days}日${rules.shortcut ? "・手抜きあり" : "・手抜きなし"}。濃い棒は、いま選んでいる段数です。</p>
@@ -880,7 +887,7 @@ function chainSweep() {
         ${kpi(`${cur.value}段で崩れた回数`, `${cur.collapsed}回`, `${runs}回中`)}
       </div>
       <p class="note">段数が増えるほど現場に届く予算が減り、働ける人が減ります。${rules.shortcut ? "人が減っても納期は変わらないため、泥ブロックで数を合わせるようになり、強度が下がって崩れやすくなります。" : "手抜きをしない場合は崩れませんが、工期内に完成しません。"}</p>
-      ${refTable}</div>`);
+      ${tierTable}${refTable}</div>`);
 }
 
 // ---------- ⑦ 3Dビジュアル ----------

@@ -153,6 +153,16 @@ export function runOrg(config, rules, years) {
   return org;
 }
 
+// 世間並みの離職率(1年あたり、年齢階級別)。厚生労働省「令和7年雇用動向調査」の人数表から、年間の離職者数÷6月末の常用労働者数で計算
+export const SEPARATION_RATE = [[19, 0.3329], [24, 0.2507], [29, 0.1773], [34, 0.1459], [39, 0.1037], [44, 0.0991], [49, 0.0822], [54, 0.0803], [59, 0.0906], [64, 0.1705], [200, 0.1855]];
+export const separationAt = (age) => SEPARATION_RATE.find(([max]) => age <= max)[1];
+// 年齢構成(ages: [{min,max,share}])に当てはめた、世間並みの年間離職率
+export function nationalSeparation(ages) {
+  let sum = 0, total = 0;
+  for (const g of ages) { let r = 0; for (let a = g.min; a <= g.max; a++) r += separationAt(a); sum += g.share * r / (g.max - g.min + 1); total += g.share; }
+  return total > 0 ? sum / total : 0;
+}
+
 // 同じ条件で何回も試し、最終年の平均と「エースが全滅した回数」を出す
 export function trialOrg(config, rules, years, runs) {
   let wiped = 0;

@@ -57,7 +57,7 @@ export function verifyTable(def, summary, rules) {
   const rows = def.verify?.(summary, rules); if (!rows?.length) return "";
   const head = def.verifyHead ?? "理論値";
   const diff = (r) => (r.range ? (r.model >= r.range[0] - 1e-9 && r.model <= r.range[1] + 1e-9 ? "範囲内" : "範囲外") : !Number.isFinite(r.theory) || Math.abs(r.theory) < 1e-9 ? "―" : `${((r.model / r.theory - 1) * 100 >= 0 ? "+" : "")}${((r.model / r.theory - 1) * 100).toFixed(1)}%`);
-  return `<h3>${esc(def.verifyTitle ?? "理論値との照合")}</h3><div class="table-scroll"><table><tr><th>項目</th><th class="num">このシミュレーション</th><th class="num">${esc(head)}</th><th class="num">ずれ</th></tr>${
+  return `<h3>${esc(def.verifyTitle ?? "理論値との照合")}</h3><div class="table-scroll"><table class="verify"><tr><th>項目</th><th class="num">この計算</th><th class="num">${esc(head)}</th><th class="num">ずれ</th></tr>${
     rows.map((r) => `<tr><td>${esc(r.label)}${r.note ? `<br><small>${esc(r.note)}</small>` : ""}</td><td class="num">${FMT[r.fmt](r.model)}</td><td class="num">${r.theoryText ? esc(r.theoryText) : FMT[r.fmt](r.theory)}</td><td class="num">${diff(r)}</td></tr>`).join("")}</table></div>
     <p class="note">${esc(def.verifyNote ?? "理論値は数式から計算した値です。ずれが小さいほど、このツールの計算が理論どおりに動いていることを示します(現実に合っていることの証明ではありません)。")}</p>`;
 }

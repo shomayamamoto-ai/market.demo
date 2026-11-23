@@ -234,3 +234,18 @@ test("将来人口:自前の推計が、公式推計と総人口で1%以内に�
   for (const row of future.verify(m, r).filter((x) => x.label.endsWith("総人口"))) near(row.model / row.theory, 1, 0.01, row.label);
   assert.ok(future.run(future.presets.high.rules).summary.p2070 > m.p2070 && future.run(future.presets.closed.rules).summary.p2070 < m.p2070);
 });
+
+import { laffer } from "../public/js/theory.js";
+import { nationalSeparation } from "../public/js/org.js";
+test("理論:税収が最大になる税率が 1÷(1+弾力性) と合う", () => {
+  for (const key of ["t30", "t80", "react", "high"]) {
+    const r = laffer.presets[key].rules, m = trial(laffer, r, 3, 1, 100).summary;
+    for (const row of laffer.verify(m, r)) near(row.model, row.theory, 0.015, `${key} ${row.label}`);
+  }
+});
+test("実データ:給付金の消費割合と離職率", () => {
+  const p = (k) => trial(economy, economy.presets[k].rules, 10, 1, 30).summary.topProductivity;
+  assert.ok(p("handout09") > p("handout20"), "消費に回る割合が高いほど、生産力が戻る");
+  near(nationalSeparation([{ min: 22, max: 64, share: 1 }]), 0.12, 0.03, "22〜64歳の離職率");
+  assert.ok(nationalSeparation([{ min: 22, max: 29, share: 1 }]) > nationalSeparation([{ min: 40, max: 49, share: 1 }]));
+});

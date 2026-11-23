@@ -212,10 +212,12 @@ export const newsvendor = {
     demand: { value: "正規分布", note: "1日の需要のばらつき方。現実は、天気や曜日でかたよることが多い" },
     theory: { value: "臨界比", note: "最もよい仕入れ量は「売れる確率が (売値−原価)÷(売値−処分価格) になる量」。新聞売り子問題として知られる(Arrow, Harris & Marschak 1951 ほか)" },
     days: { value: "1回の試行で2,000日", note: "利益の平均を取る日数" },
+    human: { value: 0.7, note: "条件Eで使う、人の偏りの強さ(0=最適、1=平均どおり)。Schweitzer, M. E. & Cachon, G. P. (2000) Management Science 46(3) の実験結果から計算した0.64と0.79の中間" },
   },
   presets: {
     mean: { label: "A 平均どおりに100個", rules: { order: 100 } }, best: { label: "B 理論上いちばん得な量", rules: { order: 0 } },
     more: { label: "C 多めに130個", rules: { order: 130 } }, less: { label: "D 少なめに80個", rules: { order: 80 } },
+    human: { label: "E 人が決めると(実験での偏り)", rules: { order: -1 } },
   },
   params: [{ key: "order", label: "仕入れ量(個。0なら理論の最適量)", value: 100, min: 0, max: 400 }, { key: "price", label: "売値(円)", value: 300, min: 1, max: 100000 },
     { key: "cost", label: "原価(円)", value: 120, min: 0, max: 100000 }, { key: "salvage", label: "処分価格(円)", value: 30, min: 0, max: 100000 }],
@@ -225,7 +227,8 @@ export const newsvendor = {
     { key: "soldOut", label: "売り切れる日の割合", fmt: "pct1" }, { key: "waste", label: "売れ残り", fmt: "num1", sub: "1日あたり(個)" },
   ],
   setup(r) { const price = r.price ?? 300, cost = r.cost ?? 120, salvage = Math.min(r.salvage ?? 30, cost), mu = 100, sd = 20, ratio = clamp((price - cost) / Math.max(price - salvage, 1e-9), 0.001, 0.999), qBest = mu + sd * PhiInv(ratio);
-    return { price, cost, salvage, mu, sd, ratio, qBest, q: r.order > 0 ? r.order : qBest }; },
+    // 人の偏り:最適な量から平均のほうへ、差の約7割だけ引き寄せられる(Schweitzer & Cachon 2000 の2条件 0.64・0.79 の中間)
+    return { price, cost, salvage, mu, sd, ratio, qBest, q: r.order > 0 ? r.order : r.order < 0 ? qBest + 0.7 * (mu - qBest) : qBest }; },
   verify(m, r) {
     const s = this.setup(r), z = (s.q - s.mu) / s.sd, loss = phi(z) - z * (1 - Phi(z)); // 売り逃しの期待値(標準化)
     const sold = s.mu - s.sd * loss, profit = (s.price - s.salvage) * sold - (s.cost - s.salvage) * s.q, zb = (s.qBest - s.mu) / s.sd;
@@ -236,7 +239,8 @@ export const newsvendor = {
   advise(m, r) {
     const s = this.setup(r), out = [`売値・原価・処分価格から決まる臨界比は${Math.round(s.ratio * 100)}%です。最もよい仕入れ量は約${Math.round(s.qBest)}個(平均${s.mu}個より${s.qBest >= s.mu ? "多め" : "少なめ"})になります。`];
     if (Math.abs(s.q - s.qBest) > 5) out.push(`いまの仕入れ量${Math.round(s.q)}個は、最適より${s.q > s.qBest ? "多く、売れ残りの損" : "少なく、売り逃しの損"}が出ています。`);
-    out.push("実験では、人は最適な量より「平均」に寄せて仕入れがちだと報告されています。");
+    const z = (q) => (q - s.mu) / s.sd, gain = (q) => (s.price - s.salvage) * (s.mu - s.sd * (phi(z(q)) - z(q) * (1 - Phi(z(q))))) - (s.cost - s.salvage) * q, qh = s.qBest + 0.7 * (s.mu - s.qBest);
+    out.push(`実験では、人は最適な量から「平均」のほうへ6〜8割引き寄せられた量を発注しました(最適225個に対し平均177個、最適75個に対し平均134個。Schweitzer & Cachon 2000)。この条件に当てはめると約${Math.round(qh)}個で、利益は最適より1日${Math.round(gain(s.qBest) - gain(qh)).toLocaleString("ja-JP")}円少なくなります。`);
     return out;
   },
   run(r, seed, years) {
@@ -249,5 +253,53 @@ export const newsvendor = {
       if (d <= years) series.push({ x: d, profit: p });
     }
     return { series, summary: { profit: profit / D, order: s.q, soldOut: soldOut / D, waste: waste / D } };
+  },
+};
+
+// ============ 5) 税率と税収(ラッファー曲線) ============
+// 1人ずつが「手取りの得」と「働く大変さ」を比べて働く量を決める。税率を上げると働く量が減り、税収はどこかで頭打ちになる。
+// 効用 u = (1−τ)·w·h − h^(1+1/e)/(1+1/e) を最大にする h は (1−τ)·w の e 乗。ここでは式を使わず、1人ずつ数値で最大点を探す。
+const bestHours = (net, e) => { const u = (h) => net * h - h ** (1 + 1 / e) / (1 + 1 / e); let lo = 0, hi = Math.max(1, net ** e * 3); for (let i = 0; i < 60; i++) { const a = lo + (hi - lo) * 0.382, b = lo + (hi - lo) * 0.618; if (u(a) < u(b)) lo = a; else hi = b; } return (lo + hi) / 2; };
+export const laffer = {
+  key: "laffer", title: "税率と税収", years: 100, xLabel: "税率(%)", runs: 5, initial: "t30",
+  lead: "税率を上げると働く量が減るとき、税収がどこで頭打ちになるかを試します。",
+  note: "400人が、手取りの得と働く大変さを比べて、働く量を1人ずつ決めます。<br>「弾力性」は、手取りが1%減ると働く量(課税される所得)が何%減るかを表します。文献での中位値は0.25です。",
+  assumptions: {
+    people: { value: 400, note: "人数。稼ぐ力は1人ずつ違う(対数正規分布)" },
+    choice: { value: "数値で最大点を探す", note: "1人ずつ、手取り−働く大変さがいちばん大きくなる働く量を選ぶ" },
+    flat: { value: "一律の税率", note: "全員に同じ税率がかかる単純な税。控除や累進は入れていない" },
+    elasticity: { value: 0.25, note: "標準の弾力性。課税所得の弾力性の文献上の中位値(Saez, Slemrod & Giertz 2012 の整理として紹介される値。確かさ:中)" },
+    theory: { value: "頂点 = 1 ÷ (1 + 弾力性)", note: "一律の税で税収が最大になる税率。最高税率だけを考える場合は 1 ÷ (1 + a × 弾力性)(a は所得分布の形を表す値)で、a=1.5・弾力性0.25なら73%(Diamond & Saez 2011)" },
+  },
+  presets: {
+    t30: { label: "A 税率30%(弾力性0.25)", rules: { tax: 30, e: 0.25 } }, t50: { label: "B 税率50%(弾力性0.25)", rules: { tax: 50, e: 0.25 } },
+    t80: { label: "C 税率80%(弾力性0.25での頂点)", rules: { tax: 80, e: 0.25 } }, react: { label: "D 税率50%、よく反応する人たち(弾力性1.0)", rules: { tax: 50, e: 1 } },
+    high: { label: "E 税率70%、弾力性1.0(頂点を超える)", rules: { tax: 70, e: 1 } },
+  },
+  params: [{ key: "tax", label: "税率(%)", value: 30, min: 0, max: 99 }, { key: "e", label: "弾力性", value: 0.25, min: 0.05, max: 3, step: 0.05 }],
+  charts: [{ title: "税率ごとの税収と働く量(いちばん多いときを100%として)", fmt: "pct", lines: [{ key: "revenue", name: "税収", color: "#b4473b" }, { key: "work", name: "働く量(課税される所得)", color: "#2f8f6b" }] }],
+  metrics: [{ key: "now", label: "いまの税率での税収", fmt: "pct", sub: "頂点を100%として" }, { key: "peak", label: "税収が最大になる税率", fmt: "pct" }, { key: "workNow", label: "働く量", fmt: "pct", sub: "税率0%を100%として" },
+    { key: "back", label: "減税した分のうち、税収として戻る割合", fmt: "pct", sub: "100%を超えると減税で税収が増える" }],
+  verify(m, r) {
+    const t = r.tax / 100, e = r.e, tp = 1 / (1 + e);
+    return [{ label: "税収が最大になる税率", model: m.peak, theory: tp, fmt: "pct1", note: "1 ÷ (1 + 弾力性)。シミュレーションは1%刻みで探す" }, { label: "いまの税率での税収(頂点比)", model: m.now, theory: (t * (1 - t) ** e) / (tp * (1 - tp) ** e), fmt: "pct1" },
+      { label: "働く量(税率0%比)", model: m.workNow, theory: (1 - t) ** e, fmt: "pct1" }, { label: "減税分のうち税収として戻る割合", model: m.back, theory: (e * t) / (1 - t), fmt: "pct1", note: "弾力性 × 税率 ÷ (1 − 税率)" }];
+  },
+  advise(m, r) {
+    const out = [], tp = 1 / (1 + r.e);
+    if (r.tax / 100 > tp + 0.02) out.push(`税率${r.tax}%は頂点(${Math.round(tp * 100)}%)を超えています。この範囲では、税率を下げたほうが税収が増えます。`);
+    else out.push(`税率${r.tax}%は頂点(${Math.round(tp * 100)}%)より下です。税率を上げれば税収は増えますが、働く量は税率0%のときの${Math.round(m.workNow * 100)}%まで減っています。`);
+    out.push(`減税した分のうち、働く量が増えることで税収として戻るのは${Math.round(m.back * 100)}%です。研究では、労働への税の減税で戻る割合は米国32%、欧州14か国54%と推計されています(Trabandt & Uhlig 2011)。`);
+    out.push("日本については、労働への税率は頂点より下、資本への税率は頂点の近くか上という研究があります(Nutahara 2015)。数値は確認できていません。");
+    out.push("頂点の税率は「税収が最大」になる点で、「望ましい」税率ではありません。暮らしの満足や公平さは、この計算に入っていません。");
+    return out;
+  },
+  run(r, seed) {
+    const rng = makeRng(seed), w = Array.from({ length: 400 }, () => Math.exp(0.5 * rng.normal())), e = r.e;
+    const at = (t) => { let z = 0; for (const x of w) z += x * bestHours((1 - t) * x, e); return { z, rev: t * z }; };
+    const grid = Array.from({ length: 100 }, (_, i) => ({ x: i, ...at(i / 100) })), top = grid.reduce((a, b) => (b.rev > a.rev ? b : a)), z0 = grid[0].z;
+    const t = r.tax / 100, cur = at(t), lower = at(t - 0.005), upper = at(Math.min(0.999, t + 0.005)), mech = 0.01 * cur.z; // 税率を0.5ポイント下げたときに、何もしなければ減るはずの税収
+    return { series: grid.filter((g) => g.x % 2 === 0).map((g) => ({ x: g.x, revenue: g.rev / top.rev, work: g.z / z0 })),
+      summary: { now: cur.rev / top.rev, peak: top.x / 100, workNow: cur.z / z0, back: mech > 0 ? 1 - (upper.rev - lower.rev) / mech : 0 } };
   },
 };

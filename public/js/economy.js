@@ -8,7 +8,7 @@ export const ECONOMY_ASSUMPTIONS = {
   jobless: { value: 0.61, note: "仕事を失った人が、蓄えを崩して買う個数(1世代あたり)" },
   adjust: { value: 0.187, note: "売上の変化に対して、工場が雇う人数を合わせる速さ(1世代あたり)" },
   growth: { value: 0.006, note: "失業がほぼ無いときの人口の伸び(1世代あたり)" },
-  spenders: { value: 0.146, note: "1回きりの給付金を使う人の割合。残りは将来の増税に備えて貯める" },
+  spenders: { value: 0.146, note: "1回きりの給付金を使う人の割合。残りは将来の増税に備えて貯める。参考にした実験に合わせた値。条件C2・C3では実績値に置き換える:2009年の定額給付金は29.0%(内閣府 2010「定額給付金に関連した消費等に関する調査」)、2020年の特別定額給付金は約10%(家計調査の都市別データによる推計、Hattori, Komura & Unayama)" },
   spendYears: { value: 5, note: "給付金を使う人が、使い切るまでの世代数" },
   reformOutput: { value: 3, note: "構造改革後に、1人が1世代に作れる個数(改革前は2個)" },
   dig: { value: 0.4, note: "給料が安心ラインを超えたとき、貯め込んだ分から上乗せして買う個数(1世代あたり)" },
@@ -23,6 +23,8 @@ export const economy = {
     both: { label: "A 物価も給料も2倍", rules: { price: 2, wage: 2 } },
     frozen: { label: "B 物価だけ2倍(給料は据え置き)", rules: { price: 2, wage: 1 } },
     handout: { label: "C Bの後に、1回きりの給付金", rules: { price: 2, wage: 1, collapsed: true, handout: 4 } },
+    handout09: { label: "C2 給付金:2009年の実績(29%が消費に)", rules: { price: 2, wage: 1, collapsed: true, handout: 4, spendShare: 0.29 } },
+    handout20: { label: "C3 給付金:2020年の実績(約10%が消費に)", rules: { price: 2, wage: 1, collapsed: true, handout: 4, spendShare: 0.10 } },
     reform: { label: "D Bの後に、生産性向上と自動の賃上げ", rules: { price: 2, wage: 1, collapsed: true, reform: true }, years: 100 },
   },
   charts: [{ title: "生産力・失業率・人口", lines: [{ key: "productivity", name: "生産力", color: "#2f8f6b" }, { key: "unemployment", name: "失業率", color: "#b4473b" }, { key: "saving", name: "貯め込む人", color: "#c9a45c" }, { key: "population", name: "人口", color: "#8b93a7" }] }],
@@ -30,6 +32,7 @@ export const economy = {
   params: [{ key: "price", label: "物価(最初の何倍か)", value: 2, min: 1, max: 4, step: 0.5 }, { key: "wage", label: "給料(最初の何倍か)", value: 1, min: 0.5, max: 4, step: 0.5 }],
   metrics: [
     { key: "productivity", label: "生産力", fmt: "pct", sub: "最初を100%として" },
+    { key: "topProductivity", label: "最初の10世代での生産力の最大", fmt: "pct", sub: "給付金などの一時的な効果を見る" },
     { key: "unemployment", label: "失業率", fmt: "pct1" },
     { key: "peakUnemployment", label: "失業率の最大", fmt: "pct1" },
     { key: "population", label: "人口", fmt: "people1000" },
@@ -51,6 +54,7 @@ export const economy = {
   advise(m, rules) {
     const out = [];
     if (m.unemployment > 0.3) out.push("1人ずつが節約するのは合理的ですが、全員が同時に節約すると売上が落ち、雇用が減り、さらに節約が広がります(節約のパラドックス)。");
+    if (rules.spendShare) out.push(`給付金のうち消費に回る割合を、日本の実績(${Math.round(rules.spendShare * 100)}%)に置き換えています。実績でも、給付金の7〜9割は貯蓄に回りました。`);
     if (rules.handout) out.push("1回きりの給付金は、将来の負担を見越して貯められやすく、生産力はほとんど戻りませんでした。続く収入の見通しが無いと、消費は増えにくくなります。");
     if (rules.reform) out.push("改革の直後は人手が余って失業が増えますが、給料が上がって安心ラインを超えると消費が戻り、拡大の循環に入ります。");
     if (!rules.collapsed && m.unemployment < 0.02 && m.productivity > 1) out.push("値段が上がっても、同じだけ給料が上がれば買える個数は変わらず、雇用と人口が伸びます。");
@@ -85,7 +89,7 @@ export const economy = {
     let last = null;
     for (let t = 0; t <= years; t++) {
       let extra = 0;
-      if (rules.handout && t >= 1 && t <= A.spendYears.value) extra += (A.spenders.value * rules.handout) / price / A.spendYears.value;
+      if (rules.handout && t >= 1 && t <= A.spendYears.value) extra += ((rules.spendShare ?? A.spenders.value) * rules.handout) / price / A.spendYears.value;
       const d0 = demandOf(e);
       if (rules.reform && d0.calm > 0.99 && hoard > 0 && e < 0.995) { extra += A.dig.value; hoard -= A.dig.value; }
       const d = demandOf(e, extra);
@@ -99,6 +103,6 @@ export const economy = {
       if (1 - e < 0.01) pop *= 1 + A.growth.value;
     }
     void base0;
-    return { series, summary: { productivity: last.productivity, unemployment: last.unemployment, peakUnemployment: peak, population: last.population, apples: last.apples } };
+    return { series, summary: { productivity: last.productivity, unemployment: last.unemployment, peakUnemployment: peak, population: last.population, apples: last.apples, topProductivity: Math.max(...series.slice(1, 11).map((x) => x.productivity)) } };
   },
 };
