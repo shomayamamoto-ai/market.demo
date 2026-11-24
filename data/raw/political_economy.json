@@ -1,0 +1,3286 @@
+{
+ "generated": "2026-11-24",
+ "datasets": [
+  {
+   "key": "income_tax_brackets",
+   "title": "所得税の税率表(超過累進税率)",
+   "year": "令和8年分(2026年)",
+   "source_name": "財務省「所得税の税率構造」(税率・税負担等に関する資料)",
+   "source_url": "https://www.mof.go.jp/tax_policy/summary/income/b02_1.pdf",
+   "unit": "課税所得:円, 税率:小数",
+   "data": {
+    "brackets": [
+     {
+      "taxable_income_over": 0,
+      "up_to": 1950000,
+      "rate": 0.05,
+      "quick_deduction_derived": 0
+     },
+     {
+      "taxable_income_over": 1950000,
+      "up_to": 3300000,
+      "rate": 0.1,
+      "quick_deduction_derived": 97500
+     },
+     {
+      "taxable_income_over": 3300000,
+      "up_to": 6950000,
+      "rate": 0.2,
+      "quick_deduction_derived": 427500
+     },
+     {
+      "taxable_income_over": 6950000,
+      "up_to": 9000000,
+      "rate": 0.23,
+      "quick_deduction_derived": 636000
+     },
+     {
+      "taxable_income_over": 9000000,
+      "up_to": 18000000,
+      "rate": 0.33,
+      "quick_deduction_derived": 1536000
+     },
+     {
+      "taxable_income_over": 18000000,
+      "up_to": 40000000,
+      "rate": 0.4,
+      "quick_deduction_derived": 2796000
+     },
+     {
+      "taxable_income_over": 40000000,
+      "up_to": null,
+      "rate": 0.45,
+      "quick_deduction_derived": 4796000
+     }
+    ],
+    "reconstruction_special_income_tax_rate_on_base_tax": 0.021,
+    "from_2027": {
+     "reconstruction_special_rate": 0.011,
+     "defense_special_income_tax_rate": 0.01
+    }
+   },
+   "definition": "税額=課税所得×税率−控除額。課税所得=所得−所得控除。別途、復興特別所得税(基準所得税額の2.1%)。",
+   "confidence": "high",
+   "verified_via": "財務省PDFを開いて区分(195/330/695/900/1,800/4,000万円)と税率(5〜45%)を確認。復興特別所得税2.1%・2027年以後1.1%+防衛特別所得税1%は同省ページ b02.htm の注記で確認。",
+   "notes": "速算控除額(quick_deduction_derived)は財務省資料に記載がなく、区分と税率からの算術で導出した値(国税庁の速算表は www.nta.go.jp が開けず未照合)。"
+  },
+  {
+   "key": "basic_deduction",
+   "title": "基礎控除・主な人的控除(所得税/住民税)",
+   "year": "令和8年度改正後(令和8年分)",
+   "source_name": "財務省「人的控除の種類および概要」",
+   "source_url": "https://www.mof.go.jp/tax_policy/summary/income/b03_1.pdf",
+   "unit": "円",
+   "data": {
+    "income_tax_basic_deduction_by_total_income": [
+     {
+      "total_income_up_to": 4890000,
+      "deduction": 1040000
+     },
+     {
+      "total_income_over": 4890000,
+      "total_income_up_to": 6550000,
+      "deduction": 670000
+     },
+     {
+      "total_income_over": 6550000,
+      "total_income_up_to": 23500000,
+      "deduction": 620000
+     },
+     {
+      "total_income_over": 23500000,
+      "total_income_up_to": 25000000,
+      "deduction": null,
+      "note": "2,350万円超から逓減、2,500万円超は適用なし。逓減の刻みは未確認"
+     }
+    ],
+    "resident_tax_basic_deduction_max": 430000,
+    "resident_tax_basic_deduction_note": "合計所得2,400万円超から逓減",
+    "spouse_deduction": {
+     "income_tax_max": 380000,
+     "resident_tax_max": 330000,
+     "spouse_total_income_limit": 620000,
+     "taxpayer_total_income_limit": 10000000
+    },
+    "spouse_special_deduction": {
+     "income_tax_max": 380000,
+     "resident_tax_max": 330000,
+     "spouse_total_income_range": [
+      620000,
+      1330000
+     ]
+    },
+    "dependent_general_16_18_or_23_69": {
+     "income_tax": 380000,
+     "resident_tax": 330000
+    },
+    "dependent_specific_19_22": {
+     "income_tax": 630000,
+     "resident_tax": 450000
+    },
+    "dependent_elderly_70plus": {
+     "income_tax": 480000,
+     "resident_tax": 380000,
+     "living_together_add": {
+      "income_tax": 100000,
+      "resident_tax": 70000
+     }
+    },
+    "specific_relative_special_deduction_19_22": {
+     "income_tax_max": 630000,
+     "resident_tax_max": 450000,
+     "relative_total_income_range": [
+      620000,
+      1230000
+     ]
+    },
+    "single_parent": {
+     "income_tax": 380000,
+     "resident_tax": 330000,
+     "total_income_limit": 5000000
+    },
+    "working_student": {
+     "income_tax": 270000,
+     "resident_tax": 260000,
+     "total_income_limit": 890000
+    },
+    "dependent_total_income_limit": 620000
+   },
+   "definition": "基礎控除は合計所得金額に応じて控除額が変わる。資料の注記は「令和8年度改正後」。",
+   "confidence": "high",
+   "verified_via": "財務省PDFを開いて表を読み取り。",
+   "notes": "合計所得489万円以下の104万円などには時限的な特例の上乗せが含まれる可能性があるが、内訳(本則と特例)と適用年はこの資料からは確認できず。令和7年分は別(給与所得控除の最低保障65万円等)。"
+  },
+  {
+   "key": "employment_income_deduction",
+   "title": "給与所得控除の算式",
+   "year": "令和8年分(2026年)",
+   "source_name": "財務省「給与所得控除制度・給与所得控除の最低保障額の特例の概要」",
+   "source_url": "https://www.mof.go.jp/tax_policy/summary/income/049.pdf",
+   "unit": "円",
+   "data": {
+    "formula": [
+     {
+      "salary_up_to": 3600000,
+      "deduction": "salary*0.30+80000"
+     },
+     {
+      "salary_over": 3600000,
+      "salary_up_to": 6600000,
+      "deduction": "salary*0.20+440000"
+     },
+     {
+      "salary_over": 6600000,
+      "salary_up_to": 8500000,
+      "deduction": "salary*0.10+1100000"
+     },
+     {
+      "salary_over": 8500000,
+      "deduction": 1950000
+     }
+    ],
+    "minimum_guarantee": {
+     "2025": 650000,
+     "2026_onward_base": 690000,
+     "2026_2027_special_add": 50000,
+     "2026_effective_minimum": 740000
+    },
+    "minimum_applies_up_to_salary_derived": {
+     "2025": 1900000,
+     "2026": 2200000
+    },
+    "cap": 1950000,
+    "income_amount_adjustment_deduction": {
+     "condition": "給与収入850万円超で23歳未満の扶養親族あり等",
+     "formula": "(min(salary,10000000)-8500000)*0.10",
+     "max": 150000
+    },
+    "single_worker_income_tax_threshold_2026_derived": 1780000
+   },
+   "definition": "給与所得=給与収入−給与所得控除。最低保障額は令和7年分65万円、令和8年分以後69万円(令和8・9年分は特例で5万円加算=74万円)。",
+   "confidence": "high",
+   "verified_via": "財務省PDFを開いて算式・最低保障額を確認。最低保障が効く収入上限(190万/220万円)は図の目盛りと算式から導出。",
+   "notes": "単身給与所得者の所得税の課税最低限178万円=基礎控除104万円+給与所得控除74万円(導出値。いわゆる「178万円」)。"
+  },
+  {
+   "key": "resident_tax",
+   "title": "個人住民税(所得割・均等割)",
+   "year": "令和8年度(2026)",
+   "source_name": "総務省「地方税制度｜個人住民税」",
+   "source_url": "https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/150790_06.html",
+   "unit": "税率:小数, 均等割:円/年",
+   "data": {
+    "income_levy_rate": 0.1,
+    "prefectural": 0.04,
+    "municipal": 0.06,
+    "designated_city": {
+     "prefectural": 0.02,
+     "municipal": 0.08
+    },
+    "per_capita_levy_yen": 4000,
+    "per_capita_prefectural": 1000,
+    "per_capita_municipal": 3000,
+    "forest_environment_tax_yen": 1000,
+    "basic_deduction_max_yen": 430000,
+    "taxed_on": "前年(1〜12月)の所得"
+   },
+   "definition": "所得割=課税所得×10%(標準税率)。均等割4,000円に加え森林環境税(国税)1,000円を併せて徴収。",
+   "confidence": "high",
+   "verified_via": "総務省ページを開いて確認。住民税の基礎控除43万円は財務省 b03_1.pdf で確認。",
+   "notes": "非課税限度額(均等割・所得割がかからない所得水準)と調整控除は未確認。自治体により超過課税あり。"
+  },
+  {
+   "key": "social_insurance_rates",
+   "title": "社会保険料率・保険料(本人負担)",
+   "year": "令和8年度(2026年度)",
+   "source_name": "厚生労働省「制度変更(令和8年4月)」「年金制度の仕組みと考え方」ほか/協会けんぽ(検索抜粋)",
+   "source_url": "https://www.mhlw.go.jp/stf/newpage_71570.html",
+   "unit": "料率:小数, 月額:円",
+   "data": {
+    "employees_pension": {
+     "total_rate": 0.183,
+     "employee_share": 0.0915,
+     "fixed_since": "2017-09",
+     "confidence": "high",
+     "url": "https://www.mhlw.go.jp/stf/nenkin_shikumi_002.html"
+    },
+    "health_insurance_kyokai_kenpo_national_average": {
+     "total_rate": 0.099,
+     "employee_share": 0.0495,
+     "confidence": "medium",
+     "note": "都道府県支部ごとに異なる。協会けんぽ資料の検索抜粋(令和8年度平均9.9%)"
+    },
+    "long_term_care_age_40_64": {
+     "total_rate": 0.0162,
+     "employee_share": 0.0081,
+     "previous_rate": 0.0159,
+     "effective": "令和8年3月分(4月納付分)から",
+     "confidence": "medium"
+    },
+    "child_support_levy_from_2026_04": {
+     "total_rate": 0.0023,
+     "employee_share": 0.00115,
+     "effective": "令和8年4月分(5月納付分)から",
+     "confidence": "medium"
+    },
+    "employment_insurance_general_business": {
+     "total_rate": 0.0135,
+     "employee_share": 0.005,
+     "employer_share": 0.0085,
+     "previous_employee_share": 0.0055,
+     "confidence": "high"
+    },
+    "national_pension_monthly_premium_yen": {
+     "value": 17920,
+     "confidence": "high"
+    },
+    "employee_total_share_under_40_derived": 0.14715,
+    "employee_total_share_40_64_derived": 0.15525,
+    "standard_remuneration_caps": null
+   },
+   "definition": "被用者の本人負担は労使折半(雇用保険は表の通り)。合計の本人負担率=厚生年金9.15%+健保4.95%+支援金0.115%+雇用0.5%(40〜64歳は介護0.81%を加算)。",
+   "confidence": "medium",
+   "verified_via": "雇用保険(労働者5/1,000)と国民年金17,920円は厚労省「制度変更(令和8年4月)」ページを開いて確認。厚生年金18.3%は厚労省ページを開いて確認。協会けんぽ平均9.9%・介護1.62%・子ども子育て支援金0.23%は www.kyoukaikenpo.or.jp が開けず、同サイト資料の検索抜粋のみ。",
+   "notes": "標準報酬月額の上下限(厚生年金・健保)は未確認のためnull。賞与にも同率。"
+  },
+  {
+   "key": "national_health_insurance_average",
+   "title": "国民健康保険料(税)の全国平均の目安と賦課限度額",
+   "year": "料率は令和5年度全国平均、限度額は令和7・8年度",
+   "source_name": "厚生労働省保険局「国民健康保険の保険料(税)の賦課(課税)限度額について」(社会保障審議会医療保険部会資料)",
+   "source_url": "https://www.mhlw.go.jp/content/12401000/001599957.pdf",
+   "unit": "料率:小数, 円",
+   "data": {
+    "national_average_fy2023_4method_medical_plus_support": {
+     "income_levy_rate": 0.0922,
+     "asset_levy_yen": 10293,
+     "per_capita_yen": 31700,
+     "per_household_yen": 26649
+    },
+    "cap_fy2025_yen": {
+     "total": 1090000,
+     "medical_basic": 660000,
+     "elderly_support": 260000,
+     "care": 170000
+    },
+    "cap_fy2026_proposed_yen": {
+     "total": 1100000,
+     "medical_basic": 670000,
+     "elderly_support": 260000,
+     "care": 170000,
+     "note": "子ども・子育て支援納付金分を除く"
+    },
+    "illustration_fy2026_estimate": {
+     "annual_income_4m_yen_total_premium_yen": 338000
+    },
+    "share_of_households_at_cap_fy2026_estimate": 0.0143
+   },
+   "definition": "旧ただし書所得×所得割率+均等割×人数+世帯割(+資産割)。料率は「旧ただし書・4方式を採用する令和5年度全国平均値」(医療分=基礎賦課分+後期高齢者支援金等分)で、介護分は含まない。",
+   "confidence": "medium",
+   "verified_via": "厚労省PDFを開いて確認。令和8年度の限度額は審議会への提案値(「としてはどうか」)で、決定の確認はしていない。",
+   "notes": "自治体差が大きい。年収400万円の例(33.8万円)は同資料の令和8年度推計(単身、医療分+介護分)。"
+  },
+  {
+   "key": "consumption_tax",
+   "title": "消費税率と軽減税率の対象",
+   "year": "2026年11月時点",
+   "source_name": "財務省「『軽減税率制度』について教えてください」/財務大臣記者会見概要(2026年10月9日)",
+   "source_url": "https://www.mof.go.jp/tax_information/qanda023.html",
+   "unit": "小数",
+   "data": {
+    "standard_rate": 0.1,
+    "standard_national": 0.078,
+    "standard_local": 0.022,
+    "reduced_rate": 0.08,
+    "reduced_national": 0.0624,
+    "reduced_local": 0.0176,
+    "reduced_rate_items": [
+     "酒類・外食を除く飲食料品",
+     "定期購読契約が締結された週2回以上発行される新聞"
+    ],
+    "since": "2019-10-01",
+    "history": [
+     {
+      "date": "1989-04",
+      "rate": 0.03
+     },
+     {
+      "date": "1997-04",
+      "rate": 0.05
+     },
+     {
+      "date": "2014-04",
+      "rate": 0.08
+     },
+     {
+      "date": "2019-10",
+      "rate": 0.1
+     }
+    ],
+    "pending_bill_2026_10": {
+     "status": "2026年10月9日閣議決定(国会審議中、成立は未確認)",
+     "content": "令和9年(2027年)4月1日から2年間に限り飲食料品の消費税率を臨時的に引下げ。併せて就業者負担軽減支援金(令和11年度本格導入)と、飲食料品の消費税1%相当分の範囲の支援金制度",
+     "reduced_food_rate_during_period": null,
+     "url": "https://www.mof.go.jp/public_relations/conference/my20261009.html"
+    }
+   },
+   "definition": "標準税率10%(国7.8%+地方2.2%)、軽減税率8%(国6.24%+地方1.76%)。",
+   "confidence": "high",
+   "verified_via": "財務省Q&Aページと記者会見概要ページを開いて確認。税率の沿革(3→5→8→10%)はRIETI DP 16-E-052本文で確認。",
+   "notes": "法案の引下げ後の税率は会見概要の読んだ範囲に数値がなく未確認(null)。"
+  },
+  {
+   "key": "national_burden_ratio",
+   "title": "国民負担率(対国民所得比)の推移",
+   "year": "1970〜2026年度(令和6年度まで実績、7年度実績見込み、8年度見通し)",
+   "source_name": "財務省「国民負担率(対国民所得比)の推移」(令和8年3月5日公表)",
+   "source_url": "https://www.mof.go.jp/policy/budget/topics/futanritsu/sy202603a.pdf",
+   "unit": "%(国民所得・GDPは兆円)",
+   "data": {
+    "status": {
+     "2024": "実績",
+     "2025": "実績見込み",
+     "2026": "見通し"
+    },
+    "latest": [
+     {
+      "fiscal_year": 2019,
+      "national_tax": 15.4,
+      "local_tax": 10.2,
+      "tax_burden": 25.7,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 44.1,
+      "fiscal_deficit": 5.3,
+      "potential_national_burden_ratio": 49.5,
+      "national_income_trillion_yen": 402.8,
+      "national_burden_ratio_to_gdp": 31.1,
+      "gdp_trillion_yen": 570.6
+     },
+     {
+      "fiscal_year": 2020,
+      "national_tax": 17.1,
+      "local_tax": 10.8,
+      "tax_burden": 27.9,
+      "social_security_burden": 19.4,
+      "national_burden_ratio": 47.3,
+      "fiscal_deficit": 15.3,
+      "potential_national_burden_ratio": 62.6,
+      "national_income_trillion_yen": 379.1,
+      "national_burden_ratio_to_gdp": 32.4,
+      "gdp_trillion_yen": 554.3
+     },
+     {
+      "fiscal_year": 2021,
+      "national_tax": 17.8,
+      "local_tax": 10.5,
+      "tax_burden": 28.4,
+      "social_security_burden": 18.8,
+      "national_burden_ratio": 47.2,
+      "fiscal_deficit": 9.8,
+      "potential_national_burden_ratio": 57.0,
+      "national_income_trillion_yen": 403.1,
+      "national_burden_ratio_to_gdp": 33.0,
+      "gdp_trillion_yen": 576.6
+     },
+     {
+      "fiscal_year": 2022,
+      "national_tax": 18.2,
+      "local_tax": 10.5,
+      "tax_burden": 28.7,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 47.3,
+      "fiscal_deficit": 6.1,
+      "potential_national_burden_ratio": 53.4,
+      "national_income_trillion_yen": 419.1,
+      "national_burden_ratio_to_gdp": 33.5,
+      "gdp_trillion_yen": 591.7
+     },
+     {
+      "fiscal_year": 2023,
+      "national_tax": 17.5,
+      "local_tax": 10.1,
+      "tax_burden": 27.6,
+      "social_security_burden": 18.1,
+      "national_burden_ratio": 45.7,
+      "fiscal_deficit": 4.1,
+      "potential_national_burden_ratio": 49.8,
+      "national_income_trillion_yen": 441.4,
+      "national_burden_ratio_to_gdp": 32.6,
+      "gdp_trillion_yen": 619.4
+     },
+     {
+      "fiscal_year": 2024,
+      "national_tax": 17.9,
+      "local_tax": 10.2,
+      "tax_burden": 28.2,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 46.7,
+      "fiscal_deficit": 3.6,
+      "potential_national_burden_ratio": 50.3,
+      "national_income_trillion_yen": 452.0,
+      "national_burden_ratio_to_gdp": 32.9,
+      "gdp_trillion_yen": 642.4
+     },
+     {
+      "fiscal_year": 2025,
+      "national_tax": 18.2,
+      "local_tax": 10.1,
+      "tax_burden": 28.3,
+      "social_security_burden": 17.8,
+      "national_burden_ratio": 46.1,
+      "fiscal_deficit": 3.0,
+      "potential_national_burden_ratio": 49.1,
+      "national_income_trillion_yen": 477.6,
+      "national_burden_ratio_to_gdp": 32.9,
+      "gdp_trillion_yen": 669.2
+     },
+     {
+      "fiscal_year": 2026,
+      "national_tax": 18.1,
+      "local_tax": 9.9,
+      "tax_burden": 28.0,
+      "social_security_burden": 17.6,
+      "national_burden_ratio": 45.7,
+      "fiscal_deficit": 2.7,
+      "potential_national_burden_ratio": 48.4,
+      "national_income_trillion_yen": 496.1,
+      "national_burden_ratio_to_gdp": 32.7,
+      "gdp_trillion_yen": 691.9
+     }
+    ],
+    "series": [
+     {
+      "fiscal_year": 1970,
+      "national_tax": 12.7,
+      "local_tax": 6.1,
+      "tax_burden": 18.9,
+      "social_security_burden": 5.4,
+      "national_burden_ratio": 24.3,
+      "fiscal_deficit": 0.5,
+      "potential_national_burden_ratio": 24.9,
+      "national_income_trillion_yen": 61.0,
+      "national_burden_ratio_to_gdp": 19.7,
+      "gdp_trillion_yen": 75.3
+     },
+     {
+      "fiscal_year": 1971,
+      "national_tax": 12.8,
+      "local_tax": 6.4,
+      "tax_burden": 19.2,
+      "social_security_burden": 5.9,
+      "national_burden_ratio": 25.2,
+      "fiscal_deficit": 2.5,
+      "potential_national_burden_ratio": 27.7,
+      "national_income_trillion_yen": 65.9,
+      "national_burden_ratio_to_gdp": 20.0,
+      "gdp_trillion_yen": 82.9
+     },
+     {
+      "fiscal_year": 1972,
+      "national_tax": 13.3,
+      "local_tax": 6.4,
+      "tax_burden": 19.8,
+      "social_security_burden": 5.9,
+      "national_burden_ratio": 25.6,
+      "fiscal_deficit": 2.8,
+      "potential_national_burden_ratio": 28.4,
+      "national_income_trillion_yen": 77.9,
+      "national_burden_ratio_to_gdp": 20.7,
+      "gdp_trillion_yen": 96.5
+     },
+     {
+      "fiscal_year": 1973,
+      "national_tax": 14.7,
+      "local_tax": 6.8,
+      "tax_burden": 21.4,
+      "social_security_burden": 5.9,
+      "national_burden_ratio": 27.4,
+      "fiscal_deficit": 0.7,
+      "potential_national_burden_ratio": 28.1,
+      "national_income_trillion_yen": 95.8,
+      "national_burden_ratio_to_gdp": 22.5,
+      "gdp_trillion_yen": 116.7
+     },
+     {
+      "fiscal_year": 1974,
+      "national_tax": 14.0,
+      "local_tax": 7.3,
+      "tax_burden": 21.3,
+      "social_security_burden": 7.0,
+      "national_burden_ratio": 28.3,
+      "fiscal_deficit": 3.3,
+      "potential_national_burden_ratio": 31.6,
+      "national_income_trillion_yen": 112.5,
+      "national_burden_ratio_to_gdp": 23.0,
+      "gdp_trillion_yen": 138.5
+     },
+     {
+      "fiscal_year": 1975,
+      "national_tax": 11.7,
+      "local_tax": 6.6,
+      "tax_burden": 18.3,
+      "social_security_burden": 7.5,
+      "national_burden_ratio": 25.7,
+      "fiscal_deficit": 7.5,
+      "potential_national_burden_ratio": 33.3,
+      "national_income_trillion_yen": 124.0,
+      "national_burden_ratio_to_gdp": 20.9,
+      "gdp_trillion_yen": 152.4
+     },
+     {
+      "fiscal_year": 1976,
+      "national_tax": 12.0,
+      "local_tax": 6.8,
+      "tax_burden": 18.8,
+      "social_security_burden": 7.8,
+      "national_burden_ratio": 26.6,
+      "fiscal_deficit": 7.2,
+      "potential_national_burden_ratio": 33.8,
+      "national_income_trillion_yen": 140.4,
+      "national_burden_ratio_to_gdp": 21.8,
+      "gdp_trillion_yen": 171.3
+     },
+     {
+      "fiscal_year": 1977,
+      "national_tax": 11.8,
+      "local_tax": 7.1,
+      "tax_burden": 18.9,
+      "social_security_burden": 8.3,
+      "national_burden_ratio": 27.3,
+      "fiscal_deficit": 8.3,
+      "potential_national_burden_ratio": 35.6,
+      "national_income_trillion_yen": 155.7,
+      "national_burden_ratio_to_gdp": 22.3,
+      "gdp_trillion_yen": 190.1
+     },
+     {
+      "fiscal_year": 1978,
+      "national_tax": 13.5,
+      "local_tax": 7.1,
+      "tax_burden": 20.6,
+      "social_security_burden": 8.5,
+      "national_burden_ratio": 29.2,
+      "fiscal_deficit": 8.0,
+      "potential_national_burden_ratio": 37.1,
+      "national_income_trillion_yen": 171.8,
+      "national_burden_ratio_to_gdp": 24.0,
+      "gdp_trillion_yen": 208.6
+     },
+     {
+      "fiscal_year": 1979,
+      "national_tax": 13.7,
+      "local_tax": 7.7,
+      "tax_burden": 21.4,
+      "social_security_burden": 8.8,
+      "national_burden_ratio": 30.2,
+      "fiscal_deficit": 8.7,
+      "potential_national_burden_ratio": 38.9,
+      "national_income_trillion_yen": 182.2,
+      "national_burden_ratio_to_gdp": 24.4,
+      "gdp_trillion_yen": 225.2
+     },
+     {
+      "fiscal_year": 1980,
+      "national_tax": 13.9,
+      "local_tax": 7.8,
+      "tax_burden": 21.7,
+      "social_security_burden": 8.8,
+      "national_burden_ratio": 30.5,
+      "fiscal_deficit": 8.2,
+      "potential_national_burden_ratio": 38.7,
+      "national_income_trillion_yen": 203.9,
+      "national_burden_ratio_to_gdp": 25.0,
+      "gdp_trillion_yen": 248.4
+     },
+     {
+      "fiscal_year": 1981,
+      "national_tax": 14.4,
+      "local_tax": 8.2,
+      "tax_burden": 22.6,
+      "social_security_burden": 9.6,
+      "national_burden_ratio": 32.2,
+      "fiscal_deficit": 8.2,
+      "potential_national_burden_ratio": 40.4,
+      "national_income_trillion_yen": 211.6,
+      "national_burden_ratio_to_gdp": 25.7,
+      "gdp_trillion_yen": 264.6
+     },
+     {
+      "fiscal_year": 1982,
+      "national_tax": 14.5,
+      "local_tax": 8.5,
+      "tax_burden": 23.0,
+      "social_security_burden": 9.8,
+      "national_burden_ratio": 32.8,
+      "fiscal_deficit": 7.9,
+      "potential_national_burden_ratio": 40.6,
+      "national_income_trillion_yen": 220.1,
+      "national_burden_ratio_to_gdp": 26.1,
+      "gdp_trillion_yen": 276.2
+     },
+     {
+      "fiscal_year": 1983,
+      "national_tax": 14.8,
+      "local_tax": 8.6,
+      "tax_burden": 23.3,
+      "social_security_burden": 9.7,
+      "national_burden_ratio": 33.1,
+      "fiscal_deficit": 7.1,
+      "potential_national_burden_ratio": 40.1,
+      "national_income_trillion_yen": 231.3,
+      "national_burden_ratio_to_gdp": 26.5,
+      "gdp_trillion_yen": 288.8
+     },
+     {
+      "fiscal_year": 1984,
+      "national_tax": 15.1,
+      "local_tax": 8.8,
+      "tax_burden": 24.0,
+      "social_security_burden": 9.8,
+      "national_burden_ratio": 33.7,
+      "fiscal_deficit": 5.9,
+      "potential_national_burden_ratio": 39.7,
+      "national_income_trillion_yen": 243.1,
+      "national_burden_ratio_to_gdp": 26.6,
+      "gdp_trillion_yen": 308.2
+     },
+     {
+      "fiscal_year": 1985,
+      "national_tax": 15.0,
+      "local_tax": 8.9,
+      "tax_burden": 24.0,
+      "social_security_burden": 10.0,
+      "national_burden_ratio": 33.9,
+      "fiscal_deficit": 5.1,
+      "potential_national_burden_ratio": 39.0,
+      "national_income_trillion_yen": 260.6,
+      "national_burden_ratio_to_gdp": 26.8,
+      "gdp_trillion_yen": 330.4
+     },
+     {
+      "fiscal_year": 1986,
+      "national_tax": 16.0,
+      "local_tax": 9.2,
+      "tax_burden": 25.2,
+      "social_security_burden": 10.1,
+      "national_burden_ratio": 35.3,
+      "fiscal_deficit": 4.3,
+      "potential_national_burden_ratio": 39.6,
+      "national_income_trillion_yen": 267.9,
+      "national_burden_ratio_to_gdp": 27.7,
+      "gdp_trillion_yen": 342.3
+     },
+     {
+      "fiscal_year": 1987,
+      "national_tax": 17.0,
+      "local_tax": 9.7,
+      "tax_burden": 26.7,
+      "social_security_burden": 10.1,
+      "national_burden_ratio": 36.8,
+      "fiscal_deficit": 2.9,
+      "potential_national_burden_ratio": 39.6,
+      "national_income_trillion_yen": 281.1,
+      "national_burden_ratio_to_gdp": 28.5,
+      "gdp_trillion_yen": 362.3
+     },
+     {
+      "fiscal_year": 1988,
+      "national_tax": 17.2,
+      "local_tax": 9.9,
+      "tax_burden": 27.2,
+      "social_security_burden": 9.9,
+      "national_burden_ratio": 37.1,
+      "fiscal_deficit": 1.4,
+      "potential_national_burden_ratio": 38.5,
+      "national_income_trillion_yen": 302.7,
+      "national_burden_ratio_to_gdp": 29.0,
+      "gdp_trillion_yen": 387.7
+     },
+     {
+      "fiscal_year": 1989,
+      "national_tax": 17.8,
+      "local_tax": 9.9,
+      "tax_burden": 27.7,
+      "social_security_burden": 10.2,
+      "national_burden_ratio": 37.9,
+      "fiscal_deficit": 1.0,
+      "potential_national_burden_ratio": 38.9,
+      "national_income_trillion_yen": 320.8,
+      "national_burden_ratio_to_gdp": 29.2,
+      "gdp_trillion_yen": 415.9
+     },
+     {
+      "fiscal_year": 1990,
+      "national_tax": 18.1,
+      "local_tax": 9.6,
+      "tax_burden": 27.7,
+      "social_security_burden": 10.6,
+      "national_burden_ratio": 38.4,
+      "fiscal_deficit": 0.1,
+      "potential_national_burden_ratio": 38.5,
+      "national_income_trillion_yen": 346.9,
+      "national_burden_ratio_to_gdp": 29.5,
+      "gdp_trillion_yen": 451.7
+     },
+     {
+      "fiscal_year": 1991,
+      "national_tax": 17.1,
+      "local_tax": 9.5,
+      "tax_burden": 26.6,
+      "social_security_burden": 10.7,
+      "national_burden_ratio": 37.4,
+      "fiscal_deficit": 0.5,
+      "potential_national_burden_ratio": 37.9,
+      "national_income_trillion_yen": 368.9,
+      "national_burden_ratio_to_gdp": 29.1,
+      "gdp_trillion_yen": 473.6
+     },
+     {
+      "fiscal_year": 1992,
+      "national_tax": 15.7,
+      "local_tax": 9.4,
+      "tax_burden": 25.1,
+      "social_security_burden": 11.2,
+      "national_burden_ratio": 36.3,
+      "fiscal_deficit": 4.5,
+      "potential_national_burden_ratio": 40.8,
+      "national_income_trillion_yen": 366.0,
+      "national_burden_ratio_to_gdp": 27.5,
+      "gdp_trillion_yen": 483.3
+     },
+     {
+      "fiscal_year": 1993,
+      "national_tax": 15.6,
+      "local_tax": 9.2,
+      "tax_burden": 24.8,
+      "social_security_burden": 11.5,
+      "national_burden_ratio": 36.3,
+      "fiscal_deficit": 6.7,
+      "potential_national_burden_ratio": 43.0,
+      "national_income_trillion_yen": 365.4,
+      "national_burden_ratio_to_gdp": 27.5,
+      "gdp_trillion_yen": 482.6
+     },
+     {
+      "fiscal_year": 1994,
+      "national_tax": 14.2,
+      "local_tax": 8.6,
+      "tax_burden": 22.8,
+      "social_security_burden": 11.5,
+      "national_burden_ratio": 34.3,
+      "fiscal_deficit": 8.0,
+      "potential_national_burden_ratio": 42.3,
+      "national_income_trillion_yen": 379.9,
+      "national_burden_ratio_to_gdp": 25.0,
+      "gdp_trillion_yen": 522.0
+     },
+     {
+      "fiscal_year": 1995,
+      "national_tax": 14.2,
+      "local_tax": 8.7,
+      "tax_burden": 22.9,
+      "social_security_burden": 12.2,
+      "national_burden_ratio": 35.1,
+      "fiscal_deficit": 8.9,
+      "potential_national_burden_ratio": 44.0,
+      "national_income_trillion_yen": 386.7,
+      "national_burden_ratio_to_gdp": 25.4,
+      "gdp_trillion_yen": 534.7
+     },
+     {
+      "fiscal_year": 1996,
+      "national_tax": 13.8,
+      "local_tax": 8.8,
+      "tax_burden": 22.5,
+      "social_security_burden": 12.1,
+      "national_burden_ratio": 34.6,
+      "fiscal_deficit": 8.3,
+      "potential_national_burden_ratio": 42.9,
+      "national_income_trillion_yen": 401.0,
+      "national_burden_ratio_to_gdp": 25.3,
+      "gdp_trillion_yen": 549.4
+     },
+     {
+      "fiscal_year": 1997,
+      "national_tax": 14.1,
+      "local_tax": 9.1,
+      "tax_burden": 23.2,
+      "social_security_burden": 12.7,
+      "national_burden_ratio": 35.9,
+      "fiscal_deficit": 7.4,
+      "potential_national_burden_ratio": 43.3,
+      "national_income_trillion_yen": 395.3,
+      "national_burden_ratio_to_gdp": 25.7,
+      "gdp_trillion_yen": 552.3
+     },
+     {
+      "fiscal_year": 1998,
+      "national_tax": 13.5,
+      "local_tax": 9.5,
+      "tax_burden": 22.9,
+      "social_security_burden": 13.2,
+      "national_burden_ratio": 36.1,
+      "fiscal_deficit": 10.3,
+      "potential_national_burden_ratio": 46.4,
+      "national_income_trillion_yen": 380.0,
+      "national_burden_ratio_to_gdp": 25.4,
+      "gdp_trillion_yen": 541.0
+     },
+     {
+      "fiscal_year": 1999,
+      "national_tax": 13.0,
+      "local_tax": 9.3,
+      "tax_burden": 22.3,
+      "social_security_burden": 13.2,
+      "national_burden_ratio": 35.5,
+      "fiscal_deficit": 12.0,
+      "potential_national_burden_ratio": 47.4,
+      "national_income_trillion_yen": 377.5,
+      "national_burden_ratio_to_gdp": 24.9,
+      "gdp_trillion_yen": 536.9
+     },
+     {
+      "fiscal_year": 2000,
+      "national_tax": 13.4,
+      "local_tax": 9.1,
+      "tax_burden": 22.5,
+      "social_security_burden": 12.9,
+      "national_burden_ratio": 35.4,
+      "fiscal_deficit": 9.5,
+      "potential_national_burden_ratio": 44.9,
+      "national_income_trillion_yen": 392.5,
+      "national_burden_ratio_to_gdp": 25.5,
+      "gdp_trillion_yen": 545.8
+     },
+     {
+      "fiscal_year": 2001,
+      "national_tax": 13.2,
+      "local_tax": 9.4,
+      "tax_burden": 22.6,
+      "social_security_burden": 13.7,
+      "national_burden_ratio": 36.3,
+      "fiscal_deficit": 9.0,
+      "potential_national_burden_ratio": 45.2,
+      "national_income_trillion_yen": 379.0,
+      "national_burden_ratio_to_gdp": 25.7,
+      "gdp_trillion_yen": 535.4
+     },
+     {
+      "fiscal_year": 2002,
+      "national_tax": 12.2,
+      "local_tax": 8.9,
+      "tax_burden": 21.1,
+      "social_security_burden": 13.8,
+      "national_burden_ratio": 35.0,
+      "fiscal_deficit": 10.6,
+      "potential_national_burden_ratio": 45.6,
+      "national_income_trillion_yen": 374.6,
+      "national_burden_ratio_to_gdp": 24.7,
+      "gdp_trillion_yen": 530.5
+     },
+     {
+      "fiscal_year": 2003,
+      "national_tax": 11.9,
+      "local_tax": 8.6,
+      "tax_burden": 20.5,
+      "social_security_burden": 13.7,
+      "national_burden_ratio": 34.2,
+      "fiscal_deficit": 10.1,
+      "potential_national_burden_ratio": 44.3,
+      "national_income_trillion_yen": 379.9,
+      "national_burden_ratio_to_gdp": 24.4,
+      "gdp_trillion_yen": 532.4
+     },
+     {
+      "fiscal_year": 2004,
+      "national_tax": 12.5,
+      "local_tax": 8.7,
+      "tax_burden": 21.2,
+      "social_security_burden": 13.6,
+      "national_burden_ratio": 34.7,
+      "fiscal_deficit": 7.6,
+      "potential_national_burden_ratio": 42.3,
+      "national_income_trillion_yen": 385.6,
+      "national_burden_ratio_to_gdp": 25.1,
+      "gdp_trillion_yen": 534.6
+     },
+     {
+      "fiscal_year": 2005,
+      "national_tax": 13.6,
+      "local_tax": 9.1,
+      "tax_burden": 22.7,
+      "social_security_burden": 13.9,
+      "national_burden_ratio": 36.7,
+      "fiscal_deficit": 5.6,
+      "potential_national_burden_ratio": 42.3,
+      "national_income_trillion_yen": 383.6,
+      "national_burden_ratio_to_gdp": 26.1,
+      "gdp_trillion_yen": 538.9
+     },
+     {
+      "fiscal_year": 2006,
+      "national_tax": 13.8,
+      "local_tax": 9.3,
+      "tax_burden": 23.1,
+      "social_security_burden": 14.2,
+      "national_burden_ratio": 37.3,
+      "fiscal_deficit": 4.1,
+      "potential_national_burden_ratio": 41.4,
+      "national_income_trillion_yen": 391.6,
+      "national_burden_ratio_to_gdp": 26.9,
+      "gdp_trillion_yen": 542.8
+     },
+     {
+      "fiscal_year": 2007,
+      "national_tax": 13.4,
+      "local_tax": 10.3,
+      "tax_burden": 23.7,
+      "social_security_burden": 14.5,
+      "national_burden_ratio": 38.1,
+      "fiscal_deficit": 3.5,
+      "potential_national_burden_ratio": 41.6,
+      "national_income_trillion_yen": 392.7,
+      "national_burden_ratio_to_gdp": 27.5,
+      "gdp_trillion_yen": 543.8
+     },
+     {
+      "fiscal_year": 2008,
+      "national_tax": 12.7,
+      "local_tax": 11.0,
+      "tax_burden": 23.6,
+      "social_security_burden": 15.9,
+      "national_burden_ratio": 39.6,
+      "fiscal_deficit": 6.1,
+      "potential_national_burden_ratio": 45.7,
+      "national_income_trillion_yen": 361.1,
+      "national_burden_ratio_to_gdp": 27.4,
+      "gdp_trillion_yen": 522.5
+     },
+     {
+      "fiscal_year": 2009,
+      "national_tax": 11.5,
+      "local_tax": 10.1,
+      "tax_burden": 21.6,
+      "social_security_burden": 15.9,
+      "national_burden_ratio": 37.4,
+      "fiscal_deficit": 12.6,
+      "potential_national_burden_ratio": 50.0,
+      "national_income_trillion_yen": 349.7,
+      "national_burden_ratio_to_gdp": 26.1,
+      "gdp_trillion_yen": 500.8
+     },
+     {
+      "fiscal_year": 2010,
+      "national_tax": 12.1,
+      "local_tax": 9.5,
+      "tax_burden": 21.5,
+      "social_security_burden": 15.9,
+      "national_burden_ratio": 37.4,
+      "fiscal_deficit": 11.0,
+      "potential_national_burden_ratio": 48.4,
+      "national_income_trillion_yen": 362.2,
+      "national_burden_ratio_to_gdp": 26.6,
+      "gdp_trillion_yen": 509.2
+     },
+     {
+      "fiscal_year": 2011,
+      "national_tax": 12.7,
+      "local_tax": 9.6,
+      "tax_burden": 22.3,
+      "social_security_burden": 16.7,
+      "national_burden_ratio": 39.0,
+      "fiscal_deficit": 11.6,
+      "potential_national_burden_ratio": 50.6,
+      "national_income_trillion_yen": 355.6,
+      "national_burden_ratio_to_gdp": 27.5,
+      "gdp_trillion_yen": 504.2
+     },
+     {
+      "fiscal_year": 2012,
+      "national_tax": 13.2,
+      "local_tax": 9.6,
+      "tax_burden": 22.8,
+      "social_security_burden": 17.1,
+      "national_burden_ratio": 39.9,
+      "fiscal_deficit": 10.6,
+      "potential_national_burden_ratio": 50.5,
+      "national_income_trillion_yen": 357.4,
+      "national_burden_ratio_to_gdp": 28.3,
+      "gdp_trillion_yen": 504.5
+     },
+     {
+      "fiscal_year": 2013,
+      "national_tax": 13.7,
+      "local_tax": 9.5,
+      "tax_burden": 23.2,
+      "social_security_burden": 16.8,
+      "national_burden_ratio": 40.0,
+      "fiscal_deficit": 9.4,
+      "potential_national_burden_ratio": 49.4,
+      "national_income_trillion_yen": 372.9,
+      "national_burden_ratio_to_gdp": 28.7,
+      "gdp_trillion_yen": 519.2
+     },
+     {
+      "fiscal_year": 2014,
+      "national_tax": 15.3,
+      "local_tax": 9.7,
+      "tax_burden": 25.0,
+      "social_security_burden": 17.1,
+      "national_burden_ratio": 42.1,
+      "fiscal_deficit": 7.6,
+      "potential_national_burden_ratio": 49.7,
+      "national_income_trillion_yen": 379.1,
+      "national_burden_ratio_to_gdp": 29.9,
+      "gdp_trillion_yen": 533.7
+     },
+     {
+      "fiscal_year": 2015,
+      "national_tax": 15.1,
+      "local_tax": 9.9,
+      "tax_burden": 25.0,
+      "social_security_burden": 16.9,
+      "national_burden_ratio": 42.0,
+      "fiscal_deficit": 6.1,
+      "potential_national_burden_ratio": 48.1,
+      "national_income_trillion_yen": 395.9,
+      "national_burden_ratio_to_gdp": 30.1,
+      "gdp_trillion_yen": 551.9
+     },
+     {
+      "fiscal_year": 2016,
+      "national_tax": 14.9,
+      "local_tax": 10.0,
+      "tax_burden": 24.9,
+      "social_security_burden": 17.5,
+      "national_burden_ratio": 42.4,
+      "fiscal_deficit": 6.3,
+      "potential_national_burden_ratio": 48.7,
+      "national_income_trillion_yen": 394.9,
+      "national_burden_ratio_to_gdp": 30.1,
+      "gdp_trillion_yen": 556.3
+     },
+     {
+      "fiscal_year": 2017,
+      "national_tax": 15.5,
+      "local_tax": 9.9,
+      "tax_burden": 25.4,
+      "social_security_burden": 17.6,
+      "national_burden_ratio": 43.0,
+      "fiscal_deficit": 5.1,
+      "potential_national_burden_ratio": 48.0,
+      "national_income_trillion_yen": 403.1,
+      "national_burden_ratio_to_gdp": 30.5,
+      "gdp_trillion_yen": 567.7
+     },
+     {
+      "fiscal_year": 2018,
+      "national_tax": 15.7,
+      "local_tax": 10.0,
+      "tax_burden": 25.7,
+      "social_security_burden": 17.9,
+      "national_burden_ratio": 43.5,
+      "fiscal_deficit": 4.4,
+      "potential_national_burden_ratio": 47.9,
+      "national_income_trillion_yen": 408.6,
+      "national_burden_ratio_to_gdp": 31.2,
+      "gdp_trillion_yen": 569.9
+     },
+     {
+      "fiscal_year": 2019,
+      "national_tax": 15.4,
+      "local_tax": 10.2,
+      "tax_burden": 25.7,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 44.1,
+      "fiscal_deficit": 5.3,
+      "potential_national_burden_ratio": 49.5,
+      "national_income_trillion_yen": 402.8,
+      "national_burden_ratio_to_gdp": 31.1,
+      "gdp_trillion_yen": 570.6
+     },
+     {
+      "fiscal_year": 2020,
+      "national_tax": 17.1,
+      "local_tax": 10.8,
+      "tax_burden": 27.9,
+      "social_security_burden": 19.4,
+      "national_burden_ratio": 47.3,
+      "fiscal_deficit": 15.3,
+      "potential_national_burden_ratio": 62.6,
+      "national_income_trillion_yen": 379.1,
+      "national_burden_ratio_to_gdp": 32.4,
+      "gdp_trillion_yen": 554.3
+     },
+     {
+      "fiscal_year": 2021,
+      "national_tax": 17.8,
+      "local_tax": 10.5,
+      "tax_burden": 28.4,
+      "social_security_burden": 18.8,
+      "national_burden_ratio": 47.2,
+      "fiscal_deficit": 9.8,
+      "potential_national_burden_ratio": 57.0,
+      "national_income_trillion_yen": 403.1,
+      "national_burden_ratio_to_gdp": 33.0,
+      "gdp_trillion_yen": 576.6
+     },
+     {
+      "fiscal_year": 2022,
+      "national_tax": 18.2,
+      "local_tax": 10.5,
+      "tax_burden": 28.7,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 47.3,
+      "fiscal_deficit": 6.1,
+      "potential_national_burden_ratio": 53.4,
+      "national_income_trillion_yen": 419.1,
+      "national_burden_ratio_to_gdp": 33.5,
+      "gdp_trillion_yen": 591.7
+     },
+     {
+      "fiscal_year": 2023,
+      "national_tax": 17.5,
+      "local_tax": 10.1,
+      "tax_burden": 27.6,
+      "social_security_burden": 18.1,
+      "national_burden_ratio": 45.7,
+      "fiscal_deficit": 4.1,
+      "potential_national_burden_ratio": 49.8,
+      "national_income_trillion_yen": 441.4,
+      "national_burden_ratio_to_gdp": 32.6,
+      "gdp_trillion_yen": 619.4
+     },
+     {
+      "fiscal_year": 2024,
+      "national_tax": 17.9,
+      "local_tax": 10.2,
+      "tax_burden": 28.2,
+      "social_security_burden": 18.5,
+      "national_burden_ratio": 46.7,
+      "fiscal_deficit": 3.6,
+      "potential_national_burden_ratio": 50.3,
+      "national_income_trillion_yen": 452.0,
+      "national_burden_ratio_to_gdp": 32.9,
+      "gdp_trillion_yen": 642.4
+     },
+     {
+      "fiscal_year": 2025,
+      "national_tax": 18.2,
+      "local_tax": 10.1,
+      "tax_burden": 28.3,
+      "social_security_burden": 17.8,
+      "national_burden_ratio": 46.1,
+      "fiscal_deficit": 3.0,
+      "potential_national_burden_ratio": 49.1,
+      "national_income_trillion_yen": 477.6,
+      "national_burden_ratio_to_gdp": 32.9,
+      "gdp_trillion_yen": 669.2
+     },
+     {
+      "fiscal_year": 2026,
+      "national_tax": 18.1,
+      "local_tax": 9.9,
+      "tax_burden": 28.0,
+      "social_security_burden": 17.6,
+      "national_burden_ratio": 45.7,
+      "fiscal_deficit": 2.7,
+      "potential_national_burden_ratio": 48.4,
+      "national_income_trillion_yen": 496.1,
+      "national_burden_ratio_to_gdp": 32.7,
+      "gdp_trillion_yen": 691.9
+     }
+    ]
+   },
+   "definition": "国民負担率=租税負担率+社会保障負担率(対国民所得比)。潜在的国民負担率=国民負担率+財政赤字。租税は租税収入ベース。",
+   "confidence": "high",
+   "verified_via": "財務省PDFを開き、表を機械的に読み取り(2026年度45.7%で照合)。",
+   "notes": "2024年度実績46.7%(租税28.2+社会保障18.5)、2025年度見込み46.1%、2026年度見通し45.7%(租税28.0+社会保障17.6)、潜在48.4%、対GDP比32.7%。"
+  },
+  {
+   "key": "fies_worker_households_burden_by_income_class",
+   "title": "年間収入階級別の税・社会保険料負担(二人以上の世帯のうち勤労者世帯)",
+   "year": "2025年平均",
+   "source_name": "総務省統計局「家計調査(家計収支編)」2025年 二人以上の世帯 第2-3表 年間収入階級別1世帯当たり1か月間の収入と支出(全国・勤労者世帯)",
+   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409526&fileKind=4",
+   "unit": "円/月(1世帯当たり)。年間収入は万円。負担率は実収入に対する比(小数)",
+   "data": {
+    "rows": [
+     {
+      "income_class": "平均",
+      "household_share_per_10000": 10000,
+      "sample_households": 3913,
+      "household_size": 3.2,
+      "earners": 1.81,
+      "head_age": 51,
+      "annual_income_man_yen": 813,
+      "income_monthly": 653901,
+      "head_income_monthly": 470986,
+      "non_consumption_monthly": 121493,
+      "direct_tax_monthly": 51983,
+      "earned_income_tax_monthly": 23602,
+      "resident_tax_monthly": 20904,
+      "other_tax_monthly": 7476,
+      "social_insurance_monthly": 69432,
+      "pension_premium_monthly": 40566,
+      "health_premium_monthly": 22644,
+      "care_premium_monthly": 3908,
+      "other_social_insurance_monthly": 2314,
+      "disposable_income_monthly": 532408,
+      "consumption_monthly": 346297,
+      "burden_rate_non_consumption": 0.1858,
+      "burden_rate_direct_tax": 0.0795,
+      "burden_rate_social_insurance": 0.1062
+     },
+     {
+      "income_class": "200万円未満",
+      "household_share_per_10000": 70,
+      "sample_households": 29,
+      "household_size": 2.5,
+      "earners": 1.25,
+      "head_age": 57.2,
+      "annual_income_man_yen": 150,
+      "income_monthly": 171613,
+      "head_income_monthly": 104851,
+      "non_consumption_monthly": 15116,
+      "direct_tax_monthly": 3777,
+      "earned_income_tax_monthly": 579,
+      "resident_tax_monthly": 965,
+      "other_tax_monthly": 2233,
+      "social_insurance_monthly": 11339,
+      "pension_premium_monthly": 4455,
+      "health_premium_monthly": 4802,
+      "care_premium_monthly": 1795,
+      "other_social_insurance_monthly": 287,
+      "disposable_income_monthly": 156497,
+      "consumption_monthly": 181933,
+      "burden_rate_non_consumption": 0.0881,
+      "burden_rate_direct_tax": 0.022,
+      "burden_rate_social_insurance": 0.0661
+     },
+     {
+      "income_class": "200〜250",
+      "household_share_per_10000": 137,
+      "sample_households": 54,
+      "household_size": 2.53,
+      "earners": 1.44,
+      "head_age": 54.8,
+      "annual_income_man_yen": 223,
+      "income_monthly": 236002,
+      "head_income_monthly": 157538,
+      "non_consumption_monthly": 24265,
+      "direct_tax_monthly": 6379,
+      "earned_income_tax_monthly": 1285,
+      "resident_tax_monthly": 2349,
+      "other_tax_monthly": 2745,
+      "social_insurance_monthly": 17867,
+      "pension_premium_monthly": 8619,
+      "health_premium_monthly": 6569,
+      "care_premium_monthly": 2173,
+      "other_social_insurance_monthly": 507,
+      "disposable_income_monthly": 211738,
+      "consumption_monthly": 193935,
+      "burden_rate_non_consumption": 0.1028,
+      "burden_rate_direct_tax": 0.027,
+      "burden_rate_social_insurance": 0.0757
+     },
+     {
+      "income_class": "250〜300",
+      "household_share_per_10000": 141,
+      "sample_households": 58,
+      "household_size": 2.62,
+      "earners": 1.4,
+      "head_age": 57.5,
+      "annual_income_man_yen": 274,
+      "income_monthly": 334050,
+      "head_income_monthly": 212546,
+      "non_consumption_monthly": 43866,
+      "direct_tax_monthly": 15757,
+      "earned_income_tax_monthly": 7125,
+      "resident_tax_monthly": 5173,
+      "other_tax_monthly": 3459,
+      "social_insurance_monthly": 28066,
+      "pension_premium_monthly": 13571,
+      "health_premium_monthly": 10124,
+      "care_premium_monthly": 3507,
+      "other_social_insurance_monthly": 864,
+      "disposable_income_monthly": 290184,
+      "consumption_monthly": 223256,
+      "burden_rate_non_consumption": 0.1313,
+      "burden_rate_direct_tax": 0.0472,
+      "burden_rate_social_insurance": 0.084
+     },
+     {
+      "income_class": "300〜350",
+      "household_share_per_10000": 188,
+      "sample_households": 89,
+      "household_size": 2.7,
+      "earners": 1.55,
+      "head_age": 55.7,
+      "annual_income_man_yen": 324,
+      "income_monthly": 314315,
+      "head_income_monthly": 207604,
+      "non_consumption_monthly": 35551,
+      "direct_tax_monthly": 9329,
+      "earned_income_tax_monthly": 1984,
+      "resident_tax_monthly": 3608,
+      "other_tax_monthly": 3737,
+      "social_insurance_monthly": 26175,
+      "pension_premium_monthly": 13714,
+      "health_premium_monthly": 9480,
+      "care_premium_monthly": 2174,
+      "other_social_insurance_monthly": 807,
+      "disposable_income_monthly": 278764,
+      "consumption_monthly": 237375,
+      "burden_rate_non_consumption": 0.1131,
+      "burden_rate_direct_tax": 0.0297,
+      "burden_rate_social_insurance": 0.0833
+     },
+     {
+      "income_class": "350〜400",
+      "household_share_per_10000": 278,
+      "sample_households": 122,
+      "household_size": 2.72,
+      "earners": 1.54,
+      "head_age": 53.4,
+      "annual_income_man_yen": 375,
+      "income_monthly": 345709,
+      "head_income_monthly": 253212,
+      "non_consumption_monthly": 45160,
+      "direct_tax_monthly": 12174,
+      "earned_income_tax_monthly": 3130,
+      "resident_tax_monthly": 5036,
+      "other_tax_monthly": 4008,
+      "social_insurance_monthly": 32905,
+      "pension_premium_monthly": 17912,
+      "health_premium_monthly": 11526,
+      "care_premium_monthly": 2393,
+      "other_social_insurance_monthly": 1074,
+      "disposable_income_monthly": 300549,
+      "consumption_monthly": 244388,
+      "burden_rate_non_consumption": 0.1306,
+      "burden_rate_direct_tax": 0.0352,
+      "burden_rate_social_insurance": 0.0952
+     },
+     {
+      "income_class": "400〜450",
+      "household_share_per_10000": 368,
+      "sample_households": 155,
+      "household_size": 2.97,
+      "earners": 1.61,
+      "head_age": 54.4,
+      "annual_income_man_yen": 424,
+      "income_monthly": 393629,
+      "head_income_monthly": 275600,
+      "non_consumption_monthly": 53852,
+      "direct_tax_monthly": 16501,
+      "earned_income_tax_monthly": 4585,
+      "resident_tax_monthly": 6864,
+      "other_tax_monthly": 5052,
+      "social_insurance_monthly": 37315,
+      "pension_premium_monthly": 20209,
+      "health_premium_monthly": 13051,
+      "care_premium_monthly": 2850,
+      "other_social_insurance_monthly": 1205,
+      "disposable_income_monthly": 339777,
+      "consumption_monthly": 250945,
+      "burden_rate_non_consumption": 0.1368,
+      "burden_rate_direct_tax": 0.0419,
+      "burden_rate_social_insurance": 0.0948
+     },
+     {
+      "income_class": "450〜500",
+      "household_share_per_10000": 509,
+      "sample_households": 197,
+      "household_size": 2.95,
+      "earners": 1.7,
+      "head_age": 54.1,
+      "annual_income_man_yen": 474,
+      "income_monthly": 400684,
+      "head_income_monthly": 271752,
+      "non_consumption_monthly": 51944,
+      "direct_tax_monthly": 16689,
+      "earned_income_tax_monthly": 4609,
+      "resident_tax_monthly": 7118,
+      "other_tax_monthly": 4963,
+      "social_insurance_monthly": 35225,
+      "pension_premium_monthly": 19176,
+      "health_premium_monthly": 12234,
+      "care_premium_monthly": 2673,
+      "other_social_insurance_monthly": 1142,
+      "disposable_income_monthly": 348740,
+      "consumption_monthly": 265146,
+      "burden_rate_non_consumption": 0.1296,
+      "burden_rate_direct_tax": 0.0417,
+      "burden_rate_social_insurance": 0.0879
+     },
+     {
+      "income_class": "500〜550",
+      "household_share_per_10000": 594,
+      "sample_households": 249,
+      "household_size": 2.96,
+      "earners": 1.61,
+      "head_age": 51.3,
+      "annual_income_man_yen": 521,
+      "income_monthly": 435129,
+      "head_income_monthly": 316918,
+      "non_consumption_monthly": 64822,
+      "direct_tax_monthly": 21435,
+      "earned_income_tax_monthly": 6717,
+      "resident_tax_monthly": 9364,
+      "other_tax_monthly": 5354,
+      "social_insurance_monthly": 43362,
+      "pension_premium_monthly": 23977,
+      "health_premium_monthly": 15233,
+      "care_premium_monthly": 2744,
+      "other_social_insurance_monthly": 1407,
+      "disposable_income_monthly": 370307,
+      "consumption_monthly": 267694,
+      "burden_rate_non_consumption": 0.149,
+      "burden_rate_direct_tax": 0.0493,
+      "burden_rate_social_insurance": 0.0997
+     },
+     {
+      "income_class": "550〜600",
+      "household_share_per_10000": 645,
+      "sample_households": 260,
+      "household_size": 3.1,
+      "earners": 1.77,
+      "head_age": 51.4,
+      "annual_income_man_yen": 573,
+      "income_monthly": 476113,
+      "head_income_monthly": 341473,
+      "non_consumption_monthly": 74706,
+      "direct_tax_monthly": 25241,
+      "earned_income_tax_monthly": 7738,
+      "resident_tax_monthly": 10797,
+      "other_tax_monthly": 6705,
+      "social_insurance_monthly": 49370,
+      "pension_premium_monthly": 28634,
+      "health_premium_monthly": 15827,
+      "care_premium_monthly": 3219,
+      "other_social_insurance_monthly": 1690,
+      "disposable_income_monthly": 401408,
+      "consumption_monthly": 290605,
+      "burden_rate_non_consumption": 0.1569,
+      "burden_rate_direct_tax": 0.053,
+      "burden_rate_social_insurance": 0.1037
+     },
+     {
+      "income_class": "600〜650",
+      "household_share_per_10000": 665,
+      "sample_households": 268,
+      "household_size": 3.14,
+      "earners": 1.79,
+      "head_age": 50.9,
+      "annual_income_man_yen": 623,
+      "income_monthly": 510551,
+      "head_income_monthly": 373233,
+      "non_consumption_monthly": 76324,
+      "direct_tax_monthly": 26585,
+      "earned_income_tax_monthly": 8737,
+      "resident_tax_monthly": 11347,
+      "other_tax_monthly": 6502,
+      "social_insurance_monthly": 49696,
+      "pension_premium_monthly": 28954,
+      "health_premium_monthly": 15955,
+      "care_premium_monthly": 3055,
+      "other_social_insurance_monthly": 1732,
+      "disposable_income_monthly": 434227,
+      "consumption_monthly": 292882,
+      "burden_rate_non_consumption": 0.1495,
+      "burden_rate_direct_tax": 0.0521,
+      "burden_rate_social_insurance": 0.0973
+     },
+     {
+      "income_class": "650〜700",
+      "household_share_per_10000": 678,
+      "sample_households": 275,
+      "household_size": 3.2,
+      "earners": 1.7,
+      "head_age": 49.9,
+      "annual_income_man_yen": 673,
+      "income_monthly": 534803,
+      "head_income_monthly": 399664,
+      "non_consumption_monthly": 86182,
+      "direct_tax_monthly": 31171,
+      "earned_income_tax_monthly": 10941,
+      "resident_tax_monthly": 13663,
+      "other_tax_monthly": 6568,
+      "social_insurance_monthly": 54994,
+      "pension_premium_monthly": 31902,
+      "health_premium_monthly": 18160,
+      "care_premium_monthly": 3137,
+      "other_social_insurance_monthly": 1796,
+      "disposable_income_monthly": 448621,
+      "consumption_monthly": 302707,
+      "burden_rate_non_consumption": 0.1611,
+      "burden_rate_direct_tax": 0.0583,
+      "burden_rate_social_insurance": 0.1028
+     },
+     {
+      "income_class": "700〜750",
+      "household_share_per_10000": 746,
+      "sample_households": 287,
+      "household_size": 3.29,
+      "earners": 1.81,
+      "head_age": 50.2,
+      "annual_income_man_yen": 723,
+      "income_monthly": 564114,
+      "head_income_monthly": 419264,
+      "non_consumption_monthly": 93892,
+      "direct_tax_monthly": 34027,
+      "earned_income_tax_monthly": 11720,
+      "resident_tax_monthly": 15865,
+      "other_tax_monthly": 6442,
+      "social_insurance_monthly": 59785,
+      "pension_premium_monthly": 34926,
+      "health_premium_monthly": 19572,
+      "care_premium_monthly": 3306,
+      "other_social_insurance_monthly": 1980,
+      "disposable_income_monthly": 470221,
+      "consumption_monthly": 322178,
+      "burden_rate_non_consumption": 0.1664,
+      "burden_rate_direct_tax": 0.0603,
+      "burden_rate_social_insurance": 0.106
+     },
+     {
+      "income_class": "750〜800",
+      "household_share_per_10000": 596,
+      "sample_households": 246,
+      "household_size": 3.3,
+      "earners": 1.77,
+      "head_age": 49.5,
+      "annual_income_man_yen": 771,
+      "income_monthly": 609451,
+      "head_income_monthly": 449112,
+      "non_consumption_monthly": 107556,
+      "direct_tax_monthly": 42754,
+      "earned_income_tax_monthly": 17389,
+      "resident_tax_monthly": 17442,
+      "other_tax_monthly": 7923,
+      "social_insurance_monthly": 64720,
+      "pension_premium_monthly": 37872,
+      "health_premium_monthly": 21623,
+      "care_premium_monthly": 3210,
+      "other_social_insurance_monthly": 2015,
+      "disposable_income_monthly": 501895,
+      "consumption_monthly": 318995,
+      "burden_rate_non_consumption": 0.1765,
+      "burden_rate_direct_tax": 0.0702,
+      "burden_rate_social_insurance": 0.1062
+     },
+     {
+      "income_class": "800〜900",
+      "household_share_per_10000": 1174,
+      "sample_households": 461,
+      "household_size": 3.29,
+      "earners": 1.91,
+      "head_age": 50.2,
+      "annual_income_man_yen": 845,
+      "income_monthly": 671309,
+      "head_income_monthly": 493398,
+      "non_consumption_monthly": 121110,
+      "direct_tax_monthly": 46975,
+      "earned_income_tax_monthly": 17975,
+      "resident_tax_monthly": 20943,
+      "other_tax_monthly": 8056,
+      "social_insurance_monthly": 74106,
+      "pension_premium_monthly": 44198,
+      "health_premium_monthly": 23798,
+      "care_premium_monthly": 3727,
+      "other_social_insurance_monthly": 2383,
+      "disposable_income_monthly": 550199,
+      "consumption_monthly": 351913,
+      "burden_rate_non_consumption": 0.1804,
+      "burden_rate_direct_tax": 0.07,
+      "burden_rate_social_insurance": 0.1104
+     },
+     {
+      "income_class": "900〜1,000",
+      "household_share_per_10000": 851,
+      "sample_households": 319,
+      "household_size": 3.42,
+      "earners": 1.94,
+      "head_age": 49.6,
+      "annual_income_man_yen": 942,
+      "income_monthly": 731721,
+      "head_income_monthly": 533620,
+      "non_consumption_monthly": 137955,
+      "direct_tax_monthly": 55742,
+      "earned_income_tax_monthly": 23997,
+      "resident_tax_monthly": 24212,
+      "other_tax_monthly": 7534,
+      "social_insurance_monthly": 82149,
+      "pension_premium_monthly": 48728,
+      "health_premium_monthly": 26433,
+      "care_premium_monthly": 4262,
+      "other_social_insurance_monthly": 2725,
+      "disposable_income_monthly": 593766,
+      "consumption_monthly": 368518,
+      "burden_rate_non_consumption": 0.1885,
+      "burden_rate_direct_tax": 0.0762,
+      "burden_rate_social_insurance": 0.1123
+     },
+     {
+      "income_class": "1,000〜1,250",
+      "household_share_per_10000": 1236,
+      "sample_households": 471,
+      "household_size": 3.36,
+      "earners": 1.99,
+      "head_age": 50.4,
+      "annual_income_man_yen": 1098,
+      "income_monthly": 886834,
+      "head_income_monthly": 633284,
+      "non_consumption_monthly": 180439,
+      "direct_tax_monthly": 77693,
+      "earned_income_tax_monthly": 35595,
+      "resident_tax_monthly": 32641,
+      "other_tax_monthly": 9456,
+      "social_insurance_monthly": 102462,
+      "pension_premium_monthly": 61410,
+      "health_premium_monthly": 32440,
+      "care_premium_monthly": 5243,
+      "other_social_insurance_monthly": 3369,
+      "disposable_income_monthly": 706395,
+      "consumption_monthly": 444255,
+      "burden_rate_non_consumption": 0.2035,
+      "burden_rate_direct_tax": 0.0876,
+      "burden_rate_social_insurance": 0.1155
+     },
+     {
+      "income_class": "1,250〜1,500",
+      "household_share_per_10000": 609,
+      "sample_households": 206,
+      "household_size": 3.38,
+      "earners": 2.01,
+      "head_age": 49.9,
+      "annual_income_man_yen": 1347,
+      "income_monthly": 1050986,
+      "head_income_monthly": 714509,
+      "non_consumption_monthly": 222478,
+      "direct_tax_monthly": 105319,
+      "earned_income_tax_monthly": 52578,
+      "resident_tax_monthly": 41601,
+      "other_tax_monthly": 11140,
+      "social_insurance_monthly": 117115,
+      "pension_premium_monthly": 70652,
+      "health_premium_monthly": 36818,
+      "care_premium_monthly": 5804,
+      "other_social_insurance_monthly": 3840,
+      "disposable_income_monthly": 828507,
+      "consumption_monthly": 466906,
+      "burden_rate_non_consumption": 0.2117,
+      "burden_rate_direct_tax": 0.1002,
+      "burden_rate_social_insurance": 0.1114
+     },
+     {
+      "income_class": "1,500万円以上",
+      "household_share_per_10000": 513,
+      "sample_households": 169,
+      "household_size": 3.51,
+      "earners": 1.97,
+      "head_age": 50.4,
+      "annual_income_man_yen": 1883,
+      "income_monthly": 1431420,
+      "head_income_monthly": 1041779,
+      "non_consumption_monthly": 367062,
+      "direct_tax_monthly": 222184,
+      "earned_income_tax_monthly": 135491,
+      "resident_tax_monthly": 72155,
+      "other_tax_monthly": 14538,
+      "social_insurance_monthly": 144826,
+      "pension_premium_monthly": 82534,
+      "health_premium_monthly": 48282,
+      "care_premium_monthly": 8496,
+      "other_social_insurance_monthly": 5515,
+      "disposable_income_monthly": 1064358,
+      "consumption_monthly": 612334,
+      "burden_rate_non_consumption": 0.2564,
+      "burden_rate_direct_tax": 0.1552,
+      "burden_rate_social_insurance": 0.1012
+     }
+    ]
+   },
+   "definition": "非消費支出=直接税(勤労所得税・個人住民税・他の税)+社会保険料+他の非消費支出。負担率=各項目÷実収入(月額)で算出(導出値)。階級は世帯の年間収入(過去1年間、税込み)。",
+   "confidence": "high",
+   "verified_via": "e-StatからExcelをダウンロードし「勤労・全国」シートを機械的に読み取り(平均の実収入653,901円・非消費支出121,493円で照合)。",
+   "notes": "世帯単位(平均有業人員1.81人)で個人の年収階級ではない。消費税など間接税は含まない。低収入階級は集計世帯数が少ない(200万円未満29世帯)。単身世帯は含まない。平均の負担率=18.6%(直接税7.9%、社会保険料10.6%)。"
+  },
+  {
+   "key": "income_redistribution_gini",
+   "title": "所得再分配調査:ジニ係数(当初所得と再分配所得)",
+   "year": "令和5年調査(2023年、所得は2022年)",
+   "source_name": "厚生労働省「令和5年所得再分配調査 報告書」(令和7年12月23日公表)",
+   "source_url": "https://www.mhlw.go.jp/content/12605000/R05hou.pdf",
+   "unit": "ジニ係数(0〜1)、改善度は%",
+   "data": {
+    "household_basis": [
+     {
+      "survey_year": 1996,
+      "gini_initial": 0.4412,
+      "gini_after_social_security": 0.3798,
+      "gini_disposable": 0.366,
+      "gini_redistributed": 0.3606,
+      "improvement_total_pct": 18.3,
+      "improvement_social_security_pct": 15.2,
+      "improvement_tax_pct": 3.6
+     },
+     {
+      "survey_year": 1999,
+      "gini_initial": 0.472,
+      "gini_after_social_security": 0.4001,
+      "gini_disposable": 0.3884,
+      "gini_redistributed": 0.3814,
+      "improvement_total_pct": 19.2,
+      "improvement_social_security_pct": 16.8,
+      "improvement_tax_pct": 2.9
+     },
+     {
+      "survey_year": 2002,
+      "gini_initial": 0.4983,
+      "gini_after_social_security": 0.3989,
+      "gini_disposable": 0.3854,
+      "gini_redistributed": 0.3812,
+      "improvement_total_pct": 23.5,
+      "improvement_social_security_pct": 20.8,
+      "improvement_tax_pct": 3.4
+     },
+     {
+      "survey_year": 2005,
+      "gini_initial": 0.5263,
+      "gini_after_social_security": 0.4059,
+      "gini_disposable": 0.393,
+      "gini_redistributed": 0.3873,
+      "improvement_total_pct": 26.4,
+      "improvement_social_security_pct": 24.0,
+      "improvement_tax_pct": 3.2
+     },
+     {
+      "survey_year": 2008,
+      "gini_initial": 0.5318,
+      "gini_after_social_security": 0.4023,
+      "gini_disposable": 0.3873,
+      "gini_redistributed": 0.3758,
+      "improvement_total_pct": 29.3,
+      "improvement_social_security_pct": 26.6,
+      "improvement_tax_pct": 3.7
+     },
+     {
+      "survey_year": 2011,
+      "gini_initial": 0.5536,
+      "gini_after_social_security": 0.4067,
+      "gini_disposable": 0.3885,
+      "gini_redistributed": 0.3791,
+      "improvement_total_pct": 31.5,
+      "improvement_social_security_pct": 28.3,
+      "improvement_tax_pct": 4.5
+     },
+     {
+      "survey_year": 2014,
+      "gini_initial": 0.5704,
+      "gini_after_social_security": 0.4057,
+      "gini_disposable": 0.3873,
+      "gini_redistributed": 0.3759,
+      "improvement_total_pct": 34.1,
+      "improvement_social_security_pct": 31.0,
+      "improvement_tax_pct": 4.5
+     },
+     {
+      "survey_year": 2017,
+      "gini_initial": 0.5594,
+      "gini_after_social_security": 0.4017,
+      "gini_disposable": 0.3822,
+      "gini_redistributed": 0.3721,
+      "improvement_total_pct": 33.5,
+      "improvement_social_security_pct": 30.1,
+      "improvement_tax_pct": 4.8
+     },
+     {
+      "survey_year": 2021,
+      "gini_initial": 0.57,
+      "gini_after_social_security": 0.4083,
+      "gini_disposable": 0.389,
+      "gini_redistributed": 0.3813,
+      "improvement_total_pct": 33.1,
+      "improvement_social_security_pct": 29.8,
+      "improvement_tax_pct": 4.7
+     },
+     {
+      "survey_year": 2023,
+      "gini_initial": 0.5855,
+      "gini_after_social_security": 0.4097,
+      "gini_disposable": 0.3915,
+      "gini_redistributed": 0.3825,
+      "improvement_total_pct": 34.7,
+      "improvement_social_security_pct": 31.6,
+      "improvement_tax_pct": 4.4
+     }
+    ],
+    "equivalized_basis": [
+     {
+      "survey_year": 1996,
+      "gini_initial": 0.3764,
+      "gini_after_social_security": 0.3273,
+      "gini_disposable": 0.3119,
+      "gini_redistributed": 0.3096,
+      "improvement_total_pct": 17.7,
+      "improvement_social_security_pct": 13.7,
+      "improvement_tax_pct": 4.7
+     },
+     {
+      "survey_year": 1999,
+      "gini_initial": 0.4075,
+      "gini_after_social_security": 0.3501,
+      "gini_disposable": 0.3372,
+      "gini_redistributed": 0.3326,
+      "improvement_total_pct": 18.4,
+      "improvement_social_security_pct": 15.3,
+      "improvement_tax_pct": 3.7
+     },
+     {
+      "survey_year": 2002,
+      "gini_initial": 0.4194,
+      "gini_after_social_security": 0.3371,
+      "gini_disposable": 0.3227,
+      "gini_redistributed": 0.3217,
+      "improvement_total_pct": 23.3,
+      "improvement_social_security_pct": 19.9,
+      "improvement_tax_pct": 4.3
+     },
+     {
+      "survey_year": 2005,
+      "gini_initial": 0.4354,
+      "gini_after_social_security": 0.3355,
+      "gini_disposable": 0.3218,
+      "gini_redistributed": 0.3225,
+      "improvement_total_pct": 25.9,
+      "improvement_social_security_pct": 22.8,
+      "improvement_tax_pct": 4.1
+     },
+     {
+      "survey_year": 2008,
+      "gini_initial": 0.4539,
+      "gini_after_social_security": 0.3429,
+      "gini_disposable": 0.3268,
+      "gini_redistributed": 0.3192,
+      "improvement_total_pct": 29.7,
+      "improvement_social_security_pct": 26.2,
+      "improvement_tax_pct": 4.7
+     },
+     {
+      "survey_year": 2011,
+      "gini_initial": 0.4703,
+      "gini_after_social_security": 0.3418,
+      "gini_disposable": 0.3219,
+      "gini_redistributed": 0.3162,
+      "improvement_total_pct": 32.8,
+      "improvement_social_security_pct": 28.6,
+      "improvement_tax_pct": 5.8
+     },
+     {
+      "survey_year": 2014,
+      "gini_initial": 0.4822,
+      "gini_after_social_security": 0.3354,
+      "gini_disposable": 0.3159,
+      "gini_redistributed": 0.3083,
+      "improvement_total_pct": 36.1,
+      "improvement_social_security_pct": 32.1,
+      "improvement_tax_pct": 5.8
+     },
+     {
+      "survey_year": 2017,
+      "gini_initial": 0.4795,
+      "gini_after_social_security": 0.3398,
+      "gini_disposable": 0.3194,
+      "gini_redistributed": 0.3119,
+      "improvement_total_pct": 35.0,
+      "improvement_social_security_pct": 30.8,
+      "improvement_tax_pct": 6.0
+     },
+     {
+      "survey_year": 2021,
+      "gini_initial": 0.4911,
+      "gini_after_social_security": 0.3417,
+      "gini_disposable": 0.3207,
+      "gini_redistributed": 0.3144,
+      "improvement_total_pct": 36.0,
+      "improvement_social_security_pct": 31.8,
+      "improvement_tax_pct": 6.1
+     },
+     {
+      "survey_year": 2023,
+      "gini_initial": 0.5037,
+      "gini_after_social_security": 0.3421,
+      "gini_disposable": 0.3233,
+      "gini_redistributed": 0.3163,
+      "improvement_total_pct": 37.2,
+      "improvement_social_security_pct": 33.5,
+      "improvement_tax_pct": 5.5
+     }
+    ],
+    "latest_household": {
+     "survey_year": 2023,
+     "gini_initial": 0.5855,
+     "gini_after_social_security": 0.4097,
+     "gini_disposable": 0.3915,
+     "gini_redistributed": 0.3825,
+     "improvement_total_pct": 34.7,
+     "improvement_social_security_pct": 31.6,
+     "improvement_tax_pct": 4.4
+    },
+    "latest_equivalized": {
+     "survey_year": 2023,
+     "gini_initial": 0.5037,
+     "gini_after_social_security": 0.3421,
+     "gini_disposable": 0.3233,
+     "gini_redistributed": 0.3163,
+     "improvement_total_pct": 37.2,
+     "improvement_social_security_pct": 33.5,
+     "improvement_tax_pct": 5.5
+    }
+   },
+   "definition": "当初所得=雇用者所得・事業所得・財産所得・私的給付等(公的年金等の社会保障給付を含まない)。再分配所得=当初所得−税−社会保険料+社会保障給付(現金+医療・介護・保育の現物)。等価所得=世帯所得÷√世帯人員。改善度=1−再分配後/当初。",
+   "confidence": "high",
+   "verified_via": "厚労省の報告書PDFと報道発表PDFを開き、表2・表9を機械的に読み取り。",
+   "notes": "世帯単位:当初0.5855→再分配0.3825(改善度34.7%、うち社会保障31.6%、税4.4%)。等価:0.5037→0.3163(37.2%)。当初所得ジニの上昇は高齢化(年金のみ世帯の増加)の影響が大きい。"
+  },
+  {
+   "key": "income_redistribution_by_initial_income_class",
+   "title": "当初所得階級別の税・社会保険料の拠出と受給(世帯)",
+   "year": "令和5年調査(2023年)",
+   "source_name": "厚生労働省「令和5年所得再分配調査 報告書」表4",
+   "source_url": "https://www.mhlw.go.jp/content/12605000/R05hou.pdf",
+   "unit": "万円/年(1世帯当たり)、再分配係数は%",
+   "data": {
+    "rows": [
+     {
+      "initial_income_class_man_yen": "総数",
+      "initial_income": 384.8,
+      "redistributed_income": 467.7,
+      "redistribution_coefficient_pct": 21.6,
+      "tax": 48.2,
+      "social_insurance_premium": 52.9,
+      "benefits_received": 184.1
+     },
+     {
+      "initial_income_class_man_yen": "50万円未満",
+      "initial_income": 6.3,
+      "redistributed_income": 249.6,
+      "redistribution_coefficient_pct": 3848.6,
+      "tax": 8.4,
+      "social_insurance_premium": 11.7,
+      "benefits_received": 263.3
+     },
+     {
+      "initial_income_class_man_yen": "50～100",
+      "initial_income": 74.1,
+      "redistributed_income": 269.8,
+      "redistribution_coefficient_pct": 264.0,
+      "tax": 9.4,
+      "social_insurance_premium": 15.0,
+      "benefits_received": 220.1
+     },
+     {
+      "initial_income_class_man_yen": "100～150",
+      "initial_income": 120.1,
+      "redistributed_income": 309.7,
+      "redistribution_coefficient_pct": 157.9,
+      "tax": 14.2,
+      "social_insurance_premium": 19.7,
+      "benefits_received": 223.5
+     },
+     {
+      "initial_income_class_man_yen": "150～200",
+      "initial_income": 176.1,
+      "redistributed_income": 348.5,
+      "redistribution_coefficient_pct": 97.9,
+      "tax": 16.4,
+      "social_insurance_premium": 30.4,
+      "benefits_received": 219.2
+     },
+     {
+      "initial_income_class_man_yen": "200～250",
+      "initial_income": 222.6,
+      "redistributed_income": 366.4,
+      "redistribution_coefficient_pct": 64.6,
+      "tax": 25.7,
+      "social_insurance_premium": 29.7,
+      "benefits_received": 199.2
+     },
+     {
+      "initial_income_class_man_yen": "250～300",
+      "initial_income": 272.0,
+      "redistributed_income": 362.5,
+      "redistribution_coefficient_pct": 33.3,
+      "tax": 26.2,
+      "social_insurance_premium": 39.3,
+      "benefits_received": 156.0
+     },
+     {
+      "initial_income_class_man_yen": "300～350",
+      "initial_income": 323.3,
+      "redistributed_income": 383.4,
+      "redistribution_coefficient_pct": 18.6,
+      "tax": 26.6,
+      "social_insurance_premium": 42.7,
+      "benefits_received": 129.5
+     },
+     {
+      "initial_income_class_man_yen": "350～400",
+      "initial_income": 373.0,
+      "redistributed_income": 418.7,
+      "redistribution_coefficient_pct": 12.3,
+      "tax": 30.7,
+      "social_insurance_premium": 49.3,
+      "benefits_received": 125.8
+     },
+     {
+      "initial_income_class_man_yen": "400～450",
+      "initial_income": 421.6,
+      "redistributed_income": 429.8,
+      "redistribution_coefficient_pct": 1.9,
+      "tax": 36.8,
+      "social_insurance_premium": 58.0,
+      "benefits_received": 103.0
+     },
+     {
+      "initial_income_class_man_yen": "450～500",
+      "initial_income": 471.9,
+      "redistributed_income": 522.1,
+      "redistribution_coefficient_pct": 10.6,
+      "tax": 38.8,
+      "social_insurance_premium": 68.8,
+      "benefits_received": 157.8
+     },
+     {
+      "initial_income_class_man_yen": "500～550",
+      "initial_income": 522.2,
+      "redistributed_income": 533.8,
+      "redistribution_coefficient_pct": 2.2,
+      "tax": 44.5,
+      "social_insurance_premium": 69.3,
+      "benefits_received": 125.3
+     },
+     {
+      "initial_income_class_man_yen": "550～600",
+      "initial_income": 573.3,
+      "redistributed_income": 563.1,
+      "redistribution_coefficient_pct": -1.8,
+      "tax": 59.6,
+      "social_insurance_premium": 77.7,
+      "benefits_received": 127.1
+     },
+     {
+      "initial_income_class_man_yen": "600～650",
+      "initial_income": 621.1,
+      "redistributed_income": 571.8,
+      "redistribution_coefficient_pct": -7.9,
+      "tax": 64.9,
+      "social_insurance_premium": 87.7,
+      "benefits_received": 103.3
+     },
+     {
+      "initial_income_class_man_yen": "650～700",
+      "initial_income": 675.6,
+      "redistributed_income": 649.0,
+      "redistribution_coefficient_pct": -3.9,
+      "tax": 62.6,
+      "social_insurance_premium": 89.5,
+      "benefits_received": 125.6
+     },
+     {
+      "initial_income_class_man_yen": "700～750",
+      "initial_income": 724.7,
+      "redistributed_income": 638.6,
+      "redistribution_coefficient_pct": -11.9,
+      "tax": 75.9,
+      "social_insurance_premium": 99.5,
+      "benefits_received": 89.3
+     },
+     {
+      "initial_income_class_man_yen": "750～800",
+      "initial_income": 775.0,
+      "redistributed_income": 704.9,
+      "redistribution_coefficient_pct": -9.0,
+      "tax": 77.8,
+      "social_insurance_premium": 104.4,
+      "benefits_received": 112.1
+     },
+     {
+      "initial_income_class_man_yen": "800～850",
+      "initial_income": 825.7,
+      "redistributed_income": 717.2,
+      "redistribution_coefficient_pct": -13.1,
+      "tax": 86.4,
+      "social_insurance_premium": 122.2,
+      "benefits_received": 100.1
+     },
+     {
+      "initial_income_class_man_yen": "850～900",
+      "initial_income": 875.2,
+      "redistributed_income": 742.8,
+      "redistribution_coefficient_pct": -15.1,
+      "tax": 84.3,
+      "social_insurance_premium": 112.1,
+      "benefits_received": 63.9
+     },
+     {
+      "initial_income_class_man_yen": "900～950",
+      "initial_income": 921.0,
+      "redistributed_income": 806.2,
+      "redistribution_coefficient_pct": -12.5,
+      "tax": 87.1,
+      "social_insurance_premium": 115.5,
+      "benefits_received": 87.8
+     },
+     {
+      "initial_income_class_man_yen": "950～1,000",
+      "initial_income": 975.7,
+      "redistributed_income": 810.3,
+      "redistribution_coefficient_pct": -16.9,
+      "tax": 133.9,
+      "social_insurance_premium": 121.9,
+      "benefits_received": 90.5
+     },
+     {
+      "initial_income_class_man_yen": "1,000万円以上",
+      "initial_income": 1425.4,
+      "redistributed_income": 1169.4,
+      "redistribution_coefficient_pct": -18.0,
+      "tax": 223.3,
+      "social_insurance_premium": 159.2,
+      "benefits_received": 126.6
+     }
+    ]
+   },
+   "definition": "再分配係数=(再分配所得−当初所得)/当初所得。拠出=税金+社会保険料、受給=社会保障給付(現金+現物)。階級は世帯の当初所得(万円)。",
+   "confidence": "high",
+   "verified_via": "厚労省PDFを開き、表4を機械的に読み取り(22行)。",
+   "notes": "全世帯(高齢・無職を含む、平均世帯人員2.09人)。総数:当初384.8→再分配467.7万円、税48.2、社会保険料52.9、受給184.1。集計世帯数3,003で階級ごとの標本は小さい。"
+  },
+  {
+   "key": "relative_poverty_rate",
+   "title": "相対的貧困率・子どもの貧困率",
+   "year": "2024年(令和7年国民生活基礎調査)",
+   "source_name": "厚生労働省「2025(令和7)年 国民生活基礎調査の概況」II 各種世帯の所得等の状況 6 貧困率の状況",
+   "source_url": "https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa25/dl/03.pdf",
+   "unit": "%(中央値・貧困線は万円)",
+   "data": {
+    "series": [
+     {
+      "year": 2012,
+      "relative_poverty": 16.1,
+      "child_poverty": 16.3,
+      "basis": "旧基準"
+     },
+     {
+      "year": 2015,
+      "relative_poverty": 15.7,
+      "child_poverty": 13.9,
+      "basis": "旧基準"
+     },
+     {
+      "year": 2018,
+      "relative_poverty": 15.4,
+      "child_poverty": 13.5,
+      "basis": "旧基準"
+     },
+     {
+      "year": 2018,
+      "relative_poverty": 15.7,
+      "child_poverty": 14.0,
+      "basis": "新基準"
+     },
+     {
+      "year": 2021,
+      "relative_poverty": 15.4,
+      "child_poverty": 11.5,
+      "basis": "新基準"
+     },
+     {
+      "year": 2024,
+      "relative_poverty": 15.0,
+      "child_poverty": 11.0,
+      "basis": "新基準"
+     }
+    ],
+    "2024": {
+     "relative_poverty": 15.0,
+     "child_poverty": 11.0,
+     "households_with_children_working_age": 9.0,
+     "one_adult": 44.7,
+     "two_or_more_adults": 6.7,
+     "median_equivalized_disposable_income_man_yen": 277,
+     "poverty_line_man_yen": 138
+    },
+    "2021": {
+     "median_man_yen": 254,
+     "poverty_line_man_yen": 127,
+     "one_adult": 44.5,
+     "two_or_more_adults": 8.6
+    }
+   },
+   "definition": "貧困線=等価可処分所得の中央値の半分。相対的貧困率=貧困線に満たない世帯員の割合(OECD基準)。子ども=17歳以下。",
+   "confidence": "high",
+   "verified_via": "厚労省PDFを開いて表11を確認。",
+   "notes": "3年ごとの大規模調査年のみ算出。"
+  },
+  {
+   "key": "turnout_by_age",
+   "title": "国政選挙の年代別投票率(抽出調査)",
+   "year": "衆院2014〜2026年、参院2013〜2025年",
+   "source_name": "総務省「国政選挙における年代別投票率について」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/news/sonota/nendaibetu/",
+   "unit": "%",
+   "data": {
+    "house_of_representatives": [
+     {
+      "election": "2014-12 第47回",
+      "turnout_pct": {
+       "10歳代": null,
+       "20歳代": 32.58,
+       "30歳代": 42.09,
+       "40歳代": 49.98,
+       "50歳代": 60.07,
+       "60歳代": 68.28,
+       "70歳代以上": 59.46,
+       "全体": 52.66
+      }
+     },
+     {
+      "election": "2017-10 第48回",
+      "turnout_pct": {
+       "10歳代": 40.49,
+       "20歳代": 33.85,
+       "30歳代": 44.75,
+       "40歳代": 53.52,
+       "50歳代": 63.32,
+       "60歳代": 72.04,
+       "70歳代以上": 60.94,
+       "全体": 53.68
+      }
+     },
+     {
+      "election": "2021-10 第49回",
+      "turnout_pct": {
+       "10歳代": 43.23,
+       "20歳代": 36.5,
+       "30歳代": 47.13,
+       "40歳代": 55.56,
+       "50歳代": 62.96,
+       "60歳代": 71.38,
+       "70歳代以上": 61.9,
+       "全体": 55.93
+      }
+     },
+     {
+      "election": "2024-10 第50回",
+      "turnout_pct": {
+       "10歳代": 39.43,
+       "20歳代": 34.62,
+       "30歳代": 45.66,
+       "40歳代": 52.66,
+       "50歳代": 59.16,
+       "60歳代": 68.02,
+       "70歳代以上": 60.42,
+       "全体": 53.85
+      }
+     },
+     {
+      "election": "2026-02 第51回",
+      "turnout_pct": {
+       "10歳代": 43.45,
+       "20歳代": 39.01,
+       "30歳代": 50.89,
+       "40歳代": 56.16,
+       "50歳代": 61.9,
+       "60歳代": 70.24,
+       "70歳代以上": 59.33,
+       "全体": 56.26
+      }
+     }
+    ],
+    "house_of_councillors": [
+     {
+      "election": "2013-07 第23回",
+      "turnout_pct": {
+       "10歳代": null,
+       "20歳代": 33.37,
+       "30歳代": 43.78,
+       "40歳代": 51.66,
+       "50歳代": 61.77,
+       "60歳代": 67.56,
+       "70歳代以上": 58.54,
+       "全体": 52.61
+      }
+     },
+     {
+      "election": "2016-07 第24回",
+      "turnout_pct": {
+       "10歳代": 46.78,
+       "20歳代": 35.6,
+       "30歳代": 44.24,
+       "40歳代": 52.64,
+       "50歳代": 63.25,
+       "60歳代": 70.07,
+       "70歳代以上": 60.98,
+       "全体": 54.7
+      }
+     },
+     {
+      "election": "2019-07 第25回",
+      "turnout_pct": {
+       "10歳代": 32.28,
+       "20歳代": 30.96,
+       "30歳代": 38.78,
+       "40歳代": 45.99,
+       "50歳代": 55.43,
+       "60歳代": 63.58,
+       "70歳代以上": 56.31,
+       "全体": 48.8
+      }
+     },
+     {
+      "election": "2022-07 第26回",
+      "turnout_pct": {
+       "10歳代": 35.42,
+       "20歳代": 33.99,
+       "30歳代": 44.8,
+       "40歳代": 50.76,
+       "50歳代": 57.33,
+       "60歳代": 65.69,
+       "70歳代以上": 55.72,
+       "全体": 52.05
+      }
+     },
+     {
+      "election": "2025-07 第27回",
+      "turnout_pct": {
+       "10歳代": 45.29,
+       "20歳代": 47.3,
+       "30歳代": 56.52,
+       "40歳代": 58.44,
+       "50歳代": 62.87,
+       "60歳代": 68.82,
+       "70歳代以上": 58.19,
+       "全体": 58.51
+      }
+     }
+    ],
+    "pdf_urls": [
+     "https://www.soumu.go.jp/main_content/000255967.pdf",
+     "https://www.soumu.go.jp/main_content/000646811.pdf"
+    ]
+   },
+   "definition": "全国の投票区から回ごとに142〜188投票区を抽出して調べた年代別投票率。「全体」は全数の投票率。10歳代は18・19歳(第24回参院選と第48回衆院選のみ全数調査)。",
+   "confidence": "high",
+   "verified_via": "総務省ページと推移PDF2本を開き、表の数値をスクリプトで照合。",
+   "notes": "直近は第51回衆院選(2026年2月):全体56.26%、20歳代39.01%、60歳代70.24%。第27回参院選(2025年7月):全体58.51%、20歳代47.30%。1967年以降の全系列は上記PDFにある。"
+  },
+  {
+   "key": "electorate_age_composition_proxy",
+   "title": "有権者の年代構成の目安(日本人人口、18歳以上)",
+   "year": "2026年6月1日現在(確定値)",
+   "source_name": "総務省統計局「人口推計」2026年(令和8年)11月報",
+   "source_url": "https://www.stat.go.jp/data/jinsui/pdf/202611.pdf",
+   "unit": "千人",
+   "data": {
+    "japanese_population_5yr_thousand": [
+     {
+      "age": "15-19",
+      "thousand": 5347
+     },
+     {
+      "age": "20-24",
+      "thousand": 5561
+     },
+     {
+      "age": "25-29",
+      "thousand": 5838
+     },
+     {
+      "age": "30-34",
+      "thousand": 5856
+     },
+     {
+      "age": "35-39",
+      "thousand": 6223
+     },
+     {
+      "age": "40-44",
+      "thousand": 7105
+     },
+     {
+      "age": "45-49",
+      "thousand": 7999
+     },
+     {
+      "age": "50-54",
+      "thousand": 9523
+     },
+     {
+      "age": "55-59",
+      "thousand": 8749
+     },
+     {
+      "age": "60-64",
+      "thousand": 7602
+     },
+     {
+      "age": "65-69",
+      "thousand": 7084
+     },
+     {
+      "age": "70-74",
+      "thousand": 7447
+     },
+     {
+      "age": "75-79",
+      "thousand": 8718
+     },
+     {
+      "age": "80-84",
+      "thousand": 5660
+     },
+     {
+      "age": "85-89",
+      "thousand": 4063
+     },
+     {
+      "age": "90-94",
+      "thousand": 2195
+     },
+     {
+      "age": "95-99",
+      "thousand": 647
+     },
+     {
+      "age": "100+",
+      "thousand": 105
+     }
+    ],
+    "by_decade_thousand_derived": {
+     "10歳代(18-19歳,15-19歳の2/5で近似)": 2139,
+     "20歳代": 11399,
+     "30歳代": 12079,
+     "40歳代": 15104,
+     "50歳代": 18272,
+     "60歳代": 14686,
+     "70歳代以上": 28835
+    },
+    "by_decade_share_derived": {
+     "10歳代(18-19歳,15-19歳の2/5で近似)": 0.0209,
+     "20歳代": 0.1112,
+     "30歳代": 0.1178,
+     "40歳代": 0.1473,
+     "50歳代": 0.1782,
+     "60歳代": 0.1433,
+     "70歳代以上": 0.2813
+    },
+    "total_18plus_thousand_derived": 102514,
+    "japanese_population_total_thousand": 118533,
+    "total_population_thousand": 122598
+   },
+   "definition": "選挙権は18歳以上の日本国民。日本人人口(5歳階級)を10歳刻みに合算した近似。18〜19歳は15〜19歳の5分の2と仮定(導出)。",
+   "confidence": "medium",
+   "verified_via": "統計局PDFを開いて日本人人口の表を確認。年代別合算と構成比は算術による導出。",
+   "notes": "選挙人名簿登録者数(総務省)の年齢別内訳そのものではない(在外・住所要件などで差がある)。60歳以上が18歳以上の約42%を占める。"
+  },
+  {
+   "key": "minimum_wage_weighted_average",
+   "title": "地域別最低賃金の全国加重平均額の推移",
+   "year": "令和元〜8年度(2019〜2026)",
+   "source_name": "厚生労働省「平成14年度から令和8年度までの地域別最低賃金改定状況」",
+   "source_url": "https://www.mhlw.go.jp/content/11200000/001756130.xlsx",
+   "unit": "円/時",
+   "data": {
+    "national_weighted_average": [
+     {
+      "fiscal_year": 2019,
+      "yen": 901
+     },
+     {
+      "fiscal_year": 2020,
+      "yen": 902
+     },
+     {
+      "fiscal_year": 2021,
+      "yen": 930
+     },
+     {
+      "fiscal_year": 2022,
+      "yen": 961
+     },
+     {
+      "fiscal_year": 2023,
+      "yen": 1004
+     },
+     {
+      "fiscal_year": 2024,
+      "yen": 1055
+     },
+     {
+      "fiscal_year": 2025,
+      "yen": 1121
+     },
+     {
+      "fiscal_year": 2026,
+      "yen": 1177,
+      "raw_cell_value": 1176.93
+     }
+    ],
+    "tokyo": [
+     {
+      "fiscal_year": 2024,
+      "yen": 1163
+     },
+     {
+      "fiscal_year": 2025,
+      "yen": 1226
+     },
+     {
+      "fiscal_year": 2026,
+      "yen": 1280
+     }
+    ],
+    "yoy_pct_derived": {
+     "2022": 3.3,
+     "2023": 4.5,
+     "2024": 5.1,
+     "2025": 6.3,
+     "2026": 5.0
+    }
+   },
+   "definition": "各都道府県の最低賃金を適用労働者数で加重平均した額。発効は主に各年10月以降。",
+   "confidence": "high",
+   "verified_via": "厚労省Excelをダウンロードして「全国加重平均額」行を読み取り。",
+   "notes": "令和8年度のセル値は1176.93(未丸め)で、公表値は1,177円と見られる(丸めは当方)。前年比は導出。"
+  },
+  {
+   "key": "shunto_wage_increase_rengo",
+   "title": "春闘の賃上げ率(連合 最終回答集計、定昇相当込み)",
+   "year": "2013〜2026年",
+   "source_name": "厚生労働省労働基準局作成資料(連合「2026春季生活闘争 第7回(最終)回答集計結果」2026年7月3日をもとに作成)",
+   "source_url": "https://www.mhlw.go.jp/content/11200000/001739491.pdf",
+   "unit": "%",
+   "data": {
+    "series": [
+     {
+      "year": 2013,
+      "all": 1.71,
+      "small_under_300": 1.53
+     },
+     {
+      "year": 2014,
+      "all": 2.07,
+      "small_under_300": 1.76
+     },
+     {
+      "year": 2015,
+      "all": 2.2,
+      "small_under_300": 1.88
+     },
+     {
+      "year": 2016,
+      "all": 2.0,
+      "small_under_300": 1.81
+     },
+     {
+      "year": 2017,
+      "all": 1.98,
+      "small_under_300": 1.87
+     },
+     {
+      "year": 2018,
+      "all": 2.07,
+      "small_under_300": 1.99
+     },
+     {
+      "year": 2019,
+      "all": 2.07,
+      "small_under_300": 1.94
+     },
+     {
+      "year": 2020,
+      "all": 1.9,
+      "small_under_300": 1.81
+     },
+     {
+      "year": 2021,
+      "all": 1.78,
+      "small_under_300": 1.73
+     },
+     {
+      "year": 2022,
+      "all": 2.07,
+      "small_under_300": 1.96
+     },
+     {
+      "year": 2023,
+      "all": 3.58,
+      "small_under_300": 3.23
+     },
+     {
+      "year": 2024,
+      "all": 5.1,
+      "small_under_300": 4.45
+     },
+     {
+      "year": 2025,
+      "all": 5.25,
+      "small_under_300": 4.65
+     },
+     {
+      "year": 2026,
+      "all": 5.01,
+      "small_under_300": 4.69
+     }
+    ],
+    "2026_amount_yen_search_excerpt": {
+     "all": 16400,
+     "small": 12866
+    }
+   },
+   "definition": "平均賃金方式(加重平均)による定期昇給相当込みの賃上げ率。中小=組合員300人未満。",
+   "confidence": "high",
+   "verified_via": "連合サイト(www.jtuc-rengo.or.jp)は開けず。連合集計を引用した厚労省PDFを開いて全系列を確認。2026年の金額(16,400円)は検索抜粋のみ。",
+   "notes": "定昇分(おおむね1.6〜1.8%程度と言われる)を除くベア率は未取得。"
+  },
+  {
+   "key": "boj_policy_rate",
+   "title": "日本銀行の政策金利(無担保コールレート・オーバーナイト物の誘導目標)の変更",
+   "year": "2024年3月〜2026年10月",
+   "source_name": "日本銀行「金融市場調節方針に関する公表文」",
+   "source_url": "https://www.boj.or.jp/mopo/mpmdeci/state_2026/index.htm",
+   "unit": "%",
+   "data": {
+    "changes": [
+     {
+      "date": "2024-03-19",
+      "rate": "0〜0.1",
+      "from": "-0.1(マイナス金利)",
+      "confidence": "medium",
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/state_2024/k240319a.htm"
+     },
+     {
+      "date": "2024-07-31",
+      "rate": 0.25,
+      "from": "0〜0.1",
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2024/k240731b.pdf"
+     },
+     {
+      "date": "2025-01-24",
+      "rate": 0.5,
+      "from": 0.25,
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2025/k250124b.pdf"
+     },
+     {
+      "date": "2025-12-19",
+      "rate": 0.75,
+      "from": 0.5,
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2025/k251219b.pdf"
+     },
+     {
+      "date": "2026-06-16",
+      "rate": 1.0,
+      "from": 0.75,
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2026/k260616c.pdf"
+     },
+     {
+      "date": "2026-09-18",
+      "rate": 1.25,
+      "from": 1.0,
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2026/k260918b.pdf"
+     }
+    ],
+    "current_as_of_2026_10_30": 1.25
+   },
+   "definition": "短期金利(無担保コールO/N物)の誘導目標。「程度」付きの水準。",
+   "confidence": "high",
+   "verified_via": "日銀の各決定会合の参考資料PDFを開いて確認。2026年10月30日は1.25%程度で据え置き(公表文PDFで確認)。2024年3月は公表文ページを開いたがマイナス金利解除の記述確認にとどまり、0〜0.1%は同年7月資料の「従来は0〜0.1%程度」で確認。",
+   "notes": "2026年に入り2回(6月・9月)引き上げ。"
+  },
+  {
+   "key": "general_account_budget_fy2026",
+   "title": "令和8年度一般会計予算 歳出・歳入の構成",
+   "year": "令和8年度(2026年度)当初予算(政府案時点の資料)",
+   "source_name": "財務省「令和8年度予算のポイント」",
+   "source_url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/01.pdf",
+   "unit": "億円(括弧は構成比%)",
+   "data": {
+    "total": 1223092,
+    "expenditure": {
+     "social_security": {
+      "oku_yen": 390559,
+      "share_pct": 31.9
+     },
+     "national_debt_service": {
+      "oku_yen": 312758,
+      "share_pct": 25.6,
+      "redemption": {
+       "oku_yen": 182086,
+       "share_pct": 14.9
+      },
+      "interest_etc": {
+       "oku_yen": 130672,
+       "share_pct": 10.7
+      }
+     },
+     "local_allocation_tax_grants": {
+      "oku_yen": 208778,
+      "share_pct": 17.1
+     },
+     "defense": {
+      "oku_yen": 89843,
+      "share_pct": 7.3
+     },
+     "public_works": {
+      "oku_yen": 61078,
+      "share_pct": 5.0
+     },
+     "education_science": {
+      "oku_yen": 60406,
+      "share_pct": 4.9
+     },
+     "other": {
+      "oku_yen": 99670,
+      "share_pct": 8.1
+     },
+     "general_expenditure_total": {
+      "oku_yen": 701557,
+      "share_pct": 57.4
+     }
+    },
+    "revenue": {
+     "tax_and_stamp": {
+      "oku_yen": 837350,
+      "share_pct": 68.5,
+      "income_tax": {
+       "oku_yen": 253250,
+       "share_pct": 20.7
+      },
+      "corporate_tax": {
+       "oku_yen": 206960,
+       "share_pct": 16.9
+      },
+      "consumption_tax": {
+       "oku_yen": 266880,
+       "share_pct": 21.8
+      },
+      "other_taxes": {
+       "oku_yen": 110260,
+       "share_pct": 9.0
+      }
+     },
+     "other_revenue": {
+      "oku_yen": 89902,
+      "share_pct": 7.4
+     },
+     "bonds": {
+      "oku_yen": 295840,
+      "share_pct": 24.2,
+      "deficit_bonds": {
+       "oku_yen": 228680,
+       "share_pct": 18.7
+      },
+      "construction_bonds": {
+       "oku_yen": 67160,
+       "share_pct": 5.5
+      }
+     }
+    },
+    "fy2025_initial_total": 1151978,
+    "bond_dependency_pct": 24.2
+   },
+   "definition": "一般会計の当初予算。社会保障+国債費+地方交付税交付金等で歳出の74.6%。",
+   "confidence": "high",
+   "verified_via": "財務省PDFを開いてフレームと構成図を読み取り。",
+   "notes": "政府案(令和7年12月)の資料。成立後の補正で規模が拡大したとの検索抜粋(補正後歳出1,254,228億円)があるが未確認。"
+  },
+  {
+   "key": "government_debt",
+   "title": "国債残高と債務残高対GDP比",
+   "year": "令和8年度末見込み/2024年",
+   "source_name": "財務省「普通国債残高の累増」「債務残高の国際比較(対GDP比)」",
+   "source_url": "https://www.mof.go.jp/tax_policy/summary/condition/004.pdf",
+   "unit": "兆円, %",
+   "data": {
+    "ordinary_jgb_outstanding_trillion_yen": {
+     "fy2025_end_after_supplementary": 1136,
+     "fy2026_end_budget": 1145,
+     "fy2026_end_excluding_front_loaded_refunding": 1095
+    },
+    "nominal_gdp_fy2026_outlook_trillion_yen": 691.9,
+    "ordinary_jgb_to_gdp_fy2026_pct_derived": 165.5,
+    "general_government_gross_debt_to_gdp_2024_pct": 214.5,
+    "other_countries_2024_pct": {
+     "Italy": 134.7,
+     "US": 122.3,
+     "France": 113.2,
+     "UK": 99.9,
+     "Germany": 62.2
+    },
+    "url_international": "https://www.mof.go.jp/tax_policy/summary/condition/007.pdf"
+   },
+   "definition": "普通国債残高=建設公債+特例公債+復興債の残高。債務残高対GDP比は一般政府(中央・地方・社会保障基金)総債務、IMF WEO(2026年4月)。",
+   "confidence": "high",
+   "verified_via": "財務省PDF2本を開いて確認。普通国債残高の対GDP比165.5%は1,145÷691.9(国民負担率資料のGDP見通し)による導出。",
+   "notes": "「GDPの2倍超」は一般政府総債務(214.5%、2024年)の数字。"
+  },
+  {
+   "key": "social_security_benefits_fy2026",
+   "title": "社会保障給付費の総額と内訳",
+   "year": "2026年度(予算ベース)",
+   "source_name": "厚生労働省「社会保障の給付と負担の現状(2026年度予算ベース)」",
+   "source_url": "https://www.mhlw.go.jp/content/12600000/001706348.pdf",
+   "unit": "兆円(括弧は構成比%)",
+   "data": {
+    "total_trillion_yen": 144.1,
+    "to_gdp_pct": 20.8,
+    "pension": {
+     "trillion_yen": 63.7,
+     "share_pct": 44.2,
+     "to_gdp_pct": 9.2
+    },
+    "medical": {
+     "trillion_yen": 44.6,
+     "share_pct": 30.9,
+     "to_gdp_pct": 6.4
+    },
+    "welfare_other": {
+     "trillion_yen": 35.8,
+     "share_pct": 24.8,
+     "to_gdp_pct": 5.2,
+     "long_term_care": {
+      "trillion_yen": 14.3,
+      "share_pct": 9.9
+     },
+     "children": {
+      "trillion_yen": 12.1,
+      "share_pct": 8.4
+     }
+    },
+    "financing": {
+     "premiums": {
+      "trillion_yen": 84.5,
+      "share_pct": 59.9,
+      "insured_persons": {
+       "trillion_yen": 44.8,
+       "share_pct": 31.8
+      },
+      "employers": {
+       "trillion_yen": 39.7,
+       "share_pct": 28.1
+      }
+     },
+     "public_funds": {
+      "trillion_yen": 56.6,
+      "share_pct": 40.1,
+      "national": {
+       "trillion_yen": 38.9,
+       "share_pct": 27.5
+      },
+      "local": {
+       "trillion_yen": 17.7,
+       "share_pct": 12.6
+      }
+     }
+    },
+    "fy2025_budget_basis_total_trillion_yen_search_excerpt": 140.7
+   },
+   "definition": "ILO基準の社会保障給付費(予算ベースの見込み)。",
+   "confidence": "high",
+   "verified_via": "厚労省PDFを開いて確認(2025年度140.7兆円は検索抜粋のみ)。",
+   "notes": "実績値は国立社会保障・人口問題研究所「社会保障費用統計」(www.ipss.go.jp は403で開けず)。"
+  },
+  {
+   "key": "income_wall_work_adjustment",
+   "title": "「年収の壁」と就業調整(該当者の割合・人数)",
+   "year": "令和3年(2021年)調査、人数推計は令和元〜5年",
+   "source_name": "厚生労働省年金局「女性の就労の制約と指摘される制度等について(いわゆる『年収の壁』等)」/令和3年パートタイム・有期雇用労働者総合実態調査",
+   "source_url": "https://www.mhlw.go.jp/content/12601000/001148321.pdf",
+   "unit": "%、万人",
+   "data": {
+    "share_adjusting_work": {
+     "all_part_time": 15.9,
+     "with_spouse": 19.9,
+     "male_with_spouse": 10.6,
+     "female_with_spouse": 21.8,
+     "without_spouse": 7.7
+    },
+    "reasons_multiple_answers_pct": {
+     "all": {
+      "own_income_tax_103": 46.1,
+      "spouse_deduction": 28.3,
+      "spouse_company_allowance": 12.1,
+      "dependent_social_insurance_130": 44.6,
+      "premium_by_hours": 18.8
+     },
+     "female_with_spouse": {
+      "own_income_tax_103": 49.6,
+      "spouse_deduction": 36.4,
+      "spouse_company_allowance": 15.4,
+      "dependent_social_insurance_130": 57.3,
+      "premium_by_hours": 21.4
+     }
+    },
+    "category3_insured_near_walls_man_persons": {
+     "aware_of_106_wall_firms_over_100": 45,
+     "added_when_expanded_to_over_50": 16,
+     "total_approx": 60,
+     "note": "週所定15時間以上で106万円の壁を意識している可能性がある第3号被保険者の推計。実際に就業調整する人はさらに少ない見込み"
+    },
+    "walls": {
+     "103": "所得税の課税開始(当時)。世帯の手取りは減らない",
+     "106": "被用者保険の適用(週20時間以上・月額8.8万円以上等)",
+     "130": "被扶養者認定基準。超えると国保・国年に加入し手取りが減る"
+    }
+   },
+   "definition": "就業調整=年収や労働時間を一定以下に抑えること。理由は複数回答(就業調整をしているパートタイム労働者=100)。",
+   "confidence": "high",
+   "verified_via": "厚労省PDFを開いて表を確認。",
+   "notes": "調査は2021年10月時点。その後、所得税の課税最低限は引き上げられ(令和8年分は給与178万円)、「103万円」は税制上の基準ではなくなっている。106万円の賃金要件撤廃等の制度改正の施行状況は未確認。"
+  },
+  {
+   "key": "common_claims_traceable",
+   "title": "広く言われる「定説」のうち一次統計までたどれたもの",
+   "year": "2026年時点",
+   "source_name": "本ファイル内の各データセット",
+   "source_url": null,
+   "unit": "各項目に記載",
+   "data": {
+    "claims": [
+     {
+      "claim": "国民負担率は5割近い(「五公五民」)",
+      "value": "2024年度実績46.7%、2026年度見通し45.7%。財政赤字を含む潜在的国民負担率は48.4%(2026年度)。対GDP比では32.7%",
+      "see": "national_burden_ratio",
+      "caveat": "分母は国民所得。個々の家計の負担率ではない(勤労者世帯の非消費支出は実収入の18.6%)"
+     },
+     {
+      "claim": "国の借金はGDPの2倍超",
+      "value": "一般政府総債務の対GDP比214.5%(2024年、IMF)。普通国債残高は1,145兆円(2026年度末見込み)",
+      "see": "government_debt"
+     },
+     {
+      "claim": "予算の約4分の1は借金、約3分の1は社会保障",
+      "value": "公債依存度24.2%、社会保障31.9%、国債費25.6%(2026年度当初)",
+      "see": "general_account_budget_fy2026"
+     },
+     {
+      "claim": "若者は投票に行かない(シルバー民主主義)",
+      "value": "2026年2月衆院選:20歳代39.01%、60歳代70.24%。18歳以上日本人人口の約42%が60歳以上",
+      "see": "turnout_by_age / electorate_age_composition_proxy"
+     },
+     {
+      "claim": "6〜7人に1人が相対的貧困",
+      "value": "15.0%(2024年)、子ども11.0%、ひとり親世帯44.7%",
+      "see": "relative_poverty_rate"
+     },
+     {
+      "claim": "税と社会保障で格差は3割以上縮む",
+      "value": "ジニ係数0.5855→0.3825(改善度34.7%、うち社会保障31.6%・税4.4%)",
+      "see": "income_redistribution_gini"
+     },
+     {
+      "claim": "年収の壁で働き控えが起きている",
+      "value": "配偶者のいる女性パートの21.8%が就業調整(2021年)。理由は130万円(57.3%)、103万円(49.6%)",
+      "see": "income_wall_work_adjustment"
+     },
+     {
+      "claim": "賃上げは3年連続5%台",
+      "value": "連合最終集計 2024年5.10%、2025年5.25%、2026年5.01%(定昇込み)",
+      "see": "shunto_wage_increase_rengo"
+     }
+    ]
+   },
+   "definition": "動画・ウェブ解説の内容そのものは確認していない。一般に流布している言い方に対応する一次統計の値だけを記録。",
+   "confidence": "high",
+   "verified_via": "各データセットの出典を参照。",
+   "notes": "YouTube動画は視聴できないため、特定の動画の主張としては記録していない。"
+  }
+ ],
+ "studies": [
+  {
+   "key": "vat2014_announcement_effect",
+   "what": "2014年4月の消費税率引き上げ(5→8%):2013年10月の実施表明時点での家計消費の変化(所得効果、代替効果を制御後)",
+   "value": -5.19,
+   "unit": "%",
+   "population": "家計調査の二人以上世帯(個票)",
+   "citation": "Cashin, D. and T. Unayama (2016) 'The Impact of a Permanent Income Shock on Consumption: Evidence from Japan's 2014 VAT increase', RIETI DP 16-E-052 (後に National Tax Journal 2021)",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/16e052.pdf",
+   "confidence": "high",
+   "verified_via": "PDF本文を開いて確認(「5.19 percent … 1.1 times the reduction in lifetime resources」)",
+   "notes": "恒常的な所得減(物価2.85%上昇)にほぼ比例して消費が低下=恒久的な低下。ベースライン回帰では表明時-2.79%(α)、実施時-1.51%(γ)、異時点間代替の弾力性0.53。"
+  },
+  {
+   "key": "vat2014_implementation_effect",
+   "what": "同上:2014年4月の実施時点での消費の低下(異時点内代替を制御後)",
+   "value": -1.51,
+   "unit": "%",
+   "population": "家計調査の二人以上世帯",
+   "citation": "Cashin and Unayama (2016) RIETI DP 16-E-052",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/16e052.pdf",
+   "confidence": "high",
+   "verified_via": "PDF本文(4.2節)を確認",
+   "notes": "表明時の低下は-2.79%。物価上昇率2.85%からIES=0.53。"
+  },
+  {
+   "key": "vat1997_front_loading",
+   "what": "1997年4月の消費税率引き上げ(3→5%):引き上げ前の四半期の駆け込み支出(1世帯当たり)。所得効果は無視できる大きさ、反動を除くと実施後の実質支出への影響なし",
+   "value": 30231,
+   "unit": "円/世帯(四半期)",
+   "population": "家計調査の世帯(月次)",
+   "citation": "Cashin, D. and T. Unayama (2011) 'The Intertemporal Substitution and Income Effects of a VAT Rate Increase: Evidence from Japan', RIETI DP 11-E-045 (Review of Economics and Statistics 2016)",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/11e045.pdf",
+   "confidence": "high",
+   "verified_via": "PDF要旨を開いて確認",
+   "notes": "駆け込みの約4分の3は耐久財と備蓄可能な非耐久財・サービス。"
+  },
+  {
+   "key": "vat_net_household_burden_boj",
+   "what": "消費税率引き上げ時の家計のネット負担増(消費税の負担増に給付・減税・年金等を加減)",
+   "value": {
+    "1997": 8.5,
+    "2014": 8.0,
+    "2019_expected": 2.2,
+    "consumption_tax_part": {
+     "1997": 5.2,
+     "2014": 8.2,
+     "2019": 5.6
+    }
+   },
+   "unit": "兆円",
+   "population": "日本の家計部門(マクロ)",
+   "citation": "日本銀行「経済・物価情勢の展望(2018年4月)」BOX1 消費増税前後の家計のネット負担額",
+   "url": "https://www.boj.or.jp/mopo/outlook/box/data/1804box1a.pdf",
+   "confidence": "high",
+   "verified_via": "日銀PDFを開いて図表B1-1〜B1-3の数値と本文を確認",
+   "notes": "2019年分は実施前の試算(2020年度の対2018年度増加額)。軽減税率-1.0、教育無償化-1.4、支援給付金等-0.5などを控除。"
+  },
+  {
+   "key": "vat2014_frontloading_cabinet_office",
+   "what": "2014年4月引き上げ時の個人消費の駆け込み需要の規模と、反動による2014年度の押し下げ",
+   "value": {
+    "front_loading_trillion_yen": 3.0,
+    "fy2014_private_consumption_pp": -2.0,
+    "fy2014_gdp_pp": -1.2,
+    "ex_ante_estimate_trillion_yen": [
+     2.5,
+     3.3
+    ]
+   },
+   "unit": "兆円、%ポイント",
+   "population": "日本(マクロ、個人消費)",
+   "citation": "内閣府「平成27年度 年次経済財政報告」第1章/内閣府「今週の指標・マンスリートピックス No.028」(2014年)",
+   "url": "https://www5.cao.go.jp/j-j/wp/wp-je15/pdf/p01013_1.pdf",
+   "confidence": "medium",
+   "verified_via": "www5.cao.go.jp は開けず。検索結果の抜粋のみ(「駆け込み需要は3兆円程度、2014年度の個人消費を前年比2.0%ポイント程度、GDPを1.2%ポイント程度押し下げ」)",
+   "notes": "原文未確認。押し下げ幅には反動減以外(実質所得の減少)の扱いに注意。"
+  },
+  {
+   "key": "minwage_teen_employment_2007reform",
+   "what": "最低賃金10%上昇が10代男女の就業率に与える影響",
+   "value": -5.25,
+   "unit": "%ポイント(最低賃金10%上昇当たり)",
+   "population": "16〜19歳男女(2007年最低賃金法改正前後、都道府県パネル)",
+   "citation": "川口大司・森悠子(2013)「最低賃金と若年雇用:2007年最低賃金法改正の影響」RIETI DP 13-J-009",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/13j009.pdf",
+   "confidence": "high",
+   "verified_via": "PDF要旨を開いて確認",
+   "notes": "10代の平均就業率17%に対し約30%の雇用減=雇用の最低賃金弾力性はおよそ-3。下位分位の賃金率は2.8〜3.9%上昇。対象は10代に限られ、全年齢への一般化は不可。"
+  },
+  {
+   "key": "minwage_kawaguchi_mori_2009",
+   "what": "最低賃金の引き上げが低技能層の雇用に与える影響と、最低賃金労働者の世帯属性",
+   "value": {
+    "teen_male_emp_rate_pp_per_1pct_FA": -0.2,
+    "middle_aged_married_female_emp_rate_pp_per_1pct_FA": [
+     -0.4,
+     -0.8
+    ],
+    "share_of_min_wage_workers_in_households_over_5m_yen_nonhead": "約半数"
+   },
+   "unit": "%ポイント(最低賃金の影響を受ける労働者割合FAが1%ポイント上がるごと)",
+   "population": "就業構造基本調査の個票(1982〜2002年)、10代男性・中年既婚女性",
+   "citation": "Kawaguchi, D. and Y. Mori (2009) 'Is Minimum Wage an Effective Anti-Poverty Policy in Japan?', RIETI DP 09-E-032",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/09e032.pdf",
+   "confidence": "high",
+   "verified_via": "PDF本文(要旨とTable 8の説明)を開いて確認",
+   "notes": "FA=fraction affected。10代男性の平均就業率約16%、中年既婚女性は約66%。最低賃金労働者の約半数は年収500万円超の世帯の非世帯主で、貧困対策としての的は絞れていないという結論。"
+  },
+  {
+   "key": "income_wall_bunching_kondo_fukai",
+   "what": "有配偶女性の給与年収分布における「年収の壁」(103万円・130万円)での集積と持続性",
+   "value": {
+    "distribution_peak_man_yen": 103,
+    "share_staying_within_dependent_range_after_5_years": 0.667
+   },
+   "unit": "万円、割合",
+   "population": "16の協力自治体の住民税課税記録(有配偶女性、全数パネル)",
+   "citation": "近藤絢子・深井太洋(2023)「市町村税務データを用いた既婚女性の就労調整の分析」RIETI DP 23-J-049",
+   "url": "https://www.rieti.go.jp/jp/publications/nts/23j049.html",
+   "confidence": "medium",
+   "verified_via": "RIETIのノンテクニカルサマリーのページを開いて確認(論文PDF本体の推定値は未確認)",
+   "notes": "分布のピークは103万円、103万円超で大きく減り130万円超でさらに減る。住民税は100万円超でかかるが103万円に合わせる人が多い。2018年の配偶者控除改正後、103万円以下に調整する割合は減ったが依然多い。集積の超過質量の数値は未取得。"
+  },
+  {
+   "key": "child_allowance_fertility_japan",
+   "what": "児童手当が出生に与える影響(日本の先行研究の値)",
+   "value": {
+    "tsukahara_1995_birth_probability_increase": "2%程度(当時の手当水準)",
+    "morita_2006_children_increase_per_10000yen_monthly": "0.03%"
+   },
+   "unit": "%",
+   "population": "日本(塚原1995は実験ヴィネット調査、森田2006は個票推計)",
+   "citation": "宇南山卓(2011)「児童手当が家計消費に与えた影響」RIETI DP 11-J-021 に引用された塚原(1995)・森田(2006)",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/11j021.pdf",
+   "confidence": "medium",
+   "verified_via": "RIETI PDFを開いて引用箇所(塚原2%程度、森田0.03%)を本文で確認。塚原・森田の原論文は未確認(孫引き)",
+   "notes": "いずれも効果は小さいという結論。2024年10月の児童手当拡充の効果を測った実証研究は見つからず。"
+  },
+  {
+   "key": "child_benefit_fertility_survey_esri",
+   "what": "児童手当等の経済的支援と出生率に関するサーベイ(海外の推定値を含む)",
+   "value": {
+    "haan_wrohlich_2011_germany": "3歳未満への児童手当20%増でTFR 4.6%上昇(シミュレーション)",
+    "cohen_dehejia_romanov_2013_israel": "児童手当150シェケル減額で妊娠確率が10.3%から0.99%ポイント(9.6%)低下",
+    "corneo_salanie_2008": "月150ユーロの無条件児童手当で出生率が約14%上昇(検索抜粋・サーベイ本文の記載)",
+    "overall": "児童手当の増額を含む家計所得の上昇は出生率にプラスの可能性があるが、効果は大きくないとする研究が多い"
+   },
+   "unit": "記述",
+   "population": "ドイツ、イスラエルほか(日本を含む文献サーベイ)",
+   "citation": "相川哲也ほか(2022)「少子化対策と出生率に関する研究のサーベイ」ESRI Research Note No.66",
+   "url": "https://www.esri.cao.go.jp/jp/esri/archive/e_rnote/e_rnote070/e_rnote066_02.pdf",
+   "confidence": "high",
+   "verified_via": "ESRI PDF(第1部・第3章)を開いて該当箇所を確認",
+   "notes": "メタ分析による統合効果量ではなく個別研究の紹介。出産育児一時金と出生の日本の推定は未取得。"
+  }
+ ],
+ "not_found": [
+  {
+   "what": "国税庁の所得税速算表・源泉徴収税額表(www.nta.go.jp)",
+   "why": "ホストが開けない。税率区分は財務省資料で確認し、速算控除額は算術で導出"
+  },
+  {
+   "what": "基礎控除の高所得での逓減額(合計所得2,350万円超〜2,500万円)と、104万円・67万円のうち時限特例部分の内訳・適用年",
+   "why": "財務省の一覧表に記載がなく未確認(null)"
+  },
+  {
+   "what": "住民税の非課税限度額、調整控除、令和8年度住民税での給与所得控除の扱い",
+   "why": "総務省ページに記載がなく未確認"
+  },
+  {
+   "what": "協会けんぽの令和8年度都道府県別保険料率(一次資料)",
+   "why": "www.kyoukaikenpo.or.jp が開けない。全国平均9.9%・介護1.62%・支援金0.23%は検索抜粋のみ(medium)"
+  },
+  {
+   "what": "標準報酬月額の上限・下限(厚生年金・健康保険)、賞与の上限",
+   "why": "確認する時間がなく未取得(null)"
+  },
+  {
+   "what": "国民健康保険の1人当たり保険料(税)調定額の全国平均",
+   "why": "見つからず。代わりに令和5年度の全国平均料率(所得割9.22%等)を記録"
+  },
+  {
+   "what": "飲食料品の消費税率引下げ法案の引下げ後税率と成立状況",
+   "why": "財務大臣会見概要で閣議決定(2026年10月9日)までを確認。税率と成立は未確認"
+  },
+  {
+   "what": "2019年10月の消費税率引き上げ(8→10%)が個人消費に与えた影響の事後的な推定値",
+   "why": "事前のネット負担試算(日銀、2.2兆円)のみ取得。事後推定の論文・日銀BOXは未取得"
+  },
+  {
+   "what": "内閣府の経済財政白書・マンスリートピックスの原文(2014年の駆け込み3兆円)",
+   "why": "www5.cao.go.jp が開けない。検索抜粋のみ(medium)"
+  },
+  {
+   "what": "連合の春闘集計の原資料、定昇を除くベースアップ率",
+   "why": "www.jtuc-rengo.or.jp が開けない。賃上げ率は厚労省資料経由で確認"
+  },
+  {
+   "what": "選挙人名簿登録者数の年齢別内訳(有権者数そのもの)",
+   "why": "総務省の該当資料を特定できず。人口推計の日本人人口(18歳以上)で代用"
+  },
+  {
+   "what": "年収階級別の負担率(個人単位、単身世帯)",
+   "why": "家計調査の二人以上・勤労者世帯(世帯単位)のみ取得"
+  },
+  {
+   "what": "出産育児一時金・児童手当拡充(2024年)が出生に与えた影響の日本の実証研究、メタ分析の統合効果量",
+   "why": "見つからず。ESRIサーベイと先行研究の引用値のみ"
+  },
+  {
+   "what": "「年収の壁」での集積の大きさ(超過質量)の推定値、106万円の壁の制度改正後の状況",
+   "why": "RIETI論文は要約ページのみ確認。厚労省資料は2021年調査"
+  },
+  {
+   "what": "社会保障給付費の実績(社会保障費用統計)",
+   "why": "www.ipss.go.jp が403。予算ベース(厚労省)のみ"
+  },
+  {
+   "what": "令和8年度補正予算後の歳出規模、日本の財政関係資料(令和8年4月)",
+   "why": "後者はPDFのダウンロードが途中で切れて読めず。当初予算の資料で代用"
+  },
+  {
+   "what": "YouTube動画の内容",
+   "why": "視聴できないため記録していない"
+  }
+ ],
+ "hosts_needed": [
+  "www.nta.go.jp",
+  "www5.cao.go.jp",
+  "www.jtuc-rengo.or.jp",
+  "www.kyoukaikenpo.or.jp",
+  "www.nenkin.go.jp",
+  "www.ipss.go.jp (サイト側403)",
+  "www.cfa.go.jp (子ども・子育て支援金)",
+  "www.jil.go.jp"
+ ],
+ "not_confirmed": [
+  "basic_deduction: 合計所得2,350万円超の逓減額",
+  "social_insurance_rates.standard_remuneration_caps",
+  "consumption_tax.pending_bill_2026_10.reduced_food_rate_during_period",
+  "national_health_insurance_average.cap_fy2026 は提案値"
+ ]
+}

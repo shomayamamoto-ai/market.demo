@@ -353,3 +353,16 @@ test("マーケティングの文献値:値上げと広告への反応が、メ�
   const p0 = P.find((p) => p.age === 40), base = { category: "food", price: 3000, perYear: 12, target: {}, appeal: {}, baseInterest: 0.12 };
   assert.equal(buyProb(p0, base), buyProb(p0, { ...base, refPrice: 3000 })); // 相場と同じ価格なら、相場を入れても結果は変わらない
 });
+
+import { takeHome, burdenTable, consumptionTaxTable, voteTable } from "../public/js/politics.js";
+import POLICY from "../public/js/policy-data.js";
+test("政治と経済:手取り、消費税、投票の計算", () => {
+  const t = takeHome({ income: 500, age: 40, status: "regular", marital: "未婚", working: true });
+  near(t.net / t.income, 0.78, 0.02, "年収500万円の手取りの割合");
+  near(t.social / t.income, 0.0915 + 0.0495 + 0.0081 + 0.00115 + 0.005, 1e-6, "社会保険料率(40〜64歳)");
+  const rows = burdenTable(P); assert.ok(rows.every((r, i) => i === 0 || r.total >= rows[i - 1].total - 0.01), "年収が高いほど負担率が高い");
+  const same = consumptionTaxTable(P, { standard: 0.1, reduced: 0.08 }), zero = consumptionTaxTable(P, { standard: 0.1, reduced: 0 });
+  near(same.total1 / same.total0, 1, 1e-9, "いまの税率なら変化なし"); assert.ok(zero.total1 < zero.total0 && zero.real > 0);
+  const e = POLICY.turnout["衆院選"].at(-1), v = voteTable(P, e.pct);
+  near(v.turnout * 100, e.pct["全体"], 2, "全体の投票率"); assert.ok(v.old.votes > v.old.voters && v.young.votes < v.young.voters);
+});

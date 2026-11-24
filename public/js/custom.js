@@ -6,6 +6,7 @@ import { stratifiedSample } from "./market.js";
 import { multiLine, esc } from "./charts.js";
 import { showStage, thin } from "./stage3d.js";
 import { copyButton } from "./lab.js";
+import { takeHome } from "./politics.js";
 
 export const CUSTOM_ASSUMPTIONS = {
   scale: { value: 0.00054, note: "お金の効き方の基準。月1円あたりの重み。日本の選択実験(森田・馬奈木 2013、電力の選び方)の価格係数。月1,000円の差が重み0.54にあたる。月25万円で暮らす人を基準にし、その人の月のお金に反比例させる" },
@@ -64,7 +65,7 @@ const AVG_WAGE = 2400; // 働いている人の平均的な時給の目安(円)�
 function yenValue(p, o, k) {
   const A = CUSTOM_ASSUMPTIONS, t = p.traits;
   const wage = p.working && p.income > 0 ? clamp((p.income * 10000) / 1926, 900, 12000) : AVG_WAGE; // 年収 ÷ 年間の労働時間(月160.5時間 × 12)
-  const purse = Math.max(p.spendTotal, (p.income * 10000 * 0.8) / 12, 50000) / 250000; // 月25万円で暮らす人を1とした、その人の懐の大きさ。不安・新しさ・安心に払ってもよい額は、これに比例する
+  const purse = Math.max(p.spendTotal, takeHome(p).net / 12, 50000) / 250000; // 月25万円で暮らす人を1とした、その人の懐の大きさ。不安・新しさ・安心に払ってもよい額は、これに比例する
   return o.money
     - o.effort * A.time.value.hours * wage * A.time.value.share * k.effort
     - o.risk * A.risk.value * purse * (1 + A.riskAge.value * (p.age - 45) + (p.tier <= 1 ? 0.3 : 0)) * k.risk
@@ -73,7 +74,7 @@ function yenValue(p, o, k) {
 }
 // 今のままと比べた得・損(円)を、重みに直す。損は得より重い
 function weigh(p, diff) {
-  const A = CUSTOM_ASSUMPTIONS, monthly = Math.max(p.spendTotal, (p.income * 10000 * 0.8) / 12, 50000);
+  const A = CUSTOM_ASSUMPTIONS, monthly = Math.max(p.spendTotal, takeHome(p).net / 12, 50000);
   const a = (A.scale.value * 250000) / A.curve.value; // 小さい金額で、基準の重み(1円あたり)に一致させる
   return Math.sign(diff) * a * Math.log(1 + (A.curve.value * Math.abs(diff)) / monthly) * (0.6 + 0.8 * p.traits.price) * (diff < 0 ? A.loss.value : 1);
 }
