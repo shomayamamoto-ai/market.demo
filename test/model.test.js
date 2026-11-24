@@ -403,3 +403,10 @@ test("価値観:若い人ほど価格を重視し、女性のほうが周りに�
   assert.ok(share((p) => p.sex === "female" && p.age >= 15, "social") > share((p) => p.sex === "male" && p.age >= 15, "social"));
   assert.ok(TRAIT_COEF.price.age < 0);
 });
+
+import { swingSeats, swingBacktest } from "../public/js/elections.js";
+test("得票と議席:選挙区別の結果で、得票率を変えなければ実際の小選挙区の議席がそのまま出る", () => {
+  for (const e of ELECTIONS.elections) { const s = swingSeats(e); assert.ok(s, e.name); for (const [n, , seats] of e.smd.parties) if (!/無所属|諸派/.test(n)) assert.equal(s.seats[n] ?? 0, seats, `${e.name} ${n}`); }
+  const B = swingBacktest(), mae = (f) => B.reduce((a, r) => a + Math.abs(f(r) - r.real), 0) / B.length;
+  assert.ok(mae((r) => r.swing) < mae((r) => r.k), "前回の選挙区別の結果からの試算は、k の式より当たる");
+});
