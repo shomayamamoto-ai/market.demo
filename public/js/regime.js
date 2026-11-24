@@ -37,7 +37,7 @@ export const regime = {
     { key: "dem300", label: "300年目:民主主義の所得", fmt: "man0" }, { key: "soc300", label: "300年目:社会主義の所得", fmt: "man0" },
     { key: "cross", label: "民主主義が追い抜く年", fmt: "num0", sub: "追い抜かない回は300年として平均" }, { key: "crossed", label: "追い抜いた回の割合", fmt: "pct" },
     { key: "deadSoc", label: "犠牲:社会主義", fmt: "people", sub: "300年の累計" }, { key: "deadDem", label: "犠牲:民主主義", fmt: "people", sub: "300年の累計" }],
-  reference: { base: { dem100: 50, soc100: 70, dem300: 700, cross: 205, deadSoc: 16000, deadDem: 5600 }, noCoup: { cross: 72 } },
+  reference: { base: { dem100: 50, soc100: 70, dem300: 700, soc300: 350, cross: 205, deadSoc: 16000, deadDem: 5600 }, noCoup: { cross: 72 } },
   advise(m, r) {
     const out = [];
     if (m.crossed > 0.9) out.push(`最初の100年は社会主義が先を行きます(${Math.round(m.soc100)}万円と${Math.round(m.dem100)}万円)。しかし${Math.round(m.cross)}年目ごろに民主主義が追い抜き、300年目には${Math.round(m.dem300)}万円と${Math.round(m.soc300)}万円になりました。`);

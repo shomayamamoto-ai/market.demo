@@ -6,16 +6,16 @@ import { thin } from "./stage3d.js";
 export const MAKER_ASSUMPTIONS = {
   firms: { value: { factory: 12, workshop: 12 }, note: "工場と工房の数。仮定" },
   market: { value: 10500, note: "町全体で1年に売れる数(最初の年)。景気で±12%ほど動く。仮定" },
-  factory: { value: { price: 10, variable: 4.2, fixed: 3000, capacity: 720 }, note: "工場:売値、1個あたりの変動費、1年の固定費、作れる数の上限。固定費が重く、たくさん売らないと利益が出ない。仮定" },
-  workshop: { value: { price: 14, variable: 10.9, fixed: 520, capacity: 250, defect: 0.01 }, note: "工房:売値、変動費、固定費、作れる数の上限、不良品率。固定費が軽く、少ない数でも利益が出る。仮定" },
-  spread: { value: 0.06, note: "会社ごとの固定費のばらつき(±この割合)。同じ種類の会社でも、体力に差がある。仮定" },
-  prevention: { value: 100, note: "予防の費用。不良品率を12%からd%に下げるのに、1年あたり この係数 × (log(12 ÷ d))^1.6 がかかる。ゼロに近づけるほど急に高くなる。仮定" },
-  appraisal: { value: 0.3, note: "評価(検査)で、出荷前に見つかる不良品の割合。見つけた分は作り直す(内部の失敗:変動費がもう1個分かかる)。仮定" },
+  factory: { value: { price: 10.19, variable: 4.2, fixed: 3000, capacity: 720 }, note: "工場:売値、1個あたりの変動費、1年の固定費、作れる数の上限。固定費が重く、たくさん売らないと利益が出ない。仮定" },
+  workshop: { value: { price: 14, variable: 10.9, fixed: 528.5, capacity: 250, defect: 0.0096 }, note: "工房:売値、変動費、固定費、作れる数の上限、不良品率。固定費が軽く、少ない数でも利益が出る。仮定" },
+  spread: { value: 0.056, note: "会社ごとの固定費のばらつき(±この割合)。同じ種類の会社でも、体力に差がある。仮定" },
+  prevention: { value: 92, note: "予防の費用。不良品率を12%からd%に下げるのに、1年あたり この係数 × (log(12 ÷ d))^1.6 がかかる。ゼロに近づけるほど急に高くなる。仮定" },
+  appraisal: { value: 0.313, note: "評価(検査)で、出荷前に見つかる不良品の割合。見つけた分は作り直す(内部の失敗:変動費がもう1個分かかる)。仮定" },
   external: { value: 13, note: "外部の失敗。客に届いた不良品1個あたりの返品・修理の費用。仮定" },
-  reputation: { value: { hit: 3.6, recover: 0.12 }, note: "評判。客に届いた不良品の割合 × hit だけ評判が下がり、毎年 recover の割合で元に戻る。評判が下がると、客が離れる。仮定" },
-  choice: { value: 2.2, note: "客の選び方。評判の この乗数 ÷ 売値 に比例して選ばれる。仮定" },
-  bankrupt: { value: -1500, note: "累計の利益がこの額を下回ると、つぶれる。仮定" },
-  calibration: { value: "参考にした実験の値に合わせて調整", note: "品質対策なしの工場の平均利益3,800・11社倒産、工房12,800、不良品率1.8%の工場14,900に近づくよう係数を決めた。実際の企業の数字ではない" },
+  reputation: { value: { hit: 0.584, recover: 0.0279 }, note: "評判。客に届いた不良品の割合 × hit だけ評判が下がり、毎年 recover の割合で元に戻る。評判が下がると、客が離れる。仮定" },
+  choice: { value: 2.24, note: "客の選び方。評判の この乗数 ÷ 売値 に比例して選ばれる。仮定" },
+  bankrupt: { value: 3, note: "赤字がこの年数続くと、つぶれる(それまでにためた利益は残る)。仮定" },
+  calibration: { value: "参考にした実験の値に合わせて調整", note: "品質対策なしの工場の平均利益3,800・11社倒産、工房12,800、不良品率1.8%の工場14,900に近づくよう係数を決めた(この計算では3,100・10.9社・13,200・21,800)。実際の企業の数字ではない" },
 };
 
 export const maker = {
@@ -36,7 +36,7 @@ export const maker = {
   metrics: [{ key: "factory", label: "工場の平均利益", fmt: "num0", sub: "60年の累計、つぶれた会社も含む" }, { key: "workshop", label: "工房の平均利益", fmt: "num0", sub: "60年の累計" },
     { key: "bustFactory", label: "つぶれた工場", fmt: "num1", sub: "12社のうち" }, { key: "bustWorkshop", label: "つぶれた工房", fmt: "num1", sub: "12社のうち" },
     { key: "quality", label: "工場が品質にかけた費用", fmt: "num0", sub: "1社・1年あたり。予防+作り直し+返品修理" }, { key: "repute", label: "工場の評判", fmt: "pct", sub: "最後の年。100%が満点" }],
-  reference: { none: { workshop: 12800, bustFactory: 11 }, good: { factory: 14900 } },
+  reference: { none: { factory: 3800, workshop: 12800, bustFactory: 11 }, good: { factory: 14900 } },
   advise(m, r) {
     const out = [];
     if (m.factory > m.workshop) out.push(`工場の平均利益は${Math.round(m.factory).toLocaleString("ja-JP")}で、工房(${Math.round(m.workshop).toLocaleString("ja-JP")})を上回りました。`);
@@ -65,9 +65,10 @@ export const maker = {
       for (const { f, sold } of open) {
         const caught = sold * f.defect * A.appraisal.value, shipped = sold * f.defect * (1 - A.appraisal.value);
         const quality = f.prevent + caught * f.variable + shipped * A.external.value * r.harm; // 予防 + 内部の失敗 + 外部の失敗
-        f.cum += sold * (f.price - f.variable) - f.fixed - quality; f.qual = quality;
+        const profit = sold * (f.price - f.variable) - f.fixed - quality;
+        f.cum += profit; f.qual = quality; f.red = profit < 0 ? (f.red ?? 0) + 1 : 0;
         f.rep = clamp(f.rep + A.reputation.value.recover * (1 - f.rep) - A.reputation.value.hit * r.harm ** 0.5 * (sold ? shipped / sold : 0) * f.rep, 0.05, 1);
-        if (f.cum < A.bankrupt.value) f.alive = false;
+        if (f.red >= A.bankrupt.value) f.alive = false; // 赤字が続くと、それまでの蓄えがあっても店をたたむ
       }
       const avg = (kind) => { const g = firms.filter((f) => f.kind === kind); return g.reduce((a, f) => a + f.cum, 0) / g.length; }, n = (kind) => firms.filter((f) => f.kind === kind && f.alive).length;
       const fa = firms.filter((f) => f.kind === "factory" && f.alive); qualSum += fa.length ? fa.reduce((a, f) => a + f.qual, 0) / fa.length : 0;
