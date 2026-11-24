@@ -5,12 +5,12 @@ import { AGE_BANDS, ageBandOf, CATEGORY_KEYS, CATEGORIES } from "./constants.js"
 import { esc, hbar } from "./charts.js";
 
 export const POLITICS_ASSUMPTIONS = {
-  dependents: { value: "考慮しない", note: "手取りの計算で、配偶者控除・扶養控除・生命保険料控除などは入れていない。基礎控除と給与所得控除、社会保険料控除だけで計算する。家族のいる人の税は、実際より多めに出る" },
-  employee: { value: "年収106万円以上の雇われている人", note: "厚生年金・健康保険に入る人の範囲。正規雇用と役員は全員、非正規雇用は年収106万円以上とした。企業規模や労働時間の条件は入れていない" },
-  dependentSpouse: { value: "年収130万円未満の既婚の非正規・家事", note: "配偶者の扶養に入る(保険料がかからない)人の範囲。実際は配偶者が会社員の場合だけだが、区別していない" },
+  dependents: { value: "年収ごとの平均額", note: "配偶者控除・扶養控除・生命保険料控除などは、1人ずつの家族の状況が分からないため、同じ年収の給与所得者の平均額を引く(国税庁「民間給与実態統計調査」令和7年分。年収450万円で平均19万円、850万円で42万円)。住宅ローン控除も、同じ統計の平均の割合を税額から引く。雇われて働く人だけに適用する" },
+  employee: { value: "年収106万円以上の雇われている人", note: "厚生年金・健康保険に入る人の範囲。正規雇用と役員は全員、非正規雇用は年収106万円以上で、家族の扶養に入らない人。労働時間や会社の規模の条件は入れていない" },
+  dependentSpouse: { value: "年収130万円未満で、既婚または親と暮らす人", note: "家族の扶養に入る(保険料がかからない)人の範囲。実際は扶養する家族が会社員の場合だけだが、区別していない" },
   nhi: { value: "所得割9.22%+均等割+世帯割", note: "自営業・無職の人の国民健康保険料。令和5年度の全国平均の料率で計算(上限109万円)。自治体による差、軽減制度は入れていない" },
   pensionIncome: { value: "65歳以上110万円、65歳未満60万円を控除", note: "年金にかかる税の計算で引く額(公的年金等控除)。一般に知られた値で、今回の調査では一次資料を確認していない" },
-  bonus: { value: "考慮しない", note: "保険料の計算で、賞与と月給を区別せず、標準報酬の上限も入れていない。年収の高い人の保険料は、実際より多めに出る" },
+  bonus: { value: 0.2, note: "年収のうち賞与の割合(夏と冬の2回)。保険料の上限(厚生年金は月65万円・賞与1回150万円、健康保険は月139万円・賞与年573万円)を当てはめるのに使う。割合は仮定" },
   taxable: { value: { food: [0.78, 0.22], housing: 0.3, utilities: 1, furniture: 1, clothing: 1, medical: 0.4, transport_comm: 1, education: 0.3, recreation: 1, other: 0.9 }, note: "消費税がかかる支出の割合。食料は「軽減税率8%の分」と「標準税率10%の分(外食・酒)」の割合。家賃・保険診療・授業料は非課税。割合は仮定(家計調査の内訳では確認していない)" },
   household: { value: "家計の消費だけ", note: "消費税の税収の試算は、家計の消費にかかる分だけ。住宅の購入、政府や非営利団体の支出、非課税事業者の仕入れにかかる分は入らないので、実際の税収より少なく出る" },
 };
@@ -20,11 +20,17 @@ const P0 = PD;
 export function takeHome(p) {
   const S = p.income * 10000, age = p.age, employed = ["regular", "exec", "nonRegular"].includes(p.status);
   if (S <= 0) return { income: 0, tax: 0, resident: 0, social: 0, net: 0 };
-  const so = P0.social, covered = (p.status === "regular" || p.status === "exec" || (p.status === "nonRegular" && S >= 1060000)) && age < 75;
+  // 家族の扶養に入れる人(年収130万円未満で、既婚または親と暮らす人)は、保険料がかからない。それ以外の年収106万円以上の非正規雇用は、勤め先の保険に入るとみなす
+  const canDepend = S < 1300000 && (p.marital === "既婚" || p.asChild || age < 23);
+  const so = P0.social, covered = (p.status === "regular" || p.status === "exec" || (p.status === "nonRegular" && S >= 1060000 && !canDepend)) && age < 75;
   let social = 0;
-  if (covered) social = S * ((age < 70 ? so.pension : 0) + so.health + so.child + so.employment + (age >= 40 && age < 65 ? so.care : 0));
+  if (covered) { // 月給と賞与に分け、保険料がかかる上限を当てはめる
+    const bonus = S * POLITICS_ASSUMPTIONS.bonus.value, monthly = (S - bonus) / 12, C = P0.caps;
+    const pensionBase = Math.min(monthly, C.pensionMonthly) * 12 + 2 * Math.min(bonus / 2, C.pensionBonus), healthBase = Math.min(monthly, C.healthMonthly) * 12 + Math.min(bonus, C.healthBonusYear);
+    social = (age < 70 ? pensionBase * so.pension : 0) + healthBase * (so.health + so.child + (age >= 40 && age < 65 ? so.care : 0)) + S * so.employment;
+  }
   else {
-    const dependent = p.marital === "既婚" && S < 1300000 && ["nonRegular", "housework", "none", "unemployed"].includes(p.status);
+    const dependent = canDepend && ["nonRegular", "housework", "none", "unemployed", "student"].includes(p.status);
     if (!dependent) {
       const base = Math.max(0, (employed ? S - empDeduction(S) : p.working ? S : Math.max(0, S - (age >= 65 ? 1100000 : 600000))) - P0.residentBasicDeduction);
       social = Math.min(so.nhi.cap, base * so.nhi.rate + so.nhi.perCapita + so.nhi.perHousehold) + (age >= 20 && age < 60 ? so.nationalPension : 0);
@@ -33,11 +39,19 @@ export function takeHome(p) {
   // 所得(給与は給与所得控除、年金は公的年金等控除、自営は年収をそのまま所得とみなす)
   const earned = employed ? Math.max(0, S - empDeduction(S)) : p.working ? S : Math.max(0, S - (age >= 65 ? 1100000 : 600000));
   const basic = P0.basicDeduction.find(([up]) => earned <= up)?.[1] ?? 0;
-  const taxable = Math.max(0, earned - social - basic);
+  // 家族や保険の控除:同じ年収の人の平均額(国税庁の統計)。p.plain が真なら入れない
+  const avg = employed && !p.plain ? ntaAt(S / 10000) : null, other = avg ? avg.other * 10000 : 0;
+  const taxable = Math.max(0, earned - social - basic - other);
   const b = P0.incomeTax.brackets.find(([up]) => up == null || taxable <= up);
-  const tax = Math.max(0, taxable * b[1] - b[2]) * (1 + P0.incomeTax.surtax);
-  const rBase = Math.max(0, earned - social - P0.residentBasicDeduction), resident = rBase > 0 ? rBase * P0.residentTax.rate + P0.residentTax.perCapita : 0;
+  const tax = Math.max(0, Math.max(0, taxable * b[1] - b[2]) * (1 + P0.incomeTax.surtax) - (avg ? avg.credit * S : 0));
+  const rBase = Math.max(0, earned - social - P0.residentBasicDeduction - other * 0.87), resident = rBase > 0 ? rBase * P0.residentTax.rate + P0.residentTax.perCapita : 0;
   return { income: S, tax, resident, social, net: S - tax - resident - social };
+}
+// 国税庁の統計から、その年収の人の平均的な控除額(万円)と住宅ローン控除の割合を、前後の階級から補間して出す
+export function ntaAt(incomeMan) {
+  const R = P0.nta; if (incomeMan <= R[0].income) return R[0]; if (incomeMan >= R[R.length - 1].income) return R[R.length - 1];
+  const i = R.findIndex((r) => r.income >= incomeMan), a = R[i - 1], b = R[i], t = (incomeMan - a.income) / (b.income - a.income);
+  return { other: a.other + t * (b.other - a.other), credit: a.credit + t * (b.credit - a.credit), tax: a.tax + t * (b.tax - a.tax), social: a.social + t * (b.social - a.social) };
 }
 function empDeduction(S) {
   const d = S <= 3600000 ? S * 0.3 + 80000 : S <= 6600000 ? S * 0.2 + 440000 : S <= 8500000 ? S * 0.1 + 1100000 : P0.employmentDeduction.cap;
@@ -49,9 +63,18 @@ const CLASSES = [[0, 200], [200, 300], [300, 400], [400, 500], [500, 600], [600,
 export function burdenTable(personas) {
   return CLASSES.map(([lo, hi]) => {
     const g = personas.filter((p) => p.working && p.income >= lo && p.income < hi); let w = 0, inc = 0, tax = 0, soc = 0;
-    for (const p of g) { const t = takeHome(p); w += p.weight; inc += p.weight * t.income; tax += p.weight * (t.tax + t.resident); soc += p.weight * t.social; }
-    return { label: hi > 1e8 ? `${lo}万円以上` : `${lo}〜${hi}万円`, lo, hi, people: w, income: w ? inc / w / 10000 : 0, tax: inc ? tax / inc : 0, social: inc ? soc / inc : 0, total: inc ? (tax + soc) / inc : 0 };
+    let it = 0;
+    for (const p of g) { const t = takeHome(p); w += p.weight; inc += p.weight * t.income; tax += p.weight * (t.tax + t.resident); it += p.weight * t.tax; soc += p.weight * t.social; }
+    return { label: hi > 1e8 ? `${lo}万円以上` : `${lo}〜${hi}万円`, lo, hi, people: w, income: w ? inc / w / 10000 : 0, incomeTax: inc ? it / inc : 0, tax: inc ? tax / inc : 0, social: inc ? soc / inc : 0, total: inc ? (tax + soc) / inc : 0 };
   }).filter((r) => r.people > 0);
+}
+// 雇われて働く人の、年収階級ごとの所得税と社会保険料の割合(国税庁の統計と同じ区切りで比べる)
+export function employeeRates(personas) {
+  return P0.nta.filter((r) => r.income >= 250 && r.income <= 1000).map((r) => {
+    const g = personas.filter((p) => ["regular", "nonRegular", "exec"].includes(p.status) && p.income >= r.income * 0.9 && p.income < r.income * 1.1); let inc = 0, tax = 0, soc = 0;
+    for (const p of g) { const t = takeHome(p); inc += p.weight * t.income; tax += p.weight * t.tax; soc += p.weight * t.social; }
+    return { label: r.label, income: r.income, n: g.length, tax: inc ? tax / inc : 0, social: inc ? soc / inc : 0, realTax: r.tax, realSocial: r.social };
+  });
 }
 // 家計調査(二人以上の勤労者世帯)の、同じ年収水準の負担率
 export const fiesAt = (incomeMan) => PD.burden.slice(1).reduce((a, r) => (Math.abs(r.income - incomeMan) < Math.abs(a.income - incomeMan) ? r : a));
@@ -97,11 +120,12 @@ export function mountPolitics({ getPersonas, before }) {
   const a = make("takehome", `<div class="page-head"><h1>手取りと負担</h1><p>年収から所得税・住民税・社会保険料を引いた手取りを、仮想の日本の1人ずつについて計算します。</p></div>
     <div class="card"><div class="form-grid"><label>年収を入れて試す(万円) <input id="th-income" type="number" value="500" min="0" max="10000" step="10"></label><label>年齢 <input id="th-age" type="number" value="40" min="15" max="100"></label>
       <label>働き方 <select id="th-status"><option value="regular">正規雇用</option><option value="nonRegular">非正規雇用</option><option value="self">自営業</option><option value="none">年金で暮らす</option></select></label>
-      <label>配偶者 <select id="th-married"><option value="0">いない</option><option value="1">いる</option></select></label></div>
+      <label>配偶者 <select id="th-married"><option value="0">いない</option><option value="1">いる</option></select></label>
+      <label>家族や保険の控除 <select id="th-plain"><option value="0">同じ年収の人の平均を入れる</option><option value="1">入れない(独身・控除なし)</option></select></label></div>
       <div id="th-one"></div>
-      <p class="note">税率と保険料率は令和8年度の制度です(所得税の税率表・基礎控除・給与所得控除:財務省、住民税:総務省、厚生年金・雇用保険:厚生労働省、健康保険・介護保険:協会けんぽの全国平均)。<br>配偶者控除や扶養控除は入れていないので、家族のいる人の税は実際より多めに出ます。</p></div>
+      <p class="note">税率と保険料率は令和8年度の制度です(所得税の税率表・基礎控除・給与所得控除:財務省、住民税:総務省、厚生年金・雇用保険:厚生労働省、健康保険・介護保険:協会けんぽの全国平均)。<br>保険料がかかる上限は、日本年金機構と協会けんぽの保険料額表で確認しました。配偶者控除・扶養控除・生命保険料控除などは、同じ年収の給与所得者の平均額(国税庁の統計)を引いています。</p></div>
     <div id="th-out"></div>`);
-  const one = () => { const p = { income: Number(a.querySelector("#th-income").value) || 0, age: Number(a.querySelector("#th-age").value) || 40, status: a.querySelector("#th-status").value, marital: a.querySelector("#th-married").value === "1" ? "既婚" : "未婚" };
+  const one = () => { const p = { income: Number(a.querySelector("#th-income").value) || 0, age: Number(a.querySelector("#th-age").value) || 40, status: a.querySelector("#th-status").value, marital: a.querySelector("#th-married").value === "1" ? "既婚" : "未婚", plain: a.querySelector("#th-plain").value === "1" };
     p.working = p.status !== "none"; const t = takeHome(p);
     a.querySelector("#th-one").innerHTML = t.income ? `<div class="table-scroll"><table class="verify"><tr><th>項目</th><th class="num">年額</th><th class="num">年収に対する割合</th></tr>
       <tr><td>年収</td><td class="num">${man(t.income)}</td><td class="num">100%</td></tr><tr><td>所得税(復興特別所得税を含む)</td><td class="num">${man(t.tax)}</td><td class="num">${pct(t.tax / t.income)}</td></tr>
@@ -110,8 +134,8 @@ export function mountPolitics({ getPersonas, before }) {
   a.oninput = a.onchange = one;
   a.addEventListener("lab:open", () => { one(); const rows = burdenTable(getPersonas());
     a.querySelector("#th-out").innerHTML = `<div class="card"><h2>年収ごとの負担(働いている人)</h2>
-      <div class="table-scroll"><table class="verify"><tr><th>年収</th><th class="num">人数</th><th class="num">税</th><th class="num">社会保険料</th><th class="num">合計</th><th class="num">家計調査の世帯</th></tr>${rows.map((r) => { const f = fiesAt(r.income); return `<tr><td>${r.label}</td><td class="num">${people(r.people)}</td><td class="num">${pct(r.tax)}</td><td class="num">${pct(r.social)}</td><td class="num"><b>${pct(r.total)}</b></td><td class="num">${pct(f.total)}<small>年収${f.income}万円の世帯</small></td></tr>`; }).join("")}</table></div>
-      <p class="note">右端は、総務省「家計調査」2025年の、二人以上の勤労者世帯の実績(税と社会保険料 ÷ 実収入)です。世帯は平均1.81人で稼いでいるので、同じ世帯年収でも1人あたりの年収は低く、税率が下がります。そのため、1人ずつ計算したこの表のほうが高めに出ます。<br>国全体の負担(国民負担率)は、${NB.year}年度の見通しで${NB.total}%(税${NB.tax}%+社会保障${NB.social}%。国民所得に対する割合で、会社が払う分や消費税なども含む。財務省)です。</p></div>`; });
+      <div class="table-scroll"><table class="verify"><tr><th>年収</th><th class="num">人数</th><th class="num">税</th><th class="num">社会保険料</th><th class="num">合計</th><th class="num">実績:所得税</th><th class="num">実績:社会保険料</th></tr>${rows.map((r) => { const f = ntaAt(r.income); return `<tr><td>${r.label}</td><td class="num">${people(r.people)}</td><td class="num">${pct(r.tax)}<small>うち所得税 ${pct(r.incomeTax)}</small></td><td class="num">${pct(r.social)}</td><td class="num"><b>${pct(r.total)}</b></td><td class="num">${pct(f.tax)}</td><td class="num">${pct(f.social)}</td></tr>`; }).join("")}</table></div>
+      <p class="note">右の2列は、国税庁「民間給与実態統計調査」令和7年分の実績です(同じ年収の給与所得者の、所得税と社会保険料の年収に対する割合。住民税は含みません)。この計算は自営業の人なども含み、税率表は令和8年分(基礎控除が引き上げられた後)なので、所得税は実績より少し低く出ます。<br>国全体の負担(国民負担率)は、${NB.year}年度の見通しで${NB.total}%(税${NB.tax}%+社会保障${NB.social}%。国民所得に対する割合で、会社が払う分や消費税なども含む。財務省)です。</p></div>`; });
 
   // 2) 消費税
   const b = make("ctax", `<div class="page-head"><h1>消費税を変える</h1><p>消費税率を変えると、だれの負担がどれだけ変わるかを、仮想の日本の1人ずつの支出から計算します。</p></div>

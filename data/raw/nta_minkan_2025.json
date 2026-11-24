@@ -1,0 +1,152 @@
+{
+ "title": "給与階級別の給与・税額・所得控除(1年を通じて勤務した給与所得者のうち年末調整を行った者、納税者と非納税者の合計)",
+ "year": "令和7年分",
+ "source_name": "国税庁「令和7年分 民間給与実態統計調査」第17表 給与階級別の諸控除(その1 総括表)",
+ "source_url": "https://www.nta.go.jp/publication/statistics/kokuzeicho/minkan2025/minkan.htm",
+ "note": "税額は源泉所得税(復興特別所得税を含む)。住民税は含まない。other_deductions_avg_man は、配偶者控除・配偶者特別控除・扶養控除・生命保険料控除などの1人あたり平均(万円)。扶養控除は人数に控除額を掛けて計算",
+ "rows": [
+  {
+   "class": "100万円以下",
+   "persons": 2670643.0,
+   "salary_avg_man": 81.7,
+   "income_tax_rate": 0.0,
+   "social_deduction_rate": 0.01382,
+   "spouse_deduction_share": 0.0453,
+   "dependents_per_person": 0.0177,
+   "other_deductions_avg_man": 4.1,
+   "housing_credit_rate": 0.00061
+  },
+  {
+   "class": "200万円以下",
+   "persons": 4782977.0,
+   "salary_avg_man": 141.6,
+   "income_tax_rate": 0.00134,
+   "social_deduction_rate": 0.08061,
+   "spouse_deduction_share": 0.0746,
+   "dependents_per_person": 0.0548,
+   "other_deductions_avg_man": 8.9,
+   "housing_credit_rate": 0.00039
+  },
+  {
+   "class": "300万円以下",
+   "persons": 6159949.0,
+   "salary_avg_man": 253.0,
+   "income_tax_rate": 0.00863,
+   "social_deduction_rate": 0.15012,
+   "spouse_deduction_share": 0.0845,
+   "dependents_per_person": 0.1238,
+   "other_deductions_avg_man": 13.9,
+   "housing_credit_rate": 0.00038
+  },
+  {
+   "class": "400万円以下",
+   "persons": 7614698.0,
+   "salary_avg_man": 351.8,
+   "income_tax_rate": 0.01329,
+   "social_deduction_rate": 0.14676,
+   "spouse_deduction_share": 0.0948,
+   "dependents_per_person": 0.131,
+   "other_deductions_avg_man": 15.2,
+   "housing_credit_rate": 0.0009
+  },
+  {
+   "class": "500万円以下",
+   "persons": 7667278.0,
+   "salary_avg_man": 449.2,
+   "income_tax_rate": 0.01723,
+   "social_deduction_rate": 0.14538,
+   "spouse_deduction_share": 0.1287,
+   "dependents_per_person": 0.1589,
+   "other_deductions_avg_man": 19.1,
+   "housing_credit_rate": 0.0017
+  },
+  {
+   "class": "600万円以下",
+   "persons": 6001083.0,
+   "salary_avg_man": 547.4,
+   "income_tax_rate": 0.0227,
+   "social_deduction_rate": 0.14384,
+   "spouse_deduction_share": 0.1723,
+   "dependents_per_person": 0.1999,
+   "other_deductions_avg_man": 24.4,
+   "housing_credit_rate": 0.00292
+  },
+  {
+   "class": "700万円以下",
+   "persons": 3961455.0,
+   "salary_avg_man": 647.1,
+   "income_tax_rate": 0.02725,
+   "social_deduction_rate": 0.14622,
+   "spouse_deduction_share": 0.2304,
+   "dependents_per_person": 0.2628,
+   "other_deductions_avg_man": 31.3,
+   "housing_credit_rate": 0.00357
+  },
+  {
+   "class": "800万円以下",
+   "persons": 2719991.0,
+   "salary_avg_man": 746.8,
+   "income_tax_rate": 0.03642,
+   "social_deduction_rate": 0.14737,
+   "spouse_deduction_share": 0.278,
+   "dependents_per_person": 0.3082,
+   "other_deductions_avg_man": 37.2,
+   "housing_credit_rate": 0.00388
+  },
+  {
+   "class": "900万円以下",
+   "persons": 1797617.0,
+   "salary_avg_man": 848.1,
+   "income_tax_rate": 0.04822,
+   "social_deduction_rate": 0.14537,
+   "spouse_deduction_share": 0.3145,
+   "dependents_per_person": 0.3514,
+   "other_deductions_avg_man": 42.2,
+   "housing_credit_rate": 0.00396
+  },
+  {
+   "class": "1,000万円以下",
+   "persons": 1236843.0,
+   "salary_avg_man": 947.1,
+   "income_tax_rate": 0.05993,
+   "social_deduction_rate": 0.14311,
+   "spouse_deduction_share": 0.3429,
+   "dependents_per_person": 0.3761,
+   "other_deductions_avg_man": 45.5,
+   "housing_credit_rate": 0.00398
+  },
+  {
+   "class": "1,500万円以下",
+   "persons": 2320190.0,
+   "salary_avg_man": 1185.8,
+   "income_tax_rate": 0.08886,
+   "social_deduction_rate": 0.12841,
+   "spouse_deduction_share": 0.2182,
+   "dependents_per_person": 0.4398,
+   "other_deductions_avg_man": 42.6,
+   "housing_credit_rate": 0.00353
+  },
+  {
+   "class": "2,000万円以下",
+   "persons": 507355.0,
+   "salary_avg_man": 1702.6,
+   "income_tax_rate": 0.14918,
+   "social_deduction_rate": 0.10082,
+   "spouse_deduction_share": 0.0,
+   "dependents_per_person": 0.5153,
+   "other_deductions_avg_man": 40.1,
+   "housing_credit_rate": 0.00249
+  },
+  {
+   "class": "計",
+   "persons": 47440079.0,
+   "salary_avg_man": 479.9,
+   "income_tax_rate": 0.0371,
+   "social_deduction_rate": 0.13887,
+   "spouse_deduction_share": 0.1456,
+   "dependents_per_person": 0.1843,
+   "other_deductions_avg_man": 21.6,
+   "housing_credit_rate": 0.00257
+  }
+ ]
+}

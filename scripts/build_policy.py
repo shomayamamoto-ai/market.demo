@@ -17,6 +17,8 @@ out = {
   "social": {"pension": si["employees_pension"]["employee_share"], "health": si["health_insurance_kyokai_kenpo_national_average"]["employee_share"], "care": si["long_term_care_age_40_64"]["employee_share"],
              "child": si["child_support_levy_from_2026_04"]["employee_share"], "employment": si["employment_insurance_general_business"]["employee_share"], "nationalPension": si["national_pension_monthly_premium_yen"]["value"] * 12,
              "nhi": {"rate": nhi["national_average_fy2023_4method_medical_plus_support"]["income_levy_rate"], "perCapita": nhi["national_average_fy2023_4method_medical_plus_support"]["per_capita_yen"], "perHousehold": nhi["national_average_fy2023_4method_medical_plus_support"]["per_household_yen"], "cap": nhi["cap_fy2025_yen"]["total"]}},
+  "caps": {"pensionMonthly": 650000, "pensionBonus": 1500000, "healthMonthly": 1390000, "healthBonusYear": 5730000},  # 日本年金機構・協会けんぽの保険料額表(令和8年度)で確認
+  "nta": [{"income": r["salary_avg_man"], "tax": r["income_tax_rate"], "social": r["social_deduction_rate"], "other": r["other_deductions_avg_man"], "credit": r["housing_credit_rate"], "label": r["class"]} for r in json.loads((root / "data/raw/nta_minkan_2025.json").read_text())["rows"] if r["class"] != "計"],
   "consumptionTax": {"standard": ct["standard_rate"], "reduced": ct["reduced_rate"], "nationalShare": ct["standard_national"] / ct["standard_rate"], "pending": ct["pending_bill_2026_10"]["content"], "pendingStatus": ct["pending_bill_2026_10"]["status"],
                      "revenueNationalOku": bud["revenue"]["tax_and_stamp"]["consumption_tax"]["oku_yen"]},
   "burden": [{"label": r["income_class"], "income": r["annual_income_man_yen"], "total": r["burden_rate_non_consumption"], "tax": r["burden_rate_direct_tax"], "social": r["burden_rate_social_insurance"]} for r in D("fies_worker_households_burden_by_income_class")["rows"]],
@@ -24,7 +26,9 @@ out = {
   "turnout": {"衆院選": [{"name": e["election"], "pct": e["turnout_pct"]} for e in t["house_of_representatives"]], "参院選": [{"name": e["election"], "pct": e["turnout_pct"]} for e in t["house_of_councillors"]]},
   "studies": {"vat2014": {"announce": st["vat2014_announcement_effect"]["value"], "implement": st["vat2014_implementation_effect"]["value"], "cite": "Cashin & Unayama (2016) RIETI DP 16-E-052"},
               "minWageTeen": {"value": st["minwage_teen_employment_2007reform"]["value"], "cite": "川口大司・森悠子 (2013) RIETI DP 13-J-009"}},
-  "sources": [{"use": x["title"], "name": x["source_name"], "url": x["source_url"], "quality": {"high": "一次資料で確認", "medium": "一部は検索の抜粋で確認", "low": "検索の抜粋で確認"}[x["confidence"]]} for k, x in ds.items()
+  "sources": [{"use": "給与階級別の税額と所得控除(手取りの計算の検算と、平均的な控除額)", "name": "国税庁「令和7年分 民間給与実態統計調査」第17表", "url": "https://www.nta.go.jp/publication/statistics/kokuzeicho/minkan2025/minkan.htm", "quality": "一次資料で確認"},
+    {"use": "厚生年金・健康保険の保険料がかかる上限", "name": "日本年金機構「厚生年金保険の保険料」、協会けんぽ「令和8年度保険料額表(東京都)」", "url": "https://www.nenkin.go.jp/service/kounen/hokenryo/hoshu/20150515-01.html", "quality": "一次資料で確認"},
+    {"use": "配偶者控除・扶養控除の額", "name": "国税庁 タックスアンサー No.1191、No.1180", "url": "https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1191.htm", "quality": "一次資料で確認"}] + [{"use": x["title"], "name": x["source_name"], "url": x["source_url"], "quality": {"high": "一次資料で確認", "medium": "一部は検索の抜粋で確認", "low": "検索の抜粋で確認"}[x["confidence"]]} for k, x in ds.items()
               if k in ("income_tax_brackets", "basic_deduction", "employment_income_deduction", "resident_tax", "social_insurance_rates", "national_health_insurance_average", "consumption_tax", "fies_worker_households_burden_by_income_class", "turnout_by_age", "general_account_budget_fy2026", "national_burden_ratio")],
 }
 (root / "public/js/policy-data.js").write_text("// scripts/build_policy.py が作るファイル。手で書き換えない。\nexport default " + json.dumps(out, ensure_ascii=False, separators=(",", ":")) + ";\n")

@@ -17,7 +17,7 @@ import { climb } from "./climb.js";
 import { council } from "./council.js";
 import { labor } from "./labor.js";
 import { mountCustom, CUSTOM_ASSUMPTIONS, customChecks } from "./custom.js";
-import { mountPolitics, POLITICS_ASSUMPTIONS, takeHome, burdenTable, fiesAt, voteTable } from "./politics.js";
+import { mountPolitics, POLITICS_ASSUMPTIONS, employeeRates, voteTable } from "./politics.js";
 import POLICY from "./policy-data.js";
 import { regime } from "./regime.js";
 import { elders } from "./elders.js";
@@ -1120,7 +1120,9 @@ function buildGuide() {
         const rows = scoreboard(state.D, state.base, [{ basis: "動画の実験値", defs: LABS }, { basis: "理論", defs: THEORY_LABS }, { basis: "実験", defs: EXPERIMENT_LABS }, { basis: "公式推計", defs: [future] }], Number($("seed").value) || 1);
         rows.push(...customChecks(state.base, Number($("seed").value) || 1), ...marketingChecks(state.D, state.base, Number($("seed").value) || 1));
         // 政治と経済:手取りの計算と投票率を、家計調査と公表値に照らす
-        for (const r of burdenTable(state.base).filter((x) => [300, 500, 800].includes(x.lo))) { const f = fiesAt(r.income); rows.push({ basis: "調査", model: "手取りと負担", label: `年収${r.label}の、税と社会保険料の負担率`, a: `${(r.total * 100).toFixed(1)}%`, b: `${(f.total * 100).toFixed(1)}%`, diff: r.total / f.total - 1, points: (r.total - f.total) * 100, tol: 3, source: "総務省 家計調査 2025年(二人以上の勤労者世帯、同じ年収水準の世帯)。この計算は1人ごとで、配偶者控除・扶養控除を入れていないため高めに出る" }); }
+        for (const r of employeeRates(state.base)) { const src = "国税庁 民間給与実態統計調査 令和7年分 第17表(同じ年収の給与所得者の実績)";
+          rows.push({ basis: "公的統計", model: "手取りと負担", label: `年収${r.label}:社会保険料の割合`, a: `${(r.social * 100).toFixed(1)}%`, b: `${(r.realSocial * 100).toFixed(1)}%`, diff: r.social / r.realSocial - 1, source: src });
+          rows.push({ basis: "公的統計", model: "手取りと負担", label: `年収${r.label}:所得税の割合`, a: `${(r.tax * 100).toFixed(2)}%`, b: `${(r.realTax * 100).toFixed(2)}%`, diff: r.tax / r.realTax - 1, points: (r.tax - r.realTax) * 100, tol: 0.6, source: `${src}。この計算は令和8年分の税率表(基礎控除の引き上げ後)なので、実績より低く出る` }); }
         { const e = POLICY.turnout["衆院選"].at(-1), v = voteTable(state.base, { ...e.pct, "10歳代": e.pct["10歳代"] ?? 0 }); rows.push({ basis: "調査", model: "選挙と世代", label: `全体の投票率(${e.name})`, a: `${(v.turnout * 100).toFixed(1)}%`, b: `${e.pct["全体"]}%`, diff: (v.turnout * 100) / e.pct["全体"] - 1, points: v.turnout * 100 - e.pct["全体"], tol: 2, source: "総務省 国政選挙における年代別投票率について。年代別の投票率に、仮想の日本の年代別人口を掛けて合計した値と、公表された全体の投票率を比べた" }); }
         const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= (r.tol ?? 0.5))), order2 = ["公的統計", "公式推計", "理論", "文献", "実験", "調査", "動画の実験値"];
         const cell = (r) => (r.inRange != null ? (r.inRange ? "範囲内" : "範囲外") : `${r.diff >= 0 ? "+" : ""}${(r.diff * 100).toFixed(1)}%`);
