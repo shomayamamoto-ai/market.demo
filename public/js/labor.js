@@ -12,7 +12,7 @@ export const LABOR_ASSUMPTIONS = {
   tied: { value: 0.039, note: "家の事情などで、損でも工場で働き続ける人の割合。仮定。報酬1個のときの生産力が21.5%になるよう決めた" },
   overwork: { value: 0.6, note: "人が足りない工場では、足りない割合 × この係数だけ、1人の使う体力が増える。仮定" },
   raise: { value: 0.25, note: "自由競争のとき、人が足りない工場が1期ごとに上げる報酬(上限は条件で決める)" },
-  move: { value: 0.5, note: "得な働き先がほかにあるとき、その期に移る人の割合" },
+  move: { value: 0.5, note: "得な働き先がほかにあるとき、その期に移る人の割合。A〜D は参考にした実験動画の値。実際の日本の離職率は年13.7%(厚生労働省 雇用動向調査 2025年。宿泊・飲食23.7%、製造9.8%)で、1期を1年とみると0.14前後。E はこの値にした" },
   improve: { value: 0.0155, note: "人がそろっている工場が、もうけを道具の改良に回して上がる生産性(1期あたり)。仮定。自由競争の生産力が184%になるよう決めた" },
   auto: { value: 4.4, note: "自動ハンマーで、1人が作る量が何倍になるか。仮定。生産力が252%になるよう決めた" },
   value: { value: 4.2, note: "工場の手元に残る、1人分の売上(リンゴ、道具の水準1のとき)。仮定" },
@@ -35,6 +35,7 @@ export const labor = {
     fixed: { label: "B 報酬1個に固定、求人を3倍に", rules: { wage: 1, maxWage: 1, slots: 90, mode: 0 } },
     helper: { label: "C 報酬1個のまま、外から助っ人を呼ぶ", rules: { wage: 1, maxWage: 1, slots: 90, mode: 1 } },
     auto: { label: "D 自動ハンマーに投資し、報酬3.5個", rules: { wage: 3.5, maxWage: 3.5, slots: 9, mode: 2 } },
+    japanMarket: { label: "E A と同じで、移る人を日本の実態に近く(1期に14%)", rules: { wage: 2, maxWage: 3, slots: 30, mode: 0, move: 0.14 } },
   },
   params: [{ key: "wage", label: "最初の報酬(リンゴ)", value: 1, min: 0, max: 6, step: 0.25 }, { key: "maxWage", label: "上げられる報酬の上限", value: 1, min: 0, max: 6, step: 0.25 }, { key: "slots", label: "1棟の求人(人)", value: 90, min: 1, max: 160 }],
   charts: [{ title: "生産力と人手不足", lines: [{ key: "productivity", name: "生産力(最初の計画を100%)", color: "#2f8f6b" }, { key: "shortage", name: "人手が足りない工場の割合", color: "#b4473b" }] },
@@ -70,7 +71,7 @@ export const labor = {
       for (const p of people) {
         const cur = p.at >= 0 ? fac[p.at] : null;
         if (cur && !cur.alive) { p.at = -1; continue; }
-        if (rng.next() > A.move.value) continue;
+        if (rng.next() > (r.move ?? A.move.value)) continue;
         if (cur) { if (!p.tied && cur.wage - stamina * p.h * cur.load <= plazaNet) { cur.n--; p.at = -1; } continue; }
         let best = -1, gain = plazaNet;
         fac.forEach((f, k) => { if (!f.alive || f.n + f.helpers >= f.slots) return; const g = f.wage - stamina * p.h * f.load + rng.next() * 0.02; if (g > gain) { gain = g; best = k; } });

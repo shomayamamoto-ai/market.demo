@@ -24,14 +24,17 @@ export const maker = {
   note: "工場は固定費が重く変動費が安いので、たくさん売らないと利益が出ません。工房はその逆です。<br>不良品は、出荷前に見つかれば作り直し、客に届くと返品・修理の費用と評判の低下を招きます。",
   assumptions: MAKER_ASSUMPTIONS,
   presets: {
-    none: { label: "A 工場が品質にお金をかけない(不良品率12%)", rules: { defect: 12, growth: 0, harm: 1 } },
-    good: { label: "B 工場が予防に投資(不良品率1.8%)", rules: { defect: 1.8, growth: 0, harm: 1 } },
-    over: { label: "C 工場が品質にかけすぎる(不良品率0.1%)", rules: { defect: 0.1, growth: 0, harm: 1 } },
-    grow: { label: "D 伸びる市場(毎年+2%)、不良品率1.8%", rules: { defect: 1.8, growth: 2, harm: 1 } },
-    shrink: { label: "E 縮む市場(毎年−2%)、不良品率1.8%", rules: { defect: 1.8, growth: -2, harm: 1 } },
-    harsh: { label: "F 外部の失敗の損害が大きい世の中、不良品率1.8%", rules: { defect: 1.8, growth: 0, harm: 3 } },
+    none: { label: "A 工場が品質にお金をかけない(不良品率12%)", rules: { defect: 12, growth: 0, harm: 1, exitYears: 3, debtExit: 0 } },
+    good: { label: "B 工場が予防に投資(不良品率1.8%)", rules: { defect: 1.8, growth: 0, harm: 1, exitYears: 3, debtExit: 0 } },
+    over: { label: "C 工場が品質にかけすぎる(不良品率0.1%)", rules: { defect: 0.1, growth: 0, harm: 1, exitYears: 3, debtExit: 0 } },
+    grow: { label: "D 伸びる市場(毎年+2%)、不良品率1.8%", rules: { defect: 1.8, growth: 2, harm: 1, exitYears: 3, debtExit: 0 } },
+    shrink: { label: "E 縮む市場(毎年−2%)、不良品率1.8%", rules: { defect: 1.8, growth: -2, harm: 1, exitYears: 3, debtExit: 0 } },
+    harsh: { label: "F 外部の失敗の損害が大きい世の中、不良品率1.8%", rules: { defect: 1.8, growth: 0, harm: 3, exitYears: 3, debtExit: 0 } },
+    japan: { label: "G 日本の実態に近いつぶれ方(ためた利益を使い切ってから)、不良品率12%", rules: { defect: 12, growth: 0, harm: 1, exitYears: 3, debtExit: 1 } },
+    japanGood: { label: "H G と同じつぶれ方で、工場が予防に投資(不良品率1.8%)", rules: { defect: 1.8, growth: 0, harm: 1, exitYears: 3, debtExit: 1 } },
   },
-  params: [{ key: "defect", label: "工場の不良品率(%)", value: 12, min: 0.05, max: 12, step: 0.1 }, { key: "growth", label: "市場の伸び(年%)", value: 0, min: -5, max: 5, step: 0.5 }, { key: "harm", label: "外部の失敗の損害(倍)", value: 1, min: 0.2, max: 5, step: 0.2 }],
+  params: [{ key: "defect", label: "工場の不良品率(%)", value: 12, min: 0.05, max: 12, step: 0.1 }, { key: "growth", label: "市場の伸び(年%)", value: 0, min: -5, max: 5, step: 0.5 }, { key: "harm", label: "外部の失敗の損害(倍)", value: 1, min: 0.2, max: 5, step: 0.2 },
+    { key: "exitYears", label: "赤字が何年続くとつぶれるか", value: 3, min: 1, max: 20, step: 1 }, { key: "debtExit", label: "ためた利益を使い切るまでつぶれない(1=はい、0=いいえ)", value: 0, min: 0, max: 1, step: 1 }],
   charts: [{ title: "1社あたりの累計の利益", fmt: "num0", lines: [{ key: "factory", name: "工場", color: "#b4473b" }, { key: "workshop", name: "工房", color: "#2f8f6b" }] }, { title: "残っている会社の数", fmt: "num0", lines: [{ key: "nFactory", name: "工場", color: "#b4473b" }, { key: "nWorkshop", name: "工房", color: "#2f8f6b" }] }],
   metrics: [{ key: "factory", label: "工場の平均利益", fmt: "num0", sub: "60年の累計、つぶれた会社も含む" }, { key: "workshop", label: "工房の平均利益", fmt: "num0", sub: "60年の累計" },
     { key: "bustFactory", label: "つぶれた工場", fmt: "num1", sub: "12社のうち" }, { key: "bustWorkshop", label: "つぶれた工房", fmt: "num1", sub: "12社のうち" },
@@ -45,6 +48,7 @@ export const maker = {
     if (r.defect <= 0.3) out.push("不良品をゼロに近づけるほど、予防の費用は急に高くなります。減らせる失敗の費用より、かける費用のほうが大きくなる点があります。");
     if (r.growth > 0) out.push("市場が伸びるときは、固定費を多くの数で割れる工場が有利です。");
     if (r.growth < 0) out.push("市場が縮むときは、売れる数が減っても固定費が減らない工場が苦しくなり、固定費の軽い工房が残りやすくなります。");
+    if (r.debtExit) out.push(`このつぶれ方では、赤字が続いても、それまでにためた利益があるうちは会社が残ります。日本では赤字の法人が全体の約6割あり、倒産は長い不振のあとに起きる、という実態に近い設定です。つぶれた工場は${m.bustFactory.toFixed(1)}社でした。`);
     if (r.harm > 1.5) out.push("不良品1個の損害が大きい世の中(安全や信用に関わる商品)では、数を多く出す工場ほど不利になります。");
     out.push("品質の費用は「かけるほど良い」でも「削るほど得」でもなく、予防にかける額と、失敗で失う額の合計がいちばん小さくなる点を探すものです。");
     return out;
@@ -68,7 +72,8 @@ export const maker = {
         const profit = sold * (f.price - f.variable) - f.fixed - quality;
         f.cum += profit; f.qual = quality; f.red = profit < 0 ? (f.red ?? 0) + 1 : 0;
         f.rep = clamp(f.rep + A.reputation.value.recover * (1 - f.rep) - A.reputation.value.hit * r.harm ** 0.5 * (sold ? shipped / sold : 0) * f.rep, 0.05, 1);
-        if (f.red >= A.bankrupt.value) f.alive = false; // 赤字が続くと、それまでの蓄えがあっても店をたたむ
+        // 赤字が続くと店をたたむ。debtExit のときは、それまでにためた利益を使い切った(累計が赤字)ときだけ(日本の倒産の多くは債務超過と資金不足による:RIETI DP 19-E-051)
+        if (f.red >= (r.exitYears ?? A.bankrupt.value) && (!r.debtExit || f.cum < 0)) f.alive = false;
       }
       const avg = (kind) => { const g = firms.filter((f) => f.kind === kind); return g.reduce((a, f) => a + f.cum, 0) / g.length; }, n = (kind) => firms.filter((f) => f.kind === kind && f.alive).length;
       const fa = firms.filter((f) => f.kind === "factory" && f.alive); qualSum += fa.length ? fa.reduce((a, f) => a + f.qual, 0) / fa.length : 0;
