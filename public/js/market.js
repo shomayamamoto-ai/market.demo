@@ -5,6 +5,7 @@ import { AGE_BANDS, ageBandOf, CATEGORY_KEYS } from "./constants.js";
 const PRICE = { pivot: 0.1, power: 2.6 };
 export const MARKET_ASSUMPTIONS = {
   priceCurve: { value: "費目予算の10%で半減・べき2.6", note: "価格が、その費目の年間支出に占める割合で購入確率を下げる曲線。割合が10%を超えるあたりで、1%の値上げに対し1.3〜2.6%の減少になるよう設定(Tellis 1988; Bijmolt ほか 2005 の平均に合わせた)。ごく安い商品では価格の影響は小さい" },
+  brandElasticity: { value: 2.62, note: "相場の価格から1%値上げしたときに、買う人が何%減るか。1,851件の推定をまとめたメタ分析の平均(Bijmolt, van Heerde & Pieters 2005)。それ以前のメタ分析では1.76(Tellis 1988)。同じ種類の商品の中で他社に移る分を含む、1つの商品についての値。相場の価格を入れたとき、または価格の違う案を比べるときに使う" },
   intentWeights: {
     value: { 5: 0.7, 4: 0.25, 3: 0.05, 2: 0, 1: 0 },
     note: "「買う」と答えた人が実際に買う割合。アンケートの意向は実際より高く出るため割り引く。実務資料では「必ず買う」70〜75%、「たぶん買う」25%の例があるが、査読論文での裏づけは確認できていない",
@@ -36,7 +37,15 @@ export function buyProbability(p, product) {
   const budget = Math.max(p.spend[product.category] * 12, 1);
   const ratio = yearCost / budget; // その費目の年間支出に占める割合
   // 費目予算の10%で関心が半減。値上げへの反応が、実際の商品の研究(1%の値上げで1.8〜2.6%減)に近づく形にしている
-  const afford = 1 / (1 + (ratio / PRICE.pivot) ** PRICE.power);
+  const affordAt = (price) => 1 / (1 + ((price * product.perYear) / budget / PRICE.pivot) ** PRICE.power);
+  let afford = affordAt(product.price);
+  // 相場の価格が分かっているときは、そこからの値上げ・値下げに、実際の商品の研究と同じ強さで反応させる(1%の値上げで約2.6%減)。
+  // 値上げ側は、予算から見た買いやすさのほうが厳しければ、そちらに従う
+  const ref = product.refPrice;
+  if (ref > 0 && product.price > 0 && Math.abs(product.price / ref - 1) > 1e-9) {
+    const rel = affordAt(ref) * (product.price / ref) ** -MARKET_ASSUMPTIONS.brandElasticity.value;
+    afford = product.price > ref ? Math.min(afford, rel) : Math.min(rel, affordAt(ref) * 3);
+  }
   const a = product.appeal ?? {};
   // 訴求点と価値観の相性(-1〜+1 程度)
   const fit =

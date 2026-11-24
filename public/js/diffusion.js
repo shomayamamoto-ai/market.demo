@@ -14,6 +14,8 @@ export const DIFFUSION_ASSUMPTIONS = {
     note: "採用タイプごとの「自分から買い始める強さ」の倍率",
   },
   costPerReach: { value: { tv: 3, net: 2, store: 6 }, note: "広告を1人に1回届けるのにかかる費用(円)" },
+  adExponent: { value: 0.24, note: "広告の効き方の逓減。広告で商品を知る人の割合は、広告量のこの乗数に比例する(広告を2倍にしても、知る人は約1.2倍)。広告弾力性のメタ分析の長期の平均0.24(Sethuraman, Tellis & Briesch 2011、402推定。短期の平均は0.12)" },
+  adBase: { value: 0.02, note: "広告の効き方の基準点。1か月に対象者の2%に届く広告量のときは、「広告費 ÷ 1人に届ける費用」のとおりに知られていく。これより多いと、増やした割には伸びない。基準点の置き方は仮定" },
   churnRef: { value: "月3%(初期値)", note: "解約率の参考:米国の有料動画配信は2025年に月4.6%(Antenna調べ)。日本の業界別の値は確認できていない" },
   adRef: { value: "短期0.12・長期0.24", note: "広告の効き方の参考:広告費を1%増やしたときの売上の伸び(Sethuraman, Tellis & Briesch 2011)。消費財のテレビ広告では0.01〜0.02台という報告もある(Shapiro, Hitsch & Tuchman 2021)。このモデルの広告の効き方は、これらに合わせ込んでいない" },
   wom: { value: 0.6, note: "口コミで商品を知る強さ(身近な層の利用率に比例)" },
@@ -52,7 +54,7 @@ export function createSim(D, personas, product, opts = {}) {
   const basePrice = product.price;
 
   const probAt = (p, price) => {
-    const now = buyProbability(p, { ...product, price });
+    const now = buyProbability(p, { ...product, price, refPrice: product.refPrice ?? basePrice }); // 発売後の値上げ・値下げは、最初の価格を相場として反応させる
     if (!calib) return now;
     const ref = buyProbability(p, product);
     const seg = calib[`${ageBandOf(p.age)}|${p.sex}`] ?? 0;
@@ -130,7 +132,9 @@ export function createSim(D, personas, product, opts = {}) {
     const reach = {};
     for (const ch of ["tv", "net", "store"]) {
       const persons = (plan.ad?.[ch] ?? 0) / A.costPerReach.value[ch];
-      reach[ch] = targetPeople > 0 ? 1 - Math.exp(-persons / targetPeople) : 0;
+      // 広告は、増やすほど効きにくくなる。届く割合 ∝ 広告量の β 乗(β は広告弾力性の文献値)。基準の広告量では、単純に「広告費 ÷ 1人あたりの費用」と同じになるようにそろえる
+      const E = targetPeople > 0 ? persons / targetPeople : 0, E0 = A.adBase.value;
+      reach[ch] = E > 0 ? 1 - Math.exp(-(E0 ** (1 - A.adExponent.value)) * E ** A.adExponent.value) : 0;
     }
     const slump = sim.month <= F.slumpUntil ? 0.7 : 1;
     const womOn = sim.month > F.womStopUntil;

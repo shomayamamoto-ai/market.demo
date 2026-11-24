@@ -343,3 +343,13 @@ test("オリジナルの実験:実際の割合に合わせると、その割合�
   near(trialCustom(P, a.config, 4, 1).mean[1], 0.40, 0.03, "合わせた割合");
   assert.equal(anchor(P, { ...TEMPLATES.cashless, n: 300 }, 1).anchored, false);
 });
+
+import { marketingChecks } from "../public/js/guide.js";
+import { buyProbability as buyProb } from "../public/js/market.js";
+test("マーケティングの文献値:値上げと広告への反応が、メタ分析の値に近い", () => {
+  const rows = marketingChecks(D, P, 1);
+  assert.ok(Math.abs(rows[0].diff) < 0.1 && Math.abs(rows[1].diff) < 0.1, `価格 ${rows[0].a} ${rows[1].a}`);
+  assert.ok(Number(rows[2].a) > 0 && Number(rows[2].a) < 0.45, `広告 ${rows[2].a}`);
+  const p0 = P.find((p) => p.age === 40), base = { category: "food", price: 3000, perYear: 12, target: {}, appeal: {}, baseInterest: 0.12 };
+  assert.equal(buyProb(p0, base), buyProb(p0, { ...base, refPrice: 3000 })); // 相場と同じ価格なら、相場を入れても結果は変わらない
+});

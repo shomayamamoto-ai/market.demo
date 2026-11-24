@@ -25,7 +25,7 @@ import { queue, spreadModel, schelling, newsvendor, laffer } from "./theory.js";
 import { threshold, tournament, commons, split } from "./experiments.js";
 import { future } from "./future.js";
 import LITERATURE from "./literature-data.js";
-import { CATALOG, BASIS_NOTE, findScreens, scoreboard } from "./guide.js";
+import { CATALOG, BASIS_NOTE, findScreens, scoreboard, marketingChecks } from "./guide.js";
 import COHORT from "./cohort-data.js";
 import { CHAIN_PRESETS, CHAIN_ASSUMPTIONS, CHAIN_REFERENCE, relay, runChain, trialChain, sweepLayers } from "./chain.js";
 import { SOCIETY_PRESETS, SOCIETY_ASSUMPTIONS, runSociety, trialSociety, sweepTax } from "./society.js";
@@ -360,6 +360,7 @@ function currentProduct() {
     name: $("p-name").value || "新しい商品",
     category: $("p-category").value,
     price: Math.max(0, Number($("p-price").value) || 0),
+    refPrice: Math.max(0, Number($("p-ref").value) || 0) || undefined,
     perYear: Math.max(0.1, Number($("p-per-year").value) || 1),
     target: { ageMin: Number($("p-age-min").value) || 0, ageMax: Number($("p-age-max").value) || 200, sex: $("p-sex").value, onlineOnly: $("p-online").checked },
     appeal: { novelty: +$("a-novelty").value, health: +$("a-health").value, quality: +$("a-quality").value, cheap: +$("a-cheap").value },
@@ -1030,7 +1031,9 @@ function gatherCrowd() {
   state.visualKey = visualKey();
   const product = currentProduct();
   if (!$("v-opts").contains(document.activeElement)) renderOptions(); // 入力中は書き換えない
-  const options = visualOptions().map((x, k) => ({ ...product, price: x.price, perYear: x.perYear, label: OPT_NAMES[k] }));
+  // 価格の違う案を比べるときは、相場が入っていなければA案の価格を相場として、値段の差に反応させる
+  const refPrice = product.refPrice ?? (visualOptions().length > 1 ? visualOptions()[0].price : undefined);
+  const options = visualOptions().map((x, k) => ({ ...product, price: x.price, perYear: x.perYear, refPrice, label: OPT_NAMES[k] }));
   const ok = prepareCrowd(state.visual, {
     personas: state.personas, options, n: Number($("v-n").value), seed: Number($("seed").value) || 1,
     fmt: { fmtYen, fmtPeople, pct, num, esc },
@@ -1111,8 +1114,8 @@ function buildGuide() {
     setTimeout(() => {
       try {
         const rows = scoreboard(state.D, state.base, [{ basis: "動画の実験値", defs: LABS }, { basis: "理論", defs: THEORY_LABS }, { basis: "実験", defs: EXPERIMENT_LABS }, { basis: "公式推計", defs: [future] }], Number($("seed").value) || 1);
-        rows.push(...customChecks(state.base, Number($("seed").value) || 1));
-        const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= (r.tol ?? 0.5))), order2 = ["公的統計", "公式推計", "理論", "実験", "調査", "動画の実験値"];
+        rows.push(...customChecks(state.base, Number($("seed").value) || 1), ...marketingChecks(state.D, state.base, Number($("seed").value) || 1));
+        const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= (r.tol ?? 0.5))), order2 = ["公的統計", "公式推計", "理論", "文献", "実験", "調査", "動画の実験値"];
         const cell = (r) => (r.inRange != null ? (r.inRange ? "範囲内" : "範囲外") : `${r.diff >= 0 ? "+" : ""}${(r.diff * 100).toFixed(1)}%`);
         const med = (list) => { const v = list.filter((r) => r.diff != null).map((r) => Math.abs(r.diff)).sort((a, b) => a - b); return v.length ? v[Math.floor(v.length / 2)] : 0; };
         $("score-out").innerHTML = `<div class="analysis"><h2>${rows.length}項目を照合しました</h2>

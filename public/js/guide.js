@@ -1,6 +1,8 @@
 // 「お題から探す」の目次と、「精度の成績表」(このツールの計算を、統計・理論・実験と照らし合わせた一覧)。
 import { trial, formatMetric } from "./lab.js";
 import { validate } from "./personas.js";
+import { buyProbability, MARKET_ASSUMPTIONS } from "./market.js";
+import { runMany, DEFAULT_PLAN, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 
 // 画面ごとの「何を確かめる道具か」と、探すときの言葉。basis は数字の根拠の種類
 export const CATALOG = [
@@ -37,7 +39,7 @@ export const CATALOG = [
   { tab: "threshold", title: "みんながやるなら自分も", desc: "新しい制度や商品が、全体に広がるかどうかの分かれ目", basis: "実験", words: "導入 浸透 定着 社内展開 流行 同調 様子見 新制度 ツール 変革" },
 ];
 export const BASIS_NOTE = {
-  調査: "実際の調査と照合(係数は合わせ込んでいない)", 文献値と仮定: "文献の推定値と仮定で計算し、実際の調査と照合",
+  文献: "マーケティングの文献の推定値と照合", 調査: "実際の調査と照合(係数は合わせ込んでいない)", 文献値と仮定: "文献の推定値と仮定で計算し、実際の調査と照合",
   公的統計: "国の統計と照合", 公式推計: "国の公式推計と照合", 理論: "数式の理論値と照合", 実験: "論文の実験結果と照合",
   動画の実験値: "参考にした実験動画の値に合わせて調整(現実との照合ではない)", 仮定: "仮定にもとづく試算(照合先なし)",
 };
@@ -74,5 +76,18 @@ export function scoreboard(D, personas, groups, seed = 1) {
       rows.push({ basis, model: `${def.title}:${p.label}`, label: m.label, a: formatMetric(m, summary[k]), b: formatMetric(m, target), diff: summary[k] / target - 1 });
     }
   }
+  return rows;
+}
+
+// マーケティングの文献値との照合:値上げと広告に対する、モデル全体としての反応を測って比べる
+export function marketingChecks(D, personas, seed = 1) {
+  const product = { name: "検算用の商品", category: "food", price: 3000, perYear: 12, target: { ageMin: 20, ageMax: 69, sex: "all" }, appeal: { novelty: 0.3, health: 0.3, quality: 0.2, cheap: 0 }, baseInterest: 0.12 };
+  const buyers = (price) => personas.reduce((a, p) => a + p.weight * buyProbability(p, { ...product, price, refPrice: 3000 }), 0), b0 = buyers(3000), rows = [];
+  const up = (buyers(3030) / b0 - 1) / 0.01, down = (buyers(2970) / b0 - 1) / 0.01, E = MARKET_ASSUMPTIONS.brandElasticity.value;
+  rows.push({ basis: "文献", model: "お題と市場規模", label: "相場から1%値上げしたときの、買う人の減り方", a: `${up.toFixed(2)}%`, b: `−${E}%`, diff: up / -E - 1, source: "Bijmolt, van Heerde & Pieters (2005) の価格弾力性のメタ分析(平均−2.62)" });
+  rows.push({ basis: "文献", model: "お題と市場規模", label: "相場から1%値下げしたときの、買う人の増え方", a: `+${down.toFixed(2)}%`, b: `+${E}%`, diff: down / E - 1, source: "同上" });
+  const total = (ad) => runMany(D, personas, product, { ...DEFAULT_PLAN, ad: { tv: 0, net: ad, store: 0 } }, { months: 36, runs: 12, seed: seed + 2 }).series.reduce((a, x) => a + x.revenue.mid, 0);
+  const el = [1e7, 3e7].map((ad) => Math.log(total(ad * 2) / total(ad)) / Math.log(2)), mean = (el[0] + el[1]) / 2, lit = DIFFUSION_ASSUMPTIONS.adExponent.value;
+  rows.push({ basis: "文献", model: "発売後の広がり", label: "広告費を2倍にしたときの、3年間の売上の伸び方(弾力性)", a: mean.toFixed(2), b: `0.12〜${lit}`, inRange: mean >= 0.06 && mean <= 0.3, diff: mean / lit - 1, points: (mean - lit) * 100, source: "Sethuraman, Tellis & Briesch (2011) の広告弾力性のメタ分析(長期0.24、短期0.12)。月1,000万円と3,000万円の2点で測った平均" });
   return rows;
 }
