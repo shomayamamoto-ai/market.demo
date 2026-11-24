@@ -1,0 +1,8972 @@
+{
+ "generated": "2026-11-24",
+ "notes": [
+  "政党名は総務省の表記(注記記号※は除去)。小選挙区・選挙区の「諸派」「無所属」は総務省表の区分。衆院小選挙区の当選人数表の「本人・推薦届出/政党等所属」は得票表の「諸派」に対応させた。",
+  "得票数の小数は按分票。vote_share_pct は 得票数÷有効投票総数×100 を再計算し、公表の得票率と照合済み。",
+  "pr.blocks[].parties[].seats は公式の議席配分表の順位から数えた議席、seats_dhondt_calc は得票からの単純ドント式計算。両者の差は名簿登載者不足等による議席の他党への移動(各回 checks 参照)。",
+  "参院の district.seats は通常選挙分。合併補欠選挙の当選人(外書)は extra_byelection_seats_not_included に記載。",
+  "第51回衆院選(2026-02-08)が直近の回。"
+ ],
+ "house_of_representatives": [
+  {
+   "election": "第44回衆議院議員総選挙 2005-09-11",
+   "date": "2005-09-11",
+   "turnout_pct": 67.51,
+   "smd": {
+    "seats": 300,
+    "total_valid_votes": 68066291.924,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 32518389.918,
+      "vote_share_pct": 47.7746,
+      "seats": 219
+     },
+     {
+      "party": "民主党",
+      "votes": 24804786.739,
+      "vote_share_pct": 36.4421,
+      "seats": 52
+     },
+     {
+      "party": "公明党",
+      "votes": 981105,
+      "vote_share_pct": 1.4414,
+      "seats": 8
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4937375.03,
+      "vote_share_pct": 7.2538,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 996007.697,
+      "vote_share_pct": 1.4633,
+      "seats": 1
+     },
+     {
+      "party": "国民新党",
+      "votes": 432679,
+      "vote_share_pct": 0.6357,
+      "seats": 2
+     },
+     {
+      "party": "新党日本",
+      "votes": 137172,
+      "vote_share_pct": 0.2015,
+      "seats": 0
+     },
+     {
+      "party": "新党大地",
+      "votes": 16698,
+      "vote_share_pct": 0.0245,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 1557,
+      "vote_share_pct": 0.0023,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 3240521.54,
+      "vote_share_pct": 4.7608,
+      "seats": 18
+     }
+    ]
+   },
+   "pr": {
+    "seats": 180,
+    "total_valid_votes": 67811069,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 25887798,
+      "vote_share_pct": 38.1764,
+      "seats": 77
+     },
+     {
+      "party": "民主党",
+      "votes": 21036425,
+      "vote_share_pct": 31.0221,
+      "seats": 61
+     },
+     {
+      "party": "公明党",
+      "votes": 8987620,
+      "vote_share_pct": 13.2539,
+      "seats": 23
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4919187,
+      "vote_share_pct": 7.2543,
+      "seats": 9
+     },
+     {
+      "party": "社会民主党",
+      "votes": 3719522,
+      "vote_share_pct": 5.4851,
+      "seats": 6
+     },
+     {
+      "party": "国民新党",
+      "votes": 1183073,
+      "vote_share_pct": 1.7447,
+      "seats": 2
+     },
+     {
+      "party": "新党日本",
+      "votes": 1643506,
+      "vote_share_pct": 2.4237,
+      "seats": 1
+     },
+     {
+      "party": "新党大地",
+      "votes": 433938,
+      "vote_share_pct": 0.6399,
+      "seats": 1
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 3227939,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 1090727,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "自由民主党",
+        "votes": 940705,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "新党大地",
+        "votes": 433938,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 368552,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 241371,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 152646,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 14,
+      "total_votes": 5203030,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1901595,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "民主党",
+        "votes": 1748165,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 620638,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 362523,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 325176,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 244933,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 20,
+      "total_votes": 7187731,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2892780,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "民主党",
+        "votes": 2260717,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 937345,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 477958,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 323979,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "新党日本",
+        "votes": 294952,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 8279219,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 3510617,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "民主党",
+        "votes": 2439549,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 1007504,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 566945,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 444753,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "新党日本",
+        "votes": 309851,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 6624594,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2665417,
+        "seats": 7,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "民主党",
+        "votes": 1962225,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "公明党",
+        "votes": 820126,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 586017,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 300782,
+        "seats": 1,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 290027,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 4348982,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1665553,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 1414392,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 403203,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 300140,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 293045,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 272649,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 7950624,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 3066048,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "民主党",
+        "votes": 2766443,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "公明党",
+        "votes": 987290,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 502501,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "新党日本",
+        "votes": 327768,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 300574,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 29,
+      "total_votes": 10880183,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 4003209,
+        "seats": 11,
+        "seats_dhondt_calc": 11
+       },
+       {
+        "party": "民主党",
+        "votes": 3157556,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "公明党",
+        "votes": 1626678,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本共産党",
+        "votes": 1051949,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "社会民主党",
+        "votes": 619883,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "新党日本",
+        "votes": 420908,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 4186008,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1537080,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 1196971,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 658702,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "国民新党",
+        "votes": 330546,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 247073,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 215636,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 2146331,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 821746,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 711927,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 317575,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 175994,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 119089,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 21,
+      "total_votes": 7776428,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2883048,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "民主党",
+        "votes": 2287753,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 1240007,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "社会民主党",
+        "votes": 607008,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 451158,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 307454,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第44回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/index.html",
+   "source_files": {
+    "smd_votes": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_03_04.pdf",
+    "pr_votes": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_03_05.pdf",
+    "winners": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_03_01.pdf",
+    "pr_block_votes": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_03_10.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_03_12.pdf",
+    "turnout": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin44/pdf/h17sousenkyo_050911_02_01.pdf"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのPDFを pdftotext -layout で読み取り(得票・ブロック別は機械読み取り、政党別当選者数は03_01の「計」行を目視転記し定数と照合)",
+   "checks": [
+    "小選挙区: 政党別得票合計=68066291.924 / 公表合計=68066291.924 → 一致",
+    "小選挙区: 得票率は再計算し公表値(小数2桁)と照合 → 全党一致",
+    "比例代表: 政党別得票合計=67811069.000 / 公表合計=67811069.0 → 一致",
+    "比例代表: 得票率は再計算し公表値(小数2桁)と照合 → 全党一致",
+    "小選挙区: 当選者数合計=300 / 定数=300 → 一致",
+    "比例代表: 当選者数合計=180 / 定数=180 → 一致",
+    "ブロック数=11, ブロック定数合計=180 / 比例定数=180",
+    "ブロック合算と全国計の照合: 上に不一致の記載がなければ全党一致",
+    "ドント式検算: 東京都: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (8, 7), '社会民主党': (0, 1)}"
+   ]
+  },
+  {
+   "election": "第45回衆議院議員総選挙 2009-08-30",
+   "date": "2009-08-30",
+   "turnout_pct": 69.28,
+   "smd": {
+    "seats": 300,
+    "total_valid_votes": 70581679.935,
+    "parties": [
+     {
+      "party": "民主党",
+      "votes": 33475334.854,
+      "vote_share_pct": 47.4278,
+      "seats": 221
+     },
+     {
+      "party": "自由民主党",
+      "votes": 27301982.074,
+      "vote_share_pct": 38.6814,
+      "seats": 64
+     },
+     {
+      "party": "公明党",
+      "votes": 782984,
+      "vote_share_pct": 1.1093,
+      "seats": 0
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2978354.131,
+      "vote_share_pct": 4.2197,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1376739,
+      "vote_share_pct": 1.9506,
+      "seats": 3
+     },
+     {
+      "party": "みんなの党",
+      "votes": 615244,
+      "vote_share_pct": 0.8717,
+      "seats": 2
+     },
+     {
+      "party": "国民新党",
+      "votes": 730570,
+      "vote_share_pct": 1.0351,
+      "seats": 3
+     },
+     {
+      "party": "新党日本",
+      "votes": 220223,
+      "vote_share_pct": 0.312,
+      "seats": 1
+     },
+     {
+      "party": "改革クラブ",
+      "votes": 36650,
+      "vote_share_pct": 0.0519,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 1077543.003,
+      "vote_share_pct": 1.5267,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 1986055.873,
+      "vote_share_pct": 2.8138,
+      "seats": 6
+     }
+    ]
+   },
+   "pr": {
+    "seats": 180,
+    "total_valid_votes": 70370255,
+    "parties": [
+     {
+      "party": "民主党",
+      "votes": 29844799,
+      "vote_share_pct": 42.4111,
+      "seats": 87
+     },
+     {
+      "party": "自由民主党",
+      "votes": 18810217,
+      "vote_share_pct": 26.7304,
+      "seats": 55
+     },
+     {
+      "party": "公明党",
+      "votes": 8054007,
+      "vote_share_pct": 11.4452,
+      "seats": 21
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4943886,
+      "vote_share_pct": 7.0255,
+      "seats": 9
+     },
+     {
+      "party": "社会民主党",
+      "votes": 3006160,
+      "vote_share_pct": 4.2719,
+      "seats": 4
+     },
+     {
+      "party": "みんなの党",
+      "votes": 3005199,
+      "vote_share_pct": 4.2706,
+      "seats": 3
+     },
+     {
+      "party": "国民新党",
+      "votes": 1219767,
+      "vote_share_pct": 1.7334,
+      "seats": 0
+     },
+     {
+      "party": "新党日本",
+      "votes": 528171,
+      "vote_share_pct": 0.7506,
+      "seats": 0
+     },
+     {
+      "party": "新党大地",
+      "votes": 433122,
+      "vote_share_pct": 0.6155,
+      "seats": 1
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 459387,
+      "vote_share_pct": 0.6528,
+      "seats": 0
+     },
+     {
+      "party": "改革クラブ",
+      "votes": 58141,
+      "vote_share_pct": 0.0826,
+      "seats": 0
+     },
+     {
+      "party": "新党本質",
+      "votes": 7399,
+      "vote_share_pct": 0.0105,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 3324803,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 1348318,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "自由民主党",
+        "votes": 805895,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "新党大地",
+        "votes": 433122,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 354886,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 241345,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 113562,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 20276,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党本質",
+        "votes": 7399,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 14,
+      "total_votes": 5351861,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 2433836,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1491761,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 516688,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 316635,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 315201,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 241445,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 36295,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 20,
+      "total_votes": 7530249,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 3172577,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1945933,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "公明党",
+        "votes": 855134,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "みんなの党",
+        "votes": 597025,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 471138,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 274030,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 99354,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 68191,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 46867,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 8594503,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 3695159,
+        "seats": 11,
+        "seats_dhondt_calc": 11
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2233560,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "公明党",
+        "votes": 862427,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "みんなの党",
+        "votes": 605358,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 601299,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 369754,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 102992,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 79792,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 44162,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 6927467,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 2839081,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1764696,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 717199,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 665462,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 419903,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 299032,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 100381,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 86046,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 35667,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 4521003,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 2007770,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1333082,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 333084,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 274816,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 240333,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 225992,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 73614,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 32312,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 8354169,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 3864328,
+        "seats": 12,
+        "seats_dhondt_calc": 11
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2182422,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "公明党",
+        "votes": 891158,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 486974,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 404411,
+        "seats": 0,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 264957,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 130212,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 72485,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 57222,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 29,
+      "total_votes": 11160920,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 4733415,
+        "seats": 11,
+        "seats_dhondt_calc": 13
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2592451,
+        "seats": 9,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 1449170,
+        "seats": 5,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本共産党",
+        "votes": 1067443,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "みんなの党",
+        "votes": 465591,
+        "seats": 0,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 411092,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 169380,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党日本",
+        "votes": 133708,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 80529,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "改革クラブ",
+        "votes": 58141,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 4289824,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 1704242,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1388451,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 555552,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 244761,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 208208,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 156291,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 32319,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 2250072,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 973038,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "自由民主党",
+        "votes": 719594,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 293204,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 150171,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 94558,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 19507,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 21,
+      "total_votes": 8065384,
+      "parties": [
+       {
+        "party": "民主党",
+        "votes": 3073035,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2352372,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 1225505,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "社会民主党",
+        "votes": 480257,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 425276,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 271466,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民新党",
+        "votes": 183242,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 54231,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第45回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin45/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000037617.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000037622.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000037627.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000037629.xls",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000037637.xls",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000037486.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000037639.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=70581679.935 / 公表合計=70581679.935 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=70370255.000 / 公表合計=70370255.0 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=300 / 定数(当選人数表の合計)=300 → 一致",
+    "比例代表: 当選者数合計=180 / 定数(当選人数表の合計)=180 → 一致",
+    "ブロック数=11, ブロック定数合計=180 / 比例定数=180",
+    "ドント式検算: 東海: ドント式の単純計算と公式配分が相違(計算,公式) {'民主党': (11, 12), 'みんなの党': (1, 0)}; 近畿: ドント式の単純計算と公式配分が相違(計算,公式) {'民主党': (13, 11), '自由民主党': (7, 9), '公明党': (4, 5), 'みんなの党': (1, 0)}"
+   ]
+  },
+  {
+   "election": "第46回衆議院議員総選挙 2012-12-16",
+   "date": "2012-12-16",
+   "turnout_pct": 59.32,
+   "smd": {
+    "seats": 300,
+    "total_valid_votes": 59626567.905,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 25643309.437,
+      "vote_share_pct": 43.0065,
+      "seats": 237
+     },
+     {
+      "party": "民主党",
+      "votes": 13598773.592,
+      "vote_share_pct": 22.8066,
+      "seats": 27
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 6942353.536,
+      "vote_share_pct": 11.6431,
+      "seats": 14
+     },
+     {
+      "party": "公明党",
+      "votes": 885881,
+      "vote_share_pct": 1.4857,
+      "seats": 9
+     },
+     {
+      "party": "みんなの党",
+      "votes": 2807244.61,
+      "vote_share_pct": 4.708,
+      "seats": 4
+     },
+     {
+      "party": "日本未来の党",
+      "votes": 2992365.627,
+      "vote_share_pct": 5.0185,
+      "seats": 2
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4700289.803,
+      "vote_share_pct": 7.8829,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 451762.273,
+      "vote_share_pct": 0.7577,
+      "seats": 1
+     },
+     {
+      "party": "新党大地",
+      "votes": 315604,
+      "vote_share_pct": 0.5293,
+      "seats": 0
+     },
+     {
+      "party": "国民新党",
+      "votes": 117185,
+      "vote_share_pct": 0.1965,
+      "seats": 1
+     },
+     {
+      "party": "諸派",
+      "votes": 165331,
+      "vote_share_pct": 0.2773,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 1006468.027,
+      "vote_share_pct": 1.688,
+      "seats": 5
+     }
+    ]
+   },
+   "pr": {
+    "seats": 180,
+    "total_valid_votes": 60179888,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 16624457,
+      "vote_share_pct": 27.6246,
+      "seats": 57
+     },
+     {
+      "party": "民主党",
+      "votes": 9628653,
+      "vote_share_pct": 15.9998,
+      "seats": 30
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 12262228,
+      "vote_share_pct": 20.376,
+      "seats": 40
+     },
+     {
+      "party": "公明党",
+      "votes": 7116474,
+      "vote_share_pct": 11.8253,
+      "seats": 22
+     },
+     {
+      "party": "みんなの党",
+      "votes": 5245586,
+      "vote_share_pct": 8.7165,
+      "seats": 14
+     },
+     {
+      "party": "日本未来の党",
+      "votes": 3423915,
+      "vote_share_pct": 5.6895,
+      "seats": 7
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3689159,
+      "vote_share_pct": 6.1302,
+      "seats": 8
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1420790,
+      "vote_share_pct": 2.3609,
+      "seats": 1
+     },
+     {
+      "party": "新党大地",
+      "votes": 346848,
+      "vote_share_pct": 0.5764,
+      "seats": 1
+     },
+     {
+      "party": "国民新党",
+      "votes": 70847,
+      "vote_share_pct": 0.1177,
+      "seats": 0
+     },
+     {
+      "party": "新党改革",
+      "votes": 134781,
+      "vote_share_pct": 0.224,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 216150,
+      "vote_share_pct": 0.3592,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2618464,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 692304,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 477356,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "新党大地",
+        "votes": 346848,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 333760,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 289011,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 182968,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "みんなの党",
+        "votes": 155522,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 81838,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 48351,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 10506,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 14,
+      "total_votes": 4338497,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1238716,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 805709,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 725006,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 398131,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 391216,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 306102,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 256838,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 160367,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党改革",
+        "votes": 41587,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 14825,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 20,
+      "total_votes": 6467350,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1820116,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1169781,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "民主党",
+        "votes": 976922,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 820358,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "みんなの党",
+        "votes": 787462,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 387625,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 367245,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 118046,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 19795,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 7641968,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2020043,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1443270,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 1323048,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "みんなの党",
+        "votes": 951294,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 810936,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 477309,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 447890,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 147191,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 20987,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 6537607,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1626057,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1298309,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 1008011,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "みんなの党",
+        "votes": 762730,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 662743,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 484365,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 448689,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 136889,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党改革",
+        "votes": 93194,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 16620,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 3667120,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1162095,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 707497,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 682159,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 307138,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "みんなの党",
+        "votes": 275399,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 210219,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 178403,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 128443,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 15767,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 7132607,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1966007,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1356970,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "民主党",
+        "votes": 1321402,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 779577,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "みんなの党",
+        "votes": 644087,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 511048,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 387461,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 136316,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 29739,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 29,
+      "total_votes": 9748954,
+      "parties": [
+       {
+        "party": "日本維新の会",
+        "votes": 2999020,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2326005,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "公明党",
+        "votes": 1234345,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "民主党",
+        "votes": 1173051,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 732976,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "みんなの党",
+        "votes": 635381,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 481603,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 133064,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 33509,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 3505861,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1210400,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 622226,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "民主党",
+        "votes": 570764,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 493800,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "みんなの党",
+        "votes": 209627,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 174648,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 141360,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 68653,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 14383,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1850236,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 567193,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 394393,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "民主党",
+        "votes": 296914,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 276907,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 106976,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "みんなの党",
+        "votes": 93090,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 63830,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 42762,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 8171,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 21,
+      "total_votes": 6671224,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1995521,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1211996,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 1043528,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 993317,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "みんなの党",
+        "votes": 424892,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 337573,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 300708,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本未来の党",
+        "votes": 260994,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民新党",
+        "votes": 70847,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 31848,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第46回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin46/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000194178.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000194183.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000194186.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000194187.xls",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000194192.xls",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000194203.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000194198.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=59626567.905 / 公表合計=59626567.905 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=60179888.000 / 公表合計=60179888.0 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=300 / 定数(当選人数表の合計)=300 → 一致",
+    "比例代表: 当選者数合計=180 / 定数(当選人数表の合計)=180 → 一致",
+    "ブロック数=11, ブロック定数合計=180 / 比例定数=180",
+    "ドント式検算: 全ブロックで公式配分と一致"
+   ]
+  },
+  {
+   "election": "第47回衆議院議員総選挙 2014-12-14",
+   "date": "2014-12-14",
+   "turnout_pct": 52.66,
+   "smd": {
+    "seats": 295,
+    "total_valid_votes": 52939789.958,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 25461448.922,
+      "vote_share_pct": 48.0951,
+      "seats": 222
+     },
+     {
+      "party": "民主党",
+      "votes": 11916849.274,
+      "vote_share_pct": 22.5102,
+      "seats": 38
+     },
+     {
+      "party": "維新の党",
+      "votes": 4319645.823,
+      "vote_share_pct": 8.1595,
+      "seats": 11
+     },
+     {
+      "party": "公明党",
+      "votes": 765390,
+      "vote_share_pct": 1.4458,
+      "seats": 9
+     },
+     {
+      "party": "日本共産党",
+      "votes": 7040169.793,
+      "vote_share_pct": 13.2984,
+      "seats": 1
+     },
+     {
+      "party": "次世代の党",
+      "votes": 947395.994,
+      "vote_share_pct": 1.7896,
+      "seats": 2
+     },
+     {
+      "party": "社会民主党",
+      "votes": 419347,
+      "vote_share_pct": 0.7921,
+      "seats": 1
+     },
+     {
+      "party": "生活の党",
+      "votes": 514575,
+      "vote_share_pct": 0.972,
+      "seats": 2
+     },
+     {
+      "party": "諸派",
+      "votes": 43726,
+      "vote_share_pct": 0.0826,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 1511242.152,
+      "vote_share_pct": 2.8546,
+      "seats": 9
+     }
+    ]
+   },
+   "pr": {
+    "seats": 180,
+    "total_valid_votes": 53334447,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 17658916,
+      "vote_share_pct": 33.1098,
+      "seats": 68
+     },
+     {
+      "party": "民主党",
+      "votes": 9775991,
+      "vote_share_pct": 18.3296,
+      "seats": 35
+     },
+     {
+      "party": "維新の党",
+      "votes": 8382699,
+      "vote_share_pct": 15.7172,
+      "seats": 30
+     },
+     {
+      "party": "公明党",
+      "votes": 7314236,
+      "vote_share_pct": 13.7139,
+      "seats": 26
+     },
+     {
+      "party": "日本共産党",
+      "votes": 6062962,
+      "vote_share_pct": 11.3678,
+      "seats": 20
+     },
+     {
+      "party": "次世代の党",
+      "votes": 1414919,
+      "vote_share_pct": 2.6529,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1314441,
+      "vote_share_pct": 2.4645,
+      "seats": 1
+     },
+     {
+      "party": "生活の党",
+      "votes": 1028721,
+      "vote_share_pct": 1.9288,
+      "seats": 0
+     },
+     {
+      "party": "新党改革",
+      "votes": 16597,
+      "vote_share_pct": 0.0311,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 260111,
+      "vote_share_pct": 0.4877,
+      "seats": 0
+     },
+     {
+      "party": "支持政党なし",
+      "votes": 104854,
+      "vote_share_pct": 0.1966,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2499864,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 744748,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 688922,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 307534,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 302251,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "維新の党",
+        "votes": 247342,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "支持政党なし",
+        "votes": 104854,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 53604,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "次世代の党",
+        "votes": 38342,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 12267,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 14,
+      "total_votes": 3841899,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1265372,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 863539,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "維新の党",
+        "votes": 499437,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 431169,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 379811,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "生活の党",
+        "votes": 181487,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 131857,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "次世代の党",
+        "votes": 71026,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 18201,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 20,
+      "total_votes": 5887869,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2034586,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "民主党",
+        "votes": 1049602,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 868102,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "維新の党",
+        "votes": 816014,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 686893,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "次世代の党",
+        "votes": 167632,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 131013,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 109038,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 24989,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 6836369,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2321609,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "民主党",
+        "votes": 1203572,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "維新の党",
+        "votes": 1053221,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 875712,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 813634,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "次世代の党",
+        "votes": 236596,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 175431,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 132542,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 24052,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 5763396,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1847986,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "民主党",
+        "votes": 939795,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 885927,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "維新の党",
+        "votes": 816047,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 700127,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "次世代の党",
+        "votes": 253107,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 156170,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 129992,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 17648,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党改革",
+        "votes": 16597,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 3107023,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1122585,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 690721,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "維新の党",
+        "votes": 432249,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 315071,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 293194,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 99242,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 75981,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "次世代の党",
+        "votes": 58361,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 19619,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 6449446,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2147672,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "民主党",
+        "votes": 1491764,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "維新の党",
+        "votes": 964240,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 804089,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 618695,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "次世代の党",
+        "votes": 147080,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 128131,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 106346,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 41429,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 29,
+      "total_votes": 8445671,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2442006,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "維新の党",
+        "votes": 2202932,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "公明党",
+        "votes": 1236217,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本共産党",
+        "votes": 1084154,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "民主党",
+        "votes": 1047361,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "次世代の党",
+        "votes": 175279,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 124494,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 97398,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 35830,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 3102524,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1183903,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "民主党",
+        "votes": 529819,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 516892,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "維新の党",
+        "votes": 394306,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 285224,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "次世代の党",
+        "votes": 109016,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 65349,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 18015,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1570028,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 547185,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "民主党",
+        "votes": 326803,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 247776,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "維新の党",
+        "votes": 200882,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 158848,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "次世代の党",
+        "votes": 44515,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 33257,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 10762,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 21,
+      "total_votes": 5830358,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2001264,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "公明党",
+        "votes": 1033424,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "民主党",
+        "votes": 944093,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "維新の党",
+        "votes": 756029,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 532454,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "社会民主党",
+        "votes": 306935,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "次世代の党",
+        "votes": 113965,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "生活の党",
+        "votes": 104895,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 37299,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第47回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin47/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000328941.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000328943.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000328946.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000328947.xls",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000328952.xls",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000328953.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000328954.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=52939789.958 / 公表合計=52939789.958 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=53334447.000 / 公表合計=53334447.0 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=295 / 定数(当選人数表の合計)=295 → 一致",
+    "比例代表: 当選者数合計=180 / 定数(当選人数表の合計)=180 → 一致",
+    "ブロック数=11, ブロック定数合計=180 / 比例定数=180",
+    "ドント式検算: 全ブロックで公式配分と一致"
+   ]
+  },
+  {
+   "election": "第48回衆議院議員総選挙 2017-10-22",
+   "date": "2017-10-22",
+   "turnout_pct": 53.68,
+   "smd": {
+    "seats": 289,
+    "total_valid_votes": 55422192.951,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 26500776.635,
+      "vote_share_pct": 47.8162,
+      "seats": 215
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 4726326.078,
+      "vote_share_pct": 8.5279,
+      "seats": 17
+     },
+     {
+      "party": "希望の党",
+      "votes": 11437601.615,
+      "vote_share_pct": 20.6372,
+      "seats": 18
+     },
+     {
+      "party": "公明党",
+      "votes": 832453,
+      "vote_share_pct": 1.502,
+      "seats": 8
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4998932.309,
+      "vote_share_pct": 9.0197,
+      "seats": 1
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 1765053.396,
+      "vote_share_pct": 3.1847,
+      "seats": 3
+     },
+     {
+      "party": "社会民主党",
+      "votes": 634770,
+      "vote_share_pct": 1.1453,
+      "seats": 1
+     },
+     {
+      "party": "諸派",
+      "votes": 211251.998,
+      "vote_share_pct": 0.3812,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 4315027.92,
+      "vote_share_pct": 7.7857,
+      "seats": 26
+     }
+    ]
+   },
+   "pr": {
+    "seats": 176,
+    "total_valid_votes": 55757552,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 18555717,
+      "vote_share_pct": 33.2793,
+      "seats": 66
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 11084890,
+      "vote_share_pct": 19.8805,
+      "seats": 37
+     },
+     {
+      "party": "希望の党",
+      "votes": 9677524,
+      "vote_share_pct": 17.3564,
+      "seats": 32
+     },
+     {
+      "party": "公明党",
+      "votes": 6977712,
+      "vote_share_pct": 12.5144,
+      "seats": 21
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4404081,
+      "vote_share_pct": 7.8986,
+      "seats": 11
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 3387097,
+      "vote_share_pct": 6.0747,
+      "seats": 8
+     },
+     {
+      "party": "社会民主党",
+      "votes": 941324,
+      "vote_share_pct": 1.6882,
+      "seats": 1
+     },
+     {
+      "party": "日本のこころ",
+      "votes": 85552,
+      "vote_share_pct": 0.1534,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 292084,
+      "vote_share_pct": 0.5238,
+      "seats": 0
+     },
+     {
+      "party": "新党大地",
+      "votes": 226552,
+      "vote_share_pct": 0.4063,
+      "seats": 0
+     },
+     {
+      "party": "支持政党なし",
+      "votes": 125019,
+      "vote_share_pct": 0.2242,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2706897,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 779903,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 714032,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "希望の党",
+        "votes": 331463,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 298573,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 230316,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党大地",
+        "votes": 226552,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 74701,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 37374,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 13983,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 13,
+      "total_votes": 4202955,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1453871,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "希望の党",
+        "votes": 912819,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 761117,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 463740,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 310559,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 127674,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 105589,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本のこころ",
+        "votes": 44960,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 22626,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 19,
+      "total_votes": 5990492,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1985993,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1317457,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "希望の党",
+        "votes": 1154154,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 784671,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 449625,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 203103,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 65985,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 29504,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 6874129,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2356614,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1612425,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "希望の党",
+        "votes": 1184103,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 787461,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 550404,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 269274,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 87517,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 26331,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 5960975,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1816184,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1405836,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "希望の党",
+        "votes": 1039647,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 644634,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 618332,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 198127,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "支持政党なし",
+        "votes": 125019,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 56732,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本のこころ",
+        "votes": 40592,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 15872,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 3583011,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1328838,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 699426,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "希望の党",
+        "votes": 688924,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 318050,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 267777,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 164714,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 90218,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 25064,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 6738002,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2237838,
+        "seats": 8,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "希望の党",
+        "votes": 1445549,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1418633,
+        "seats": 4,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 781228,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 450970,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 297759,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 67445,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 38580,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 28,
+      "total_votes": 8447094,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2586424,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 1544821,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1335360,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 1164995,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "希望の党",
+        "votes": 913860,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 786158,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "社会民主党",
+        "votes": 78702,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 36774,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 3187898,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1249073,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 533050,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "希望の党",
+        "votes": 514191,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 476270,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 199152,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 151221,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 44240,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 20701,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1612659,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 579225,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "希望の党",
+        "votes": 324106,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 236863,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 232965,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 118826,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 78500,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 29818,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 12356,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 20,
+      "total_votes": 6453440,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2181754,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "希望の党",
+        "votes": 1168708,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1054589,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 1021227,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 421962,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 277704,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 277203,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "幸福実現党",
+        "votes": 50293,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第48回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin48/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000516716.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000516719.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000516722.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000516723.xls",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000516728.xls",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000516729.xls",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000516730.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=55422192.951 / 公表合計=55422192.951 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=55757552.000 / 公表合計=55757552.0 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=289 / 定数(当選人数表の合計)=289 → 一致",
+    "比例代表: 当選者数合計=176 / 定数(当選人数表の合計)=176 → 一致",
+    "ブロック数=11, ブロック定数合計=176 / 比例定数=176",
+    "ドント式検算: 東海: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (7, 8), '立憲民主党': (5, 4)}"
+   ]
+  },
+  {
+   "election": "第49回衆議院議員総選挙 2021-10-31",
+   "date": "2021-10-31",
+   "turnout_pct": 55.93,
+   "smd": {
+    "seats": 289,
+    "total_valid_votes": 57457032.942,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 27626235.498,
+      "vote_share_pct": 48.0816,
+      "seats": 187
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 17215621.45,
+      "vote_share_pct": 29.9626,
+      "seats": 57
+     },
+     {
+      "party": "公明党",
+      "votes": 872931,
+      "vote_share_pct": 1.5193,
+      "seats": 9
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 4802793,
+      "vote_share_pct": 8.3589,
+      "seats": 16
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2639631,
+      "vote_share_pct": 4.5941,
+      "seats": 1
+     },
+     {
+      "party": "国民民主党",
+      "votes": 1246812,
+      "vote_share_pct": 2.17,
+      "seats": 6
+     },
+     {
+      "party": "ＮＨＫと裁判してる党",
+      "votes": 150542.18,
+      "vote_share_pct": 0.262,
+      "seats": 0
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 248280,
+      "vote_share_pct": 0.4321,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 313193,
+      "vote_share_pct": 0.5451,
+      "seats": 1
+     },
+     {
+      "party": "諸派",
+      "votes": 71826,
+      "vote_share_pct": 0.125,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 2269167.814,
+      "vote_share_pct": 3.9493,
+      "seats": 12
+     }
+    ]
+   },
+   "pr": {
+    "seats": 176,
+    "total_valid_votes": 57465978.963,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 19914883,
+      "vote_share_pct": 34.6551,
+      "seats": 72
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 11492094.722,
+      "vote_share_pct": 19.9981,
+      "seats": 39
+     },
+     {
+      "party": "公明党",
+      "votes": 7114282,
+      "vote_share_pct": 12.38,
+      "seats": 23
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 8050830,
+      "vote_share_pct": 14.0097,
+      "seats": 25
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4166076,
+      "vote_share_pct": 7.2496,
+      "seats": 9
+     },
+     {
+      "party": "国民民主党",
+      "votes": 2593396.241,
+      "vote_share_pct": 4.5129,
+      "seats": 5
+     },
+     {
+      "party": "ＮＨＫと裁判してる党",
+      "votes": 796788,
+      "vote_share_pct": 1.3865,
+      "seats": 0
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 2215648,
+      "vote_share_pct": 3.8556,
+      "seats": 3
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1018588,
+      "vote_share_pct": 1.7725,
+      "seats": 0
+     },
+     {
+      "party": "支持政党なし",
+      "votes": 46142,
+      "vote_share_pct": 0.0803,
+      "seats": 0
+     },
+     {
+      "party": "日本第一党",
+      "votes": 33661,
+      "vote_share_pct": 0.0586,
+      "seats": 0
+     },
+     {
+      "party": "新党やまと",
+      "votes": 16970,
+      "vote_share_pct": 0.0295,
+      "seats": 0
+     },
+     {
+      "party": "政権交代によるコロナ",
+      "votes": 6620,
+      "vote_share_pct": 0.0115,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2569129.816,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 863300,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 682912.582,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 294371,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 215344,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 207189,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 102086,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民民主党",
+        "votes": 73621.234,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "支持政党なし",
+        "votes": 46142,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 42916,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 41248,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 13,
+      "total_votes": 4120669.7750000004,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1628233,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 991504.731,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 456287,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 292830,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 258690,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 195754.044,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 143265,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 101442,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 52664,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 19,
+      "total_votes": 6172102.802000001,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2172065,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1391148.6290000002,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 823930,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 617531,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 444115,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 298056.173,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 239592,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 97963,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 87702,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 22,
+      "total_votes": 7414307.851000001,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2590787,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1651562.0019999999,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 863897,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 850667,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 534493,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 384481.84900000005,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 302675,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 124447,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 111298,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 17,
+      "total_votes": 6446897.925,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2000084,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1293281.168,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 858577,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 715450,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 670340,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 360387,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 306179.757,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 92995,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 92353,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本第一党",
+        "votes": 33661,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "新党やまと",
+        "votes": 16970,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "政権交代によるコロナ",
+        "votes": 6620,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 11,
+      "total_votes": 3510612.831,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1468380,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 773076.099,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 361476,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 322535,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 225551,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民民主党",
+        "votes": 133599.732,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 111281,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 71185,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 43529,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 6728399.808999999,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2515841,
+        "seats": 9,
+        "seats_dhondt_calc": 9
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1485947.258,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "公明党",
+        "votes": 784976,
+        "seats": 3,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 694630,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 408606,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 382733.55100000004,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 273208,
+        "seats": 0,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 98238,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 84220,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 28,
+      "total_votes": 9378904.76,
+      "parties": [
+       {
+        "party": "日本維新の会",
+        "votes": 3180219,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "自由民主党",
+        "votes": 2407699,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "公明党",
+        "votes": 1155683,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1090665.759,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "日本共産党",
+        "votes": 736156,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "国民民主党",
+        "votes": 303480.001,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 292483,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 111539,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 100980,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 11,
+      "total_votes": 3119426.869,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1352723,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 573324.356,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 436220,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 286302,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 173117,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "国民民主党",
+        "votes": 113898.51299999999,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 94446,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 52638,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 36758,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1698486.903,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 664805,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 291870.696,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 233407,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 173826,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 122082.207,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 108021,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 52941,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 30249,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 21285,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 20,
+      "total_votes": 6307039.6219999995,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2250966,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1266801.4419999998,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 1040756,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 540338,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 365658,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 279509.17999999993,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 243284,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 221221,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "ＮＨＫと裁判してる党",
+        "votes": 98506,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第49回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin49/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000776964.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000776967.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000776970.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000776971.xlsx",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000776976.xlsx",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000776977.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000776978.xlsx"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=57457032.942 / 公表合計=57457032.942 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=57465978.963 / 公表合計=57465978.963 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=289 / 定数(当選人数表の合計)=289 → 一致",
+    "比例代表: 当選者数合計=176 / 定数(当選人数表の合計)=176 → 一致",
+    "ブロック数=11, ブロック定数合計=176 / 比例定数=176",
+    "ドント式検算: 東海: ドント式の単純計算と公式配分が相違(計算,公式) {'公明党': (2, 3), 'れいわ新選組': (1, 0)}"
+   ]
+  },
+  {
+   "election": "第50回衆議院議員総選挙 2024-10-27",
+   "date": "2024-10-27",
+   "turnout_pct": 53.85,
+   "smd": {
+    "seats": 289,
+    "total_valid_votes": 54261877.952,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 20867762.299,
+      "vote_share_pct": 38.4575,
+      "seats": 132
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 15740860.279,
+      "vote_share_pct": 29.0091,
+      "seats": 104
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 6048103.652,
+      "vote_share_pct": 11.1461,
+      "seats": 23
+     },
+     {
+      "party": "公明党",
+      "votes": 730401,
+      "vote_share_pct": 1.3461,
+      "seats": 4
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3695806.959,
+      "vote_share_pct": 6.8111,
+      "seats": 1
+     },
+     {
+      "party": "国民民主党",
+      "votes": 2349583.745,
+      "vote_share_pct": 4.3301,
+      "seats": 11
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 425445.111,
+      "vote_share_pct": 0.7841,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 283287.429,
+      "vote_share_pct": 0.5221,
+      "seats": 1
+     },
+     {
+      "party": "参政党",
+      "votes": 1357189.159,
+      "vote_share_pct": 2.5012,
+      "seats": 0
+     },
+     {
+      "party": "みんなでつくる党",
+      "votes": 29275,
+      "vote_share_pct": 0.054,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 199592.248,
+      "vote_share_pct": 0.3678,
+      "seats": 1
+     },
+     {
+      "party": "無所属",
+      "votes": 2534571.071,
+      "vote_share_pct": 4.671,
+      "seats": 12
+     }
+    ]
+   },
+   "pr": {
+    "seats": 176,
+    "total_valid_votes": 54549720.109,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 14582690,
+      "vote_share_pct": 26.7328,
+      "seats": 59
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 11565122.62,
+      "vote_share_pct": 21.2011,
+      "seats": 44
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 5105127,
+      "vote_share_pct": 9.3587,
+      "seats": 15
+     },
+     {
+      "party": "公明党",
+      "votes": 5964415,
+      "vote_share_pct": 10.9339,
+      "seats": 20
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3362966,
+      "vote_share_pct": 6.165,
+      "seats": 7
+     },
+     {
+      "party": "国民民主党",
+      "votes": 6171533.489,
+      "vote_share_pct": 11.3136,
+      "seats": 17
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 3805060,
+      "vote_share_pct": 6.9754,
+      "seats": 9
+     },
+     {
+      "party": "社会民主党",
+      "votes": 934598,
+      "vote_share_pct": 1.7133,
+      "seats": 0
+     },
+     {
+      "party": "参政党",
+      "votes": 1870347,
+      "vote_share_pct": 3.4287,
+      "seats": 3
+     },
+     {
+      "party": "みんなでつくる党",
+      "votes": 23784,
+      "vote_share_pct": 0.0436,
+      "seats": 0
+     },
+     {
+      "party": "安楽死制度を考える会",
+      "votes": 18455,
+      "vote_share_pct": 0.0338,
+      "seats": 0
+     },
+     {
+      "party": "日本保守党",
+      "votes": 1145622,
+      "vote_share_pct": 2.1001,
+      "seats": 2
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2394220.814,
+      "parties": [
+       {
+        "party": "立憲民主党",
+        "votes": 694578.943,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "自由民主党",
+        "votes": 641127,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 253344,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 192303.871,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 177620,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 169799,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 96954,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 61903,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "参政党",
+        "votes": 57002,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 31134,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "安楽死制度を考える会",
+        "votes": 18455,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 12,
+      "total_votes": 3781114.774,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1188975,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 993007.872,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "国民民主党",
+        "votes": 396991.902,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 367341,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 271855,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 223409,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 165697,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "参政党",
+        "votes": 94354,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 79484,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 19,
+      "total_votes": 5823425.821,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1603644,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1283911.293,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "国民民主党",
+        "votes": 686080.528,
+        "seats": 1,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "公明党",
+        "votes": 674694,
+        "seats": 3,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 419511,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 391136,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 354915,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 175559,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 146728,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 87247,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 23,
+      "total_votes": 7174545.856,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1822230,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1700535.202,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "国民民主党",
+        "votes": 907123.654,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 729980,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 536161,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 472519,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 437724,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 267145,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本保守党",
+        "votes": 191169,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 109959,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 19,
+      "total_votes": 6341616.93,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1498632,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1298166.012,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "国民民主党",
+        "votes": 945460.918,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 573191,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 516610,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 498565,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 451865,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 237271,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 201770,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 96302,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "みんなでつくる党",
+        "votes": 23784,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 10,
+      "total_votes": 3261201.837,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1053516,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 818773.297,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 341114.54,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 258634,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 228617,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 216659,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 181910,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "参政党",
+        "votes": 100050,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 61928,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 6508258.82,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1717737,
+        "seats": 7,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1474091.358,
+        "seats": 6,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "国民民主党",
+        "votes": 856909.462,
+        "seats": 1,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 665939,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 506112,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 427368,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 334599,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本保守党",
+        "votes": 255726,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 179069,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 90708,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 28,
+      "total_votes": 8869540.756,
+      "parties": [
+       {
+        "party": "日本維新の会",
+        "votes": 2069796,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "自由民主党",
+        "votes": 1837859,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1247328.218,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 1030324,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 739441.538,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 649195,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 557899,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "参政党",
+        "votes": 350211,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本保守党",
+        "votes": 288326,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 99161,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 10,
+      "total_votes": 2943225.884,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1056320,
+        "seats": 5,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 572599.156,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "公明党",
+        "votes": 354291,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 307680.728,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 187517,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 173622,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 149218,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "参政党",
+        "votes": 88358,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 53620,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1547246.906,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 479835,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 281209.617,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 233515.289,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "公明党",
+        "votes": 196765,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 103237,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 95973,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 88224,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "参政党",
+        "votes": 44127,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 24361,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 20,
+      "total_votes": 5905321.711,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1682815,
+        "seats": 7,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "立憲民主党",
+        "votes": 1200921.652,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "公明党",
+        "votes": 859912,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 564911.059,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 461425,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 382034,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 277201,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 275408,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "社会民主党",
+        "votes": 200694,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第50回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin50/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000979119.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000979122.xls",
+    "smd_votes": "https://www.soumu.go.jp/main_content/000979125.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000979126.xls",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/000979131.xls",
+    "pr_winners": "https://www.soumu.go.jp/main_content/000979132.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000979133.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=54261877.952 / 公表合計=54261877.952 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=54549720.109 / 公表合計=54549720.109 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=289 / 定数(当選人数表の合計)=289 → 一致",
+    "比例代表: 当選者数合計=176 / 定数(当選人数表の合計)=176 → 一致",
+    "ブロック数=11, ブロック定数合計=176 / 比例定数=176",
+    "ドント式検算: 北関東: ドント式の単純計算と公式配分が相違(計算,公式) {'国民民主党': (2, 1), '公明党': (2, 3)}; 東海: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (6, 7), '立憲民主党': (5, 6), '国民民主党': (3, 1)}"
+   ]
+  },
+  {
+   "election": "第51回衆議院議員総選挙 2026-02-08",
+   "date": "2026-02-08",
+   "turnout_pct": 56.26,
+   "smd": {
+    "seats": 289,
+    "total_valid_votes": 56446725.955,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 27710493.452,
+      "vote_share_pct": 49.0914,
+      "seats": 248
+     },
+     {
+      "party": "中道改革連合",
+      "votes": 12209641.795,
+      "vote_share_pct": 21.6304,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 3742160.59,
+      "vote_share_pct": 6.6295,
+      "seats": 20
+     },
+     {
+      "party": "国民民主党",
+      "votes": 4243282.144,
+      "vote_share_pct": 7.5173,
+      "seats": 8
+     },
+     {
+      "party": "参政党",
+      "votes": 3924223.604,
+      "vote_share_pct": 6.9521,
+      "seats": 0
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2283885.37,
+      "vote_share_pct": 4.0461,
+      "seats": 0
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 255496,
+      "vote_share_pct": 0.4526,
+      "seats": 0
+     },
+     {
+      "party": "減税日本・ゆうこく連合",
+      "votes": 354617,
+      "vote_share_pct": 0.6282,
+      "seats": 1
+     },
+     {
+      "party": "日本保守党",
+      "votes": 97753,
+      "vote_share_pct": 0.1732,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 148666,
+      "vote_share_pct": 0.2634,
+      "seats": 0
+     },
+     {
+      "party": "チームみらい",
+      "votes": 156853,
+      "vote_share_pct": 0.2779,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 1253346,
+      "vote_share_pct": 2.2204,
+      "seats": 5
+     },
+     {
+      "party": "諸派",
+      "votes": 66308,
+      "vote_share_pct": 0.1175,
+      "seats": 0
+     }
+    ]
+   },
+   "pr": {
+    "seats": 176,
+    "total_valid_votes": 57259957,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 21026140,
+      "vote_share_pct": 36.7205,
+      "seats": 67
+     },
+     {
+      "party": "中道改革連合",
+      "votes": 10438802,
+      "vote_share_pct": 18.2305,
+      "seats": 42
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 4943330,
+      "vote_share_pct": 8.6331,
+      "seats": 16
+     },
+     {
+      "party": "国民民主党",
+      "votes": 5572951,
+      "vote_share_pct": 9.7327,
+      "seats": 20
+     },
+     {
+      "party": "参政党",
+      "votes": 4260620,
+      "vote_share_pct": 7.4408,
+      "seats": 15
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2519811,
+      "vote_share_pct": 4.4007,
+      "seats": 4
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 1672500,
+      "vote_share_pct": 2.9209,
+      "seats": 1
+     },
+     {
+      "party": "減税日本・ゆうこく連合",
+      "votes": 814874,
+      "vote_share_pct": 1.4231,
+      "seats": 0
+     },
+     {
+      "party": "日本保守党",
+      "votes": 1455563,
+      "vote_share_pct": 2.542,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 728602,
+      "vote_share_pct": 1.2724,
+      "seats": 0
+     },
+     {
+      "party": "チームみらい",
+      "votes": 3813750,
+      "vote_share_pct": 6.6604,
+      "seats": 11
+     },
+     {
+      "party": "安楽死制度を考える会",
+      "votes": 13014,
+      "vote_share_pct": 0.0227,
+      "seats": 0
+     }
+    ],
+    "blocks": [
+     {
+      "block": "北海道",
+      "seats": 8,
+      "total_votes": 2463323,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 911742,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 605889,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 218850,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 163329,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "チームみらい",
+        "votes": 134613,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 134084,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 93966,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 76099,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 60119,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 32878,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 31754,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東北",
+      "seats": 12,
+      "total_votes": 3917511,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1612576,
+        "seats": 6,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 828883,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 389503,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 278410,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "チームみらい",
+        "votes": 234050,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 165104,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 158466,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 121631,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 72889,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 55999,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北関東",
+      "seats": 19,
+      "total_votes": 6096091,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2256845,
+        "seats": 8,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1174717,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "国民民主党",
+        "votes": 626695,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "参政党",
+        "votes": 506071,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "チームみらい",
+        "votes": 467561,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 326128,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 254497,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 182261,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 150809,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 77406,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 73101,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "南関東",
+      "seats": 23,
+      "total_votes": 7417463,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2637938,
+        "seats": 4,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1424763,
+        "seats": 7,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "国民民主党",
+        "votes": 788564,
+        "seats": 3,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "チームみらい",
+        "votes": 682469,
+        "seats": 3,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "参政党",
+        "votes": 531288,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 463287,
+        "seats": 2,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 314224,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 202655,
+        "seats": 1,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 184802,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 95646,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 91827,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東京都",
+      "seats": 19,
+      "total_votes": 6778416,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2243625,
+        "seats": 3,
+        "seats_dhondt_calc": 8
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1119155,
+        "seats": 5,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "チームみらい",
+        "votes": 887849,
+        "seats": 4,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "国民民主党",
+        "votes": 746660,
+        "seats": 3,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "参政党",
+        "votes": 427028,
+        "seats": 2,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 407146,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 384487,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本保守党",
+        "votes": 209329,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 179614,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 89161,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 84362,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "北陸信越",
+      "seats": 10,
+      "total_votes": 3296868,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1387716,
+        "seats": 3,
+        "seats_dhondt_calc": 5
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 651331,
+        "seats": 4,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "国民民主党",
+        "votes": 322739,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 285897,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 231686,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 140311,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 100497,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 73566,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 50017,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 40094,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "安楽死制度を考える会",
+        "votes": 13014,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "東海",
+      "seats": 21,
+      "total_votes": 6979356,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2628008,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1199580,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "国民民主党",
+        "votes": 836102,
+        "seats": 3,
+        "seats_dhondt_calc": 3
+       },
+       {
+        "party": "参政党",
+        "votes": 527291,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "チームみらい",
+        "votes": 478316,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 400964,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 241848,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 218838,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 209174,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 175506,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 63729,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "近畿",
+      "seats": 28,
+      "total_votes": 9347675,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2842876,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 2168635,
+        "seats": 8,
+        "seats_dhondt_calc": 7
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1332752,
+        "seats": 5,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "国民民主党",
+        "votes": 651785,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "参政党",
+        "votes": 631179,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "チームみらい",
+        "votes": 553496,
+        "seats": 0,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "日本共産党",
+        "votes": 480188,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本保守党",
+        "votes": 259055,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 247048,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 105647,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 75014,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "中国",
+      "seats": 10,
+      "total_votes": 3004801,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 1297078,
+        "seats": 5,
+        "seats_dhondt_calc": 6
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 620211,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "国民民主党",
+        "votes": 273263,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 252036,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 213428,
+        "seats": 1,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 109968,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 87272,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 73431,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 40460,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 37654,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "四国",
+      "seats": 6,
+      "total_votes": 1644793,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 691402,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 299777,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "国民民主党",
+        "votes": 213661,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "参政党",
+        "votes": 138187,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 121217,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本共産党",
+        "votes": 68324,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 49267,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 44284,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 18674,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     },
+     {
+      "block": "九州",
+      "seats": 20,
+      "total_votes": 6313660,
+      "parties": [
+       {
+        "party": "自由民主党",
+        "votes": 2516334,
+        "seats": 10,
+        "seats_dhondt_calc": 10
+       },
+       {
+        "party": "中道改革連合",
+        "votes": 1181744,
+        "seats": 4,
+        "seats_dhondt_calc": 4
+       },
+       {
+        "party": "参政党",
+        "votes": 519904,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "国民民主党",
+        "votes": 505129,
+        "seats": 2,
+        "seats_dhondt_calc": 2
+       },
+       {
+        "party": "チームみらい",
+        "votes": 375396,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本維新の会",
+        "votes": 374428,
+        "seats": 1,
+        "seats_dhondt_calc": 1
+       },
+       {
+        "party": "日本共産党",
+        "votes": 210755,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "れいわ新選組",
+        "votes": 207318,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "日本保守党",
+        "votes": 151773,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "社会民主党",
+        "votes": 142166,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       },
+       {
+        "party": "減税日本・ゆうこく連合",
+        "votes": 128713,
+        "seats": 0,
+        "seats_dhondt_calc": 0
+       }
+      ]
+     }
+    ]
+   },
+   "source_name": "総務省「第51回衆議院議員総選挙・最高裁判所裁判官国民審査結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin51/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/001061472.xlsx",
+    "winners": "https://www.soumu.go.jp/main_content/001061475.xlsx",
+    "smd_votes": "https://www.soumu.go.jp/main_content/001061478.xlsx",
+    "pr_votes": "https://www.soumu.go.jp/main_content/001061479.xlsx",
+    "pr_block_votes": "https://www.soumu.go.jp/main_content/001061484.xlsx",
+    "pr_winners": "https://www.soumu.go.jp/main_content/001061485.pdf",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/001061486.xlsx"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "小選挙区: 政党別得票合計=56446725.955 / 公表合計=56446725.955 → 一致",
+    "小選挙区: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "比例代表: 政党別得票合計=57259957.000 / 公表合計=57259957.0 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し、公表の得票率と照合 → 全党一致",
+    "小選挙区: 当選者数合計=289 / 定数(当選人数表の合計)=289 → 一致",
+    "比例代表: 当選者数合計=176 / 定数(当選人数表の合計)=176 → 一致",
+    "ブロック数=11, ブロック定数合計=176 / 比例定数=176",
+    "ドント式検算: 南関東: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (10, 4), '中道改革連合': (5, 7), '国民民主党': (2, 3), 'チームみらい': (2, 3), '日本維新の会': (1, 2), 'れいわ新選組': (0, 1)}; 東京都: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (8, 3), '中道改革連合': (3, 5), 'チームみらい': (3, 4), '国民民主党': (2, 3), '参政党': (1, 2)}; 北陸信越: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (5, 3), '中道改革連合': (2, 4)}; 近畿: ドント式の単純計算と公式配分が相違(計算,公式) {'日本維新の会': (7, 8), '中道改革連合': (4, 5), 'チームみらい': (2, 0)}; 中国: ドント式の単純計算と公式配分が相違(計算,公式) {'自由民主党': (6, 5), '日本維新の会': (0, 1)}"
+   ]
+  }
+ ],
+ "house_of_councillors": [
+  {
+   "election": "第23回参議院議員通常選挙 2013-07-21",
+   "date": "2013-07-21",
+   "turnout_pct": 52.61,
+   "electors": 104152590,
+   "voters": 54798927,
+   "district": {
+    "seats": 73,
+    "extra_byelection_seats_not_included": {},
+    "total_valid_votes": 53072476.946,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 22681192,
+      "vote_share_pct": 42.7363,
+      "seats": 47
+     },
+     {
+      "party": "民主党",
+      "votes": 8646371.57,
+      "vote_share_pct": 16.2916,
+      "seats": 10
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 3846649,
+      "vote_share_pct": 7.2479,
+      "seats": 2
+     },
+     {
+      "party": "公明党",
+      "votes": 2724447,
+      "vote_share_pct": 5.1334,
+      "seats": 4
+     },
+     {
+      "party": "みんなの党",
+      "votes": 4159961,
+      "vote_share_pct": 7.8383,
+      "seats": 4
+     },
+     {
+      "party": "生活の党",
+      "votes": 618355,
+      "vote_share_pct": 1.1651,
+      "seats": 0
+     },
+     {
+      "party": "日本共産党",
+      "votes": 5645937,
+      "vote_share_pct": 10.6382,
+      "seats": 3
+     },
+     {
+      "party": "社会民主党",
+      "votes": 271547,
+      "vote_share_pct": 0.5117,
+      "seats": 0
+     },
+     {
+      "party": "みどりの風",
+      "votes": 620272,
+      "vote_share_pct": 1.1687,
+      "seats": 0
+     },
+     {
+      "party": "新党大地",
+      "votes": 409007,
+      "vote_share_pct": 0.7707,
+      "seats": 0
+     },
+     {
+      "party": "緑の党グリーンズジャパン",
+      "votes": 58032,
+      "vote_share_pct": 0.1093,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 606692,
+      "vote_share_pct": 1.1431,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 685411.376,
+      "vote_share_pct": 1.2915,
+      "seats": 1
+     },
+     {
+      "party": "無所属",
+      "votes": 2098603,
+      "vote_share_pct": 3.9542,
+      "seats": 2
+     }
+    ]
+   },
+   "pr": {
+    "seats": 48,
+    "total_valid_votes": 53229614.756,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 18460335.204,
+      "vote_share_pct": 34.6806,
+      "seats": 18
+     },
+     {
+      "party": "民主党",
+      "votes": 7134215.038,
+      "vote_share_pct": 13.4027,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 6355299.503,
+      "vote_share_pct": 11.9394,
+      "seats": 6
+     },
+     {
+      "party": "公明党",
+      "votes": 7568082.149,
+      "vote_share_pct": 14.2178,
+      "seats": 7
+     },
+     {
+      "party": "みんなの党",
+      "votes": 4755160.805,
+      "vote_share_pct": 8.9333,
+      "seats": 4
+     },
+     {
+      "party": "生活の党",
+      "votes": 943836.577,
+      "vote_share_pct": 1.7731,
+      "seats": 0
+     },
+     {
+      "party": "日本共産党",
+      "votes": 5154055.457,
+      "vote_share_pct": 9.6827,
+      "seats": 5
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1255235,
+      "vote_share_pct": 2.3582,
+      "seats": 1
+     },
+     {
+      "party": "みどりの風",
+      "votes": 430742.879,
+      "vote_share_pct": 0.8092,
+      "seats": 0
+     },
+     {
+      "party": "新党大地",
+      "votes": 523146.445,
+      "vote_share_pct": 0.9828,
+      "seats": 0
+     },
+     {
+      "party": "緑の党グリーンズジャパン",
+      "votes": 457862.077,
+      "vote_share_pct": 0.8602,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 191643.622,
+      "vote_share_pct": 0.36,
+      "seats": 0
+     }
+    ]
+   },
+   "source_name": "総務省「第23回参議院議員通常選挙結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin23/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000244363.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000244365.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000244367.xls",
+    "dist_votes": "https://www.soumu.go.jp/main_content/000244368.xls",
+    "pr_rank": "https://www.soumu.go.jp/main_content/000244373.xls",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000244388.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "選挙区: 政党別得票合計=53072476.946 / 公表合計=53072476.946 → 一致",
+    "選挙区: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "比例代表: 政党別得票合計=53229614.756 / 公表合計=53229614.756 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "選挙区: 当選者数合計=73 / 当選人数表の合計=73 → 一致",
+    "比例代表: 当選者数合計=48 / 当選人数表の合計=48 → 一致",
+    "ドント式検算(全国1区): 公式の当選人数と一致"
+   ]
+  },
+  {
+   "election": "第24回参議院議員通常選挙 2016-07-10",
+   "date": "2016-07-10",
+   "turnout_pct": 54.7,
+   "electors": 106202873,
+   "voters": 58094005,
+   "district": {
+    "seats": 73,
+    "extra_byelection_seats_not_included": {},
+    "total_valid_votes": 56555392.895,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 22590793,
+      "vote_share_pct": 39.9445,
+      "seats": 36
+     },
+     {
+      "party": "民進党",
+      "votes": 14215956,
+      "vote_share_pct": 25.1363,
+      "seats": 21
+     },
+     {
+      "party": "公明党",
+      "votes": 4263422,
+      "vote_share_pct": 7.5385,
+      "seats": 7
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4103514,
+      "vote_share_pct": 7.2557,
+      "seats": 1
+     },
+     {
+      "party": "おおさか維新の会",
+      "votes": 3303419,
+      "vote_share_pct": 5.841,
+      "seats": 3
+     },
+     {
+      "party": "社会民主党",
+      "votes": 289899,
+      "vote_share_pct": 0.5126,
+      "seats": 0
+     },
+     {
+      "party": "日本のこころを大切にする党",
+      "votes": 535516.577,
+      "vote_share_pct": 0.9469,
+      "seats": 0
+     },
+     {
+      "party": "新党改革",
+      "votes": 60431,
+      "vote_share_pct": 0.1069,
+      "seats": 0
+     },
+     {
+      "party": "国民怒りの声",
+      "votes": 82357,
+      "vote_share_pct": 0.1456,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 963585,
+      "vote_share_pct": 1.7038,
+      "seats": 0
+     },
+     {
+      "party": "支持政党なし",
+      "votes": 127366.983,
+      "vote_share_pct": 0.2252,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 279681.178,
+      "vote_share_pct": 0.4945,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 5739452.157,
+      "vote_share_pct": 10.1484,
+      "seats": 5
+     }
+    ]
+   },
+   "pr": {
+    "seats": 48,
+    "total_valid_votes": 56007352.842,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 20114788.264,
+      "vote_share_pct": 35.9145,
+      "seats": 19
+     },
+     {
+      "party": "民進党",
+      "votes": 11751015.174,
+      "vote_share_pct": 20.9812,
+      "seats": 11
+     },
+     {
+      "party": "公明党",
+      "votes": 7572960.308,
+      "vote_share_pct": 13.5214,
+      "seats": 7
+     },
+     {
+      "party": "日本共産党",
+      "votes": 6016194.559,
+      "vote_share_pct": 10.7418,
+      "seats": 5
+     },
+     {
+      "party": "おおさか維新の会",
+      "votes": 5153584.348,
+      "vote_share_pct": 9.2016,
+      "seats": 4
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1536238.752,
+      "vote_share_pct": 2.7429,
+      "seats": 1
+     },
+     {
+      "party": "生活の党と山本太郎となかまたち",
+      "votes": 1067300.546,
+      "vote_share_pct": 1.9056,
+      "seats": 1
+     },
+     {
+      "party": "日本のこころを大切にする党",
+      "votes": 734024.218,
+      "vote_share_pct": 1.3106,
+      "seats": 0
+     },
+     {
+      "party": "新党改革",
+      "votes": 580653.416,
+      "vote_share_pct": 1.0367,
+      "seats": 0
+     },
+     {
+      "party": "国民怒りの声",
+      "votes": 466706.136,
+      "vote_share_pct": 0.8333,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 366815.451,
+      "vote_share_pct": 0.6549,
+      "seats": 0
+     },
+     {
+      "party": "支持政党なし",
+      "votes": 647071.67,
+      "vote_share_pct": 1.1553,
+      "seats": 0
+     }
+    ]
+   },
+   "source_name": "総務省「第24回参議院議員通常選挙結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin24/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000430604.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000430606.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000430608.xls",
+    "dist_votes": "https://www.soumu.go.jp/main_content/000430609.xls",
+    "pr_rank": "https://www.soumu.go.jp/main_content/000430614.xls",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000430628.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "選挙区: 政党別得票合計=56555392.895 / 公表合計=56555392.895 → 一致",
+    "選挙区: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "比例代表: 政党別得票合計=56007352.842 / 公表合計=56007352.842 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "選挙区: 当選者数合計=73 / 当選人数表の合計=73 → 一致",
+    "比例代表: 当選者数合計=48 / 当選人数表の合計=48 → 一致",
+    "ドント式検算(全国1区): 公式の当選人数と一致"
+   ]
+  },
+  {
+   "election": "第25回参議院議員通常選挙 2019-07-21",
+   "date": "2019-07-21",
+   "turnout_pct": 48.8,
+   "electors": 105886063,
+   "voters": 51671922,
+   "district": {
+    "seats": 74,
+    "extra_byelection_seats_not_included": {},
+    "total_valid_votes": 50363770.968,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 20030330.963,
+      "vote_share_pct": 39.7713,
+      "seats": 38
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 7951430,
+      "vote_share_pct": 15.788,
+      "seats": 9
+     },
+     {
+      "party": "国民民主党",
+      "votes": 3256859,
+      "vote_share_pct": 6.4667,
+      "seats": 3
+     },
+     {
+      "party": "公明党",
+      "votes": 3913359,
+      "vote_share_pct": 7.7702,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 3664530,
+      "vote_share_pct": 7.2761,
+      "seats": 5
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3710768,
+      "vote_share_pct": 7.3679,
+      "seats": 3
+     },
+     {
+      "party": "社会民主党",
+      "votes": 191820,
+      "vote_share_pct": 0.3809,
+      "seats": 0
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 214438,
+      "vote_share_pct": 0.4258,
+      "seats": 0
+     },
+     {
+      "party": "ＮＨＫから国民を守る党",
+      "votes": 1521344,
+      "vote_share_pct": 3.0207,
+      "seats": 0
+     },
+     {
+      "party": "オリーブの木",
+      "votes": 91675,
+      "vote_share_pct": 0.182,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 187491,
+      "vote_share_pct": 0.3723,
+      "seats": 0
+     },
+     {
+      "party": "労働の解放をめざす労働者党",
+      "votes": 75317.841,
+      "vote_share_pct": 0.1495,
+      "seats": 0
+     },
+     {
+      "party": "安楽死制度を考える会",
+      "votes": 215181,
+      "vote_share_pct": 0.4273,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 3586.029,
+      "vote_share_pct": 0.0071,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 5335641.135,
+      "vote_share_pct": 10.5942,
+      "seats": 9
+     }
+    ]
+   },
+   "pr": {
+    "seats": 50,
+    "total_valid_votes": 50072198.778,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 17712373.119,
+      "vote_share_pct": 35.3737,
+      "seats": 19
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 7917720.945,
+      "vote_share_pct": 15.8126,
+      "seats": 8
+     },
+     {
+      "party": "国民民主党",
+      "votes": 3481078.4,
+      "vote_share_pct": 6.9521,
+      "seats": 3
+     },
+     {
+      "party": "公明党",
+      "votes": 6536336.451,
+      "vote_share_pct": 13.0538,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 4907844.388,
+      "vote_share_pct": 9.8015,
+      "seats": 5
+     },
+     {
+      "party": "日本共産党",
+      "votes": 4483411.183,
+      "vote_share_pct": 8.9539,
+      "seats": 4
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1046011.52,
+      "vote_share_pct": 2.089,
+      "seats": 1
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 2280252.75,
+      "vote_share_pct": 4.5539,
+      "seats": 2
+     },
+     {
+      "party": "ＮＨＫから国民を守る党",
+      "votes": 987885.326,
+      "vote_share_pct": 1.9729,
+      "seats": 1
+     },
+     {
+      "party": "オリーブの木",
+      "votes": 167897.997,
+      "vote_share_pct": 0.3353,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 202278.772,
+      "vote_share_pct": 0.404,
+      "seats": 0
+     },
+     {
+      "party": "労働の解放をめざす労働者党",
+      "votes": 80055.927,
+      "vote_share_pct": 0.1599,
+      "seats": 0
+     },
+     {
+      "party": "安楽死制度を考える会",
+      "votes": 269052,
+      "vote_share_pct": 0.5373,
+      "seats": 0
+     }
+    ]
+   },
+   "source_name": "総務省「第25回参議院議員通常選挙結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin25/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000636669.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000636671.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000636673.xls",
+    "dist_votes": "https://www.soumu.go.jp/main_content/000636674.xls",
+    "pr_rank": "https://www.soumu.go.jp/main_content/000636679.xls",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000636695.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "選挙区: 政党別得票合計=50363770.968 / 公表合計=50363770.968 → 一致",
+    "選挙区: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "比例代表: 政党別得票合計=50072198.778 / 公表合計=50072198.778 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "選挙区: 当選者数合計=74 / 当選人数表の合計=74 → 一致",
+    "比例代表: 当選者数合計=50 / 当選人数表の合計=50 → 一致",
+    "ドント式検算(全国1区): 公式の当選人数と一致"
+   ]
+  },
+  {
+   "election": "第26回参議院議員通常選挙 2022-07-10",
+   "date": "2022-07-10",
+   "turnout_pct": 52.05,
+   "electors": 105019203,
+   "voters": 54660242,
+   "district": {
+    "seats": 74,
+    "extra_byelection_seats_not_included": {
+     "立憲民主党": 1
+    },
+    "total_valid_votes": 53180011.63,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 20603298.241,
+      "vote_share_pct": 38.7426,
+      "seats": 45
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 8154330.036,
+      "vote_share_pct": 15.3334,
+      "seats": 9
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 5533657.454,
+      "vote_share_pct": 10.4055,
+      "seats": 4
+     },
+     {
+      "party": "公明党",
+      "votes": 3600490,
+      "vote_share_pct": 6.7704,
+      "seats": 7
+     },
+     {
+      "party": "国民民主党",
+      "votes": 2038654.596,
+      "vote_share_pct": 3.8335,
+      "seats": 2
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3636533.992,
+      "vote_share_pct": 6.8382,
+      "seats": 1
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 989716,
+      "vote_share_pct": 1.8611,
+      "seats": 1
+     },
+     {
+      "party": "社会民主党",
+      "votes": 178911,
+      "vote_share_pct": 0.3364,
+      "seats": 0
+     },
+     {
+      "party": "ＮＨＫ党",
+      "votes": 1106508.022,
+      "vote_share_pct": 2.0807,
+      "seats": 0
+     },
+     {
+      "party": "参政党",
+      "votes": 2018214.627,
+      "vote_share_pct": 3.7951,
+      "seats": 0
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 134718,
+      "vote_share_pct": 0.2533,
+      "seats": 0
+     },
+     {
+      "party": "日本第一党",
+      "votes": 74096.851,
+      "vote_share_pct": 0.1393,
+      "seats": 0
+     },
+     {
+      "party": "新党くにもり",
+      "votes": 111956.13,
+      "vote_share_pct": 0.2105,
+      "seats": 0
+     },
+     {
+      "party": "維新政党・新風",
+      "votes": 204101.522,
+      "vote_share_pct": 0.3838,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 509464.792,
+      "vote_share_pct": 0.958,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 4285360.367,
+      "vote_share_pct": 8.0582,
+      "seats": 5
+     }
+    ]
+   },
+   "pr": {
+    "seats": 50,
+    "total_valid_votes": 53027260.002,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 18256245.412,
+      "vote_share_pct": 34.428,
+      "seats": 18
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 6771945.011,
+      "vote_share_pct": 12.7707,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 7845995.352,
+      "vote_share_pct": 14.7962,
+      "seats": 8
+     },
+     {
+      "party": "公明党",
+      "votes": 6181431.937,
+      "vote_share_pct": 11.6571,
+      "seats": 6
+     },
+     {
+      "party": "国民民主党",
+      "votes": 3159625.89,
+      "vote_share_pct": 5.9585,
+      "seats": 3
+     },
+     {
+      "party": "日本共産党",
+      "votes": 3618342.792,
+      "vote_share_pct": 6.8236,
+      "seats": 3
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 2319156.016,
+      "vote_share_pct": 4.3735,
+      "seats": 2
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1258501.715,
+      "vote_share_pct": 2.3733,
+      "seats": 1
+     },
+     {
+      "party": "ＮＨＫ党",
+      "votes": 1253872.467,
+      "vote_share_pct": 2.3646,
+      "seats": 1
+     },
+     {
+      "party": "参政党",
+      "votes": 1768385.409,
+      "vote_share_pct": 3.3349,
+      "seats": 1
+     },
+     {
+      "party": "幸福実現党",
+      "votes": 148020,
+      "vote_share_pct": 0.2791,
+      "seats": 0
+     },
+     {
+      "party": "ごぼうの党",
+      "votes": 193724.387,
+      "vote_share_pct": 0.3653,
+      "seats": 0
+     },
+     {
+      "party": "日本第一党",
+      "votes": 109045.614,
+      "vote_share_pct": 0.2056,
+      "seats": 0
+     },
+     {
+      "party": "新党くにもり",
+      "votes": 77861,
+      "vote_share_pct": 0.1468,
+      "seats": 0
+     },
+     {
+      "party": "維新政党・新風",
+      "votes": 65107,
+      "vote_share_pct": 0.1228,
+      "seats": 0
+     }
+    ]
+   },
+   "source_name": "総務省「第26回参議院議員通常選挙結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin26/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/000825823.xls",
+    "winners": "https://www.soumu.go.jp/main_content/000825825.xls",
+    "pr_votes": "https://www.soumu.go.jp/main_content/000825827.xls",
+    "dist_votes": "https://www.soumu.go.jp/main_content/000825829.xls",
+    "pr_rank": "https://www.soumu.go.jp/main_content/000825840.xls",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/000825873.xls"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "選挙区: 政党別得票合計=53180011.630 / 公表合計=53180011.63 → 一致",
+    "選挙区: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "比例代表: 政党別得票合計=53027260.002 / 公表合計=53027260.002 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "選挙区: 当選者数合計=74 / 当選人数表の合計=74 → 一致",
+    "比例代表: 当選者数合計=50 / 当選人数表の合計=50 → 一致",
+    "ドント式検算(全国1区): 公式の当選人数と一致",
+    "選挙区: 通常選挙と合併して行われた補欠選挙の当選人(外書) {'立憲民主党': 1} は seats に含めていない"
+   ]
+  },
+  {
+   "election": "第27回参議院議員通常選挙 2025-07-20",
+   "date": "2025-07-20",
+   "turnout_pct": 58.51,
+   "electors": 103591806,
+   "voters": 60614869,
+   "district": {
+    "seats": 74,
+    "extra_byelection_seats_not_included": {
+     "立憲民主党": 1
+    },
+    "total_valid_votes": 59153645.738,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 14470016.925,
+      "vote_share_pct": 24.4617,
+      "seats": 27
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 9119655.732,
+      "vote_share_pct": 15.4169,
+      "seats": 14
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 3451834,
+      "vote_share_pct": 5.8354,
+      "seats": 3
+     },
+     {
+      "party": "公明党",
+      "votes": 3175790.908,
+      "vote_share_pct": 5.3687,
+      "seats": 4
+     },
+     {
+      "party": "国民民主党",
+      "votes": 7180653.202,
+      "vote_share_pct": 12.139,
+      "seats": 10
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2831672,
+      "vote_share_pct": 4.787,
+      "seats": 1
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 1881606,
+      "vote_share_pct": 3.1809,
+      "seats": 0
+     },
+     {
+      "party": "参政党",
+      "votes": 9264284,
+      "vote_share_pct": 15.6614,
+      "seats": 7
+     },
+     {
+      "party": "日本保守党",
+      "votes": 652266,
+      "vote_share_pct": 1.1027,
+      "seats": 0
+     },
+     {
+      "party": "社会民主党",
+      "votes": 302775,
+      "vote_share_pct": 0.5118,
+      "seats": 0
+     },
+     {
+      "party": "みんなでつくる党",
+      "votes": 6292,
+      "vote_share_pct": 0.0106,
+      "seats": 0
+     },
+     {
+      "party": "無所属連合",
+      "votes": 341436.751,
+      "vote_share_pct": 0.5772,
+      "seats": 0
+     },
+     {
+      "party": "チームみらい",
+      "votes": 956674.002,
+      "vote_share_pct": 1.6173,
+      "seats": 0
+     },
+     {
+      "party": "日本誠真会",
+      "votes": 223067,
+      "vote_share_pct": 0.3771,
+      "seats": 0
+     },
+     {
+      "party": "日本改革党",
+      "votes": 74274,
+      "vote_share_pct": 0.1256,
+      "seats": 0
+     },
+     {
+      "party": "再生の道",
+      "votes": 128746,
+      "vote_share_pct": 0.2176,
+      "seats": 0
+     },
+     {
+      "party": "ＮＨＫ党",
+      "votes": 740740.05,
+      "vote_share_pct": 1.2522,
+      "seats": 0
+     },
+     {
+      "party": "諸派",
+      "votes": 428060,
+      "vote_share_pct": 0.7236,
+      "seats": 0
+     },
+     {
+      "party": "無所属",
+      "votes": 3923802.168,
+      "vote_share_pct": 6.6332,
+      "seats": 8
+     }
+    ]
+   },
+   "pr": {
+    "seats": 50,
+    "total_valid_votes": 59185398.465,
+    "parties": [
+     {
+      "party": "自由民主党",
+      "votes": 12808306.775,
+      "vote_share_pct": 21.641,
+      "seats": 12
+     },
+     {
+      "party": "立憲民主党",
+      "votes": 7397457.498,
+      "vote_share_pct": 12.4988,
+      "seats": 7
+     },
+     {
+      "party": "日本維新の会",
+      "votes": 4375927.682,
+      "vote_share_pct": 7.3936,
+      "seats": 4
+     },
+     {
+      "party": "公明党",
+      "votes": 5210569.4,
+      "vote_share_pct": 8.8038,
+      "seats": 4
+     },
+     {
+      "party": "国民民主党",
+      "votes": 7620492.652,
+      "vote_share_pct": 12.8756,
+      "seats": 7
+     },
+     {
+      "party": "日本共産党",
+      "votes": 2864738.498,
+      "vote_share_pct": 4.8403,
+      "seats": 2
+     },
+     {
+      "party": "れいわ新選組",
+      "votes": 3879914.253,
+      "vote_share_pct": 6.5555,
+      "seats": 3
+     },
+     {
+      "party": "参政党",
+      "votes": 7425053.574,
+      "vote_share_pct": 12.5454,
+      "seats": 7
+     },
+     {
+      "party": "日本保守党",
+      "votes": 2982093.455,
+      "vote_share_pct": 5.0386,
+      "seats": 2
+     },
+     {
+      "party": "社会民主党",
+      "votes": 1217823.169,
+      "vote_share_pct": 2.0576,
+      "seats": 1
+     },
+     {
+      "party": "無所属連合",
+      "votes": 289222.312,
+      "vote_share_pct": 0.4887,
+      "seats": 0
+     },
+     {
+      "party": "チームみらい",
+      "votes": 1517890.306,
+      "vote_share_pct": 2.5646,
+      "seats": 1
+     },
+     {
+      "party": "日本誠真会",
+      "votes": 333263,
+      "vote_share_pct": 0.5631,
+      "seats": 0
+     },
+     {
+      "party": "日本改革党",
+      "votes": 55232,
+      "vote_share_pct": 0.0933,
+      "seats": 0
+     },
+     {
+      "party": "再生の道",
+      "votes": 524787.516,
+      "vote_share_pct": 0.8867,
+      "seats": 0
+     },
+     {
+      "party": "ＮＨＫ党",
+      "votes": 682626.375,
+      "vote_share_pct": 1.1534,
+      "seats": 0
+     }
+    ]
+   },
+   "source_name": "総務省「第27回参議院議員通常選挙結果調」",
+   "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/sangiin27/index.html",
+   "source_files": {
+    "turnout": "https://www.soumu.go.jp/main_content/001027811.xlsx",
+    "winners": "https://www.soumu.go.jp/main_content/001027813.xlsx",
+    "pr_votes": "https://www.soumu.go.jp/main_content/001027815.xlsx",
+    "dist_votes": "https://www.soumu.go.jp/main_content/001027816.xlsx",
+    "pr_rank": "https://www.soumu.go.jp/main_content/001027822.xlsx",
+    "pr_alloc": "https://www.soumu.go.jp/main_content/001027841.xlsx"
+   },
+   "confidence": "high",
+   "verified_via": "総務省サイトのExcelを直接ダウンロードして機械的に読み取り",
+   "checks": [
+    "選挙区: 政党別得票合計=59153645.738 / 公表合計=59153645.738 → 一致",
+    "選挙区: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "比例代表: 政党別得票合計=59185398.465 / 公表合計=59185398.465 → 一致",
+    "比例代表: 得票率は得票数/有効投票総数から再計算し公表値と照合 → 全党一致",
+    "選挙区: 当選者数合計=74 / 当選人数表の合計=74 → 一致",
+    "比例代表: 当選者数合計=50 / 当選人数表の合計=50 → 一致",
+    "ドント式検算(全国1区): 公式の当選人数と一致",
+    "選挙区: 通常選挙と合併して行われた補欠選挙の当選人(外書) {'立憲民主党': 1} は seats に含めていない"
+   ]
+  }
+ ],
+ "turnout_series": {
+  "house_of_representatives": [
+   {
+    "year": 1946,
+    "turnout_pct": 72.08,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1947,
+    "turnout_pct": 67.95,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1949,
+    "turnout_pct": 74.04,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1952,
+    "turnout_pct": 76.43,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1953,
+    "turnout_pct": 74.22,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1955,
+    "turnout_pct": 75.84,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1958,
+    "turnout_pct": 76.99,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1960,
+    "turnout_pct": 73.51,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1963,
+    "turnout_pct": 71.14,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1967,
+    "turnout_pct": 73.99,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1969,
+    "turnout_pct": 68.51,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1972,
+    "turnout_pct": 71.76,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1976,
+    "turnout_pct": 73.45,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1979,
+    "turnout_pct": 68.01,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1980,
+    "turnout_pct": 74.57,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1983,
+    "turnout_pct": 67.94,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1986,
+    "turnout_pct": 71.4,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1990,
+    "turnout_pct": 73.31,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1993,
+    "turnout_pct": 67.26,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1996,
+    "turnout_pct": 59.65,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2000,
+    "turnout_pct": 62.49,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2003,
+    "turnout_pct": 59.86,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2005,
+    "turnout_pct": 67.51,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2009,
+    "turnout_pct": 69.28,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2012,
+    "turnout_pct": 59.32,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2014,
+    "turnout_pct": 52.66,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2017,
+    "turnout_pct": 53.68,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2021,
+    "turnout_pct": 55.93,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2024,
+    "turnout_pct": 53.85,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2026,
+    "turnout_pct": 56.26,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   }
+  ],
+  "house_of_councillors": [
+   {
+    "year": 1947,
+    "turnout_pct": 61.12,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1950,
+    "turnout_pct": 72.19,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1953,
+    "turnout_pct": 63.18,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1956,
+    "turnout_pct": 62.11,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1959,
+    "turnout_pct": 58.75,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1962,
+    "turnout_pct": 68.22,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1965,
+    "turnout_pct": 67.02,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1968,
+    "turnout_pct": 68.94,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1971,
+    "turnout_pct": 59.24,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1974,
+    "turnout_pct": 73.2,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1977,
+    "turnout_pct": 68.49,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1980,
+    "turnout_pct": 74.54,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1983,
+    "turnout_pct": 57.0,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1986,
+    "turnout_pct": 71.36,
+    "confidence": "medium",
+    "read_from": "グラフPDFのラベル位置(x座標の最近傍)から読み取り"
+   },
+   {
+    "year": 1989,
+    "turnout_pct": 65.02,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1992,
+    "turnout_pct": 50.72,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1995,
+    "turnout_pct": 44.52,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 1998,
+    "turnout_pct": 58.84,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2001,
+    "turnout_pct": 56.44,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2004,
+    "turnout_pct": 56.57,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2007,
+    "turnout_pct": 58.64,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2010,
+    "turnout_pct": 57.92,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2013,
+    "turnout_pct": 52.61,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2016,
+    "turnout_pct": 54.7,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2019,
+    "turnout_pct": 48.8,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2022,
+    "turnout_pct": 52.05,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   },
+   {
+    "year": 2025,
+    "turnout_pct": 58.51,
+    "confidence": "high",
+    "read_from": "年代別投票率PDFの表「全体」行"
+   }
+  ],
+  "by_age_group": {
+   "house_of_representatives": {
+    "10歳代": {
+     "2017": 40.49,
+     "2021": 43.23,
+     "2024": 39.43,
+     "2026": 43.45
+    },
+    "20歳代": {
+     "1967": 66.69,
+     "1969": 59.61,
+     "1972": 61.89,
+     "1976": 63.5,
+     "1979": 57.83,
+     "1980": 63.13,
+     "1983": 54.07,
+     "1986": 56.86,
+     "1990": 57.76,
+     "1993": 47.46,
+     "1996": 36.42,
+     "2000": 38.35,
+     "2003": 35.62,
+     "2005": 46.2,
+     "2009": 49.45,
+     "2012": 37.89,
+     "2014": 32.58,
+     "2017": 33.85,
+     "2021": 36.5,
+     "2024": 34.62,
+     "2026": 39.01
+    },
+    "30歳代": {
+     "1967": 77.88,
+     "1969": 71.19,
+     "1972": 75.48,
+     "1976": 77.41,
+     "1979": 71.06,
+     "1980": 75.92,
+     "1983": 68.25,
+     "1986": 72.15,
+     "1990": 75.97,
+     "1993": 68.46,
+     "1996": 57.49,
+     "2000": 56.82,
+     "2003": 50.72,
+     "2005": 59.79,
+     "2009": 63.87,
+     "2012": 50.1,
+     "2014": 42.09,
+     "2017": 44.75,
+     "2021": 47.13,
+     "2024": 45.66,
+     "2026": 50.89
+    },
+    "40歳代": {
+     "1967": 82.07,
+     "1969": 78.33,
+     "1972": 81.84,
+     "1976": 82.29,
+     "1979": 77.82,
+     "1980": 81.88,
+     "1983": 75.43,
+     "1986": 77.99,
+     "1990": 81.44,
+     "1993": 74.48,
+     "1996": 65.46,
+     "2000": 68.13,
+     "2003": 64.72,
+     "2005": 71.94,
+     "2009": 72.63,
+     "2012": 59.38,
+     "2014": 49.98,
+     "2017": 53.52,
+     "2021": 55.56,
+     "2024": 52.66,
+     "2026": 56.16
+    },
+    "50歳代": {
+     "1967": 82.68,
+     "1969": 80.23,
+     "1972": 83.38,
+     "1976": 84.57,
+     "1979": 80.82,
+     "1980": 85.23,
+     "1983": 80.51,
+     "1986": 82.74,
+     "1990": 84.85,
+     "1993": 79.34,
+     "1996": 70.61,
+     "2000": 71.98,
+     "2003": 70.01,
+     "2005": 77.86,
+     "2009": 79.69,
+     "2012": 68.02,
+     "2014": 60.07,
+     "2017": 63.32,
+     "2021": 62.96,
+     "2024": 59.16,
+     "2026": 61.9
+    },
+    "60歳代": {
+     "1967": 77.08,
+     "1969": 77.7,
+     "1972": 82.34,
+     "1976": 84.13,
+     "1979": 80.97,
+     "1980": 84.84,
+     "1983": 82.43,
+     "1986": 85.66,
+     "1990": 87.21,
+     "1993": 83.38,
+     "1996": 77.25,
+     "2000": 79.23,
+     "2003": 77.89,
+     "2005": 83.08,
+     "2009": 84.15,
+     "2012": 74.93,
+     "2014": 68.28,
+     "2017": 72.04,
+     "2021": 71.38,
+     "2024": 68.02,
+     "2026": 70.24
+    },
+    "70歳代以上": {
+     "1967": 56.83,
+     "1969": 62.52,
+     "1972": 68.01,
+     "1976": 71.35,
+     "1979": 67.72,
+     "1980": 69.66,
+     "1983": 68.41,
+     "1986": 72.36,
+     "1990": 73.21,
+     "1993": 71.61,
+     "1996": 66.88,
+     "2000": 69.28,
+     "2003": 67.78,
+     "2005": 69.48,
+     "2009": 71.06,
+     "2012": 63.3,
+     "2014": 59.46,
+     "2017": 60.94,
+     "2021": 61.9,
+     "2024": 60.42,
+     "2026": 59.33
+    }
+   },
+   "house_of_councillors": {
+    "10歳代": {
+     "2016": 46.78,
+     "2019": 32.28,
+     "2022": 35.42,
+     "2025": 45.29
+    },
+    "20歳代": {
+     "1989": 47.42,
+     "1992": 33.35,
+     "1995": 25.15,
+     "1998": 35.81,
+     "2001": 34.35,
+     "2004": 34.33,
+     "2007": 36.03,
+     "2010": 36.17,
+     "2013": 33.37,
+     "2016": 35.6,
+     "2019": 30.96,
+     "2022": 33.99,
+     "2025": 47.3
+    },
+    "30歳代": {
+     "1989": 65.29,
+     "1992": 49.3,
+     "1995": 41.43,
+     "1998": 55.2,
+     "2001": 49.68,
+     "2004": 47.36,
+     "2007": 49.05,
+     "2010": 48.79,
+     "2013": 43.78,
+     "2016": 44.24,
+     "2019": 38.78,
+     "2022": 44.8,
+     "2025": 56.52
+    },
+    "40歳代": {
+     "1989": 70.15,
+     "1992": 54.83,
+     "1995": 48.32,
+     "1998": 64.44,
+     "2001": 61.63,
+     "2004": 60.28,
+     "2007": 60.68,
+     "2010": 58.8,
+     "2013": 51.66,
+     "2016": 52.64,
+     "2019": 45.99,
+     "2022": 50.76,
+     "2025": 58.44
+    },
+    "50歳代": {
+     "1989": 75.4,
+     "1992": 62.0,
+     "1995": 54.72,
+     "1998": 69.0,
+     "2001": 67.3,
+     "2004": 66.54,
+     "2007": 69.35,
+     "2010": 67.81,
+     "2013": 61.77,
+     "2016": 63.25,
+     "2019": 55.43,
+     "2022": 57.33,
+     "2025": 62.87
+    },
+    "60歳代": {
+     "1989": 79.89,
+     "1992": 69.87,
+     "1995": 64.86,
+     "1998": 75.24,
+     "2001": 75.05,
+     "2004": 74.21,
+     "2007": 76.15,
+     "2010": 75.93,
+     "2013": 67.56,
+     "2016": 70.07,
+     "2019": 63.58,
+     "2022": 65.69,
+     "2025": 68.82
+    },
+    "70歳代以上": {
+     "1989": 66.71,
+     "1992": 61.39,
+     "1995": 57.2,
+     "1998": 65.22,
+     "2001": 65.24,
+     "2004": 63.53,
+     "2007": 64.79,
+     "2010": 64.17,
+     "2013": 58.54,
+     "2016": 60.98,
+     "2019": 56.31,
+     "2022": 55.72,
+     "2025": 58.19
+    }
+   }
+  },
+  "by_age_group_note": "年代別投票率は全国から142〜188投票区を抽出した標本調査(総務省注記)。第48回衆院選・第24回参院選の10歳代のみ全数調査。",
+  "source_name": "総務省「国政選挙における投票率の推移」「国政選挙の年代別投票率の推移について」",
+  "source_url": "https://www.soumu.go.jp/senkyo/senkyo_s/news/sonota/ritu/index.html",
+  "source_files": {
+   "推移グラフPDF": "https://www.soumu.go.jp/main_content/000255919.pdf",
+   "衆院年代別PDF": "https://www.soumu.go.jp/main_content/000255967.pdf",
+   "参院年代別PDF": "https://www.soumu.go.jp/main_content/000646811.pdf",
+   "年代別ページ": "https://www.soumu.go.jp/senkyo/senkyo_s/news/sonota/nendaibetu/"
+  },
+  "notes": [
+   "衆院1967年以降・参院1989年以降は年代別投票率PDFの表(テキスト)から読み取り(high)。",
+   "それ以前は推移グラフPDFのラベルをx座標順に選挙年へ対応づけたもの(medium)。グラフのラベルは点の真上にないため、隣接年の取り違えの可能性が残る。",
+   "衆院は小選挙区(中選挙区・大選挙区)、参院は選挙区(地方区)の投票率。"
+  ],
+  "checks": [
+   "衆2005: 結果調の投票率67.51 / 推移表67.51 → 一致",
+   "衆2009: 結果調の投票率69.28 / 推移表69.28 → 一致",
+   "衆2012: 結果調の投票率59.32 / 推移表59.32 → 一致",
+   "衆2014: 結果調の投票率52.66 / 推移表52.66 → 一致",
+   "衆2017: 結果調の投票率53.68 / 推移表53.68 → 一致",
+   "衆2021: 結果調の投票率55.93 / 推移表55.93 → 一致",
+   "衆2024: 結果調の投票率53.85 / 推移表53.85 → 一致",
+   "衆2026: 結果調の投票率56.26 / 推移表56.26 → 一致",
+   "参2013: 結果調(投票者数/有権者数)の投票率52.61 / 推移表52.61 → 一致",
+   "参2016: 結果調(投票者数/有権者数)の投票率54.7 / 推移表54.7 → 一致",
+   "参2019: 結果調(投票者数/有権者数)の投票率48.8 / 推移表48.8 → 一致",
+   "参2022: 結果調(投票者数/有権者数)の投票率52.05 / 推移表52.05 → 一致",
+   "参2025: 結果調(投票者数/有権者数)の投票率58.51 / 推移表58.51 → 一致"
+  ]
+ },
+ "party_support": [
+  {
+   "pollster": "NHK",
+   "month": "2026-11",
+   "support_pct": {
+    "自由民主党": 35.9,
+    "支持政党なし": 37.1
+   },
+   "url": "https://news.web.nhk/newsweb/na/nd-20261109de72732",
+   "confidence": "low",
+   "verified_via": "検索結果の見出し抜粋のみ(ページは開けず)。他党の値は未取得"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2026-10",
+   "support_pct": {
+    "自由民主党": 35.3,
+    "支持政党なし": 38.5
+   },
+   "url": "https://news.web.nhk/newsweb/na/nd-20261015de59645",
+   "confidence": "low",
+   "verified_via": "検索結果の見出し抜粋のみ。URLは関連解説記事"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2026-08",
+   "support_pct": {
+    "自由民主党": 35.0,
+    "日本維新の会": 2.6,
+    "国民民主党": 2.8,
+    "中道改革連合": 1.7,
+    "立憲民主党": 2.8,
+    "参政党": 2.8,
+    "支持政党なし": null
+   },
+   "url": "https://news.web.nhk/newsweb/na/nd-20260810de43054",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-11",
+   "support_pct": {
+    "自由民主党": 30.7,
+    "立憲民主党": 7.2,
+    "日本維新の会": 3.3,
+    "国民民主党": 3.5,
+    "公明党": 2.6,
+    "参政党": 3.4,
+    "支持政党なし": null
+   },
+   "url": "https://news.web.nhk/newsweb/na/na-k10014971791000",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ(11月10日発表)"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-10",
+   "support_pct": {
+    "自由民主党": 27.4,
+    "立憲民主党": 5.6,
+    "国民民主党": 4.8,
+    "参政党": 4.5,
+    "日本維新の会": 1.7,
+    "支持政党なし": 41.0
+   },
+   "url": "https://okonomijyoho.com/20100.html",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。個人まとめサイト経由の二次情報"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-09",
+   "support_pct": {
+    "自由民主党": 27.9,
+    "参政党": 6.3,
+    "国民民主党": 5.7,
+    "立憲民主党": 5.0,
+    "支持政党なし": null
+   },
+   "url": "https://news.web.nhk/newsweb/na/na-k10014916331000",
+   "confidence": "low",
+   "verified_via": "検索結果の見出し抜粋のみ。調査月(2025年9月)は抜粋からの推定で未確認"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-08",
+   "support_pct": {
+    "自由民主党": 29.4,
+    "国民民主党": 7.1,
+    "立憲民主党": 6.9,
+    "参政党": 6.8,
+    "支持政党なし": 29.6
+   },
+   "url": "https://senkyo-sokuhou.net/nhkyorontyosa",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。まとめサイト経由の二次情報"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-07 (参院選前・7月14日発表分)",
+   "support_pct": {
+    "自由民主党": 24.0,
+    "立憲民主党": 7.8,
+    "参政党": 5.9,
+    "支持政党なし": null
+   },
+   "url": "https://news.web.nhk/newsweb/na/na-k10014862701000",
+   "confidence": "low",
+   "verified_via": "検索結果の見出し抜粋のみ"
+  },
+  {
+   "pollster": "NHK",
+   "month": "2025-07 (7月上旬調査)",
+   "support_pct": {
+    "自由民主党": 28.1,
+    "立憲民主党": 8.5,
+    "国民民主党": 5.1,
+    "参政党": 4.2,
+    "支持政党なし": 30.1
+   },
+   "url": "https://x.com/nhk_election/status/1942168109991031102",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋(NHK選挙報道のX投稿)のみ"
+  },
+  {
+   "pollster": "NHK(年平均、二次サイト集計)",
+   "month": "2009〜2012 年平均",
+   "support_pct": {
+    "自由民主党": {
+     "2009": 24.7,
+     "2010": 18.5,
+     "2011": 21.4,
+     "2012": 21.1
+    },
+    "支持政党なし": null
+   },
+   "url": "https://www.naikaku.org/2024/07/01/seitosijiritsu/",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。二次サイトの表で、同表には政党名ラベルの誤り(2009年に「立憲民主党」28.4%とある等)が指摘されるため要注意。月次ではない"
+  }
+ ],
+ "studies": [
+  {
+   "key": "computed_indices_house_of_representatives",
+   "what": "総務省の公式結果からこの作業で計算した指標(論文値ではない): Gallagher非比例性指数(小選挙区・比例・合算)、有効政党数(Laakso-Taagepera; 得票ベース/議席ベース)、小選挙区の上位2党についての指数 k = ln(議席比)/ln(得票比)(三乗比の法則なら k=3)",
+   "value": [
+    {
+     "election": "2005-09-11",
+     "gallagher_smd": 23.0,
+     "gallagher_pr": 4.65,
+     "gallagher_combined_votes_sum": 15.65,
+     "enp_votes_smd": 2.71,
+     "enp_votes_pr": 3.72,
+     "enp_seats_smd": 1.76,
+     "enp_seats_pr": 3.15,
+     "enp_seats_total": 2.26,
+     "smd_top2": [
+      "自由民主党",
+      "民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      47.7746,
+      36.4421
+     ],
+     "smd_top2_seats": [
+      219,
+      52
+     ],
+     "smd_seat_vote_exponent_top2": 5.31
+    },
+    {
+     "election": "2009-08-30",
+     "gallagher_smd": 22.5,
+     "gallagher_pr": 5.87,
+     "gallagher_combined_votes_sum": 15.12,
+     "enp_votes_smd": 2.65,
+     "enp_votes_pr": 3.66,
+     "enp_seats_smd": 1.7,
+     "enp_seats_pr": 2.91,
+     "enp_seats_total": 2.1,
+     "smd_top2": [
+      "民主党",
+      "自由民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      47.4278,
+      38.6814
+     ],
+     "smd_top2_seats": [
+      221,
+      64
+     ],
+     "smd_seat_vote_exponent_top2": 6.08
+    },
+    {
+     "election": "2012-12-16",
+     "gallagher_smd": 28.55,
+     "gallagher_pr": 3.92,
+     "gallagher_combined_votes_sum": 20.06,
+     "enp_votes_smd": 3.82,
+     "enp_votes_pr": 5.79,
+     "enp_seats_smd": 1.57,
+     "enp_seats_pr": 4.95,
+     "enp_seats_total": 2.45,
+     "smd_top2": [
+      "自由民主党",
+      "民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      43.0065,
+      22.8066
+     ],
+     "smd_top2_seats": [
+      237,
+      27
+     ],
+     "smd_seat_vote_exponent_top2": 3.42
+    },
+    {
+     "election": "2014-12-14",
+     "gallagher_smd": 22.61,
+     "gallagher_pr": 4.43,
+     "gallagher_combined_votes_sum": 16.19,
+     "enp_votes_smd": 3.25,
+     "enp_votes_pr": 4.97,
+     "enp_seats_smd": 1.71,
+     "enp_seats_pr": 4.14,
+     "enp_seats_total": 2.43,
+     "smd_top2": [
+      "自由民主党",
+      "民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      48.0951,
+      22.5102
+     ],
+     "smd_top2_seats": [
+      222,
+      38
+     ],
+     "smd_seat_vote_exponent_top2": 2.32
+    },
+    {
+     "election": "2017-10-22",
+     "gallagher_smd": 22.41,
+     "gallagher_pr": 3.67,
+     "gallagher_combined_votes_sum": 16.05,
+     "enp_votes_smd": 3.4,
+     "enp_votes_pr": 4.85,
+     "enp_seats_smd": 1.76,
+     "enp_seats_pr": 4.2,
+     "enp_seats_total": 2.51,
+     "smd_top2": [
+      "自由民主党",
+      "希望の党"
+     ],
+     "smd_top2_vote_share_pct": [
+      47.8162,
+      20.6372
+     ],
+     "smd_top2_seats": [
+      215,
+      18
+     ],
+     "smd_seat_vote_exponent_top2": 2.95
+    },
+    {
+     "election": "2021-10-31",
+     "gallagher_smd": 14.32,
+     "gallagher_pr": 5.54,
+     "gallagher_combined_votes_sum": 11.16,
+     "enp_votes_smd": 3.01,
+     "enp_votes_pr": 4.89,
+     "enp_seats_smd": 2.16,
+     "enp_seats_pr": 3.88,
+     "enp_seats_total": 2.72,
+     "smd_top2": [
+      "自由民主党",
+      "立憲民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      48.0816,
+      29.9626
+     ],
+     "smd_top2_seats": [
+      187,
+      57
+     ],
+     "smd_seat_vote_exponent_top2": 2.51
+    },
+    {
+     "election": "2024-10-27",
+     "gallagher_smd": 8.95,
+     "gallagher_pr": 6.29,
+     "gallagher_combined_votes_sum": 8.92,
+     "enp_votes_smd": 3.94,
+     "enp_votes_pr": 6.23,
+     "enp_seats_smd": 2.87,
+     "enp_seats_pr": 4.78,
+     "enp_seats_total": 3.52,
+     "smd_top2": [
+      "自由民主党",
+      "立憲民主党"
+     ],
+     "smd_top2_vote_share_pct": [
+      38.4575,
+      29.0091
+     ],
+     "smd_top2_seats": [
+      132,
+      104
+     ],
+     "smd_seat_vote_exponent_top2": 0.85
+    },
+    {
+     "election": "2026-02-08",
+     "gallagher_smd": 30.05,
+     "gallagher_pr": 5.38,
+     "gallagher_combined_votes_sum": 19.33,
+     "enp_votes_smd": 3.28,
+     "enp_votes_pr": 5.03,
+     "enp_seats_smd": 1.35,
+     "enp_seats_pr": 4.26,
+     "enp_seats_total": 2.08,
+     "smd_top2": [
+      "自由民主党",
+      "中道改革連合"
+     ],
+     "smd_top2_vote_share_pct": [
+      49.0914,
+      21.6304
+     ],
+     "smd_top2_seats": [
+      248,
+      7
+     ],
+     "smd_seat_vote_exponent_top2": 4.35
+    }
+   ],
+   "unit": "Gallagher指数=%ポイント、有効政党数=個、k=無次元",
+   "population": "第44回(2005)〜第51回(2026)衆議院議員総選挙",
+   "citation": "計算式: Gallagher (1991) LSq = sqrt(0.5*Σ(V_i−S_i)^2); Laakso & Taagepera (1979) N = 1/Σp_i^2。データは総務省結果調。",
+   "url": "https://www.soumu.go.jp/senkyo/senkyo_s/data/shugiin/ichiran.html",
+   "confidence": "high(算術として)/ 定義上の注意あり",
+   "verified_via": "公式得票・議席からの自前計算。「無所属」「諸派」はそれぞれ1つの党として扱った(Gallagher本人のデータはothersを別扱いするため値は一致しない可能性)。合算は小選挙区票+比例票の合計と総議席を使用(Gallagherの1996年以降の日本の扱いと同じ考え方、検索抜粋による)。kは上位2党のみの比で、2026年のように第2党の議席が極端に少ない回は値が大きく振れる。"
+  },
+  {
+   "key": "official_seat_numbers_current",
+   "what": "衆議院の定数と比例ブロック別定数(現行)",
+   "value": {
+    "total": 465,
+    "smd": 289,
+    "pr": 176,
+    "blocks": {
+     "北海道": 8,
+     "東北": 12,
+     "北関東": 19,
+     "南関東": 23,
+     "東京都": 19,
+     "北陸信越": 10,
+     "東海": 21,
+     "近畿": 28,
+     "中国": 10,
+     "四国": 6,
+     "九州": 20
+    }
+   },
+   "unit": "人",
+   "population": "現行制度(第50回・第51回で適用)",
+   "citation": "総務省「なるほど!選挙 選挙の種類」",
+   "url": "https://www.soumu.go.jp/senkyo/senkyo_s/naruhodo/naruhodo03.html",
+   "confidence": "high",
+   "verified_via": "総務省ページをcurlで取得し本文を確認。ブロック定数は結果調の議席配分表から数えた値(第50回・第51回)とも一致"
+  },
+  {
+   "key": "dual_candidacy_official",
+   "what": "重複立候補の制度説明(総務省)",
+   "value": "「同じ人が同時に2つ以上の選挙の候補者になること。衆議院選挙では、政党が必要な候補者を確保するという理由から、その選挙で届け出た小選挙区選挙の候補者を、比例代表選挙の名簿にも載せることができますが、他の選挙では禁止」",
+   "unit": null,
+   "population": "衆議院",
+   "citation": "総務省「なるほど!選挙 立候補」",
+   "url": "https://www.soumu.go.jp/senkyo/senkyo_s/naruhodo/naruhodo14.html",
+   "confidence": "high",
+   "verified_via": "総務省ページをcurlで取得し本文を確認"
+  },
+  {
+   "key": "dual_candidacy_deposit_threshold",
+   "what": "重複立候補者が小選挙区で供託物没収点(有効投票総数の1/10)に達しなかった場合、比例名簿に記載されていないものとみなされる(惜敗率欄「×」)",
+   "value": 10,
+   "unit": "% (小選挙区の有効投票総数に対する得票)",
+   "population": "衆議院比例代表",
+   "citation": "総務省 第50回・第51回結果調「党派別当選人数(比例代表)」注記",
+   "url": "https://www.soumu.go.jp/main_content/000979132.pdf",
+   "confidence": "high",
+   "verified_via": "総務省PDFをpdftotextで読み取り"
+  },
+  {
+   "key": "dhondt_official_table",
+   "what": "ドント式: 総務省の「党派別議席配分表(比例代表)」は各党の得票を除数1,2,3,…で割った商と、商の大きい順の「順位」を掲載。順位が定数までの商に議席が配分される",
+   "value": "除数1,2,3,…(整数)。本データの全8回×11ブロック=88ブロックで、単純なドント式計算と公式配分が相違したのは名簿登載者不足等のブロックのみ(各回のchecks参照)",
+   "unit": null,
+   "population": "衆議院比例11ブロック、参議院比例(全国)",
+   "citation": "総務省 各回結果調「党派別議席配分表(比例代表)」",
+   "url": "https://www.soumu.go.jp/main_content/000979133.xls",
+   "confidence": "high",
+   "verified_via": "総務省Excelを読み取り、ドント式を自前実装して照合"
+  },
+  {
+   "key": "dhondt_sekihairitsu_explainer_secondary",
+   "what": "惜敗率の定義: 小選挙区の当選者の得票数に対する落選者の得票数の割合。同一順位の重複立候補者は惜敗率の高い順に当選",
+   "value": "惜敗率 = 落選者の得票数 ÷ その小選挙区の当選者の得票数",
+   "unit": "%",
+   "population": "衆議院比例代表",
+   "citation": "杉並区「比例代表選出選挙の投票と当選人の決定について」(自治体公式)",
+   "url": "https://www.city.suginami.tokyo.jp/s118/1376.html",
+   "confidence": "medium",
+   "verified_via": "検索結果の抜粋(ページ本体は未取得)。総務省結果調の「惜敗率」欄(当選者=100.000)の表示とは整合"
+  },
+  {
+   "key": "weather_turnout_nakai2022",
+   "what": "天候と投票率(日本、1963年以降の衆院選): 投票率を下げるのは風速で、降雨量は頑健な効果を持たない。先行研究の降雨効果は風と雨の交絡の可能性",
+   "value": {
+    "wind_10mps_effect_on_turnout_pt": -3,
+    "rain_effect": "頑健な効果なし"
+   },
+   "unit": "%ポイント(風速10m/sのとき約3ポイント低下、時事通信の報道による数値)",
+   "population": "日本の衆議院議員総選挙(1963年以降)",
+   "citation": "中井遼ほか「天候が投票率に与える影響の再検討－日本の多様な天候データに着目して」『選挙研究』38巻1号(2022) p.105-",
+   "url": "https://www.jstage.jst.go.jp/article/jaes/38/1/38_105/_article/-char/ja",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋(J-STAGE抄録と時事ドットコム記事 https://www.jiji.com/jc/v8?id=202602snowvote-team の抜粋)。論文本体は未取得。「3ポイント」は報道経由"
+  },
+  {
+   "key": "gallagher_index_japan_2021_secondary",
+   "what": "Gallagher指数(日本、2021年衆院選)",
+   "value": 11.43,
+   "unit": "LSq",
+   "population": "2021年衆院選",
+   "citation": "World Population Review \"Gallagher Index by Country\"(二次情報。原典は Michael Gallagher, Election indices dataset, Trinity College Dublin)",
+   "url": "https://worldpopulationreview.com/country-rankings/gallagher-index-by-country",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。原典PDF(tcd.ie)は開けず。参考: 本作業の自前計算では2021年の合算値は computed_indices を参照"
+  },
+  {
+   "key": "gallagher_method_note_japan",
+   "what": "Gallagherのデータでの日本の扱い: 1996年以降の全体値は総得票(名簿票+小選挙区票の合計)と総議席に基づく。日本は公式結果がラテン文字で得にくく、無所属や小党がまとめられるため推定値",
+   "value": null,
+   "unit": null,
+   "population": "日本 1996年以降",
+   "citation": "Michael Gallagher, \"Election indices\"",
+   "url": "https://www.tcd.ie/Political_Science/about/people/Michael.Gallagher/ElSystems/Docts/ElectionIndices.pdf",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ(PDFは開けず)"
+  },
+  {
+   "key": "enp_japan_2024_idea",
+   "what": "有効政党数(日本、2024年総選挙後)",
+   "value": 5.09,
+   "unit": "個",
+   "population": "2024年衆院選",
+   "citation": "International IDEA, Democracy Tracker: Japan",
+   "url": "https://www.idea.int/democracytracker/country/japan",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。得票ベースか議席ベースか未確認"
+  },
+  {
+   "key": "cube_law_japan_literature",
+   "what": "三乗比の法則の日本への当てはまり(文献): 検索では日本の小選挙区について推定指数を明示した文献の数値は確認できず。シミュレーション研究で「実際の議席配分は三乗法則より偏りやすい」との記述、2026年のarXiv論文で小選挙区部分がCube Law的な非線形性をもたらすとの記述のみ",
+   "value": null,
+   "unit": null,
+   "population": "日本の衆院小選挙区",
+   "citation": "arXiv:2606.07572 \"Forecasting Japanese elections: A nonlinear machine-learning approach\" ほか",
+   "url": "https://arxiv.org/html/2606.07572v1",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ。数値の推定は得られず(not_found参照)。代わりに computed_indices の k を参照"
+  },
+  {
+   "key": "age_turnout_latest",
+   "what": "年代別投票率(第51回衆院選 2026-02)",
+   "value": {
+    "10歳代": 43.45,
+    "20歳代": 39.01,
+    "30歳代": 50.89,
+    "40歳代": 56.16,
+    "50歳代": 61.9,
+    "60歳代": 70.24,
+    "70歳代以上": 59.33,
+    "全体": 56.26
+   },
+   "unit": "%",
+   "population": "全国から抽出した投票区の標本調査",
+   "citation": "総務省「国政選挙における年代別投票率について」",
+   "url": "https://www.soumu.go.jp/senkyo/senkyo_s/news/sonota/nendaibetu/",
+   "confidence": "high",
+   "verified_via": "総務省ページ本文(10歳代43.45、20歳代39.01、30歳代50.89、全体56.26)とPDFの表を照合"
+  },
+  {
+   "key": "early_voting_prefecture_2026",
+   "what": "期日前投票者の当日有権者に対する割合(第51回衆院選、都道府県公表の一部)",
+   "value": {
+    "富山県": {
+     "pct": 28.86,
+     "previous_pct": 20.67
+    },
+    "愛知県": {
+     "pct": 24.58,
+     "previous_pct": 19.76
+    }
+   },
+   "unit": "%",
+   "population": "富山県・愛知県(全国値ではない)",
+   "citation": "富山県・愛知県選挙管理委員会の公表資料",
+   "url": "https://www.pref.toyama.jp/documents/51991/kijitsuzansaisyuhp.pdf",
+   "confidence": "low",
+   "verified_via": "検索結果の抜粋のみ"
+  }
+ ],
+ "not_found": [
+  {
+   "what": "政党支持率の月次系列(NHK・時事・読売・朝日)の一次公表ページ。とくに2009年・2012年前後の月次値、直近各月の全政党の値と「支持なし」",
+   "why": "NHK(news.web.nhk, www.nhk.or.jp)、時事、各紙のホストがこの環境の許可リスト外で開けず、検索抜粋でも見出し程度しか得られなかった"
+  },
+  {
+   "what": "時事通信・読売・朝日の政党支持率",
+   "why": "検索抜粋に数値が出ず、ホストも開けない"
+  },
+  {
+   "what": "Gallagher指数・有効政党数の公開データ(日本の各回の値)",
+   "why": "www.tcd.ie が許可リスト外。検索抜粋では2021年=11.43(二次サイト)のみ。代替として公式結果からの自前計算値を studies に収録"
+  },
+  {
+   "what": "日本の小選挙区の議席率が得票率の何乗に比例するかの文献上の推定値(Taagepera & Shugart の一般化、seat-vote elasticity の日本推定)",
+   "why": "検索では具体的な推定指数を示す抜粋が得られず、論文ホスト(J-STAGE、大学リポジトリ、arXiv等)も開けない。代替として上位2党の k を自前計算"
+  },
+  {
+   "what": "総務省による「ドント式」「惜敗率」の文章での公式説明ページ",
+   "why": "総務省「なるほど!選挙」01〜20を取得して検索したが該当語なし(図版の可能性)。議席配分表と当選人数表の注記、および自治体(杉並区)の説明の抜粋で代替"
+  },
+  {
+   "what": "投票率の決定要因のうち、接戦度・期日前投票割合の数値つき推定、期日前投票者数の全国値(第50回・第51回)",
+   "why": "検索抜粋で得られたのは天候(風速)と都道府県単位の期日前投票割合のみ。総務省の期日前投票の報道資料URLを特定できなかった"
+  },
+  {
+   "what": "出口調査による年代別の比例投票先",
+   "why": "公表資料(NHK・共同・朝日等)を開けなかったため、指示どおり収集せず。検索抜粋に二次引用(共同通信出口調査: 2026年衆院選の比例で自民が10代42%・20代36%)があったが、原資料未確認のため本体データには入れていない"
+  },
+  {
+   "what": "YouTube・ウェブ解説の「定説」の出典確認",
+   "why": "動画は視聴できず、内容を推測で書かない方針のため未収集。関連して確認できたのは「雨で投票率が下がる」説に対し、中井ほか(2022)が降雨量に頑健な効果なし・風速に効果ありとした点(studies: weather_turnout_nakai2022、low)"
+  },
+  {
+   "what": "2005年より前の衆院選(1996・2000・2003)と2013年より前の参院選の政党別結果",
+   "why": "総務省サイトの結果調一覧は衆院第44回(2005)以降・参院第21回(2007)以降。参院第21回・第22回は依頼範囲外のため未取得(同じ場所にあり取得可能)"
+  },
+  {
+   "what": "衆院1963年以前・参院1986年以前の投票率の表形式の値",
+   "why": "総務省の推移資料はグラフPDFのみで、ラベル位置から読み取った(medium)"
+  }
+ ],
+ "hosts_needed": [
+  "news.web.nhk",
+  "www.nhk.or.jp",
+  "www.jiji.com",
+  "www.yomiuri.co.jp",
+  "www.asahi.com",
+  "www.tcd.ie",
+  "www.jstage.jst.go.jp",
+  "arxiv.org",
+  "www.city.suginami.tokyo.jp",
+  "www.idea.int",
+  "worldpopulationreview.com",
+  "www.nippon.com",
+  "go2senkyo.com",
+  "www.crs.or.jp",
+  "ja.wikipedia.org",
+  "en.wikipedia.org"
+ ]
+}

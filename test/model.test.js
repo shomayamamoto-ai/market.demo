@@ -366,3 +366,14 @@ test("政治と経済:手取り、消費税、投票の計算", () => {
   const e = POLICY.turnout["衆院選"].at(-1), v = voteTable(P, e.pct);
   near(v.turnout * 100, e.pct["全体"], 2, "全体の投票率"); assert.ok(v.old.votes > v.old.voters && v.young.votes < v.young.voters);
 });
+
+import { dhondt, prSeats, simulate, fitK, electionChecks } from "../public/js/elections.js";
+import ELECTIONS from "../public/js/election-data.js";
+test("得票と議席:ドント式と、過去の選挙の再現", () => {
+  assert.deepEqual(dhondt([100, 80, 30, 20], 8), [4, 3, 1, 0]); // 100/1,80/1,100/2,80/2,100/3,30/1,80/3,100/4
+  for (const e of ELECTIONS.elections) { assert.equal(Object.values(prSeats(e)).reduce((a, b) => a + b, 0), e.pr.seats); const r = simulate(e); assert.equal(r.rows.reduce((a, x) => a + x.total, 0), r.seats); }
+  const e46 = ELECTIONS.elections.find((e) => e.name.includes("46")), pr = prSeats(e46);
+  for (const [name, , seats] of e46.pr.parties) assert.equal(pr[name] ?? 0, seats, name); // 第46回は全ブロックで公式の配分と一致
+  const rows = electionChecks(); assert.ok(rows[0].a.startsWith("76 / 88"));
+  assert.ok(fitK(ELECTIONS.elections.at(-1)).k > 1);
+});
