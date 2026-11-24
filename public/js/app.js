@@ -175,6 +175,11 @@ function buildNav() {
   $("toc").firstElementChild.innerHTML = NAV.map((g) =>
     `${g.tabs.length > 1 ? `<h2>${g.label}</h2>` : ""}<div class="grp" data-group="${g.key}">${g.tabs.map(([id, label]) => `<a href="#${id}" data-tab="${id}">${label}</a>`).join("")}</div>`).join("");
   document.querySelectorAll(".viewtabs button").forEach((b) => (b.onclick = () => (location.hash = NAV.find((g) => g.key === b.dataset.group).tabs[0][0])));
+  // 横に流れるタブの、続きがある側に目印(うすく消える端)を付ける
+  const edges = (bar) => { bar.classList.toggle("more-l", bar.scrollLeft > 4); bar.classList.toggle("more-r", bar.scrollLeft + bar.clientWidth < bar.scrollWidth - 4); };
+  document.querySelectorAll(".viewtabs, .toc .wrap").forEach((bar) => { bar.addEventListener("scroll", () => edges(bar), { passive: true }); edges(bar); });
+  window.addEventListener("resize", () => document.querySelectorAll(".viewtabs, .toc .wrap").forEach(edges));
+  window.addEventListener("hashchange", () => setTimeout(() => document.querySelectorAll(".viewtabs, .toc .wrap").forEach(edges), 400));
   window.addEventListener("hashchange", showTab);
   showTab();
 }
@@ -187,6 +192,11 @@ function showTab() {
   document.querySelectorAll("#toc .grp").forEach((g) => g.classList.toggle("on", g.dataset.group === group.key));
   document.querySelectorAll("#toc a").forEach((a) => a.classList.toggle("on", a.dataset.tab === tab));
   $("toc").classList.toggle("solo", group.tabs.length < 2);
+  // 選んだタブが画面の外にあるときは、横に動かして見えるようにする(ページ全体は動かさない)
+  for (const el of [document.querySelector(".viewtabs button.on"), document.querySelector("#toc a.on")]) {
+    const bar = el?.closest(".viewtabs, .wrap"); if (!bar || bar.scrollWidth <= bar.clientWidth) continue;
+    bar.scrollTo({ left: el.offsetLeft - bar.offsetLeft - (bar.clientWidth - el.offsetWidth) / 2, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }
   // 「制度を試す」の2画面は、人数や期間の入力欄を共有する
   const slot = document.querySelector(`#tab-${tab} .slot`);
   if (slot) { slot.appendChild($("org-common")); $("org-common").hidden = false; }

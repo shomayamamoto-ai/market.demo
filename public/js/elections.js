@@ -1,5 +1,5 @@
 // 得票と議席:衆議院の選挙制度(小選挙区+比例代表11ブロック)で、得票率から議席数を試算する。
-// 比例代表は、制度どおりのドント式で計算する。小選挙区は、全国の得票率だけでは決まらないので、過去の選挙から求めた関係で試算し、誤差の大きさを示す。
+// 比例代表は、制度どおりのドント式で計算する(名簿不足の上限つき)。小選挙区は、選挙区ごとの実際の得票に全国の得票率の変化を足して試算し(一律スイング)、誤差の大きさを示す。
 import ED from "./election-data.js";
 import SMD from "./smd-data.js";
 import { esc, multiLine } from "./charts.js";
@@ -8,7 +8,7 @@ export const ELECTION_ASSUMPTIONS = {
   dhondt: { value: "ドント式", note: "比例代表の議席の分け方。各党の得票を1、2、3…で割り、商の大きい順に議席を配る。制度の決まりどおり" },
   shortage: { value: "公式の配分から逆算した上限", note: "比例代表で、名簿に載せた候補者が足りない党の議席は、ほかの党に回る。過去8回の88ブロックのうち12ブロックで起きた。ドント式の計算より公式の議席が少なかった党を「名簿が足りなくなった党」とみなし、そのブロックでの議席の上限を公式の議席数にした。名簿の人数そのものは確認していない。また、小選挙区で当選した重複立候補者は名簿から外れるので、本当の上限は小選挙区の結果でも変わるが、ここでは固定している。得票率を上げても、上限のある党はそのブロックで議席が増えない" },
   blockSwing: { value: "全ブロックで同じ倍率", note: "比例代表の得票率を変えたとき、各ブロックでのその党の得票を、全国での増減と同じ倍率で動かす。地域ごとの強さの変化は入れていない" },
-  smd: { value: "議席の割合 ∝ 得票率の k 乗", note: "小選挙区の試算。各党の議席の割合は、得票率の k 乗に比例するとおく(k=3 なら「三乗比の法則」)。k は、基準にした選挙の結果をいちばんよく再現する値を使う。過去8回で k は約1〜6と大きく動いており、候補者の調整や地域ごとの強さで変わる。全国の得票率だけからの試算には、大きな誤差がある" },
+  smd: { value: "選挙区ごとの一律スイング", note: "小選挙区の試算。基準にした選挙の各選挙区の実際の得票率(総務省 候補者別得票数)に、各党の全国得票率の変化をそのまま足し、いちばん多い候補を当選とする。その選挙で候補を立てなかった党は議席が増えない。k を入力したときだけ、全国の得票率から「議席の割合 ∝ 得票率の k 乗」で配る古い方式を使う(過去8回で k は約1〜6とばらつく)" },
   independent: { value: "そのまま据え置き", note: "無所属・諸派の小選挙区の議席は、基準にした選挙のままとする" },
 };
 
@@ -111,13 +111,14 @@ export function swingBacktest(party = "自由民主党") {
 export function mountElections({ before }) {
   const el = document.createElement("section"); el.id = "tab-seats"; el.className = "tab";
   const E = [...ED.elections].reverse();
-  el.innerHTML = `<div class="page-head"><h1>得票と議席</h1><p>衆議院の選挙制度で、各党の得票率が変わると議席数がどう変わるかを試算します。比例代表は制度どおりに計算し、小選挙区は過去の選挙から求めた関係で試算します。</p></div>
-    <div class="card"><div class="form-grid"><label>基準にする選挙 <select id="se-election">${E.map((e, i) => `<option value="${i}">${esc(e.name)}(${e.date}、投票率${e.turnout}%)</option>`).join("")}</select></label>
+  el.innerHTML = `<div class="page-head"><h1>得票と議席</h1><p>衆議院の選挙制度で、各党の得票率が変わると議席数がどう変わるかを試算します。比例代表は制度どおりに計算し、小選挙区は選挙区ごとの実際の得票から試算します。</p></div>
+    <div class="card"><div class="form-grid"><label class="wide">基準にする選挙 <select id="se-election">${E.map((e, i) => `<option value="${i}">${esc(e.name)}(${e.date}、投票率${e.turnout}%)</option>`).join("")}</select></label>
       <label>小選挙区の k(空欄なら、選挙区別の結果から計算) <input id="se-k" type="number" min="0.5" max="8" step="0.1" placeholder="使わない"></label></div>
-      <p class="note">各党の得票率(%)を書き換えて「計算する」を押してください。最初は、その選挙の実際の得票率が入っています。<br>得票率そのもの(次の選挙でどの党がどれだけ得票するか)は、このツールでは予測しません。</p>
+      <p class="note">下の表で各党の得票率(%)を書き換えると、結果がすぐ変わります。最初は、その選挙の実際の得票率が入っています。<br>得票率そのもの(次の選挙でどの党がどれだけ得票するか)は、このツールでは予測しません。</p></div>
+    <div id="se-out"></div>
+    <div class="card"><h2>各党の得票率を変える</h2>
       <div id="se-inputs" class="table-scroll"></div>
       <div class="form-row"><button id="se-run" class="primary">計算する</button><button id="se-reset" type="button">実際の得票率に戻す</button></div><p id="se-msg" class="msg"></p></div>
-    <div id="se-out"></div>
     <div class="card"><h2>過去8回での確かめ</h2><div id="se-check" class="table-scroll"></div>
       <p class="note">比例代表は、ドント式の計算と公式の配分を比べています。小選挙区は、「その回に合う k」と「ほかの7回の中央の k で試算したときのずれ」を並べています。k が回によって約1〜6と大きく違うので、全国の得票率だけから小選挙区の議席を当てることはできません。</p></div>
     <div class="card"><h2>選挙区別の計算を、次の選挙で試した結果</h2><div id="se-swing" class="table-scroll"></div>
@@ -139,6 +140,9 @@ export function mountElections({ before }) {
       <p class="a-note">比例代表は制度どおりの計算です(名簿の候補者が足りない場合の議席の移動は入れていません)。${r.method === "swing" ? "小選挙区は、その選挙の各選挙区の実際の得票率に、各党の全国得票率の変化をそのまま足して当落を決めています(一律スイング)。その選挙で候補を立てなかった党は、得票率を上げても議席は増えません。" : "小選挙区は、全国の得票率から「得票率^k」で配るおおまかな試算です。"}</p></div>
       ${r.close.length ? `<div class="card"><h3>差がいちばん小さい10選挙区</h3><p class="note">得票率を少し動かすと、ここから当落が入れ替わります。</p><div class="table-scroll"><table class="verify"><tr><th>選挙区</th><th>当選する党</th><th class="num">2位との差</th></tr>${r.close.map((c) => `<tr><td>${esc(c.name)}</td><td>${esc(c.party)}</td><td class="num">${c.margin.toFixed(1)}ポイント</td></tr>`).join("")}</table></div></div>` : ""}
       <div class="card"><h3>党ごとの議席</h3><div class="table-scroll"><table class="verify"><tr><th>政党</th><th class="num">小選挙区</th><th class="num">比例代表</th><th class="num">合計</th><th class="num">実際の議席</th><th class="num">差</th></tr>${r.rows.filter((x) => x.total || x.smd0 + x.pr0).map((x) => `<tr><td>${esc(x.party)}</td><td class="num">${x.smd}<small>実際${x.smd0}</small></td><td class="num">${x.pr}<small>実際${x.pr0}</small></td><td class="num"><b>${x.total}</b></td><td class="num">${x.smd0 + x.pr0}</td><td class="num">${x.total - x.smd0 - x.pr0 >= 0 ? "+" : ""}${x.total - x.smd0 - x.pr0}</td></tr>`).join("")}</table></div></div>`; };
+  let timer = null; // 入力のたびに計算し直す(打ち終わるのを少し待つ)
+  $("se-inputs").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 250); });
+  $("se-k").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 250); });
   $("se-election").onchange = () => { fill(); run(); }; $("se-run").onclick = run; $("se-reset").onclick = () => { fill(); run(); };
   el.addEventListener("lab:open", () => { if (!$("se-inputs").innerHTML) { fill(); run();
     $("se-check").innerHTML = `<table class="verify"><tr><th>選挙</th><th class="num">比例:一致したブロック</th><th class="num">小選挙区に合う k</th><th class="num">そのときのずれ</th><th class="num">ほかの回の k でのずれ</th></tr>${ED.elections.map((e) => { let m = 0; for (const b of e.pr.blocks) { const g = dhondt(b.parties.map((p) => p[1]), b.seats); if (b.parties.every((p, i) => g[i] === p[2])) m++; }
