@@ -1,0 +1,1264 @@
+{
+ "generated": "2026-11-24 02:44",
+ "notes": [
+  "前回の psychology_params.json の not_confirmed を埋める続きの調査。前任者が取得した gap_dl/ の原資料をまず使い、足りないものだけ新しく取得した。",
+  "confidence: high は本文・統計表の該当箇所を読めたもの。medium は抜粋・二次資料、または本文中の数値どうしが食い違うもの。low は書誌だけ・推測が入るもの。",
+  "日本人の割引率は『質問の作り方』で桁が変わる(数日後の1万円の比較では年率190%、1年後の100万円の比較では年率2〜9%)。シミュレーターでは1つの平均値ではなく、どの選択場面かに合わせて使い分ける必要がある。",
+  "『双曲割引の人の割合』も定義で大きく変わる(弱い不等号 DR1>DR2 で約6割、厳密に切り替え点がずれる人だけなら2割前後、一般化双曲割引の α>0 で4割)。",
+  "Webb & Sheeran (2006) は前回 psychology_params.json で既に high(意図の変化 d=0.66 → 行動の変化 d=0.36)のため今回は重複して調べていない。PMC には収録されていない。",
+  "『計算値』と書いたもの(負担率・ネット購入割合など)は、統計表の金額を割り算した値で、資料に割合として載っているものではない。",
+  "pmc.ncbi.nlm.nih.gov は短時間に続けて開くと CAPTCHA になる(時間をおけば開ける)。"
+ ],
+ "params": [
+  {
+   "key": "jp_time_discounting",
+   "name_ja": "日本人の時間割引率・双曲割引(現在バイアス)・符号効果",
+   "estimates": [
+    {
+     "what": "選択条件別の割引率(年率、くじではなく受け取り時期の選択)。DR1: 2日後 vs 9日後の1万円、DR2: 90日後 vs 97日後の1万円、DR3: 1か月後 vs 13か月後の1万円、DR4: 同じく100万円、DR5: 100万円の支払い",
+     "value": {
+      "DR1_mean": 1.904,
+      "DR1_median": 0.741,
+      "DR1_sd": 2.39,
+      "DR2_mean": 1.892,
+      "DR2_median": 0.741,
+      "DR3_mean": 0.153,
+      "DR3_median": 0.08,
+      "DR4_mean": 0.023,
+      "DR4_median": 0.008,
+      "DR5_payment_mean": -0.008,
+      "DR5_payment_median": 0.001,
+      "N": "2331〜2790"
+     },
+     "unit": "年率(1.904 = 190.4%/年)。対数正規分布を当てはめた条件付き期待値",
+     "population": "日本の20歳以上、無作為抽出6000人中2987人回答(男性47.0%、平均49.1歳)。『くらしの好みと満足度についてのアンケート』2005年2月(JHS05)",
+     "citation": "Ikeda, Kang & Ohtake (2009) 'Fat Debtors: Time Discounting, Its Anomalies, and Body Mass Index', 大阪大学 GCOE DP No.39(刊行版 J Health Econ 29(2), 2010)表5",
+     "url": "https://www.iser.osaka-u.ac.jp/",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/iser_gcoe39)の表5・3.2節を確認。URLは前任者の取得記録が残っておらず、ISER/大阪大学GCOEのDP No.39として記載",
+     "replication": "同じ阪大パネルを使う他論文でも『少額・短期ほど割引率が高い(額の効果)』が出ている。平均で見ると DR1 と DR2 の差は有意でない(p=0.426)"
+    },
+    {
+     "what": "双曲割引(DR1>DR2)と符号効果(受け取りの割引率>支払いの割引率)を示す人の割合",
+     "value": {
+      "hyperbolic_share_table6": 0.621,
+      "hyperbolic_share_text": 0.611,
+      "sign_effect_share": 0.885,
+      "magnitude_effect": "1万円の割引率(DR3)が100万円(DR4)より有意に高い"
+     },
+     "unit": "回答者に占める割合",
+     "population": "同上(JHS05、2005年、日本の成人)",
+     "citation": "Ikeda, Kang & Ohtake (2009) GCOE DP No.39 本文3.2.1節と表6",
+     "url": "https://www.iser.osaka-u.ac.jp/",
+     "confidence": "medium",
+     "verified_via": "本文PDFで確認。ただし本文は61.1%、表6の平均は0.621(N=2694)と食い違う。弱い不等号での判定なので『同じ値を答えた人』の扱いで変わる可能性",
+     "replication": "定義次第で大きく変わる(下の青山ら・Ikeda & Kang を参照)"
+    },
+    {
+     "what": "一般化双曲割引関数 f(τ)=(1+ατ)^(-η/α) の推定(1000円を今日 vs 1週間後、1年後 vs 1年+1週間後)",
+     "value": {
+      "alpha_mean": 0.018,
+      "alpha_se": 0.001,
+      "present_biased_share_alpha_gt_0": 0.401,
+      "present_biased_N": 960,
+      "N": 2386,
+      "naive_share_among_present_biased": 0.6,
+      "rho_7days": 0.039,
+      "rho_372days": 0.029,
+      "debtor_alpha": 0.025,
+      "nondebtor_alpha": 0.016
+     },
+     "unit": "α は無次元、ρ=αη/(1+ατ) は論文の定義による割引率(τ は日数)",
+     "population": "日本のネット調査パネル(日経リサーチ)、2010年10月、全国の成人2386人(男性49.9%、平均41.8歳、性・年齢・地域をセンサスに合わせて割付)",
+     "citation": "Ikeda & Kang (2011) 'Generalized Hyperbolic Discounting, Borrowing Aversion, and Debt Holding', ISER DP No.817 表2・3.2.1節",
+     "url": "https://www.iser.osaka-u.ac.jp/library/dp/2011/DP0817R.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/iser_dp0817R)の表2・本文を確認。URLは ISER の DP 番号から組み立てたもの(前任者の取得記録なし)",
+     "replication": "著者は Meier & Sprenger (2010) の米国36%、イタリア22.8%、オランダ18.4%と比較。同じデータの Kang & Ikeda (2013) でも40.2%"
+    },
+    {
+     "what": "符号効果:100万円の受け取りと支払いの割引率(1か月後 vs 13か月後)",
+     "value": {
+      "receipt_rate": 0.088,
+      "payment_rate": 0.01,
+      "sign_effect_share": 0.811,
+      "debtor_receipt": 0.12,
+      "nondebtor_receipt": 0.079
+     },
+     "unit": "年率",
+     "population": "同上(JPTR 2010、2386人)",
+     "citation": "Ikeda & Kang (2011) ISER DP No.817 表2パネルB(本文は支払いを0.1%と書くが表は0.010、Kang & Ikeda 2013 本文も1.0%)",
+     "url": "https://www.iser.osaka-u.ac.jp/library/dp/2011/DP0817R.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFの表2を確認",
+     "replication": "JHS05(2005年)でも符号効果88.5%"
+    },
+    {
+     "what": "双曲割引の家計の割合の国際比較(2日後 vs 9日後と90日後 vs 97日後の切り替え点が厳密にずれた人だけを HC とした場合)",
+     "value": {
+      "japan_HC": 0.21,
+      "us_HC": 0.14,
+      "EC_exponential_4country_avg": 0.63,
+      "japan_LC_increasing_patience": 0.16,
+      "us_LC": 0.24,
+      "years": "2009〜2012"
+     },
+     "unit": "家計に占める割合",
+     "population": "阪大『くらしの好みと満足度についてのアンケート』パネル(日本・米国・中国・インド)",
+     "citation": "青山肇紀・青山道信 (2019)「家計の割引構造と消費行動に関する国際比較研究」行動経済学 12: 190-214",
+     "url": "https://www.jstage.jst.go.jp/article/jbef/12/0/12_190/_pdf/-char/ja",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/js_waribiki_kokusai)の要旨と4.1節を確認",
+     "replication": "日本の HC 家計は EC 家計より消費が多い(2009年以外は10%水準で有意)"
+    },
+    {
+     "what": "高齢者と中年者の割引率(今すぐ1万円 vs 1年後 10,020/10,400/14,000/18,000円。中点法、全部『今すぐ』なら100%)",
+     "value": {
+      "elderly_60plus_mean_pct": 37.91,
+      "elderly_sd": 32.79,
+      "elderly_N": 2012,
+      "middle_40_50s_mean_pct": 27.96,
+      "middle_sd": 29.57,
+      "middle_N": 992,
+      "elderly_dist_pct": {
+       "0%": 7.5,
+       "2.1%": 5.96,
+       "22%": 55.91,
+       "60%": 12.82,
+       "100%": 17.79
+      },
+      "middle_dist_pct": {
+       "0%": 14.01,
+       "2.1%": 13.41,
+       "22%": 53.33,
+       "60%": 8.27,
+       "100%": 10.99
+      },
+      "age_trend": "60代→90代以上と年齢が上がるほど高い(図1、数値は図のみ)"
+     },
+     "unit": "年率%",
+     "population": "高齢者:生命保険文化センター調査、2020年10〜11月、層化2段無作為抽出の60〜90歳以上2,083件(留置)。中年者:ネットモニター40〜50代1,000件",
+     "citation": "佐々木周作・大竹文雄 (2021)「日本の高齢者の行動経済学的特性」生命保険論集 216号(別冊): 171- 表1",
+     "url": "https://www.jstage.jst.go.jp/article/jilijournal/2021/216-SpecialIssue/2021_171/_pdf/-char/ja",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/js_koureisha)の表1・表3を確認",
+     "replication": "海外の Richter & Mata (2018) などと同じ方向。高齢者で割引率が60%以上の人は老後資金の準備が14.8ポイント少ない(87.0% vs 72.2%)"
+    },
+    {
+     "what": "経済実験(実際に賞金を支払う)での割引率:属性別の平均と条件別の平均",
+     "value": {
+      "by_attribute_mean_pct": {
+       "男性": 18.62,
+       "女性": 10.51,
+       "60歳以上": 19.147,
+       "60歳未満": 12.539,
+       "理系大卒": 10.761,
+       "それ以外": 16.0,
+       "世帯所得400万円未満": 34.663,
+       "400万円以上": 12.636
+      },
+      "by_condition_mean_pct": {
+       "3.5万円_2日後vs9日後": 47.287,
+       "3.5万円_90日後vs97日後": 19.317,
+       "3.5万円_1か月後vs4か月後": 7.0,
+       "3.5万円_10か月後vs13か月後": 4.881,
+       "3千円_1か月後vs4か月後": 37.325,
+       "1千万円_1か月後vs4か月後(仮想)": 1.005
+      },
+      "regression_findings": "双曲割引の程度は所得・富が小さいほど、年齢が高いほど、女性より男性で有意に強い。割引率には年齢・失業経験/不安・未婚が正、理系大卒・女性が負の効果",
+      "N": 63
+     },
+     "unit": "年率%(付録の利得表は『金利(年表示)』)",
+     "population": "2004年3月、大阪で募集した63人(シルバー人材センター経由の主に60歳以上31人+知人経由の有業者32人)。標本が小さく代表性はない",
+     "citation": "池田新介・大竹文雄・筒井義郎 (2005)「時間割引率:経済実験とアンケートによる分析」ISER DP No.638 表2〜表4・要旨",
+     "url": "https://www.iser.osaka-u.ac.jp/library/dp/2005/DP0638.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを pdfminer/pdfplumber で日本語抽出し表2・表3・表4・要旨を確認(前任者の pdftotext では文字化けしていた)",
+     "replication": "性別の方向(男性のほうがせっかち)、年齢の方向(高齢ほどせっかち)は佐々木・大竹(2021)の大標本でも年齢について一致。性別・所得の差は63人の実験のみで、大標本では未確認"
+    },
+    {
+     "what": "消費者金融の利用状況別の双曲割引の大きさと割引率(HYPER2=近い将来と遠い将来の割引率の差、年率%)",
+     "value": {
+      "HYPER2_debt_restructured": 151.4,
+      "HYPER2_borrowers": 118.7,
+      "HYPER2_nonusers": 81.1,
+      "PTIME2_debt_restructured": 170.2,
+      "PTIME2_borrowers": 135.7,
+      "PTIME2_nonusers": 92.4,
+      "share_hyperbolic_over_200pct_national": 0.22,
+      "share_over_100pct_national": 0.28,
+      "distribution": "国民全体の分布は -20〜30% と 310〜350% の二山"
+     },
+     "unit": "年率%",
+     "population": "2005〜2006年頃のアンケート:債務整理者758人、消費者金融利用経験者921人、未利用者643人(国民全体へは別調査の比率 1.1%/8.1%/90.8% で重み付け)",
+     "citation": "筒井義郎・晝間文彦・大竹文雄・池田新介 (2007)「上限金利規制の是非:行動経済学的アプローチ」現代ファイナンス 22: 25-73 表1・5節",
+     "url": "https://www.jstage.jst.go.jp/article/gendaifinance/22/0/22_25/_pdf/-char/ja",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/js_jougen)の表1と5節を確認(OCR の崩れはあるが数値は読める)",
+     "replication": "借り手ほど割引率・双曲割引が大きいという方向は Ikeda & Kang (2011) と一致"
+    }
+   ],
+   "how_to_use": [
+    "住民ごとの割引率は対数正規分布で与える:少額・数日単位の選択(衝動買い、ポイント即時還元)は中央値 年74%・平均190%、1年単位の大きな金額(貯蓄・ローン)は中央値 年1〜8%。",
+    "双曲割引(現在バイアス)を持つ住民の割合は 0.2〜0.6 の範囲で感度分析する(中心 0.4、一般化双曲 α>0 の割合)。そのうち6割は自分の先延ばしに気づかない『ナイーブ』とする。",
+    "支払いは受け取りよりほとんど割り引かない(符号効果、8〜9割の人)。ローンや後払いの評価では支払い側の割引率を年1%程度にする。",
+    "60歳以上は40〜50代より割引率を約10ポイント(年率)高くし、年齢が上がるほど高くする。男性は女性より、世帯所得の低い人は高い人より割引率・双曲割引を強めにする(根拠は63人の実験なので弱めに)。",
+    "借入のある住民は割引率・双曲割引ともに高めに置く(債務整理経験者は未利用者の約1.8倍)。"
+   ],
+   "not_confirmed": [
+    "性別・所得による割引率の差を大標本(数千人規模)で数値として示した表は、今回読めた論文には無かった(数値は63人の実験 DP638 のみ。大標本論文では回帰の説明変数として使われているだけ)",
+    "β-δ モデルの β そのものの日本人の推定値(上の α は一般化双曲割引のパラメータで、β とは直接比べられない)",
+    "Ikeda, Kang & Ohtake の双曲割引の割合は本文61.1%と表6の0.621で食い違い、どちらが正しいか未確認"
+   ]
+  },
+  {
+   "key": "jp_risk_loss_aversion",
+   "name_ja": "日本人のリスク回避と損失回避",
+   "estimates": [
+    {
+     "what": "リスク耐性(『降水確率が何%以上なら傘を持って出るか』。大きいほどリスクをとる)の年齢層比較",
+     "value": {
+      "elderly_60plus_mean": 40.13,
+      "elderly_sd": 23.11,
+      "elderly_N": 1972,
+      "middle_40_50s_mean": 44.6,
+      "middle_sd": 21.89,
+      "middle_N": 1000,
+      "always_carry_umbrella_pct": {
+       "elderly": 13.59,
+       "middle": 9.4
+      },
+      "note": "60代・70代・90代以上はほぼ同じで、80代だけ低い(図2)"
+     },
+     "unit": "降水確率の閾値(%)",
+     "population": "高齢者:2020年10〜11月、層化2段無作為抽出(生命保険文化センター)。中年者:ネットモニター40〜50代",
+     "citation": "佐々木周作・大竹文雄 (2021)「日本の高齢者の行動経済学的特性」生命保険論集 216号(別冊) 表2",
+     "url": "https://www.jstage.jst.go.jp/article/jilijournal/2021/216-SpecialIssue/2021_171/_pdf/-char/ja",
+     "confidence": "high",
+     "verified_via": "本文PDFの表2・本文を確認",
+     "replication": "Dohmen ら (2011) の『高齢ほどリスク回避的』と同じ方向。ただし年代差は割引率ほどはっきりしない"
+    },
+    {
+     "what": "同じ傘の質問から作ったリスク回避指標 RISKAV(=1−閾値)の全国平均",
+     "value": {
+      "mean": 0.505,
+      "sd": 0.205,
+      "N": 2941
+     },
+     "unit": "0〜1(大きいほどリスク回避的)",
+     "population": "JHS05(2005年、日本の20歳以上の無作為抽出、2987人回答)",
+     "citation": "Ikeda, Kang & Ohtake (2009) GCOE DP No.39 表6",
+     "url": "https://www.iser.osaka-u.ac.jp/",
+     "confidence": "high",
+     "verified_via": "本文PDFの表6を確認",
+     "replication": "消費者金融の調査(筒井ら 2007)でも閾値の平均は債務整理者41.9、借入経験者44.4、未利用者46.8で、借り手ほどリスク回避度が高く出る(閾値が低い)"
+    },
+    {
+     "what": "くじの売買実験(BDM法)での絶対的リスク回避度の当選確率による違い",
+     "value": {
+      "p_le_20pct": "平均ではリスク愛好(RAが負)、中央値では10〜20%台はほぼ中立",
+      "p_30pct": "ほぼ中立",
+      "p_ge_30pct": "リスク回避、確率が高いほど強い",
+      "wealth_effect": "獲得賞金(資産)が2倍になると絶対的リスク回避度はほぼ半分",
+      "attributes": "資産・所得・性別とリスク回避度に安定した関係はない",
+      "corr_with_discounting": "リスク回避的な人ほど割引率が低い",
+      "N": 63
+     },
+     "unit": "定性的な結果(数値は図のみ)",
+     "population": "2004年3月、高齢者31人+有業者32人",
+     "citation": "大竹文雄・筒井義郎 (2012)「経済実験による危険回避度の特徴の解明」行動経済学 5: 26-44",
+     "url": "https://www.jstage.jst.go.jp/article/jbef/5/0/5_26/_pdf/-char/ja",
+     "confidence": "high",
+     "verified_via": "本文PDFを pdfminer で日本語抽出し要約・3.1節を確認(図の数値は読めない)",
+     "replication": "低確率でリスク愛好・高確率でリスク回避は確率加重(逆S字)と整合"
+    },
+    {
+     "what": "損失回避係数 λ のメタ分析(150論文・607推定値、日本に限らない)",
+     "value": {
+      "bayesian_mean_M2": 1.955,
+      "M2_95CrI": [
+       1.824,
+       2.104
+      ],
+      "M1_normal_mean": 1.81,
+      "M1_95CrI": [
+       1.742,
+       1.88
+      ],
+      "raw_median": 1.69,
+      "raw_mean": 1.97,
+      "by_type": {
+       "aggregate": 1.846,
+       "individual_mean": 2.412,
+       "individual_median": 1.711
+      },
+      "moderators": "一般住民は学生より高く、フィールド実験は実験室より高く、アンケートはくじ選択課題より低い。アジアの推定値は25本(13.5%)",
+      "TK1992_reference": 2.25
+     },
+     "unit": "λ(損失1円の重みが利得1円の何倍か)",
+     "population": "71の国・地域の研究(大半は欧米)",
+     "citation": "Brown, Imai, Vieider & Camerer (2021) 'Meta-Analysis of Empirical Estimates of Loss Aversion' CRC TRR 190 DP No.275(刊行版 J Econ Lit 62(2) 2024: 485-516)",
+     "url": "https://epub.ub.uni-muenchen.de/75121/1/275.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFの要旨・4.1〜4.4節・付録表を確認",
+     "replication": "Tversky & Kahneman (1992) の 2.25 は中央値で、メタ分析の平均はそれより低い"
+    }
+   ],
+   "how_to_use": [
+    "住民のリスク回避度は年齢とともに少し上げる(傘の閾値で40〜50代 44.6 → 60歳以上 40.1、全国平均の指標 0.505)。",
+    "損失回避 λ は平均 1.8〜2.0(中心 1.95)、個人差は右に裾の長い分布(中央値 1.7)で与える。日本固有の値がないので国際平均をそのまま使い、感度分析で 1.5〜2.5 を試す。",
+    "当たる確率の低いくじ・懸賞・ガチャではリスク愛好、確率の高い場面ではリスク回避になるよう確率の重みづけと組み合わせる。",
+    "資産が多い住民ほど絶対的リスク回避度を下げる(資産2倍で約半分)。"
+   ],
+   "not_confirmed": [
+    "日本人を対象にした損失回避 λ の推定値(Rieger, Wang & Hens 2017 の国別値は Springer で開けず、今回の検索でも日本の λ を出した論文は見つからなかった)",
+    "日本人の相対的リスク回避度(CRRA)の大標本推定値(今回読めたのは傘の質問による指標と63人の実験のみ)",
+    "リスク回避度の男女差の大標本の数値(前回の NBER w21400 の男性0.738・女性0.868 以外)"
+   ]
+  },
+  {
+   "key": "nudge_effect_debate",
+   "name_ja": "ナッジの効果量と出版バイアス論争(Mertens 2022 と反論2本)",
+   "estimates": [
+    {
+     "what": "ナッジ(選択アーキテクチャ)のメタ分析:全体・カテゴリ別・手法別・領域別の効果量",
+     "value": {
+      "overall_d": 0.45,
+      "overall_95CI": [
+       0.39,
+       0.52
+      ],
+      "k_effect_sizes": 455,
+      "publications": 214,
+      "N": 2149683,
+      "by_category_d": {
+       "情報提供(decision information)": 0.38,
+       "選択の構造(decision structure)": 0.55,
+       "実行支援(decision assistance)": 0.31
+      },
+      "by_technique_d": {
+       "デフォルト": 0.62,
+       "選択肢の構成": 0.55,
+       "手間の変更": 0.43,
+       "結果の変更": 0.43,
+       "社会的参照(規範)": 0.4,
+       "見やすさ": 0.36,
+       "翻訳・言い換え(フレーミング)": 0.31,
+       "リマインダー": 0.3,
+       "コミットメント": 0.3
+      },
+      "by_domain_d": {
+       "食": 0.72,
+       "環境": 0.43,
+       "向社会": 0.44,
+       "健康": 0.34,
+       "金融": 0.25,
+       "その他": 0.29
+      },
+      "by_setting_d": {
+       "実験室": 0.44,
+       "人工的フィールド": 0.43,
+       "枠付きフィールド": 0.52,
+       "自然なフィールド": 0.44
+      },
+      "publication_bias_sensitivity": {
+       "simplified_model_d": 0.42,
+       "moderate_bias_d": 0.31,
+       "severe_bias_d": 0.03
+      }
+     },
+     "unit": "Cohen's d",
+     "population": "1982〜2021年に出版された研究(米国内269、米国外186の効果量)",
+     "citation": "Mertens, Herberz, Hahnel & Brosch (2022) PNAS 119(1): e2107346118 表2・本文",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8740589/",
+     "confidence": "high",
+     "verified_via": "PMC の本文(gap_dl/PMC8740589)の表2と出版バイアスの節を確認",
+     "replication": "下の2本の反論で出版バイアス補正後はほぼゼロ。重度バイアス時の値は Mertens 本文では 0.03、Szaszi らの引用では 0.08 と食い違う(版の違いの可能性)"
+    },
+    {
+     "what": "出版バイアス補正後(頑健ベイズ・メタ分析 RoBMA)の効果量",
+     "value": {
+      "combined": {
+       "unadjusted": 0.43,
+       "RoBMA": 0.04,
+       "RoBMA_95CrI": [
+        0.0,
+        0.14
+       ],
+       "RoBMA_precise_only": 0.11
+      },
+      "information": {
+       "unadjusted": 0.25,
+       "RoBMA": 0.0,
+       "BF01": 33.84
+      },
+      "structure": {
+       "unadjusted": 0.58,
+       "RoBMA": 0.12,
+       "RoBMA_precise": 0.23,
+       "BF01": 1.12
+      },
+      "assistance": {
+       "unadjusted": 0.22,
+       "RoBMA": 0.01,
+       "BF01": 9.05
+      },
+      "health": {
+       "unadjusted": 0.31,
+       "RoBMA": 0.01
+      },
+      "food": {
+       "unadjusted": 0.66,
+       "RoBMA": 0.02,
+       "RoBMA_precise": 0.27
+      },
+      "environment": {
+       "unadjusted": 0.48,
+       "RoBMA": 0.01
+      },
+      "finance": {
+       "unadjusted": 0.23,
+       "RoBMA": 0.0,
+       "BF01": 41.23
+      },
+      "prosocial": {
+       "unadjusted": 0.32,
+       "RoBMA": 0.0
+      },
+      "heterogeneity": "金融以外のすべてで効果の異質性あり(一部のナッジは効く可能性)"
+     },
+     "unit": "Cohen's d、BF01>1 は『効果なし』の証拠",
+     "population": "Mertens らと同じデータ",
+     "citation": "Maier, Bartoš, Stanley, Shanks, Harris & Wagenmakers (2022) 'No evidence for nudging after adjusting for publication bias' PNAS 119(31): e2200300119 表1",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9351501/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/PMC9351501)の表1を確認",
+     "replication": "Szaszi ら (2022) も別の補正法で同じ方向"
+    },
+    {
+     "what": "別の出版バイアス補正法での全体効果量",
+     "value": {
+      "Andrews_Kasy": -0.01,
+      "WAAP": 0.07,
+      "trim_and_fill": 0.08,
+      "severe_bias_spread": "重度バイアス時でも研究の95%が平均0.08の±1.00に広がる"
+     },
+     "unit": "Cohen's d",
+     "population": "Mertens らと同じデータ",
+     "citation": "Szaszi, Higney, Charlton, Gelman, Ziano, Aczel, Goldstein, Yeager & Tipton (2022) 'No reason to expect large and consistent effects of nudge interventions' PNAS 119(31): e2200732119",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9351519/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/PMC9351519)を確認",
+     "replication": "例外としてデフォルトは効果がある可能性を著者も認める"
+    }
+   ],
+   "how_to_use": [
+    "シミュレーター内のナッジ施策の効果は『見かけの d=0.45』をそのまま使わず、中心 d≈0.1(補正後 0.04〜0.11)、楽観ケース 0.3、悲観ケース 0 の3通りで回す。",
+    "手法の順位(デフォルト・選択肢の構成 > 社会規範 > リマインダー・情報提供)は相対的な強さとして使い、情報提供型・金融領域のナッジは補正後ほぼゼロとする。",
+    "効果のばらつき(異質性)が大きいので、施策ごとに効果を乱数で振る(標準偏差は平均と同程度以上)。"
+   ],
+   "not_confirmed": [
+    "Mertens らの重度バイアス時の補正値が 0.03(本文)か 0.08(Szaszi らの引用)か、訂正版の有無は未確認",
+    "日本の行政ナッジ(環境省ナッジ・ユニット等)の効果量(www.env.go.jp は今回開いていない)"
+   ]
+  },
+  {
+   "key": "income_wellbeing_detail",
+   "name_ja": "所得と幸福度(Kahneman & Deaton 2010、Killingsworth 2021・2023 の本文数値)",
+   "estimates": [
+    {
+     "what": "感情面の幸福は年収約7.5万ドルで頭打ち、人生評価は対数所得とともに上昇",
+     "value": {
+      "responses_analyzed": "45万件超(元は709,183件から28.4%を除外)",
+      "positive_affect_share": 0.85,
+      "blue_affect_share": 0.24,
+      "stress_share": 0.39,
+      "ladder_mean": 6.76,
+      "plateau_usd": 75000,
+      "high_income_coef": {
+       "positive_affect": 0.03,
+       "blue_affect": -0.06,
+       "stress": -0.03,
+       "ladder": 0.64
+      },
+      "high_income_def": "月収4000ドル以上(上位58%)",
+      "poverty_amplifies": {
+       "頭痛あり_悲しみ心配_月収1000ドル未満": "38.0%→69.5%(+31.6)",
+       "月収3000ドル以上": "18.9%→38.4%(+19.5)",
+       "独り_月収1000ドル未満": "+14.9",
+       "独り_月収3000ドル以上": "+11.0"
+      }
+     },
+     "unit": "割合・回帰係数",
+     "population": "米国、Gallup-Healthways Well-Being Index、2008〜2009年の電話調査",
+     "citation": "Kahneman & Deaton (2010) PNAS 107(38): 16489-16493 表1・表3・本文",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2944762/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/pmc_kd2010)の表1・表3を確認",
+     "replication": "Killingsworth (2021) では頭打ちが見られず、2023年の共同再分析で『最も不幸な層だけ頭打ち』と整理された"
+    },
+    {
+     "what": "スマートフォンでその場の気分を記録した場合の所得との関係",
+     "value": {
+      "reports": 1725994,
+      "participants": 33391,
+      "age": "18〜65歳の就業者",
+      "slope_below_80k": 0.109,
+      "slope_above_80k": 0.11,
+      "r_experienced": 0.09,
+      "r_evaluative": 0.17,
+      "plateau": "見られない(20万ドル超まで直線)"
+     },
+     "unit": "対数所得に対する傾き b、相関 r",
+     "population": "米国、2009〜2015年(Track Your Happiness アプリ)",
+     "citation": "Killingsworth (2021) 'Experienced well-being rises with income, even above $75,000 per year' PNAS 118(4): e2016976118",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7848527/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/PMC7848527)を今回取得して確認。前回 not_confirmed だった33,391人を確認",
+     "replication": "2023年の共同再分析で平均の直線関係は再確認"
+    },
+    {
+     "what": "敵対的共同研究による再分析:幸福度の分位ごとの傾き(年収10万ドルの前後)",
+     "value": {
+      "threshold_usd": 100000,
+      "KD_threshold_inflation_adjusted": "≤9万ドル → ≤9.7万ドル",
+      "unhappy_group_share": "15〜20%(要旨では『最も不幸な20%』)",
+      "quantile_slopes": {
+       "5%": [
+        2.34,
+        0.25
+       ],
+       "10%": [
+        1.75,
+        0.52
+       ],
+       "15%": [
+        1.9,
+        0.34
+       ],
+       "20%": [
+        1.84,
+        0.62
+       ],
+       "25%": [
+        1.52,
+        1.12
+       ],
+       "30%": [
+        1.33,
+        1.21
+       ]
+      },
+      "happiest_30pct": "10万ドル超で傾きが増す(85%点で有意)",
+      "in_flat_region": "負の感情19%、正の感情なし11%"
+     },
+     "unit": "分位回帰の傾き [10万ドル未満, 10万ドル超]",
+     "population": "Killingsworth の経験サンプリングデータ(米国)",
+     "citation": "Killingsworth, Kahneman & Mellers (2023) 'Income and emotional well-being: A conflict resolved' PNAS 120(10): e2208661120 表1・本文",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10013834/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/PMC10013834)を今回取得して確認。前回 not_confirmed だった『頭打ちが起きる層の割合』は本文で15〜20%、要旨で20%",
+     "replication": "後に因果解釈への批判(PNAS 121, e2313712121)とコメントが出ている"
+    }
+   ],
+   "how_to_use": [
+    "住民の満足度(人生評価)は対数所得に比例して上げ、上限は設けない。",
+    "日々の気分は大多数で対数所得に比例させるが、最も不幸な15〜20%の住民だけは年収約10万ドル(日本円換算は購買力で別途調整)で頭打ちにする。最も幸福な層は高所得で傾きを強める。",
+    "低所得の住民では、病気・孤立・離婚などの出来事による気分の悪化を約1.5倍に増幅する(頭痛で +31.6 対 +19.5 ポイント)。"
+   ],
+   "not_confirmed": [
+    "日本の所得と幸福度の関係(内閣府『満足度・生活の質に関する調査』は今回未確認)",
+    "ドル建ての閾値を日本円に換算する根拠(購買力平価での換算は論文に無い)"
+   ]
+  },
+  {
+   "key": "jp_digital_consumption_by_age",
+   "name_ja": "日本の年代別キャッシュレス・ネット購入・サブスク利用(最新の公的統計)",
+   "estimates": [
+    {
+     "what": "消費支出に占める支払い方法の割合(世帯主の年齢階級別)",
+     "value": {
+      "credit_postpay_pct_2024": {
+       "平均": 32.3,
+       "30歳未満": 38.0,
+       "30歳代": 41.6,
+       "40歳代": 39.3,
+       "50歳代": 33.9,
+       "60歳代": 32.6,
+       "70歳代": 23.8,
+       "80歳以上": 16.6
+      },
+      "prepaid_emoney_pct_2024": {
+       "平均": 5.5,
+       "30歳未満": 5.1,
+       "30歳代": 5.0,
+       "40歳代": 5.3,
+       "50歳代": 5.6,
+       "60歳代": 6.3,
+       "70歳代": 5.7,
+       "80歳以上": 4.7
+      },
+      "cash_etc_pct_2024": {
+       "平均": 62.2,
+       "30歳未満": 56.9,
+       "30歳代": 53.3,
+       "40歳代": 55.4,
+       "50歳代": 60.5,
+       "60歳代": 61.1,
+       "70歳代": 70.5,
+       "80歳以上": 78.7
+      },
+      "credit_postpay_pct_2019": {
+       "平均": 22.5,
+       "30歳未満": 27.4,
+       "30歳代": 29.2,
+       "40歳代": 25.6,
+       "50歳代": 24.7,
+       "60歳代": 23.3,
+       "70歳代": 15.1,
+       "80歳以上": 11.1
+      },
+      "cashless_total_by_pref_2024": {
+       "東京都(最高)": 44.3,
+       "宮崎県(最低)": 23.3
+      },
+      "note": "『現金等』にはデビットカード・口座振込・ポイント・商品券を含む。QRコード決済は支払時に選んだ形態(チャージ式なら前払い、カード紐付けなら後払い)に分類"
+     },
+     "unit": "消費支出(金額)に占める割合 %",
+     "population": "総世帯、2024年(10〜11月)、全国家計構造調査(家計簿)",
+     "citation": "総務省統計局『2024年全国家計構造調査 家計収支に関する結果 結果の概要』(2025年12月19日)図Ⅲ-1、表1",
+     "url": "https://www.stat.go.jp/data/zenkokukakei/2024/pdf/gaiyou1219.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFの図Ⅲ-1(年齢階級別)と結果の要約(youyaku1219.pdf)の表1を確認",
+     "replication": "5年前(2019年)から全年齢で後払いの割合が約10ポイント上昇"
+    },
+    {
+     "what": "消費支出に占めるネット通販(通信販売・インターネット)での購入割合(世帯主の年齢階級別)",
+     "value": {
+      "平均": 6.1,
+      "30歳未満": 14.1,
+      "30歳代": 10.0,
+      "40歳代": 8.5,
+      "50歳代": 6.4,
+      "60歳代": 4.7,
+      "70歳代": 2.2,
+      "80歳以上": 1.5,
+      "2019年平均": 3.3,
+      "東京都": 10.4,
+      "monthly_yen_avg": 9971
+     },
+     "unit": "購入先を調べた消費支出(11月分)に占める割合 %",
+     "population": "総世帯、2024年11月、全国家計構造調査",
+     "citation": "総務省統計局『2024年全国家計構造調査 家計収支に関する結果 結果の概要』表Ⅲ-3・表Ⅲ-4・本文",
+     "url": "https://www.stat.go.jp/data/zenkokukakei/2024/pdf/gaiyou1219.pdf",
+     "confidence": "high",
+     "verified_via": "本文の30歳未満14.1%・80歳以上1.5%・平均6.1%は本文で確認。30〜70歳代の割合は表Ⅲ-4の金額(インターネット÷計)から計算した値",
+     "replication": "家計消費状況調査でもネット支出は40歳代・40歳未満で多く、70歳以上で少ない"
+    },
+    {
+     "what": "ネットショッピング利用世帯の割合と支出額(月あたり)",
+     "value": {
+      "use_share_pct": {
+       "2015": 27.6,
+       "2016": 27.8,
+       "2019": 42.8,
+       "2020": 48.8,
+       "2023": 53.5,
+       "2024": 55.3,
+       "2025": 56.9
+      },
+      "spend_per_household_yen_2025": 26928,
+      "spend_per_user_household_yen_2025": 47300,
+      "spend_by_age_yen_2025": {
+       "40歳未満": 36726,
+       "40〜49歳": 37865,
+       "50〜59歳": 33955,
+       "60〜69歳": 28545,
+       "70歳以上": 14692
+      },
+      "spend_growth_2025_pct": 8.0,
+      "category_share_2025_pct": {
+       "食料": 21.6,
+       "旅行関係費": 20.9,
+       "衣類・履物": 9.8,
+       "家電・家具": 7.0
+      }
+     },
+     "unit": "% / 円(二人以上の世帯の1か月平均)",
+     "population": "二人以上の世帯、2025年(1〜12月平均)、家計消費状況調査",
+     "citation": "総務省統計局『家計消費状況調査 2025年結果の概況』図Ⅰ-1、表Ⅰ-2-3",
+     "url": "https://www.stat.go.jp/data/joukyou/2025ar/gaikyou/pdf/gkall.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/stat_joukyou2025_gk、ファイルサイズでURLと一致を確認)の図表を確認",
+     "replication": "2024年版(https://www.stat.go.jp/data/joukyou/2024ar/gaikyou/pdf/gkall.pdf)と連続"
+    },
+    {
+     "what": "電子マネー(プリペイド型。クレジット・デビットは含まない)の保有・利用世帯の割合と利用額",
+     "value": {
+      "hold_pct_2025": 74.3,
+      "use_pct_2025": 63.5,
+      "use_by_age_pct_2025": {
+       "40歳未満": 69.8,
+       "40〜49歳": 75.1,
+       "50〜59歳": 75.4,
+       "60〜69歳": 69.5,
+       "70歳以上": 45.5
+      },
+      "use_pct_2015": 41.5,
+      "monthly_amount_yen_2025": 33933,
+      "rail_bus_share_pct": 13.5
+     },
+     "unit": "% / 円(利用世帯の1か月平均)",
+     "population": "二人以上の世帯、2025年",
+     "citation": "総務省統計局『家計消費状況調査 2025年結果の概況』表Ⅱ-1〜Ⅱ-3",
+     "url": "https://www.stat.go.jp/data/joukyou/2025ar/gaikyou/pdf/gkall.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFの表Ⅱ-1・Ⅱ-2・Ⅱ-3を確認",
+     "replication": "PayPay はチャージ利用分のみ含む点に注意(後払い・カード紐付けは含まない)"
+    },
+    {
+     "what": "ネットでのサブスクリプション契約の経験(過去1年にネットで購入・申込みをした人のうち)と解約トラブル",
+     "value": {
+      "subscription_experience_pct": {
+       "全体": 71.6,
+       "10歳代後半": 73.8,
+       "20歳代": 88.9,
+       "30歳代": 84.2,
+       "40歳代": 77.6,
+       "50歳代": 70.9,
+       "60歳代": 58.3,
+       "70歳以上": 55.2
+      },
+      "cancellation_trouble_among_users_pct": {
+       "全体": 17.9,
+       "20歳代": 13.2,
+       "30歳代": 14.9,
+       "40歳代": 18.2,
+       "50歳代": 18.3,
+       "60歳代": 23.3,
+       "70歳以上": 21.5
+      },
+      "N_online_buyers": 3569,
+      "N_all": 5473,
+      "online_buyer_share_derived_pct": 65.2
+     },
+     "unit": "%",
+     "population": "消費者庁『消費者意識基本調査』2025年度(全国の15歳以上)",
+     "citation": "消費者庁『令和8年版 消費者白書』第1部第2章 図表I-2-2-3",
+     "url": "https://www.caa.go.jp/policies/policy/consumer_research/white_paper/assets/consumer_research_cms201_260612_34.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDF(gap_dl/caa_hakusho_34、ファイルサイズでURLと一致を確認)の図表と本文を確認。全回答者に占めるネット購入者の割合65.2%は 3,569÷5,473 で計算した値",
+     "replication": "全回答者ベースのサブスク利用率は、ネット購入者の割合が年代で違うため、年代別には計算できない"
+    }
+   ],
+   "how_to_use": [
+    "住民の支払い手段の選択確率を年代別に設定する:後払い(クレカ等)は30代 42%→80歳以上 17%、現金等は30代 53%→80歳以上 79%(金額ベース)。",
+    "ネット購入の割合は年代で10倍違う(30歳未満14% → 80歳以上1.5%)。国全体の家計消費に占めるネット購入は約6%(2024年11月)を EC 化率の家計側の目安として使う。",
+    "サブスク加入の確率は『ネット購入者のうち』20代89%〜70歳以上55%。解約トラブル(解約しにくさ)は高齢ほど多く、60歳以上で約2割とする。",
+    "電子マネー(チャージ式)の利用は50代がピーク(75%)で70歳以上は46%。"
+   ],
+   "not_confirmed": [
+    "家計消費状況調査の年齢階級別『ネットショッピング利用世帯の割合』(概況には支出額のみ。e-Stat の統計表は今回未取得)",
+    "個人単位(世帯でなく)の年代別キャッシュレス決済利用率(総務省『通信利用動向調査』は今回未確認)",
+    "全回答者ベースの年代別サブスク利用率"
+   ]
+  },
+  {
+   "key": "jp_ec_rate_public",
+   "name_ja": "EC化率(経済産業省以外の公的資料での目安)",
+   "estimates": [
+    {
+     "what": "家計の消費支出に占めるインターネット通販での購入割合(家計側から見た EC 化率の代わり)",
+     "value": {
+      "2024": 6.1,
+      "2019": 3.3,
+      "monthly_yen_2024": 9971,
+      "total_purchase_tracked_yen_2024": 164305
+     },
+     "unit": "% (購入先を調べた消費支出に占める割合、総世帯、11月分)",
+     "population": "総世帯、全国家計構造調査",
+     "citation": "総務省統計局『2024年全国家計構造調査 家計収支に関する結果 結果の概要』表Ⅲ-3・図Ⅲ-4",
+     "url": "https://www.stat.go.jp/data/zenkokukakei/2024/pdf/gaiyou1219.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFで確認",
+     "replication": "METI の物販系 BtoC EC 化率(約9〜10%と言われる値)とは分母(物販のみ vs 保険・こづかい等を除く消費支出全体)・対象(企業売上 vs 家計簿)が違うので直接比べない。METI は403で開けず未確認"
+    }
+   ],
+   "how_to_use": [
+    "家計の購入チャネルのうちネットの比率の初期値を 6%(2024年)とし、2019年 3.3% からの伸び(5年で約2倍)を将来のトレンドに使う。"
+   ],
+   "not_confirmed": [
+    "経済産業省『電子商取引に関する市場調査』の EC 化率(www.meti.go.jp が403)"
+   ]
+  },
+  {
+   "key": "jp_effective_tax_si_burden",
+   "name_ja": "所得階級・年齢別の税と社会保険料の実効負担率(低所得層・高齢者を含む)",
+   "estimates": [
+    {
+     "what": "等価当初所得階級別の税・社会保険料(本人負担分)と、それを等価総所得(年金を含む)で割った実効負担率",
+     "value": {
+      "burden_on_total_income_pct_[社会保険料, 税+社会保険料]": {
+       "50万円未満": [
+        6.4,
+        10.9
+       ],
+       "50〜100": [
+        7.9,
+        12.5
+       ],
+       "100〜150": [
+        8.9,
+        14.4
+       ],
+       "150〜200": [
+        9.1,
+        15.4
+       ],
+       "200〜250": [
+        11.1,
+        17.9
+       ],
+       "250〜300": [
+        11.3,
+        18.4
+       ],
+       "300〜350": [
+        12.3,
+        20.2
+       ],
+       "350〜400": [
+        12.0,
+        20.5
+       ],
+       "400〜450": [
+        12.8,
+        22.0
+       ],
+       "450〜500": [
+        12.5,
+        22.5
+       ],
+       "500〜550": [
+        11.6,
+        22.2
+       ],
+       "550〜600": [
+        12.7,
+        21.6
+       ],
+       "600〜650": [
+        12.5,
+        21.7
+       ],
+       "650〜700": [
+        13.2,
+        23.5
+       ],
+       "700〜750": [
+        12.8,
+        26.1
+       ],
+       "750〜800": [
+        11.8,
+        25.3
+       ],
+       "800万円以上": [
+        9.2,
+        28.2
+       ],
+       "総数": [
+        10.7,
+        20.5
+       ]
+      },
+      "raw_10k_yen_examples": {
+       "50万円未満": {
+        "総所得": 163.9,
+        "税": 7.3,
+        "社会保険料": 10.5
+       },
+       "総数": {
+        "総所得": 378.6,
+        "税": 37.0,
+        "社会保険料": 40.5
+       },
+       "800万円以上": {
+        "総所得": 1132.2,
+        "税": 214.7,
+        "社会保険料": 104.7
+       }
+      }
+     },
+     "unit": "%(等価所得=世帯所得÷√世帯人員ベース。負担率は表の金額から計算した値)",
+     "population": "全国の無作為抽出500単位区の世帯(3,003世帯)、所得・税・保険料は2022年(令和4年)1年分。税は所得税・住民税・固定資産税・自動車税。社会保険料は医療・年金・介護・雇用の本人負担分(事業主負担を除く)",
+     "citation": "厚生労働省『令和5年 所得再分配調査報告書』第8表(等価当初所得階級別)",
+     "url": "https://www.mhlw.go.jp/content/12605000/R05hou.pdf",
+     "confidence": "high",
+     "verified_via": "報告書PDF(gap_dl/mhlw_saibunpai_r05、ファイルサイズでURLと一致を確認)の第8表を読んだうえで割り算した。負担率そのものは報告書に載っていない(計算値)",
+     "replication": "社会保険料の実効率は低所得ほど低い(6〜9%)が、所得に対して逆進的ではなく、800万円以上で再び下がる(標準報酬の上限のため)"
+    },
+    {
+     "what": "世帯員の年齢階級別の実効負担率(等価総所得に対する社会保険料、税+社会保険料)",
+     "value": {
+      "[社会保険料, 税+社会保険料]_pct": {
+       "20〜24": [
+        12.5,
+        22.2
+       ],
+       "30〜34": [
+        11.9,
+        21.0
+       ],
+       "40〜44": [
+        12.3,
+        22.6
+       ],
+       "50〜54": [
+        12.6,
+        23.7
+       ],
+       "60〜64": [
+        10.9,
+        22.2
+       ],
+       "65〜69": [
+        8.5,
+        16.4
+       ],
+       "70〜74": [
+        7.5,
+        15.1
+       ],
+       "75歳以上": [
+        8.1,
+        14.8
+       ]
+      },
+      "raw_10k_yen_75plus": {
+       "等価総所得": 261.1,
+       "税": 17.5,
+       "社会保険料": 21.1
+      }
+     },
+     "unit": "%(計算値)",
+     "population": "同上",
+     "citation": "厚生労働省『令和5年 所得再分配調査報告書』第9表(世帯員の年齢階級別、等価所得)",
+     "url": "https://www.mhlw.go.jp/content/12605000/R05hou.pdf",
+     "confidence": "high",
+     "verified_via": "報告書PDFの第9表を pdfplumber で読み、割り算した(計算値)",
+     "replication": "高齢者は公的年金等控除・各種軽減で負担率が現役より約7ポイント低い"
+    },
+    {
+     "what": "高齢者世帯の税・社会保険料(公的年金等控除後の実際の負担)",
+     "value": {
+      "households": 1232,
+      "当初所得_万円": 107.8,
+      "年金恩給_万円": 193.8,
+      "税_万円": 20.7,
+      "社会保険料_万円": 19.8,
+      "可処分所得_万円": 263.7,
+      "burden_on_initial_plus_pension_pct": {
+       "税+社会保険料": 13.4,
+       "社会保険料のみ": 6.6
+      },
+      "all_households_compare": {
+       "税_万円": 48.2,
+       "社会保険料_万円": 52.9
+      }
+     },
+     "unit": "万円/世帯/年、%(計算値)",
+     "population": "高齢者世帯(65歳以上のみ、または18歳未満の未婚者を加えた世帯)、2022年所得",
+     "citation": "厚生労働省『令和5年 所得再分配調査報告書』表5(世帯類型別)",
+     "url": "https://www.mhlw.go.jp/content/12605000/R05hou.pdf",
+     "confidence": "high",
+     "verified_via": "報告書本文の表5を確認。負担率は(税+社会保険料)÷(当初所得+年金・恩給)で計算",
+     "replication": "全国家計構造調査(2024年)でも高齢無職世帯の非消費支出/実収入は約6〜11%"
+    },
+    {
+     "what": "高齢者世帯の家計簿上の非消費支出(税+社会保険料)と実収入",
+     "value": {
+      "夫婦高齢者_無職(平均78.2歳)": {
+       "実収入_円月": 271665,
+       "非消費支出_円月": 28804,
+       "ratio_pct": 10.6,
+       "社会保障給付の割合_pct": 91.1
+      },
+      "夫婦高齢者_勤労者(71.6歳)": {
+       "実収入": 467961,
+       "非消費支出": 51146,
+       "ratio_pct": 10.9
+      },
+      "単身無職65〜74歳(70.0歳)": {
+       "実収入": 157718,
+       "非消費支出": 16089,
+       "ratio_pct": 10.2
+      },
+      "単身無職75歳以上(82.6歳)": {
+       "実収入": 155129,
+       "非消費支出": 9983,
+       "ratio_pct": 6.4
+      }
+     },
+     "unit": "円/月、%(比率は計算値)",
+     "population": "2024年全国家計構造調査(10〜11月の家計簿)",
+     "citation": "総務省統計局『2024年全国家計構造調査 家計収支に関する結果 結果の要約』図7・図8",
+     "url": "https://www.stat.go.jp/data/zenkokukakei/2024/pdf/youyaku1219.pdf",
+     "confidence": "high",
+     "verified_via": "要約PDF(gap_dl/stat_zenkoku2024_youyaku、ファイルサイズでURLと一致を確認)の図7・図8を確認",
+     "replication": "所得再分配調査の高齢者世帯の負担率(13.4%)より低いのは、固定資産税・自動車税の扱いと調査月の違いの可能性"
+    },
+    {
+     "what": "国民年金第1号被保険者の免除・猶予・未納の状況",
+     "value": {
+      "first_insured_10k": 1357,
+      "full_exempt_or_deferral_10k": 595,
+      "statutory_exempt": 147,
+      "application_full_exempt": 229,
+      "student_special": 160,
+      "deferral_under50": 58,
+      "partial_exempt_10k": {
+       "3/4免除": 34,
+       "半額免除": 16,
+       "1/4免除": 11
+      },
+      "unpaid_10k": 67,
+      "full_exempt_deferral_share_pct_national": 44.5,
+      "partial_exempt_share_pct": 2.6,
+      "final_payment_rate_pct": 85.6,
+      "current_year_payment_rate_pct": 79.6,
+      "pref_examples_full_exempt_share": {
+       "北海道": 50.7,
+       "青森県": 51.1,
+       "山形県": 42.0
+      }
+     },
+     "unit": "万人、%(全額免除・猶予割合は任意加入を除く第1号被保険者に対する割合)",
+     "population": "令和7年度末(2026年3月末)現在。納付率は令和5年度分保険料の最終納付率",
+     "citation": "厚生労働省・日本年金機構『令和7年度の国民年金の加入・保険料納付状況』(2026年7月24日、社会保障審議会年金事業管理部会 資料2)表1・参考1",
+     "url": "https://www.mhlw.go.jp/content/12508000/001726792.pdf",
+     "confidence": "high",
+     "verified_via": "PDFの表1・参考1を確認(令和6年度版 https://www.mhlw.go.jp/content/12508000/001510023.pdf も取得)",
+     "replication": "全額免除・猶予割合は令和6年度44.0%→令和7年度44.5%"
+    },
+    {
+     "what": "市町村国保の1人当たり・1世帯当たり保険料(税)と所得(課税標準額)",
+     "value": {
+      "premium_per_person_yen_FY2024": 107856,
+      "premium_per_household_yen_FY2024": 155462,
+      "premium_growth_FY2024_pct": 6.8,
+      "taxable_base_per_person_10k_yen": 75.4,
+      "taxable_base_per_household_10k_yen": 108.8,
+      "premium_to_taxable_base_ratio_pct_derived": 14.3,
+      "arrears_household_share_pct_2025": 11.9,
+      "collection_rate_pct_FY2024": 93.99,
+      "benefit_per_person_yen_FY2024": 361302,
+      "households_10k": 1542,
+      "insured_10k": 2204
+     },
+     "unit": "円/年、万円、%",
+     "population": "市町村国保、令和6年度(2024年度)。課税標準額は国民健康保険実態調査の前年所得から基礎控除等を除いた額(所得不詳を除く)",
+     "citation": "厚生労働省保険局『令和6年度国民健康保険(市町村国保)の財政状況について』(2026年9月9日公表、10月20日正誤表)参考1",
+     "url": "https://www.mhlw.go.jp/content/12400000/001761471.pdf",
+     "confidence": "high",
+     "verified_via": "PDF(gap_dl/mhlw_kokuho_b、ファイルサイズでURLと一致を確認)の参考1(2)(3)を確認。14.3% は 107,856円÷75.4万円 で計算した値で、課税標準額は所得から基礎控除を引いた額なので所得に対する負担率より高めに出る",
+     "replication": "正誤表(https://www.mhlw.go.jp/content/12400000/001761165.pdf)の訂正箇所は差押えの件数等で、上の数値ではない"
+    }
+   ],
+   "how_to_use": [
+    "住民の手取りを計算するとき、税+社会保険料(本人負担)を年金込みの総所得の 11%(最低所得層)〜28%(最高所得層)の曲線で与える。社会保険料だけなら 6〜13%。",
+    "65歳以上は同じ所得でも負担率を現役より約7ポイント低くする(公的年金等控除・軽減。75歳以上の負担は総所得の約15%)。",
+    "国民年金第1号被保険者の住民のうち約44%は全額免除・猶予(保険料0円)、約2.6%は一部免除、未納は約5%とする。",
+    "国保加入の住民の保険料は1人当たり年約10.8万円(2024年度)を平均にし、滞納世帯を約12%置く。"
+   ],
+   "not_confirmed": [
+    "国保の7割・5割・2割軽減を受けている世帯の割合と、所得階級別の国保保険料の対所得比(国民健康保険実態調査の報告書は今回未取得)",
+    "所得再分配調査の負担率は本人負担のみで、事業主負担を含めた負担率ではない",
+    "所得再分配調査の『当初所得階級』は年金を含まない所得で区分しているため、年金生活者が低い階級に多く入る(負担率の読み方に注意)"
+   ]
+  },
+  {
+   "key": "sunk_cost_time_vs_money",
+   "name_ja": "サンクコスト効果:お金と時間の違い(Soman 2001 の事前登録再現)",
+   "estimates": [
+    {
+     "what": "支払った資源がお金か時間かで、高いほうのチケット(劇場)を選ぶ割合の違い(Study 1)",
+     "value": {
+      "replication": {
+       "sunk_time_choose_theatre_pct": 13.3,
+       "sunk_money_choose_theatre_pct": 48.2,
+       "phi_c": 0.38,
+       "95CI": [
+        0.31,
+        0.45
+       ]
+      },
+      "original": {
+       "sunk_time_pct": 4.8,
+       "sunk_money_pct": 61.7,
+       "phi_c": 0.61,
+       "95CI": [
+        0.43,
+        0.78
+       ]
+      },
+      "ratio_replication_to_original": 0.62
+     },
+     "unit": "選択率%、効果量 φc(Cramér's V)",
+     "population": "再現:米国の MTurk 821人(除外後)。原研究:Soman (2001) の学生",
+     "citation": "Petrov, Chan, Lau ら(Int Rev Soc Psychol 36:17, 2023, doi:10.5334/irsp.883)'Sunk Cost Effects for Time Versus Money: Replication and Extensions Registered Report of Soman (2001)'",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12372683/",
+     "confidence": "high",
+     "verified_via": "PMC 本文(gap_dl/PMC12372683)の結果の節を確認。筆頭著者は Nikolay B Petrov(本文の著者欄で確認)",
+     "replication": "お金のほうがサンクコストに引きずられる、という方向は再現。効果量は原研究の約6割"
+    },
+    {
+     "what": "サンクコストあり・なしで、続ける側(ロケットエンジン)を選ぶ割合(Study 2)",
+     "value": {
+      "replication_time": {
+       "sunk_pct": 34.5,
+       "no_sunk_pct": 7.1,
+       "phi_c": 0.32,
+       "95CI": [
+        0.23,
+        0.42
+       ]
+      },
+      "replication_money": {
+       "sunk_pct": 31.0,
+       "no_sunk_pct": 10.9,
+       "phi_c": 0.23,
+       "95CI": [
+        0.14,
+        0.33
+       ]
+      },
+      "original_money": {
+       "sunk_pct": 55.1,
+       "no_sunk_pct": 24.0,
+       "phi_c": 0.32
+      },
+      "original_time": {
+       "sunk_pct": 20.4,
+       "no_sunk_pct": 19.0,
+       "phi_c": 0.02
+      }
+     },
+     "unit": "選択率%、φc",
+     "population": "同上",
+     "citation": "同上",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12372683/",
+     "confidence": "high",
+     "verified_via": "PMC 本文の結果の節を確認",
+     "replication": "原研究と違い、時間のサンクコストにも効果が出た(お金と同程度)"
+    }
+   ],
+   "how_to_use": [
+    "既に払ったお金があると、続ける(使い切る)選択の確率を約20ポイント上げる(10.9%→31.0%)。時間を費やした場合も同程度(7.1%→34.5%)に上げる。",
+    "お金と時間を比べる場面(高い券と時間をかけた券のどちらを使うか)では、お金を払ったほうを選ぶ確率を約35ポイント高くする。"
+   ],
+   "not_confirmed": [
+    "Many Labs 2 のサンクコスト課題の効果量(files.osf.io が開けず)",
+    "Roth らのメタ分析の決定タイプ別 d"
+   ]
+  },
+  {
+   "key": "many_labs_task_effects",
+   "name_ja": "Many Labs 1・2 の課題別効果量",
+   "estimates": [],
+   "how_to_use": [
+    "(数値未確認のため使えない。前回の psychology_params.json の Many Labs 2 全体値:再現率 28中14〜15、効果量の中央値 原研究0.60→再現0.15 を使う)"
+   ],
+   "not_confirmed": [
+    "Many Labs 1(Klein et al. 2014, Social Psychology 45(3))の課題別 d(アンカリング4課題、アジア病問題のフレーミング、サンクコスト、通貨プライミング等)と原研究との比:全文PDFの置き場所(core.ac.uk、research.unipd.it、eprints.lse.ac.uk)は許可リスト外で開いていない。osf.io のプロジェクト(wx7ck)はページは開くが、ファイルの実体は files.osf.io / api.osf.io にあり、プロキシに拒否された",
+    "Many Labs 2(Klein et al. 2018, AMPPS)の課題別 d:PsyArXiv の preprint(osf.io/9654g)のダウンロードが files.osf.io へ転送され拒否された",
+    "同調(Asch 型)は Many Labs 1・2 の課題に含まれていない(Many Labs の課題一覧からは確認できず。未確認)"
+   ]
+  },
+  {
+   "key": "habit_formation_time",
+   "name_ja": "習慣が身につくまでの日数(Lally 2010 の66日の確認と最新メタ分析)",
+   "estimates": [
+    {
+     "what": "習慣形成までの日数(4研究の報告をまとめたもの)",
+     "value": {
+      "Lally2010_median_days_to_95pct_automaticity": 66,
+      "Lally2010_range_days": [
+       18,
+       254
+      ],
+      "Keller_healthy_eating_median_days": 59,
+      "Keller_range_days": [
+       4,
+       335
+      ],
+      "Keller_share_reaching_threshold_pct": 23,
+      "Lally2008_self_report_mean_days": 91,
+      "Lally2008_sd": 55,
+      "Fournier_stretching_mean_days": {
+       "朝": 106,
+       "夜": 154
+      },
+      "summary": "中央値59〜66日、平均106〜154日、個人差4〜335日(健康習慣はおおむね2〜5か月)"
+     },
+     "unit": "日",
+     "population": "健康行動(食事・水分・運動・ストレッチ等)の介入研究の参加者",
+     "citation": "Singh, Murphy, Maher & Smith (2024) 'Time to Form a Habit: A Systematic Review and Meta-Analysis of Health Behaviour Habit Formation and Its Determinants' Healthcare 12(23): 2488 3.3節",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11641623/",
+     "confidence": "high",
+     "verified_via": "PMC 本文を今回取得して3.3節・考察を確認。前回 not_confirmed だった『66日は中央値か』は、このレビューの本文で『95%の自動性に達するまでの中央値66日(範囲18〜254日)』と確認(Lally 2010 の原論文そのものは開いていない)",
+     "replication": "Keller らの研究でも中央値59日と近い。ただし閾値に達したのは参加者の23%だけ"
+    },
+    {
+     "what": "習慣形成介入の前後での習慣の強さ(SRHI/SRBAI)の変化",
+     "value": {
+      "pooled_SMD": 0.69,
+      "95CI": [
+       0.49,
+       0.88
+      ],
+      "studies_in_meta": 12,
+      "conditions": 19,
+      "by_behavior_SMD": {
+       "フロス": 1.11,
+       "食事": 0.57,
+       "運動": 0.69,
+       "食事+運動": 0.64,
+       "フレイル予防の生活習慣": 0.97
+      },
+      "review_total": {
+       "studies": 20,
+       "participants": 2601,
+       "high_risk_of_bias": 11
+      },
+      "prior_review_PA_SMD": 0.31
+     },
+     "unit": "標準化平均差 SMD",
+     "population": "同上",
+     "citation": "Singh ら (2024) Healthcare 12(23): 2488",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11641623/",
+     "confidence": "high",
+     "verified_via": "PMC 本文で確認",
+     "replication": "20研究中11研究がバイアスのリスク高。前後比較なので効果は過大の可能性"
+    }
+   ],
+   "how_to_use": [
+    "新しい購買習慣・サービス利用が『自動化』するまでの日数を対数正規分布で与える(中央値 約60〜66日、平均 約100〜150日、範囲 4〜335日)。",
+    "期間内に習慣化に至らない住民の割合を大きく取る(Keller らでは77%が閾値に届かず)。朝の行動は夜より習慣化が早い。"
+   ],
+   "not_confirmed": [
+    "Lally et al. (2010) EJSP の原論文本文(Wiley、許可リスト外)。66日・18〜254日は Singh ら (2024) の本文の記述による"
+   ]
+  }
+ ],
+ "hosts_needed": [
+  "link.springer.com(Rieger, Wang & Hens 2017 の国別の損失回避・確率加重のパラメータ)",
+  "www.iser.osaka-u.ac.jp の討議論文一覧ページ(旧URL dp-e.html が404。個別PDFは開ける)、大阪大学GCOE討議論文の掲載元(DP No.39 の正式URLが分からない)",
+  "www.meti.go.jp(電子商取引に関する市場調査の EC 化率。サイト側が403)",
+  "files.osf.io(Many Labs 2 の論文・効果量表 PDF。osf.io の download が files.osf.io へ転送され、プロキシが拒否)",
+  "api.osf.io(OSF のファイル一覧 API)",
+  "core.ac.uk / research.unipd.it / eprints.lse.ac.uk(Many Labs 1 論文 Klein et al. 2014 の全文 PDF)",
+  "onlinelibrary.wiley.com(Lally et al. 2010 EJSP の原論文)",
+  "国民健康保険実態調査の報告書(www.mhlw.go.jp 内だが該当PDFの所在が未特定。e-Stat の統計表でも可)"
+ ]
+}

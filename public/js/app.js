@@ -17,7 +17,7 @@ import { climb } from "./climb.js";
 import { council } from "./council.js";
 import { labor } from "./labor.js";
 import { mountCustom, CUSTOM_ASSUMPTIONS, customChecks, psychologyChecks } from "./custom.js";
-import { mountPolitics, POLITICS_ASSUMPTIONS, employeeRates, voteTable } from "./politics.js";
+import { mountPolitics, POLITICS_ASSUMPTIONS, employeeRates, voteTable, burdenByAge } from "./politics.js";
 import POLICY from "./policy-data.js";
 import { mountElections, ELECTION_ASSUMPTIONS, electionChecks } from "./elections.js";
 import ELECTIONS from "./election-data.js";
@@ -1184,6 +1184,8 @@ function buildGuide() {
         for (const r of employeeRates(state.base)) { const src = "国税庁 民間給与実態統計調査 令和7年分 第17表(同じ年収の給与所得者の実績)";
           rows.push({ basis: "公的統計", model: "手取りと負担", label: `年収${r.label}:社会保険料の割合`, a: `${(r.social * 100).toFixed(1)}%`, b: `${(r.realSocial * 100).toFixed(1)}%`, diff: r.social / r.realSocial - 1, source: src });
           rows.push({ basis: "公的統計", model: "手取りと負担", label: `年収${r.label}:所得税の割合`, a: `${(r.tax * 100).toFixed(2)}%`, b: `${(r.realTax * 100).toFixed(2)}%`, diff: r.tax / r.realTax - 1, points: (r.tax - r.realTax) * 100, tol: 0.6, source: `${src}。この計算は令和8年分の税率表(基礎控除の引き上げ後)なので、実績より低く出る` }); }
+        for (const r of burdenByAge(state.base)) rows.push({ basis: "調査", model: "手取りと負担", label: `${r.label}:税と社会保険料の割合`, a: `${(r.model * 100).toFixed(1)}%`, b: `${(r.real * 100).toFixed(1)}%`, diff: r.model / r.real - 1, points: (r.model - r.real) * 100, tol: 2,
+          source: "厚生労働省「令和5年 所得再分配調査報告書」第9表(世帯員の年齢階級別、2022年の所得)。表の金額から割り算した値。調査は世帯単位の等価所得で、税に固定資産税などを含むため、1人ずつのこの計算とは定義が少し違う。差2ポイント以内を合格とした" });
         rows.push(...electionChecks());
         { const e = POLICY.turnout["衆院選"].at(-1), v = voteTable(state.base, { ...e.pct, "10歳代": e.pct["10歳代"] ?? 0 }); rows.push({ basis: "調査", model: "選挙と世代", label: `全体の投票率(${e.name})`, a: `${(v.turnout * 100).toFixed(1)}%`, b: `${e.pct["全体"]}%`, diff: (v.turnout * 100) / e.pct["全体"] - 1, points: v.turnout * 100 - e.pct["全体"], tol: 2, source: "総務省 国政選挙における年代別投票率について。年代別の投票率に、仮想の日本の年代別人口を掛けて合計した値と、公表された全体の投票率を比べた" }); }
         const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= (r.tol ?? 0.5))), order2 = ["公的統計", "公式推計", "理論", "文献", "実験", "調査", "動画の実験値"];

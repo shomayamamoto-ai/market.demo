@@ -8,6 +8,7 @@ export const POLITICS_ASSUMPTIONS = {
   dependents: { value: "年収ごとの平均額", note: "配偶者控除・扶養控除・生命保険料控除などは、1人ずつの家族の状況が分からないため、同じ年収の給与所得者の平均額を引く(国税庁「民間給与実態統計調査」令和7年分。年収450万円で平均19万円、850万円で42万円)。住宅ローン控除も、同じ統計の平均の割合を税額から引く。雇われて働く人だけに適用する" },
   employee: { value: "年収106万円以上の雇われている人", note: "厚生年金・健康保険に入る人の範囲。正規雇用と役員は全員、非正規雇用は年収106万円以上で、家族の扶養に入らない人。労働時間や会社の規模の条件は入れていない" },
   dependentSpouse: { value: "年収130万円未満で、既婚または親と暮らす人", note: "家族の扶養に入る(保険料がかからない)人の範囲。実際は扶養する家族が会社員の場合だけだが、区別していない" },
+  care65: { value: 74700, note: "65歳以上が払う介護保険料(第1号保険料)。年額 = 月6,225円 × 12。第9期(令和6〜8年度)の基準額の全国加重平均(厚生労働省 2024年5月公表)。実際は所得で段階があり、低所得の人は軽くなるが、段階は入れていない。これまでは入れておらず、65歳以上の保険料が実際より低く出ていた(厚生労働省 所得再分配調査 令和5年との照合で判明)" },
   nhi: { value: "所得割9.22%+均等割+世帯割", note: "自営業・無職の人の国民健康保険料。令和5年度の全国平均の料率で計算(上限109万円)。自治体による差、軽減制度は入れていない" },
   pensionIncome: { value: "65歳以上110万円、65歳未満60万円を控除", note: "年金にかかる税の計算で引く額(公的年金等控除)。一般に知られた値で、今回の調査では一次資料を確認していない" },
   bonus: { value: 0.2, note: "年収のうち賞与の割合(夏と冬の2回)。保険料の上限(厚生年金は月65万円・賞与1回150万円、健康保険は月139万円・賞与年573万円)を当てはめるのに使う。割合は仮定" },
@@ -36,6 +37,7 @@ export function takeHome(p) {
       social = Math.min(so.nhi.cap, base * so.nhi.rate + so.nhi.perCapita + so.nhi.perHousehold) + (age >= 20 && age < 60 ? so.nationalPension : 0);
     } else if (employed) social = S * so.employment;
   }
+  if (age >= 65) social += POLITICS_ASSUMPTIONS.care65.value; // 65歳以上は、勤め先の保険や国保とは別に介護保険料を払う
   // 所得(給与は給与所得控除、年金は公的年金等控除、自営は年収をそのまま所得とみなす)
   const earned = employed ? Math.max(0, S - empDeduction(S)) : p.working ? S : Math.max(0, S - (age >= 65 ? 1100000 : 600000));
   const basic = P0.basicDeduction.find(([up]) => earned <= up)?.[1] ?? 0;
@@ -75,6 +77,14 @@ export function employeeRates(personas) {
     for (const p of g) { const t = takeHome(p); inc += p.weight * t.income; tax += p.weight * t.tax; soc += p.weight * t.social; }
     return { label: r.label, income: r.income, n: g.length, tax: inc ? tax / inc : 0, social: inc ? soc / inc : 0, realTax: r.tax, realSocial: r.social };
   });
+}
+// 年齢別の税+社会保険料の負担率を、厚生労働省「令和5年 所得再分配調査」第9表(世帯員の年齢階級別、2022年の所得)と比べる。
+// 調査の値は、表の金額(等価総所得・税・社会保険料)から割り算した値(調査担当の計算)。等価所得(世帯の所得を世帯人員で調整)なので、1人ずつのこの計算とは単位が違う。調査の税には固定資産税・自動車税も含む
+export const BURDEN_BY_AGE = [[20, 24, 22.2], [30, 34, 21.0], [40, 44, 22.6], [50, 54, 23.7], [60, 64, 22.2], [65, 69, 16.4], [70, 74, 15.1], [75, 120, 14.8]];
+export function burdenByAge(personas) {
+  return BURDEN_BY_AGE.map(([lo, hi, real]) => { let inc = 0, pay = 0;
+    for (const p of personas) { if (p.age < lo || p.age > hi) continue; const t = takeHome(p); inc += p.weight * t.income; pay += p.weight * (t.tax + t.resident + t.social); }
+    return { label: hi > 100 ? `${lo}歳以上` : `${lo}〜${hi}歳`, model: inc ? pay / inc : 0, real: real / 100 }; });
 }
 // 家計調査(二人以上の勤労者世帯)の、同じ年収水準の負担率
 export const fiesAt = (incomeMan) => PD.burden.slice(1).reduce((a, r) => (Math.abs(r.income - incomeMan) < Math.abs(a.income - incomeMan) ? r : a));
