@@ -76,6 +76,10 @@ export function scoreboard(D, personas, groups, seed = 1) {
       rows.push({ basis, model: `${def.title}:${p.label}`, label: m.label, a: formatMetric(m, summary[k]), b: formatMetric(m, target), diff: summary[k] / target - 1 });
     }
   }
+  // 継続率:利用を始めた人が、1年後・2年後・3年後にどれだけ残っているか(解約率 月3%のとき)
+  const T = DIFFUSION_ASSUMPTIONS.churnShape.value; let alive = 1; const surv = [];
+  for (let m = 1; m <= 36; m++) { alive *= 1 - 0.03 * (m <= 12 ? T[0] : m <= 24 ? T[1] : T[2]); if (m % 12 === 0) surv.push(alive); }
+  [0.631, 0.468, 0.382].forEach((real, i) => rows.push({ basis: "文献", model: "発売後の広がり", label: `利用を始めた人が${i + 1}年後に残っている割合`, a: `${(surv[i] * 100).toFixed(1)}%`, b: `${(real * 100).toFixed(1)}%`, diff: surv[i] / real - 1, source: "Fader & Hardie (2007) の定額制サービスの継続率の例(確かさ:中)。この値に合うように係数を決めた" }));
   return rows;
 }
 

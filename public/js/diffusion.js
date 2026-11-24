@@ -16,6 +16,7 @@ export const DIFFUSION_ASSUMPTIONS = {
   costPerReach: { value: { tv: 3, net: 2, store: 6 }, note: "広告を1人に1回届けるのにかかる費用(円)" },
   adExponent: { value: 0.24, note: "広告の効き方の逓減。広告で商品を知る人の割合は、広告量のこの乗数に比例する(広告を2倍にしても、知る人は約1.2倍)。広告弾力性のメタ分析の長期の平均0.24(Sethuraman, Tellis & Briesch 2011、402推定。短期の平均は0.12)" },
   adBase: { value: 0.02, note: "広告の効き方の基準点。1か月に対象者の2%に届く広告量のときは、「広告費 ÷ 1人に届ける費用」のとおりに知られていく。これより多いと、増やした割には伸びない。基準点の置き方は仮定" },
+  churnShape: { value: [1.25, 0.82, 0.56], note: "解約率の、続けた期間による違い(1年目・2年目・3年目以降の倍率)。定額制サービスの実際の継続率(1年後63.1%、2年後46.8%、3年後38.2%。Fader & Hardie 2007 の例。表の抜粋で確認、確かさ:中)を、初期値の月3%のときに再現するよう決めた。合わない人から先にやめるので、残った人はやめにくい" },
   churnRef: { value: "月3%(初期値)", note: "解約率の参考:米国の有料動画配信は2025年に月4.6%(Antenna調べ)。日本の業界別の値は確認できていない" },
   adRef: { value: "短期0.12・長期0.24", note: "広告の効き方の参考:広告費を1%増やしたときの売上の伸び(Sethuraman, Tellis & Briesch 2011)。消費財のテレビ広告では0.01〜0.02台という報告もある(Shapiro, Hitsch & Tuchman 2021)。このモデルでは、長期の平均0.24を「広告の効き方の逓減」として使っている" },
   wom: { value: 0.6, note: "口コミで商品を知る強さ(身近な層の利用率に比例)" },
@@ -71,6 +72,7 @@ export function createSim(D, personas, product, opts = {}) {
       aff: mediaAffinity(D, p),
       aware: false,
       active: false,
+      since: 0, // 利用を始めた月
       everBought: false,
       lost: false, // 競合に流れた
     }));
@@ -139,6 +141,8 @@ export function createSim(D, personas, product, opts = {}) {
     const slump = sim.month <= F.slumpUntil ? 0.7 : 1;
     const womOn = sim.month > F.womStopUntil;
     const churn = clamp((plan.churn ?? 0) + F.extraChurn, 0, 1);
+    // 続けている期間が長い人ほど、やめにくい(合わない人から先にやめていくため)
+    const T = A.churnShape.value, tenure = (months) => (months <= 12 ? T[0] : months <= 24 ? T[1] : T[2]);
 
     let newBuyers = 0;
     for (const a of agents) {
@@ -154,7 +158,7 @@ export function createSim(D, personas, product, opts = {}) {
         if (rng.next() < 1 - miss) a.aware = true;
       }
       // 2) やめる
-      if (a.active && rng.next() < churn) a.active = false;
+      if (a.active && rng.next() < clamp(churn * tenure(sim.month - a.since), 0, 1)) a.active = false;
       // 3) 買い始める(知っていて、価格に納得でき、まだ利用していない人)
       else if (a.aware && !a.active && !a.lost && a.u < probAt(a.p, price)) {
         const again = a.everBought ? 0.3 : 1; // 一度やめた人は戻りにくい
@@ -162,6 +166,7 @@ export function createSim(D, personas, product, opts = {}) {
           ((A.p.value * A.adopterMult.value[a.p.adopter] + (womOn ? A.q.value * localF * 4 : 0)) / 12) * slump * again * 4;
         if (rng.next() < clamp(hazard, 0, 1)) {
           a.active = true;
+          a.since = sim.month;
           a.everBought = true;
           newBuyers += a.w;
         }

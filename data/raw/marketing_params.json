@@ -1,0 +1,977 @@
+{
+ "generated": "2026-11-24",
+ "note": "この環境では大半の学術・出版社ホストが通信許可リスト外で、本文を開けたのは www.nber.org・gwern.net・www.soumu.go.jp のみ。それ以外は WebSearch の抜粋に基づくため confidence は medium(抄録の引用が複数源で一致)か low(二次資料・1件のみ)。書誌の巻号・頁は検索抜粋に出たもの以外は未照合。",
+ "params": [
+  {
+   "key": "intent_to_purchase",
+   "name_ja": "購入意向と実際の購入の関係",
+   "estimates": [
+    {
+     "what": "購入意向と実購入の相関(メタ分析の平均)",
+     "value": {
+      "mean_r": 0.49,
+      "range": [
+       -0.13,
+       0.99
+      ],
+      "n_studies": 40
+     },
+     "unit": "相関係数",
+     "population": "既存研究40件(耐久財・非耐久財、既存品・新商品)",
+     "citation": "Morwitz, Steckel & Gupta (2007) When do purchase intentions predict sales? Int. J. of Forecasting 23(3):347-364",
+     "url": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=946194",
+     "confidence": "low",
+     "verified_via": "検索抜粋(二次要約 koji.so 経由の値)。論文本文・抄録は開けず。定性的結論(既存品>新商品、耐久財>非耐久財、短期>長期、ブランド特定>カテゴリ)は複数抜粋で一致"
+    },
+    {
+     "what": "自動車の6か月購入率:購入確率(0-10の11段階)回答別",
+     "value": {
+      "prob_0": 0.1,
+      "prob_1_3": 0.3,
+      "prob_10": 0.55,
+      "all": 0.17,
+      "intenders_definite_probable": 0.5,
+      "non_intenders": 0.11,
+      "unweighted_mean_by_class": {
+       "0": 0.19,
+       "1-3": 0.39,
+       "4-6": 0.73,
+       "7-9": 0.52,
+       "10": 0.81
+      }
+     },
+     "unit": "購入した世帯の割合",
+     "population": "米国センサス局QSI実験調査(1964年)、自動車(新車+中古)",
+     "citation": "Juster (1966) Consumer Buying Intentions and Purchase Probability: An Experiment in Survey Design, NBER (Table 3A)",
+     "url": "https://www.nber.org/system/files/chapters/c1535/c1535.pdf",
+     "confidence": "medium",
+     "verified_via": "NBERのPDFを取得しpdftotextで表3を読んだ。スキャンOCRで標本数の上付き数字が混ざり4-6・7-9階級のTotal列は判読不能(unweighted meanは判読可)。セルの標本は小さい"
+    },
+    {
+     "what": "家電6品目の12か月購入率:12か月購入確率の階級別",
+     "value": {
+      "prob_0": 0.017,
+      "prob_1_3": 0.053,
+      "prob_4_6": 0.11,
+      "prob_7_9": 0.18,
+      "all": 0.026
+     },
+     "unit": "購入率(品目×世帯)",
+     "population": "同上、エアコン・冷蔵庫・洗濯機・乾燥機・テレビ・食洗機",
+     "citation": "Juster (1966) 同上 Table 6",
+     "url": "https://www.nber.org/system/files/chapters/c1535/c1535.pdf",
+     "confidence": "medium",
+     "verified_via": "NBERのPDFを開いて表6を確認(OCRのため7-9階級の値は .18 と読めるが要目視確認)"
+    },
+    {
+     "what": "デトロイト予備実験:最高確率階級の6か月自動車購入率 / 最低階級",
+     "value": {
+      "highest_class": ">0.80",
+      "lowest_class": "<0.10",
+      "mean_stated_prob": 0.17,
+      "actual_rate": 0.22
+     },
+     "unit": "購入率",
+     "population": "デトロイト予備実験",
+     "citation": "Juster (1966) 同上 本文",
+     "url": "https://www.nber.org/system/files/chapters/c1535/c1535.pdf",
+     "confidence": "high",
+     "verified_via": "NBERのPDF本文で該当文を確認"
+    },
+    {
+     "what": "確率尺度は意向尺度の約2倍の横断面分散を説明",
+     "value": 2.0,
+     "unit": "倍(説明分散の比)",
+     "population": "自動車購入率",
+     "citation": "Juster (1966) 同上 要旨",
+     "url": "https://www.nber.org/system/files/chapters/c1530/c1530.pdf",
+     "confidence": "high",
+     "verified_via": "NBERのPDF要旨を確認"
+    },
+    {
+     "what": "「必ず買う」の実現率(耐久財の目安)",
+     "value": 0.7,
+     "unit": "割合",
+     "population": "Urban, Hauser & Dholakia (1987) の推定として二次資料が引用",
+     "citation": "Urban, Hauser & Dholakia (1987) Essentials of New Product Management(二次引用)",
+     "url": "http://www.jaqm.ro/issues/volume-3,issue-2/pdfs/tirtiroglu_elbeck.pdf",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "実務で使われる換算の目安(top box / second box)",
+     "value": {
+      "definitely": [
+       0.7,
+       0.8
+      ],
+      "probably": [
+       0.2,
+       0.3
+      ]
+     },
+     "unit": "実購入に換算する重み",
+     "population": "業者ブログ等の経験則。学術的出典・BASES公式値は確認できず",
+     "citation": "出典不明(vendor blog)",
+     "url": "https://pulseairesearch.com/pulse-shift/blogs/970/purchase_intent_surveys_how_to_measure_and_increase_buying_likelihood",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    }
+   ],
+   "how_to_use": "意向調査のtop box/second boxをそのまま購入率にせず、0.7〜0.8/0.2〜0.3程度で割り引く(low)。検算には Juster の「確率10でも実購入は5〜8割、確率0でも1割前後買う」を上下限として使う。",
+   "not_confirmed": [
+    "Morwitzら(2007)の平均相関0.49・既存品/新商品別の値(二次要約のみ。0.751/-0.177という値も見たが未確認)",
+    "Jamieson & Bass (1989) の「必ず買う」「たぶん買う」別の実購入率(本文・表を開けず)",
+    "BASESの公式換算率(公開一次資料なし)",
+    "75%/25%・80%/30%ルールの原典"
+   ]
+  },
+  {
+   "key": "ewom_elasticity",
+   "name_ja": "口コミ・ネット上の評判の弾力性",
+   "estimates": [
+    {
+     "what": "eWOMの量(件数)の売上弾力性",
+     "value": 0.236,
+     "unit": "弾力性",
+     "population": "51研究・339推定値",
+     "citation": "You, Vadakkepatt & Joshi (2015) A Meta-Analysis of Electronic Word-of-Mouth Elasticity. J. of Marketing 79(2):19-39",
+     "url": "https://ama.org/2018/12/01/a-meta-analysis-of-electronic-word-of-mouth-elasticity",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用。複数リポジトリで一致)。ページ自体は開けず"
+    },
+    {
+     "what": "eWOMの評価(valence)の売上弾力性",
+     "value": 0.417,
+     "unit": "弾力性",
+     "population": "51研究・271推定値",
+     "citation": "You, Vadakkepatt & Joshi (2015) 同上",
+     "url": "https://ama.org/2018/12/01/a-meta-analysis-of-electronic-word-of-mouth-elasticity",
+     "confidence": "medium",
+     "verified_via": "同上"
+    },
+    {
+     "what": "eWOMと売上の平均相関",
+     "value": 0.091,
+     "unit": "相関係数",
+     "population": "96研究・1,532効果量・40プラットフォーム・26カテゴリ。量>評価、ばらつき大が負に効く",
+     "citation": "Babić Rosario, Sotgiu, De Valck & Bijmolt (2016) J. of Marketing Research 53(3):297-318",
+     "url": "https://research.vu.nl/en/publications/the-effect-of-electronic-word-of-mouth-on-sales-a-meta-analytic-r/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "レビュー件数・星評価の売上順位への係数(Amazon側。従属変数 ln(Amazon順位)-ln(BN順位)、負=売上増)",
+     "value": {
+      "ln_num_reviews": -0.208,
+      "avg_star": -0.187,
+      "frac_5star": -0.26,
+      "frac_1star": 0.508,
+      "amazon_ln_price": 1.549,
+      "n": 2394
+     },
+     "unit": "回帰係数(対数順位差)",
+     "population": "Amazon/BN.com の書籍2,394点(2003年)",
+     "citation": "Chevalier & Mayzlin (2003/2006) The Effect of Word of Mouth on Sales: Online Book Reviews. NBER WP 10148 / JMR 43(3):345-354",
+     "url": "https://www.nber.org/system/files/working_papers/w10148/w10148.pdf",
+     "confidence": "high",
+     "verified_via": "NBER WPのPDFを取得し表(4列モデル)を確認。雑誌版の係数とは異なる可能性"
+    },
+    {
+     "what": "5つ星4件のうち1件が1つ星に変わると順位500→603(週約20冊減)",
+     "value": {
+      "rank_before": 500,
+      "rank_after": 603,
+      "sales_change_per_week": -20
+     },
+     "unit": "例示",
+     "population": "同上",
+     "citation": "Chevalier & Mayzlin (2003) NBER WP 10148",
+     "url": "https://www.nber.org/system/files/working_papers/w10148/w10148.pdf",
+     "confidence": "high",
+     "verified_via": "PDF本文で確認"
+    },
+    {
+     "what": "レビュー評価の売上弾力性(Hanssensのまとめ)",
+     "value": 0.69,
+     "unit": "弾力性(広告の約6倍)",
+     "population": "Hanssensのレビュー論文での要約(Floyd et al. 2014 由来と思われるが未確認)",
+     "citation": "Hanssens (2018) The value of empirical generalizations in marketing. JAMS 46:6-8",
+     "url": "https://link.springer.com/article/10.1007/s11747-017-0567-0",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    }
+   ],
+   "how_to_use": "レビュー件数が1%増えると売上約0.24%増、評価が1%上がると約0.42%増として口コミ項の係数にする。負の評価は正の評価より効く(1つ星係数の絶対値は5つ星の約2倍)。",
+   "not_confirmed": [
+    "Youら(2015)の調整変数別の弾力性(本文未確認)",
+    "Chevalier & Mayzlin の JMR 掲載版の係数(WP版のみ確認)"
+   ]
+  },
+  {
+   "key": "selling_promo_distribution",
+   "name_ja": "営業・販促・配荷の弾力性",
+   "estimates": [
+    {
+     "what": "人的販売の当期弾力性(平均)",
+     "value": 0.34,
+     "unit": "弾力性",
+     "population": "75論文・88データセット・506推定値",
+     "citation": "Albers, Mantrala & Sridhar (2010) Personal Selling Elasticities: A Meta-Analysis. JMR 47(5):840-853",
+     "url": "https://www.msi.org/working-papers/a-metaanalysis-of-personal-selling-elasticities/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "人的販売の弾力性(手法バイアス補正後)",
+     "value": 0.31,
+     "unit": "弾力性",
+     "population": "同上",
+     "citation": "Albers, Mantrala & Sridhar (2010) 同上",
+     "url": "https://www.msi.org/working-papers/a-metaanalysis-of-personal-selling-elasticities/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用。Hanssensも0.31を引用)"
+    },
+    {
+     "what": "総合(短期+長期)売上弾力性:商品ライン",
+     "value": 1.37,
+     "unit": "弾力性",
+     "population": "成熟ブランド(対象データの詳細は未確認)",
+     "citation": "Ataman, Van Heerde & Mela (2010) The Long-Term Effect of Marketing Strategy on Brand Sales. JMR 47(5):866-882",
+     "url": "https://scholars.duke.edu/publication/788133",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "総合売上弾力性:配荷",
+     "value": 0.74,
+     "unit": "弾力性",
+     "population": "同上",
+     "citation": "Ataman, Van Heerde & Mela (2010) 同上",
+     "url": "https://scholars.duke.edu/publication/788133",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "総合売上弾力性:広告",
+     "value": 0.13,
+     "unit": "弾力性",
+     "population": "同上",
+     "citation": "Ataman, Van Heerde & Mela (2010) 同上",
+     "url": "https://scholars.duke.edu/publication/788133",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "総合売上弾力性:値引き",
+     "value": 0.04,
+     "unit": "弾力性(抄録は符号なしの .04)",
+     "population": "同上。値引きは短期効果は大きいが長期でほぼ相殺",
+     "citation": "Ataman, Van Heerde & Mela (2010) 同上",
+     "url": "https://scholars.duke.edu/publication/788133",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)。符号は本文未確認"
+    },
+    {
+     "what": "配荷・商品は長期効果が短期効果の4倍超",
+     "value": 4,
+     "unit": "倍(下限)",
+     "population": "同上",
+     "citation": "Ataman, Van Heerde & Mela (2010) 同上",
+     "url": "https://scholars.duke.edu/publication/788133",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "広告弾力性(Hanssensの一覧)",
+     "value": 0.1,
+     "unit": "弾力性",
+     "population": "既存品平均。新商品は約0.3",
+     "citation": "Hanssens (2009) Advertising Impact Generalizations in a Marketing Mix Context. J. of Advertising Research 49(2)",
+     "url": "https://www.anderson.ucla.edu/sites/default/files/documents/areas/fac/marketing/Hanssens_JAR_2009.pdf",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(新商品0.3は low 相当)"
+    },
+    {
+     "what": "値引き(プロモーション)の弾力性(Hanssensのまとめ)",
+     "value": -4.0,
+     "unit": "弾力性(「-4.0以上」)",
+     "population": "CPG",
+     "citation": "Hanssens (2017) Marketing Impact in the Digital Age",
+     "url": "https://www.anderson.ucla.edu/sites/default/files/documents/areas/fac/marketing/Dominique/2017%20JWMS.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋(文が途中で切れている)"
+    },
+    {
+     "what": "配荷弾力性(近年の多国データ)",
+     "value": {
+      "distribution": 0.213,
+      "assortment": 0.311,
+      "price": -0.64
+     },
+     "unit": "弾力性",
+     "population": "ブランド×カテゴリ×国の平均(2025年のJM論文、書誌詳細未確認)",
+     "citation": "Journal of Marketing (2025) doi:10.1177/00222429251412261",
+     "url": "https://journals.sagepub.com/doi/10.1177/00222429251412261",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "販促による売上増のうちブランドスイッチ分",
+     "value": 0.33,
+     "unit": "割合(数量ベース。弾力性分解では約75%)",
+     "population": "スキャナーデータ",
+     "citation": "Van Heerde, Gupta & Wittink (2003) Is 75% of the Sales Promotion Bump Due to Brand Switching? No, Only 33% Is. JMR 40(4):481-491",
+     "url": "https://repub.eur.nl/pub/1097/ERS%202003%20095%20MKT.pdf",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(題名と要約が一致)"
+    }
+   ],
+   "how_to_use": "配荷率・営業人員を動かすレバーの係数に、配荷0.74(長期込み)・営業0.31を入れる。広告0.13や値引き0.04と比べ、配荷と商品ラインの寄与を一桁大きく置くのが文献と整合。",
+   "not_confirmed": [
+    "Hanssens (2015) Empirical Generalizations about Marketing Impact 第2版の一覧そのもの(書籍。本文未入手)",
+    "配荷弾力性の独立したメタ分析値",
+    "流通販促(trade promotion)のパススルー率",
+    "Atamanらの値引き弾力性の符号と対象データの詳細"
+   ]
+  },
+  {
+   "key": "brand_buying_laws",
+   "name_ja": "ブランド購買行動の法則(Ehrenberg-Bass)",
+   "estimates": [
+    {
+     "what": "上位20%の購入者が売上に占める割合(ブランド、1年)",
+     "value": 0.5,
+     "unit": "売上比率(年により50〜60%)",
+     "population": "欧州パネル1年データの平均的ブランド。途上国食品カテゴリで約53%",
+     "citation": "Sharp (2010) How Brands Grow; Sharp, Romaniuk & Graham (2019) Marketing's 60/20 Pareto Law (Ehrenberg-Bass)",
+     "url": "https://openresearch.lsbu.ac.uk/item/88vw1",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(報告書の要約)"
+    },
+    {
+     "what": "上位20%世帯の売上比率(Pareto比)",
+     "value": {
+      "umbrella_brand": 0.73,
+      "brand_level": 0.65
+     },
+     "unit": "売上比率",
+     "population": "米国消費者パネル、CPG 22カテゴリ、6年間",
+     "citation": "Kim, Singh & Winer (2017) The Pareto rule for frequently purchased packaged goods: an empirical generalization. Marketing Letters 28(4):491-507",
+     "url": "https://dx.doi.org/10.1007/s11002-017-9442-5",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(McCarthy & Winer 2019 等の二次引用で一致)。原論文抄録は開けず"
+    },
+    {
+     "what": "上位20%の売上比率(小売ID-POS、反論側)",
+     "value": {
+      "leading_brands": 0.66,
+      "other_brands": 0.78
+     },
+     "unit": "売上比率",
+     "population": "dunnhumby 2017(単年、店舗会員データ)",
+     "citation": "dunnhumby (2017) 報告(Campaign Asia 経由)",
+     "url": "https://www.campaignasia.com/article/why-heavy-buyers-matter-more-than-byron-sharp-says/442271",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "今年の上位20%(売上60%)が翌年に占める売上",
+     "value": 0.45,
+     "unit": "売上比率(平均への回帰)",
+     "population": "Ehrenberg-Bass の説明",
+     "citation": "Sharp, Romaniuk & Graham (2019)",
+     "url": "https://marketingscience.info/value-paretos-bottom-80",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "ブランド浸透率と平均併買率の相関(併買の法則)",
+     "value": 0.96,
+     "unit": "相関係数",
+     "population": "米国スポーツウェアの事例",
+     "citation": "Marketing Week: Duplication of purchase law(Ehrenberg-Bass)",
+     "url": "https://marketingweek.com/duplication-purchase-law/",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "ダブルジョパディ:小さいブランドは購入者が少なく、購入頻度もやや低い(定性)",
+     "value": null,
+     "unit": "法則",
+     "population": "NBD-Dirichletモデルで説明",
+     "citation": "Ehrenberg, Goodhardt & Barwise (1990) Double Jeopardy Revisited. J. of Marketing 54(3):82-91; Goodhardt, Ehrenberg & Chatfield (1984)",
+     "url": "https://www.deepdyve.com/lp/sage/double-jeopardy-revisited-M5fQR2kwNT",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録冒頭)。数式 w(1-b)=一定 は抜粋で式自体を確認できず"
+    }
+   ],
+   "how_to_use": "顧客別売上の集中度は 80/20 ではなく、1年・ブランド単位で上位20%=50〜60%(長期・傘ブランドで65〜73%)に合わせる。シェア拡大は購入頻度ではなく浸透率の増加で表現する。",
+   "not_confirmed": [
+    "w(1-b)=一定 の式と典型的な定数",
+    "併買係数Dの典型値",
+    "NBDのパラメータ(k)の典型値",
+    "How Brands Grow 本文のページ・表"
+   ]
+  },
+  {
+   "key": "new_product_success",
+   "name_ja": "新商品の成功率・失敗率、試用と再購入",
+   "estimates": [
+    {
+     "what": "新商品の失敗率(1977年以降の実証研究)",
+     "value": 0.4,
+     "unit": "割合(「40%以下」)",
+     "population": "複数産業の実証研究のレビュー。「80%以上失敗」は根拠のない通説",
+     "citation": "Castellion & Markham (2013) Perspective: New Product Failure Rates: Influence of Argumentum ad Populum and Self-Interest. J. of Product Innovation Management 30(5)",
+     "url": "https://metatoc.com/papers/19715-perspective-new-product-failure-rates-influence-of-argumentum-ad-populum-and-self-interest",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "新商品失敗率(同著者の調査値)",
+     "value": 0.39,
+     "unit": "割合",
+     "population": "Microsoft Research ブログ経由の二次引用",
+     "citation": "Castellion & Markham (2013)",
+     "url": "https://www.microsoft.com/en-us/research/articles/four-fallacies-that-can-make-your-idea-fail/",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "Parfitt-Collins の式:最終シェア = 累積試用率 × 定着再購入率 × 購入量指数",
+     "value": {
+      "example": {
+       "trial": 0.34,
+       "repeat": 0.25,
+       "buying_index": 1.0,
+       "share": 0.085
+      }
+     },
+     "unit": "式と例示",
+     "population": "英Attwood消費者パネルの事例から開発。例の数値は講義スライド由来で原論文か未確認",
+     "citation": "Parfitt & Collins (1968) Use of Consumer Panels for Brand-Share Prediction. JMR 5(2):131-145",
+     "url": "https://www.warc.com/content/article/jmrs/the-use-of-consumer-panels-for-brand-share-prediction/en-gb/13688",
+     "confidence": "low",
+     "verified_via": "検索抜粋(式は medium、例の数値は low)"
+    },
+    {
+     "what": "新CPGの定着の目安",
+     "value": {
+      "reach_1pct_household_penetration": 0.33,
+      "strong_trial_and_repeat": 0.17,
+      "triers_still_engaged_at_52w": 0.11
+     },
+     "unit": "割合",
+     "population": "NielsenIQ(欧州)、Catalina(米)の業界資料",
+     "citation": "NielsenIQ (2026) Launch fast, learn faster; Catalina 調査(報道経由)",
+     "url": "https://nielseniq.com/global/en/insights/report/2026/launch-fast-learn-faster/",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    }
+   ],
+   "how_to_use": "成功確率の事前値は「失敗約40%」とし、80〜95%失敗を前提にしない。売上は 試用率×再購入率×購入量指数 に分解して意向調査の値と突き合わせる。",
+   "not_confirmed": [
+    "「新商品の85〜95%は失敗」の一次出典(確認できず。Castellion & Markham は通説として否定)",
+    "試用率・再購入率のカテゴリ別典型値(査読論文)",
+    "Parfitt & Collins 原論文の数値例"
+   ]
+  },
+  {
+   "key": "retention",
+   "name_ja": "顧客の維持(継続率・解約率)",
+   "estimates": [
+    {
+     "what": "契約型サービスの生存率の実測(コホート)",
+     "value": {
+      "regular": {
+       "y0": 1.0,
+       "y1": 0.631,
+       "y2": 0.468,
+       "y3": 0.382
+      },
+      "high_end": {
+       "y0": 1.0,
+       "y1": 0.869,
+       "y2": 0.743,
+       "y3": 0.653
+      }
+     },
+     "unit": "継続している顧客の割合",
+     "population": "論文の例示データ(Regular / High End、12年分のうち3年目まで確認)",
+     "citation": "Fader & Hardie (2007) How to Project Customer Retention. J. of Interactive Marketing 21(1):76-90 (Table 1)",
+     "url": "https://faculty.wharton.upenn.edu/wp-content/uploads/2012/04/Fader_hardie_jim_07.pdf",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(Table 1 の冒頭)。PDFは開けず"
+    },
+    {
+     "what": "コホートの年次継続率は年々上がる(例)",
+     "value": [
+      0.633,
+      0.689,
+      0.747,
+      0.798
+     ],
+     "unit": "年次継続率(1〜4年目)",
+     "population": "Fader & Hardie (2010) Marketing Science の例。上昇は個人の変化ではなく顧客の異質性(離脱しやすい人が先に抜ける)による",
+     "citation": "Fader & Hardie (2010) Customer-Base Valuation in a Contractual Setting. Marketing Science 29(1)",
+     "url": "https://faculty.wharton.upenn.edu/wp-content/uploads/2012/04/Fader_hardie_contractual_mksc_10.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋(出典論文の特定がやや曖昧)"
+    },
+    {
+     "what": "「維持率5ポイント改善で利益25〜85%増」",
+     "value": {
+      "range": [
+       0.25,
+       0.85
+      ],
+      "examples": {
+       "bank_branches": 0.85,
+       "insurance_brokerage": 0.5,
+       "auto_service": 0.3
+      }
+     },
+     "unit": "利益(顧客価値のNPV)増加率",
+     "population": "事例企業の試算。5%は離反率を5ポイント下げる意味(例:10%→5%)",
+     "citation": "Reichheld & Sasser (1990) Zero Defections: Quality Comes to Services. Harvard Business Review",
+     "url": "https://www.ipsos.com/en-us/shattering-myths-customer-loyalty",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(Ipsos・Ehrenberg-Bass等の複数二次資料で一致)"
+    },
+    {
+     "what": "「25〜95%」版",
+     "value": [
+      0.25,
+      0.95
+     ],
+     "unit": "利益増加率",
+     "population": "Reichheld の後年の表現(The Loyalty Effect 1996 / Bain)。書籍本文は未確認",
+     "citation": "Reichheld (1996) The Loyalty Effect(CIO.com 経由)",
+     "url": "https://www.cio.com/article/270943/it-organization-customer-relations-how-to-build-customer-loyalty-in-an-internet-world.html",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "批判:長期顧客が高収益とは限らない(定性)",
+     "value": null,
+     "unit": "—",
+     "population": "4社の顧客データ。継続期間と収益性の相関は弱〜中、高収益顧客の約半分は短期で去る客",
+     "citation": "Reinartz & Kumar (2002) The Mismanagement of Customer Loyalty. Harvard Business Review; Sharp(Ehrenberg-Bass)Loyalty Myths",
+     "url": "https://www.marketingscience.info/loyalty-myths/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋。Sharpの批判=費用ゼロで離反半減と仮定した思考実験にすぎない"
+    }
+   ],
+   "how_to_use": "継続率は一定にせず、初年度が最も低く年々上がる曲線(例:63%→69%→75%→80%)にする。維持率改善の利益効果は Reichheld の倍率を使わず、自社の単価・費用で計算する。",
+   "not_confirmed": [
+    "業種別の解約率の実測(査読論文・公的資料)は確認できず",
+    "Reinartz & Kumar の相関係数(0.2〜0.45)",
+    "Fader & Hardie Table 1 の4年目以降",
+    "Reichheld (1996) 書籍内の25〜95%の原文"
+   ]
+  },
+  {
+   "key": "price_psychology",
+   "name_ja": "価格の心理効果(端数価格・参照価格・おとり・値引き)",
+   "estimates": [
+    {
+     "what": "$34→$39 で需要が約3分の1増、$34→$44 では差なし",
+     "value": {
+      "lift_34_to_39": 0.33,
+      "lift_34_to_44": 0.0
+     },
+     "unit": "需要の増加率",
+     "population": "米国の婦人服通販カタログでの無作為化実験(3実験すべてで9終わりが需要増。新商品で効果大、Sale表示併用で効果小)",
+     "citation": "Anderson & Simester (2003) Effects of $9 Price Endings on Retail Sales. Quantitative Marketing and Economics 1(1):93-110; 同 (2003) Mind Your Pricing Cues. HBR",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/12964397/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(HBR記事の要旨と著者発言の引用)。QME論文本文の表は開けず。二次資料には31%・24%という値もあり不一致"
+    },
+    {
+     "what": "値引き(プロモーション)価格の弾力性",
+     "value": -3.63,
+     "unit": "弾力性",
+     "population": "メタ分析内のプロモーション価格の平均",
+     "citation": "Bijmolt, Van Heerde & Pieters (2005) JMR 42(2):141-156(Ataman et al. の MSI 報告内での引用)",
+     "url": "https://thearf-org-unified-admin.s3.amazonaws.com/MSI/2020/06/MSI_SR_09_213.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋(二次引用1件のみ)"
+    },
+    {
+     "what": "価格弾力性の中央値(参考)",
+     "value": -2.22,
+     "unit": "弾力性",
+     "population": "1,851推定値・81研究(平均 -2.62)",
+     "citation": "Bijmolt, Van Heerde & Pieters (2005)",
+     "url": "https://research.rug.nl/en/publications/new-empirical-generalizations-on-the-determinants-of-price-elasti/",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "おとり(非対称に劣る選択肢)自体の選択率",
+     "value": 0.02,
+     "unit": "選択率(約2%)",
+     "population": "6カテゴリ(ビール、車、レストラン、宝くじ、フィルム、テレビ)。宝くじ以外で標的の選択率が上昇",
+     "citation": "Huber, Payne & Puto (1982) Adding Asymmetrically Dominated Alternatives. J. of Consumer Research 9(1):90-98; Huber, Payne & Puto (2014) JMR",
+     "url": "https://people.duke.edu/~jch8/bio/Papers/HuberPaynePutoJMR%202014.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋。標的のシェア上昇幅(%ポイント)は確認できず。2014年の大規模追試で現実的な刺激では効果がほぼ消えたとの指摘あり"
+    },
+    {
+     "what": "参照価格:消費者は参照価格を使い、損失(値上げ)に利得より強く反応(定性)",
+     "value": null,
+     "unit": "—",
+     "population": "スキャナーデータ研究のレビュー",
+     "citation": "Kalyanaram & Winer (1995) Empirical Generalizations from Reference Price Research. Marketing Science 14(3):G161-G169",
+     "url": "https://ideas.repec.org/a/inm/ormksc/v14y1995i3_supplementpg161-g169.html",
+     "confidence": "low",
+     "verified_via": "検索抜粋(第1の一般化のみ確認)"
+    }
+   ],
+   "how_to_use": "端数価格は「9終わりで需要+数%〜最大3割(新商品・単発実験)」の感度分析用とし、基本係数にしない。値引きの短期弾力性は通常価格(-2.6)より大きい -3.6〜-4 を使い、長期効果はほぼ0とする。",
+   "not_confirmed": [
+    "Anderson & Simester 各実験の正確な増加率(本文の表)",
+    "Bijmoltらの値引き弾力性 -3.63 の原表と、通常価格のみの弾力性",
+    "Huberら(1982)の標的シェア上昇幅",
+    "参照価格の損失/利得の非対称の倍率"
+   ]
+  },
+  {
+   "key": "japan_market",
+   "name_ja": "日本の市場データ(広告費・EC化率)",
+   "estimates": [
+    {
+     "what": "日本の総広告費(2025年)",
+     "value": 80623,
+     "unit": "億円(前年比105.1%)",
+     "population": "日本、暦年2025",
+     "citation": "電通「2025年 日本の広告費」(2026年3月5日発表)",
+     "url": "https://kyodonewsprwire.jp/release/202603045005",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(電通発表のPRワイヤーと複数報道で一致)。電通サイトは通信不可"
+    },
+    {
+     "what": "インターネット広告費(2025年)",
+     "value": 40459,
+     "unit": "億円(前年比110.8%、構成比50.2%)",
+     "population": "同上",
+     "citation": "電通 同上/総務省 令和8年版情報通信白書",
+     "url": "https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r08/text/nd213220.txt",
+     "confidence": "high",
+     "verified_via": "総務省白書のテキストを取得して金額を確認(前年比・構成比は検索抜粋)"
+    },
+    {
+     "what": "マスコミ四媒体広告費(2025年)",
+     "value": 22980,
+     "unit": "億円(前年比98.4%)",
+     "population": "同上",
+     "citation": "電通 同上/総務省 令和8年版情報通信白書",
+     "url": "https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r08/text/nd213220.txt",
+     "confidence": "high",
+     "verified_via": "総務省白書のテキストで金額を確認"
+    },
+    {
+     "what": "媒体別内訳(2025年)",
+     "value": {
+      "テレビメディア": 17556,
+      "うち地上波": 16333,
+      "新聞": 3136,
+      "雑誌": 1135,
+      "ラジオ": 1153,
+      "物販系ECプラットフォーム広告費": 2444,
+      "イベント・展示・映像ほか": 4728
+     },
+     "unit": "億円",
+     "population": "同上",
+     "citation": "電通 同上",
+     "url": "https://kyodonewsprwire.jp/release/202603045005",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(4媒体の合計 22,980 と一致することを確認)"
+    },
+    {
+     "what": "プロモーションメディア広告費(2025年)",
+     "value": {
+      "share": 0.213,
+      "derived_amount_oku_yen": 17173,
+      "note": "金額は 総広告費×21.3% の計算値で、公表値ではない(総額−ネット−四媒体=17,184 とほぼ一致)"
+     },
+     "unit": "構成比/億円(計算値)",
+     "population": "同上",
+     "citation": "電通 同上",
+     "url": "https://kyodonewsprwire.jp/release/202603045005",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "物販系分野のBtoC-EC市場規模とEC化率(2024年)",
+     "value": {
+      "market_oku_yen": 152194,
+      "ec_rate": 0.0978,
+      "yoy": 0.037,
+      "prev_2023": {
+       "market_oku_yen": 146760,
+       "ec_rate": 0.0938
+      }
+     },
+     "unit": "億円/EC化率",
+     "population": "日本、暦年2024",
+     "citation": "経済産業省「令和6年度 電子商取引に関する市場調査」(2025年8月26日公表)",
+     "url": "https://www.meti.go.jp/press/2025/08/20250826005/20250826005.html",
+     "confidence": "low",
+     "verified_via": "検索抜粋(経産省ページの抜粋とImpress報道)。www.meti.go.jp はサイト側が403を返し開けず"
+    },
+    {
+     "what": "BtoC-EC全体(2024年)",
+     "value": {
+      "total_cho_yen": 26.1,
+      "prev": 24.8,
+      "yoy": 0.051,
+      "digital_oku_yen": 26776
+     },
+     "unit": "兆円",
+     "population": "同上(物販+サービス+デジタル)",
+     "citation": "経済産業省 同上",
+     "url": "https://www.meti.go.jp/press/2025/08/20250826005/20250826005.html",
+     "confidence": "low",
+     "verified_via": "同上"
+    }
+   ],
+   "how_to_use": "ネット販売比率の上限・初期値に EC化率 9.8% を、広告投入量の妥当性確認に総広告費8.06兆円(ネット50%)を使う。",
+   "not_confirmed": [
+    "プロモーションメディア広告費の公表金額",
+    "EC化率の分野別(食品・家電など)内訳",
+    "経産省報告書PDF本文での確認"
+   ]
+  },
+  {
+   "key": "reach_frequency_adstock",
+   "name_ja": "広告の到達と頻度、効果の減衰",
+   "estimates": [
+    {
+     "what": "広告の繰り越し係数(carryover、λ)の平均",
+     "value": {
+      "mean": 0.468,
+      "sd": 0.306,
+      "n": 114,
+      "short_term_elasticity_mean": 0.221,
+      "n_elasticity": 128
+     },
+     "unit": "係数(データ間隔は研究により異なる)",
+     "population": "既存の計量モデル研究(繰り越し114推定値、短期弾力性128推定値)",
+     "citation": "Assmus, Farley & Lehmann (1984) How Advertising Affects Sales: Meta-Analysis of Econometric Results. JMR 21(1):65-74",
+     "url": "https://gwern.net/doc/economics/advertising/1984-assmus.pdf",
+     "confidence": "high",
+     "verified_via": "gwern.net のPDFを取得し Table 1 を確認"
+    },
+    {
+     "what": "広告効果の累積90%が現れる期間",
+     "value": [
+      3,
+      9
+     ],
+     "unit": "か月",
+     "population": "成熟した低価格・高頻度購入品。約70研究のレビュー",
+     "citation": "Clarke (1976) Econometric Measurement of the Duration of Advertising Effect on Sales. J. of Marketing Research 13(4)",
+     "url": "https://ageconsearch.umn.edu/record/279492/files/rrp-nec63-1985-0014.pdf",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(1985年論文による引用)"
+    },
+    {
+     "what": "広告効果の持続期間(90%)の一般化",
+     "value": [
+      6,
+      9
+     ],
+     "unit": "か月",
+     "population": "時間集計バイアスを補正した一般化",
+     "citation": "Leone (1995) Generalizing What Is Known About Temporal Aggregation and Advertising Carryover. Marketing Science 14(3):G141-G150",
+     "url": "https://ideas.repec.org/a/inm/ormksc/v14y1995i3_supplementpg141-g150.html",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    },
+    {
+     "what": "アドストック半減期",
+     "value": {
+      "academic_leone": [
+       7,
+       12
+      ],
+      "practitioner": [
+       2,
+       5
+      ],
+      "fmcg_avg": 2.5
+     },
+     "unit": "週",
+     "population": "学術(Leone 1995 の含意)と実務(FMCG)",
+     "citation": "Fry, Broadbent & Dixon(Monash WP); Wikipedia 'Advertising adstock'",
+     "url": "https://ageconsearch.umn.edu/record/267379/files/monash-263.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋(実務値は出典不明の二次情報)"
+    },
+    {
+     "what": "半減期の換算式",
+     "value": "half_life = ln(0.5)/ln(λ)(λ=0.7→約1.9期、λ=0.9→約6.6期)",
+     "unit": "式",
+     "population": "—",
+     "citation": "一般式",
+     "url": "https://getrecast.com/adstock-rates/",
+     "confidence": "medium",
+     "verified_via": "数式(計算で確認可)"
+    },
+    {
+     "what": "3回接触説:1回目「何?」2回目「それで?」3回目「再認と離脱の始まり」(定性)",
+     "value": 3,
+     "unit": "接触回数(心理的段階であり媒体計画の閾値の実証ではない)",
+     "population": "理論的主張",
+     "citation": "Krugman (1972) Why Three Exposures May Be Enough. J. of Advertising Research",
+     "url": "https://www.warc.com/en/article/why-three-exposures-may-be-enough-4d5003c85b704c5cbf6a301ee4a2b6d6",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(Krugman 自身の後年の回想を含む)"
+    },
+    {
+     "what": "Recency理論:購入前1週間の1回目の接触が効果の大半、2〜3回目の上乗せは小さい(定性)",
+     "value": null,
+     "unit": "—",
+     "population": "Nielsen単一ソースデータ(1991-92年)、142ブランド",
+     "citation": "Jones (1995) When Ads Work / Single-Source Research Begins to Fulfill Its Promise. J. of Advertising Research; Ephron (1997) Recency Planning. JAR",
+     "url": "https://www.warc.com/content/article/jar/single-source-research-begins-to-fulfill-its-promise/en-gb/6213",
+     "confidence": "low",
+     "verified_via": "検索抜粋(二次資料)。STAS指数や1回目の寄与率の数値は確認できず"
+    },
+    {
+     "what": "単一ソース研究:広告が当週の売上を増やす割合",
+     "value": {
+      "any_increase": 0.7,
+      "modest_or_better": 0.5
+     },
+     "unit": "ブランドの割合",
+     "population": "単一ソース研究のまとめ(コロンビア大の論文による要約)",
+     "citation": "Columbia Business School working paper (pubfile 936)",
+     "url": "https://business.columbia.edu/sites/default/files-efs/pubfiles/936/936.pdf",
+     "confidence": "low",
+     "verified_via": "WebSearchの検索抜粋のみ(本文は開けず:ホストが通信許可リスト外)"
+    },
+    {
+     "what": "TV広告増量の効果:初年度に有意なら、その後2年で売上効果は約2倍(定性的な倍率)",
+     "value": 2.0,
+     "unit": "倍(初年度効果に対する3年累計)",
+     "population": "BehaviorScan 分割ケーブル実験、既存CPG 55件",
+     "citation": "Lodish et al. (1995) A Summary of Fifty-Five In-Market Experimental Estimates of the Long-Term Effect of TV Advertising. Marketing Science 14(3):G133-G140",
+     "url": "https://ideas.repec.org/a/inm/ormksc/v14y1995i3_supplementpg133-g140.html",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(抄録の引用)"
+    }
+   ],
+   "how_to_use": "アドストックの減衰率は月次で λ≈0.47(Assmus平均)を初期値とし、90%効果が3〜9か月に収まるか検算する。頻度は「週1回以上の到達を継続」を基本にし、3回閾値は使わない。",
+   "not_confirmed": [
+    "Leone (1995) の λ の具体値",
+    "Jones (1995) の STAS 指数平均と1回目接触の寄与率",
+    "Kanuriら(2017)の繰り越し平均(918推定値。値は未確認)",
+    "実務の半減期2〜5週の一次出典"
+   ]
+  },
+  {
+   "key": "popular_claims_traced",
+   "name_ja": "解説でよく引用される「定説」と原典",
+   "estimates": [
+    {
+     "what": "95:5ルール:ある四半期に購入検討中の法人は約5%",
+     "value": {
+      "in_market_per_quarter": 0.05,
+      "per_year": 0.2,
+      "assumed_cycle_years": 5
+     },
+     "unit": "割合(買い替え周期5年という仮定からの計算。実測ではない)",
+     "population": "B2B",
+     "citation": "Dawes (2021) Advertising effectiveness and the 95-5 rule. Ehrenberg-Bass / LinkedIn B2B Institute",
+     "url": "https://business.linkedin.com/advertise/resources/b2b-institute/b2b-research/trends/95-5-rule",
+     "confidence": "medium",
+     "verified_via": "検索抜粋(複数の一次配布元ページの抜粋で一致)"
+    },
+    {
+     "what": "ブランド構築:販促 = 60:40",
+     "value": {
+      "brand": 0.6,
+      "activation": 0.4,
+      "later_update": "62:38",
+      "range_by_category": "金融80:20〜通信58:42"
+     },
+     "unit": "予算配分比(観察データ上の最適)",
+     "population": "IPA Effectiveness Awards 応募996キャンペーン(1980-2010)。受賞応募データで自己選択あり、Sharpが批判",
+     "citation": "Binet & Field (2013) The Long and the Short of It. IPA",
+     "url": "https://ipa.co.uk/media/14463/long_and_short_of_it_presentation_final_030424.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋。査読論文ではない"
+    },
+    {
+     "what": "TV広告実験:新商品の広告は既存品より売上効果が大きい(定性)",
+     "value": null,
+     "unit": "—",
+     "population": "389件のBehaviorScan実験(1982-88年)",
+     "citation": "Lodish et al. (1995) How T.V. Advertising Works. JMR 32(2):125-139",
+     "url": "https://knowledge.wharton.upenn.edu/article/how-and-when-advertising-works/",
+     "confidence": "medium",
+     "verified_via": "検索抜粋。有意だった割合(新商品55%/既存33%)は確認できず"
+    },
+    {
+     "what": "「80/20の法則」→実測は上位20%で50〜60%(brand_buying_laws 参照)",
+     "value": 0.5,
+     "unit": "売上比率",
+     "population": "—",
+     "citation": "Sharp (2010); Kim, Singh & Winer (2017)",
+     "url": "https://openresearch.lsbu.ac.uk/item/88vw1",
+     "confidence": "medium",
+     "verified_via": "同項目参照"
+    }
+   ],
+   "how_to_use": "解説由来の数値は係数に直接使わず、原典のある 95:5(仮定ベース)と 60:40(観察ベース)だけを感度分析の参考にする。",
+   "not_confirmed": [
+    "「新規顧客の獲得は維持の5倍のコスト」:一次出典を特定できず(5〜25倍など値も不定)",
+    "「7回接触の法則(rule of 7)」:出典不明",
+    "ESOV 10ポイントでシェア年0.5ポイント増(Jones 1990 / Binet & Field):数値を確認できず",
+    "「新商品の80〜95%が失敗」:一次出典なし(Castellion & Markham が否定)",
+    "YouTube等の動画の内容は視聴できないため未記載"
+   ]
+  }
+ ],
+ "hosts_needed": [
+  "ideas.repec.org",
+  "faculty.wharton.upenn.edu",
+  "nowpublishers.com",
+  "ama.org",
+  "www.msi.org",
+  "scholars.duke.edu",
+  "link.springer.com",
+  "journals.sagepub.com",
+  "pubsonline.informs.org",
+  "papers.ssrn.com",
+  "www.anderson.ucla.edu",
+  "brucehardie.com",
+  "www.dentsu.co.jp",
+  "core.ac.uk",
+  "www.jstor.org",
+  "doi.org",
+  "www.sciencedirect.com",
+  "econpapers.repec.org",
+  "www.marketingscience.info",
+  "www.researchgate.net",
+  "hbr.org",
+  "en.wikipedia.org",
+  "api.crossref.org",
+  "www.meti.go.jp (通信は通るがサイト側が403)"
+ ],
+ "hosts_untested_but_cited": [
+  "people.duke.edu",
+  "www.kellogg.northwestern.edu",
+  "openresearch.lsbu.ac.uk",
+  "repub.eur.nl",
+  "research.vu.nl",
+  "apps.dtic.mil",
+  "kyodonewsprwire.jp",
+  "elsur.jpn.org",
+  "www.warc.com",
+  "ipa.co.uk"
+ ]
+}
