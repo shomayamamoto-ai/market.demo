@@ -4,6 +4,7 @@
 import { makeRng, clamp } from "./rng.js";
 
 export const CHAIN_ASSUMPTIONS = {
+  japanReal: { value: "1段階あたり5〜10%、2〜3段階", note: "A〜D は参考にした実験動画の設定(1段階30%)。実際の取り分は、トラック運送の中間手数料が運賃の5〜10%という回答が61%、10%以内が約8割(国土交通省 2025年の調査)。建設工事の現場は3次請けまでが86%(国土交通省)。社会保険などの法定福利費を全額受け取れた割合は、元請59%から3次以降42%に下がる。E はこの実態に近い設定で、30%ずつ抜く設定は実態の3〜6倍にあたる" },
   stamina: { value: 5, note: "食料が届かなくても耐えられる日数(50歳以上は4日)。尽きると倒れて現場を離れる" },
   recover: { value: 0.03, note: "食料をもらえた日に戻る体力。空腹の日の消耗(1日分)は、すぐには取り戻せない" },
   mudStart: { value: 0.24, note: "予算の不足がこの割合を超えると、石をやめて泥ブロックで数を合わせる人が出始める" },
@@ -29,6 +30,7 @@ export const CHAIN_PRESETS = {
   layered: { label: "B 3段階で30%ずつ抜く", rules: { layers: 3, rate: 0.3 } },
   shortcut: { label: "C B+納期に追われて手抜き", rules: { layers: 3, rate: 0.3, shortcut: true } },
   open: { label: "D 透明化(実作業の義務化+元予算の公開)", rules: { layers: 3, rate: 0.3, shortcut: true, open: true } },
+  japan: { label: "E 日本の実態に近い(2段階で7%ずつ)", rules: { layers: 2, rate: 0.07 } },
 };
 
 // 予算が各段階でいくら抜かれ、現場にいくら届くか

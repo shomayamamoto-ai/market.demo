@@ -11,7 +11,7 @@ for m in d["models"]:
     out.append({"name": m["name_ja"], "citation": m["citation"], "url": m.get("url"), "benchmarks": b, "missing": len(m.get("not_confirmed") or [])})
 def val(v):
     return "" if v is None or isinstance(v, (dict, list)) else f"({v})"
-for fn, group in (("behavior_params.json", "行動"), ("marketing_params.json", "マーケティング"), ("psychology_params.json", "心理"), ("gap_params.json", "日本の実測")):
+for fn, group in (("behavior_params.json", "行動"), ("marketing_params.json", "マーケティング"), ("psychology_params.json", "心理"), ("gap_params.json", "日本の実測"), ("business_params.json", "企業と労働")):
     d = json.loads((root / "data/raw" / fn).read_text())
     for p in d["params"]:
         est = [e for e in p["estimates"] if e.get("confidence") in conf]
