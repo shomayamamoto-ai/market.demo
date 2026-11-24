@@ -85,7 +85,7 @@ export function runCustom(personas, config, seed = 1, keep = false) {
       let best = x.choice, top = -Infinity;
       for (let k = 0; k < K; k++) {
         if (!x.aware[k] || !x.can[k]) continue;
-        const u = x.base[k] + x.taste[k] + A.social.value * config.social * share[k] * x.p.traits.social + (k === x.choice ? A.inertia.value * config.inertia : 0) + gumbel() * 0.35;
+        const u = x.base[k] + (config.options[k].asc ?? 0) + x.taste[k] + A.social.value * config.social * share[k] * x.p.traits.social + (k === x.choice ? A.inertia.value * config.inertia : 0) + gumbel() * 0.35;
         if (u > top) { top = u; best = k; }
       }
       x.choice = best;
@@ -110,6 +110,19 @@ export function trialCustom(personas, config, runs = 10, seed = 1) {
   return { mean, lo: mean.map((_, k) => Math.min(...outs.map((o) => o.final[k]))), hi: mean.map((_, k) => Math.max(...outs.map((o) => o.final[k]))),
     series: outs[0].series.map((s, i) => ({ x: s.x, shares: s.shares.map((_, k) => avg((o) => o.series[i].shares[k])) })),
     byAge: merge("byAge"), byTier: merge("byTier"), bySex: merge("bySex"), n: outs[0].n, population: outs[0].population, unaware: outs[0].unaware.map((_, k) => avg((o) => o.unaware[k])), runs };
+}
+
+// 基準合わせ:実際の割合が分かっている選択肢について、その割合を再現するように補正値(その選択肢だけに足す重み)を決める。
+// 点数の付け方のずれをここで吸収し、そこから先の「条件を変えたらどう動くか」を見る。選択モデルで広く使われる方法(選択肢固有の定数の調整)
+export function anchor(personas, config, seed = 1) {
+  const c = JSON.parse(JSON.stringify(config)), targets = c.options.map((o, k) => (k > 0 && o.known > 0 && o.known < 100 ? o.known / 100 : null));
+  if (!targets.some((t) => t != null)) return { config: c, anchored: false };
+  const logit = (x) => Math.log(clamp(x, 0.002, 0.998) / (1 - clamp(x, 0.002, 0.998)));
+  for (let it = 0; it < 9; it++) {
+    const t = trialCustom(personas, c, 2, seed); if (!t) return { config: c, anchored: false };
+    c.options.forEach((o, k) => { if (targets[k] != null) o.asc = clamp((o.asc ?? 0) + 0.9 * (logit(targets[k]) - logit(t.mean[k])), -15, 15); });
+  }
+  return { config: c, anchored: true };
 }
 
 // 何を変えると結果が動くか:条件を1つずつ変えて、注目する選択肢の割合がどれだけ変わるかを比べる
@@ -153,7 +166,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         <label>性別 <select id="x-sex"><option value="all">すべて</option><option value="male">男性</option><option value="female">女性</option></select></label>
         <label>働いている人だけ <select id="x-work"><option value="0">いいえ</option><option value="1">はい</option></select></label></div>
       <h3>選択肢(2〜4つ)</h3>
-      <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
+      <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。<br><b>割合を知りたいときは「実際の割合」を入れてください。</b>いまの利用率など、分かっている数字を1つ入れると、それを再現するように補正値を自動で決めます。そのあと金額や点数を変えると、「いまから何ポイント動くか」が出ます。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
       <div id="x-opts"></div>
       <div class="form-row"><button id="x-add" type="button">選択肢を追加</button></div>
       <details><summary>広がり方の設定</summary><div class="form-grid">
@@ -173,6 +186,8 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         <label class="x-name">${k === 0 ? "今のまま" : `選択肢${k + 1}`} <input data-f="name" type="text" value="${esc(o.name)}"></label>
         ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f]}"></label>`).join("")}
         ${k >= 1 ? `<label>ネットが必要か <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いらない</option><option value="1"${o.online === 1 ? " selected" : ""}>ネットを使う人だけ</option><option value="2"${o.online === 2 ? " selected" : ""}>ネットで買い物をする人だけ</option></select></label>` : ""}
+        ${k >= 1 ? `<label>実際の割合(分かれば %) <input data-f="known" type="number" min="0" max="100" step="0.1" value="${o.known ?? ""}" placeholder="空欄でよい"></label>
+        <label>補正値 <input data-f="asc" type="number" step="0.1" value="${Math.round((o.asc ?? 0) * 100) / 100}"></label>` : ""}
         ${k >= 2 ? `<button type="button" class="x-del">削除</button>` : ""}</div>`).join("");
     $("x-add").disabled = options.length >= 4;
   };
@@ -183,7 +198,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     options = t.options.map((o) => ({ ...o })); renderOptions(); $("x-out").innerHTML = ""; $("x-stage").innerHTML = "";
   };
   $("x-template").onchange = () => load($("x-template").value);
-  $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : Number(e.target.value) || 0; };
+  $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : f === "known" ? e.target.value : Number(e.target.value) || 0; };
   $("x-opts").onclick = (e) => { if (!e.target.classList.contains("x-del")) return; options.splice(Number(e.target.closest("[data-k]").dataset.k), 1); renderOptions(); };
   $("x-add").onclick = () => { if (options.length < 4) { options.push(opt(`案${options.length}`, 0, 3, 3, 5, 5)); renderOptions(); } };
   const num = (id, lo, hi, d) => clamp(Number($(id).value) || d, lo, hi);
@@ -192,14 +207,16 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     target: { ageMin: num("x-age-min", 0, 120, 0), ageMax: num("x-age-max", 0, 120, 120), sex: $("x-sex").value, workOnly: $("x-work").value === "1" },
     social: clamp(Number($("x-social").value) || 0, 0, 10), inertia: clamp(Number($("x-inertia").value) || 0, 0, 10), aware: clamp(Number($("x-aware").value) || 0, 0, 100), spread: clamp(Number($("x-spread").value) || 0, 0, 100),
     months: Math.round(num("x-months", 1, 120, 24)), n: 1000,
-    options: options.map((o, k) => ({ ...o, name: o.name.trim() || (k === 0 ? "今のまま" : `選択肢${k + 1}`), effort: clamp(o.effort, 0, 10), risk: clamp(o.risk, 0, 10), novelty: clamp(o.novelty, 0, 10), quality: clamp(o.quality, 0, 10) })),
+    options: options.map((o, k) => ({ ...o, name: o.name.trim() || (k === 0 ? "今のまま" : `選択肢${k + 1}`), effort: clamp(o.effort, 0, 10), risk: clamp(o.risk, 0, 10), novelty: clamp(o.novelty, 0, 10), quality: clamp(o.quality, 0, 10), known: Number(o.known) || 0, asc: Number(o.asc) || 0 })),
   });
   const pct = (v) => `${(v * 100).toFixed(1)}%`, people = (v) => (v >= 1e8 ? `${(v / 1e8).toFixed(2)}億人` : `${Math.round(v / 1e4).toLocaleString("ja-JP")}万人`);
   const busy = (fn) => { $("x-msg").textContent = "計算しています…"; setTimeout(() => { try { fn(); $("x-msg").textContent = ""; } catch (e) { $("x-msg").textContent = e.message; } }, 30); };
 
   $("x-run").onclick = () => busy(() => {
-    const config = read(), runs = Math.round(num("x-runs", 1, 50, 10)), t = trialCustom(getPersonas(), config, runs, seedOf());
+    const fitted = anchor(getPersonas(), read(), seedOf()), config = fitted.config, runs = Math.round(num("x-runs", 1, 50, 10)), t = trialCustom(getPersonas(), config, runs, seedOf());
     if (!t) throw new Error("条件に合う人がいません。年齢や性別の条件を広げてください。");
+    if (fitted.anchored) { config.options.forEach((o, k) => { options[k].asc = o.asc ?? 0; options[k].known = ""; }); renderOptions(); } // 決めた補正値を残し、「実際の割合」は空に戻す(次からは条件だけを変えて試せる)
+    const hasAsc = config.options.some((o) => Math.abs(o.asc ?? 0) > 1e-9);
     const O = config.options, K = O.length, order = O.map((o, k) => k).sort((a, b) => t.mean[b] - t.mean[a]);
     const focus = order.find((k) => k > 0) ?? 1, sens = sensitivity(getPersonas(), config, focus, Math.min(4, runs), seedOf()), rob = robustness(getPersonas(), config, 12, seedOf());
     const table = (title, rows) => `<h3>${title}</h3><div class="table-scroll"><table class="verify"><tr><th></th>${O.map((o) => `<th class="num">${esc(o.name)}</th>`).join("")}</tr>${rows.map((g) => { const top = g.shares.indexOf(Math.max(...g.shares)); return `<tr><td>${esc(g.label)}</td>${g.shares.map((s, k) => `<td class="num">${k === top ? `<b>${pct(s)}</b>` : pct(s)}</td>`).join("")}</tr>`; }).join("")}</table></div>`;
@@ -218,6 +235,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         <p class="a-note">対象 約${people(t.population)}(仮想の${t.n.toLocaleString("ja-JP")}人で計算)。${runs}回の試行の平均です。</p>
         <div class="a-cards">${O.map((o, k) => `<div class="a-card"><small>${esc(o.name)}</small><b>${pct(t.mean[k])}</b> <i>点数を少し変えたときの幅 ${pct(rob.lo[k])}〜${pct(rob.hi[k])}</i></div>`).join("")}</div>
         <p class="a-headline">${esc(findings[0])}</p>
+        ${fitted.anchored ? `<p class="a-note"><b>実際の割合に合わせました。</b>補正値を選択肢の欄に入れてあります。このまま金額や点数を変えて試すと、いまの割合から何ポイント動くかが分かります。</p>` : hasAsc ? `<p class="a-note">実際の割合に合わせた補正値を使って計算しています。</p>` : `<p class="a-note">実際の割合を入れていないので、割合の水準は目安です。分かっている利用率があれば、選択肢の「実際の割合」に入れてください。</p>`}
         <p class="a-note">割合そのものは、入れた点数に強く左右されます。点数を±1、金額を±20%の範囲で${rob.times}通りに動かすと、上の幅になりました。${rob.stable >= 0.9 ? `いちばん多い選択肢は、${rob.times}通りのうち${Math.round(rob.stable * rob.times)}通りで「${esc(O[rob.top].name)}」のままでした。順位は信頼できます。` : `いちばん多い選択肢が「${esc(O[rob.top].name)}」のままだったのは、${rob.times}通りのうち${Math.round(rob.stable * rob.times)}通りです。順位も、点数の付け方しだいで入れ替わります。`}</p></div>
       <div class="card"><div class="form-row" id="x-copy"></div>
         <h3>読み取れること</h3><div class="advice"><ul>${findings.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
@@ -276,6 +294,13 @@ export function customChecks(personas, seed = 1) {
   fresh("オンラインゲームをする人", on(game, (t) => t.mean[1]), 0.269, 10);
   fresh("オンラインゲーム:70代 ÷ 30代", on(game, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 9.7 / 38.5, 10);
   fresh("動画を見る人(ネット利用者のうち)", on(video, (t) => t.mean[1]), 0.624, 10);
+  // 基準合わせの検算:全体の割合だけを調査に合わせ、年代ごとの割合がどこまで合うかを見る(年代別の数字は合わせ込みに使っていない)
+  const ages = ["20代", "30代", "40代", "50代", "60代", "70代"], REAL = { shop: [90.0, 87.1, 83.9, 80.4, 63.6, 46.3], flea: [32.6, 36.2, 29.0, 20.1, 15.6, 4.8], game: [44.5, 38.5, 32.2, 20.4, 14.2, 9.7], video: [85.6, 81.2, 69.5, 61.4, 46.6, 30.2] };
+  const anchored = (name, key, config, level) => { const c = JSON.parse(JSON.stringify(config)); c.options[1].known = level; const a = anchor(net, c, seed).config, t = trialCustom(net, a, 4, seed); if (!t) return;
+    const gaps = ages.map((label, i) => (band(t, label) ? Math.abs(use(band(t, label)) * 100 - REAL[key][i]) : null)).filter((x) => x != null), mean = gaps.reduce((x, y) => x + y, 0) / gaps.length;
+    rows.push({ basis: "調査", model: "オリジナルの実験(基準合わせ)", label: `${name}:年代別6区分の平均のずれ`, a: `${mean.toFixed(1)}ポイント`, b: "0ポイント", diff: mean / 100, points: mean, tol: 10, source: `${caa}。全体の割合(${level}%)だけを合わせ、20代〜70代の割合を比べた`, holdout: true });
+    rows.push({ basis: "調査", model: "オリジナルの実験(基準合わせ)", label: `${name}:70代の割合`, a: `${(use(band(t, "70代")) * 100).toFixed(1)}%`, b: `${REAL[key][5].toFixed(1)}%`, diff: use(band(t, "70代")) * 100 / REAL[key][5] - 1, points: use(band(t, "70代")) * 100 - REAL[key][5], tol: 10, source: caa, holdout: true }); };
+  anchored("ネットで予約・購入", "shop", shop, 74.6); anchored("フリマサイト", "flea", flea, 22.7); anchored("オンラインゲーム", "game", game, 26.9); anchored("動画を見る", "video", video, 62.4);
   fresh("動画を見る:70代 ÷ 30代(同上)", on(video, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 30.2 / 81.2, 10);
   return rows;
 }

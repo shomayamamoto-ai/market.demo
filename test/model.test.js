@@ -333,3 +333,13 @@ test("オリジナルの実験:点数をゆらしたときの幅が出る", () =
   const r = robustness(P, { ...TEMPLATES.benefit, n: 600 }, 6, 1);
   assert.ok(r.lo.every((v, k) => v <= r.hi[k]) && r.stable >= 0 && r.stable <= 1 && r.hi[r.top] > 0);
 });
+
+import { anchor } from "../public/js/custom.js";
+test("オリジナルの実験:実際の割合に合わせると、その割合を再現する", () => {
+  const cfg = { ...TEMPLATES.cashless, n: 800, months: 12, social: 0, inertia: 0, aware: 100, spread: 100 };
+  cfg.options = cfg.options.map((o, k) => (k === 1 ? { ...o, known: 40 } : { ...o }));
+  const a = anchor(P, cfg, 1);
+  assert.ok(a.anchored && Math.abs(a.config.options[1].asc) > 0);
+  near(trialCustom(P, a.config, 4, 1).mean[1], 0.40, 0.03, "合わせた割合");
+  assert.equal(anchor(P, { ...TEMPLATES.cashless, n: 300 }, 1).anchored, false);
+});

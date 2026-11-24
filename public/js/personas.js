@@ -9,6 +9,7 @@ export const ASSUMPTIONS = {
   selfEmployedFactor: { value: 0.8, note: "自営業・家族従業者の年収(正規雇用に対する倍率)" },
   executiveFactor: { value: 1.5, note: "役員の年収(正規雇用に対する倍率)" },
   spendSigma: { value: 0.3, note: "費目ごとの支出の個人差(対数正規分布の標準偏差)" },
+  spendTotal: { value: "家計調査の全国平均に一致させる", note: "支出の全国平均(二人以上の世帯の1人あたり、単身世帯)は、最後に家計調査の値にそろえる。このため、成績表のこの2項目は「検算」ではなく「合わせた結果」になる" },
   quintileDamp: { value: 0.5, note: "所得階層による支出総額の差を、どれだけ効かせるか。統計の差には年齢の違いも混ざっているため、半分だけ反映する。費目ごとの差は、家計調査から推定した支出弾力性で決める" },
   marriedCompat: { value: { single: 0.03, singleParent: 0.05 }, note: "既婚者が一人暮らしをする割合の上限(単身赴任など)と、ひとり親世帯になる重み" },
   unmarriedCompat: { value: { coupleOnly: 0.03 }, note: "未婚・離死別の人が「夫婦のみ」の世帯になる重み" },
@@ -213,6 +214,14 @@ function applyIncomeTier(D, A, personas) {
       const mean = list.reduce((a, p) => a + p.weight * p.spend[key], 0) / w, target = row.items[key] / list[0]._members;
       if (mean > 0) for (const p of list) p.spend[key] = Math.round((p.spend[key] * target) / mean);
     }
+  }
+  // 最後に、全国の平均(二人以上の世帯の1人あたり、単身世帯)が家計調査の値に一致するよう、全体を同じ倍率でそろえる。
+  // 世帯主の年齢で区切った表を1人ずつに当てはめるときに生じる、数%のずれを取り除くため(人ごと・費目ごとの差は変えない)
+  for (const [single, key] of [[true, "spendSingle"], [false, "spendTwoPlus"]]) {
+    const target = D.targets.find((t) => t.key === key)?.value, list = personas.filter((p) => p.single === single);
+    if (!target || !list.length) continue;
+    const mean = list.reduce((a, p) => a + p.weight * CATEGORY_KEYS.reduce((x, k) => x + p.spend[k], 0), 0) / list.reduce((a, p) => a + p.weight, 0);
+    for (const p of list) for (const k of CATEGORY_KEYS) p.spend[k] = Math.round((p.spend[k] * target) / mean);
   }
   for (const p of personas) {
     p.spendTotal = CATEGORY_KEYS.reduce((a, key) => a + p.spend[key], 0);
