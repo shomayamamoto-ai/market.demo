@@ -130,7 +130,7 @@ for key in ["6_12", "13_19", "20_29", "30_39", "40_49", "50_59", "60_69", "70_79
     net = IU[key]["internet_use_pct"] / 100
     digital["bands"].append({"min": lo, "max": hi, "internet": round(net, 4),
                              "sns": round(net * IS[key]["sns_use_pct"] / 100, 4),  # 人口に対する割合に直す
-                             "ec": round(net * IS[key]["online_shopping_excl_digital_pct"] / 100, 4)})
+                             "ec": round(net * IS[key]["online_purchase_or_transaction_total_pct"] / 100, 4)})  # 商品・サービスの購入・取引(計。デジタルコンテンツと金融取引を含む)
 
 # ---------- メディアの届きやすさ(平日1日あたりの利用時間) ----------
 MU = fut["media_usage_time"]["data"]["weekday_avg_minutes"]

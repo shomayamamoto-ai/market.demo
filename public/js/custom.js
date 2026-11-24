@@ -43,6 +43,20 @@ export const TEMPLATES = {
   benefit: { label: "例:福利厚生を3つから選ぶ", title: "福利厚生を選択制にしたら、どれが選ばれるか", target: { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, social: 3, inertia: 2, aware: 100, spread: 30, months: 12,
     options: [opt("何も選ばない", 0, 0, 0, 0, 3), opt("家賃補助 月1万円", 10000, 2, 0, 1, 5), opt("学び直し支援 月1万円分", 6000, 5, 1, 7, 6), opt("健康支援 月1万円分", 5000, 3, 0, 3, 8)] },
 };
+// 手元に数字がないときに、基準として使える実際の割合(似た場面のものを選ぶ)
+export const ANCHORS = [
+  { label: "ネットで商品やサービスを買う・予約する", value: 74.6, note: "ネット利用者のうち。消費者庁 消費者意識基本調査 令和4年度" },
+  { label: "動画を見る(定額制を含む)", value: 62.4, note: "ネット利用者のうち。同上" },
+  { label: "有料の動画配信を使う", value: 53.7, note: "13〜79歳。総務省 情報通信メディアの利用時間と情報行動に関する調査 令和6年度" },
+  { label: "バーコード・QRコード決済を使う", value: 48.3, note: "20歳以上。日本銀行 生活意識に関するアンケート調査 2026年3月" },
+  { label: "タッチ式の電子マネーを使う", value: 30.0, note: "20歳以上。同上" },
+  { label: "オンラインゲームをする", value: 26.9, note: "ネット利用者のうち。消費者庁 令和4年度" },
+  { label: "テレワークをした(過去1年)", value: 26.8, note: "総務省 通信利用動向調査 令和7年" },
+  { label: "フリマサイト・オークションで買う", value: 22.7, note: "ネット利用者のうち。消費者庁 令和4年度" },
+  { label: "週休3日制を使いたい(給与が減る場合)", value: 21.5, note: "マイナビ転職 2021年調査。検索の抜粋で確認、確かさ:低" },
+  { label: "週休3日制を使いたい(給与同じ・1日が長い場合)", value: 46.1, note: "同上。確かさ:低" },
+  { label: "自己啓発をした(過去1年)", value: 35.5, note: "厚生労働省 能力開発基本調査 令和6年度" },
+];
 const COLORS = ["#8b93a7", "#b4473b", "#2f8f6b", "#c9a45c"];
 
 // その人にとって、選択肢を月何円の得・損とみなせるか(お金・手間・不安・新しさ・安心を、円にそろえる)
@@ -169,6 +183,8 @@ export function mountCustom({ getPersonas, seedOf, before }) {
       <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。<br><b>割合を知りたいときは「実際の割合」を入れてください。</b>いまの利用率など、分かっている数字を1つ入れると、それを再現するように補正値を自動で決めます。そのあと金額や点数を変えると、「いまから何ポイント動くか」が出ます。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
       <div id="x-opts"></div>
       <div class="form-row"><button id="x-add" type="button">選択肢を追加</button></div>
+      <div class="form-grid"><label class="wide">手元に数字がないとき:似た場面の実際の割合を、選択肢2の基準にする
+        <select id="x-anchor"><option value="">選ばない</option>${ANCHORS.map((a, i) => `<option value="${i}">${esc(a.label)}:${a.value}%(${esc(a.note)})</option>`).join("")}</select></label></div>
       <details><summary>広がり方の設定</summary><div class="form-grid">
         <label>周りの影響の強さ(0〜10) <input id="x-social" type="number" min="0" max="10"></label><label>乗り換えの面倒さ(0〜10) <input id="x-inertia" type="number" min="0" max="10"></label>
         <label>最初に知っている人(%) <input id="x-aware" type="number" min="0" max="100"></label><label>毎月、新しく知る人(%) <input id="x-spread" type="number" min="0" max="100"></label>
@@ -185,7 +201,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     $("x-opts").innerHTML = options.map((o, k) => `<div class="x-opt" data-k="${k}" style="border-left-color:${COLORS[k]}">
         <label class="x-name">${k === 0 ? "今のまま" : `選択肢${k + 1}`} <input data-f="name" type="text" value="${esc(o.name)}"></label>
         ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f]}"></label>`).join("")}
-        ${k >= 1 ? `<label>ネットが必要か <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いらない</option><option value="1"${o.online === 1 ? " selected" : ""}>ネットを使う人だけ</option><option value="2"${o.online === 2 ? " selected" : ""}>ネットで買い物をする人だけ</option></select></label>` : ""}
+        ${k >= 1 ? `<label>ネットが必要か <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いらない</option><option value="1"${o.online === 1 ? " selected" : ""}>ネットを使う人だけ</option><option value="2"${o.online === 2 ? " selected" : ""}>ネットで買い物や取引をする人だけ</option></select></label>` : ""}
         ${k >= 1 ? `<label>実際の割合(分かれば %) <input data-f="known" type="number" min="0" max="100" step="0.1" value="${o.known ?? ""}" placeholder="空欄でよい"></label>
         <label>補正値 <input data-f="asc" type="number" step="0.1" value="${Math.round((o.asc ?? 0) * 100) / 100}"></label>` : ""}
         ${k >= 2 ? `<button type="button" class="x-del">削除</button>` : ""}</div>`).join("");
@@ -200,6 +216,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
   $("x-template").onchange = () => load($("x-template").value);
   $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : f === "known" ? e.target.value : Number(e.target.value) || 0; };
   $("x-opts").onclick = (e) => { if (!e.target.classList.contains("x-del")) return; options.splice(Number(e.target.closest("[data-k]").dataset.k), 1); renderOptions(); };
+  $("x-anchor").onchange = () => { const a = ANCHORS[Number($("x-anchor").value)]; if (!a || !options[1]) return; options[1].known = String(a.value); options[1].asc = 0; renderOptions(); };
   $("x-add").onclick = () => { if (options.length < 4) { options.push(opt(`案${options.length}`, 0, 3, 3, 5, 5)); renderOptions(); } };
   const num = (id, lo, hi, d) => clamp(Number($(id).value) || d, lo, hi);
   const read = () => ({
