@@ -37,6 +37,7 @@ import { makeRng } from "./rng.js";
 import { PURPOSES, buildReport } from "./report.js";
 import JAPAN from "./japan-data.js";
 import { createVisual, prepareCrowd } from "./visual.js";
+import { ASK_LIMITS, askBrief, askReactions, askReport, askMessage, askIsGone } from "./ask.js";
 
 const $ = (id) => document.getElementById(id);
 const state = { opened: {}, D: null, base: [], personas: [], llm: false, materials: [], brief: null, ai: null, game: null };
@@ -72,9 +73,10 @@ async function init() {
       ? `AIモード:<b class="ok">使えます</b>(${esc(s.model)})`
       : `AIモード:<b class="ng">未設定</b>(統計モードはこのまま使えます)`;
   } catch {
-    $("status").innerHTML = `AIモード:<b class="ng">この公開版では使えません</b>(統計モードはすべて使えます)`;
+    $("status").innerHTML = `AIモード:<b class="ng">確認中…</b>(統計モードはすべて使えます)`;
+    connectPageAI();
   }
-  $("read-brief").disabled = $("run-ai").disabled = !state.llm;
+  setAI(state.llm);
 
   const years = [state.D.population.year, ...Object.keys(state.D.projection?.years ?? {})];
   $("year").innerHTML = years.map((y, i) => `<option value="${y}">${y}年${i ? "(将来推計)" : "(現在)"}</option>`).join("");
@@ -303,7 +305,45 @@ function renderSpending() {
 }
 
 // ---------- ③ お題シミュレーション ----------
-async function api(path, body) {
+// AIモードの入口は2つ。
+//   A) 自分のサーバーで動かしているとき:APIキーを使う(/api/…)
+//   B) 公開ページで見ているとき:見ている人自身の Claude に、ページから直接質問する(APIキー不要)
+function setAI(on) {
+  state.llm = on;
+  $("read-brief").disabled = $("run-ai").disabled = !on;
+}
+async function connectPageAI() {
+  let sample = null;
+  try { sample = (await window.claude?.use("sample")) ?? null; } catch { sample = null; }
+  state.sample = sample;
+  if (!sample) {
+    $("status").innerHTML = `AIモード:<b class="ng">この画面では使えません</b>(統計モードはすべて使えます)`;
+    return;
+  }
+  $("status").innerHTML = `AIモード:<b class="ok">使えます</b>(APIキー不要。ご自身の Claude の利用枠を使います)`;
+  $("ai-how").hidden = false;
+  setAI(true);
+}
+function pageAIFailed(err) {
+  if (!askIsGone(err)) return;
+  state.sample = null;
+  setAI(false);
+  $("status").innerHTML = `AIモード:<b class="ng">使えません</b>(統計モードはすべて使えます)`;
+}
+async function api(path, body, signal) {
+  if (state.sample) {
+    const opt = signal ? { signal } : {};
+    if (path === "/api/brief") {
+      const r = await askBrief(state.sample, body, opt);
+      state.briefNote = [
+        r.skipped.length ? `PDF(${r.skipped.join("、")})は、この方式では読めないため使っていません。文章を貼り付けるか、テキストファイルで追加してください。` : "",
+        r.cut ? `資料が長いため、先頭の${ASK_LIMITS.materialChars.toLocaleString()}文字までを読みました。` : "",
+      ].filter(Boolean).join(" ");
+      return r.brief;
+    }
+    if (path === "/api/react") return askReactions(state.sample, body, opt);
+    return askReport(state.sample, body, opt);
+  }
   const res = await fetch(path.replace(/^\//, ""), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "エラーが発生しました。");
@@ -349,12 +389,13 @@ async function readBrief() {
     const list = (title, items) => (items?.length ? `<h4>${title}</h4><ul>${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "");
     $("brief-box").innerHTML = `<div class="report"><p class="headline">${esc(b.title)}</p><p>${esc(b.summary)}</p>
       ${list("訴求点", b.selling_points)}${list("AIが推測で補った項目", b.assumptions)}${list("確認したい情報", b.missing_info)}</div>`;
-    setMsg("brief-msg", "読み取りました。STEP 2 の内容を確認してください。");
+    setMsg("brief-msg", `読み取りました。STEP 2 の内容を確認してください。${state.sample && state.briefNote ? ` ${state.briefNote}` : ""}`);
     runStat();
   } catch (err) {
-    setMsg("brief-msg", err.message, true);
+    setMsg("brief-msg", askMessage(err), true);
+    pageAIFailed(err);
   } finally {
-    $("read-brief").disabled = false;
+    $("read-brief").disabled = !state.llm;
   }
 }
 function setMsg(id, text, isErr = false) {
@@ -417,36 +458,53 @@ async function runAI() {
   bar.style.width = "0";
   const reactions = [];
   const batches = [];
-  for (let i = 0; i < sample.length; i += 10) batches.push(sample.slice(i, i + 10));
+  // 公開ページでは質問の回数を減らすため、1回にまとめて聞く人数を増やす
+  const size = state.sample ? ASK_LIMITS.batch : 10;
+  const parallel = state.sample ? ASK_LIMITS.parallel : 3;
+  for (let i = 0; i < sample.length; i += size) batches.push(sample.slice(i, i + size));
+  const ctl = new AbortController();
+  $("stop-ai").hidden = false;
+  $("stop-ai").onclick = () => ctl.abort();
   let done = 0;
+  let stopped = null; // 途中で止まった理由(止まっても、答えがそろった分は集計する)
   try {
-    // 3組ずつ並行して問い合わせる
-    for (let i = 0; i < batches.length; i += 3) {
-      setMsg("ai-msg", `インタビュー中… ${done}/${sample.length}人`);
-      const results = await Promise.all(batches.slice(i, i + 3).map((b) =>
-        api("/api/react", { brief, personas: b.map(personaForLLM), materials: state.materials })));
-      for (const r of results) { reactions.push(...r); done += r.length; }
+    for (let i = 0; i < batches.length && !stopped; i += parallel) {
+      setMsg("ai-msg", `インタビュー中… ${done}/${sample.length}人${state.sample && !done ? "(初回は許可の確認が出ます。答えが返るまで1分ほどかかることがあります)" : ""}`);
+      const results = await Promise.allSettled(batches.slice(i, i + parallel).map((b) =>
+        api("/api/react", { brief, personas: b.map(personaForLLM), materials: state.materials }, ctl.signal)));
+      for (const r of results) {
+        if (r.status === "fulfilled") { reactions.push(...r.value); done += r.value.length; }
+        else stopped = r.reason;
+      }
       bar.style.width = `${(done / sample.length) * 90}%`;
     }
+    if (!reactions.length) throw stopped ?? new Error("答えが返ってきませんでした。");
     const agg = aggregateReactions(sample, reactions, brief);
     state.ai = { agg, sample, reactions, brief };
     renderAI();
+    const partial = `${sample.length}人中 ${reactions.length}人分の答えで集計しました。`;
+    if (stopped) {
+      pageAIFailed(stopped);
+      return setMsg("ai-msg", `${askMessage(stopped)} ${partial}レポートは作っていません。`, true);
+    }
     setMsg("ai-msg", "レポートを作成中…");
     const report = await api("/api/report", {
       brief,
       purpose: $("purpose").value,
       aggregate: { ...agg, demandCurve: agg.demandCurve.slice(0, 30), segmentProb: undefined },
       reactions: reactions.map((r) => ({ ...r, persona: describePersona(sample.find((p) => p.id === r.id) ?? {}) })),
-    });
+    }, ctl.signal);
     state.ai.report = report;
     renderAI();
     bar.style.width = "100%";
     $("s-calib").checked = true;
-    setMsg("ai-msg", "完了しました。「発売後の広がり」に結果を引き継げます。");
+    setMsg("ai-msg", `完了しました。${reactions.length < sample.length ? partial : ""}「発売後の広がり」に結果を引き継げます。`);
   } catch (err) {
-    setMsg("ai-msg", err.message, true);
+    setMsg("ai-msg", askMessage(err), true);
+    pageAIFailed(err);
   } finally {
-    $("run-ai").disabled = false;
+    $("stop-ai").hidden = true;
+    $("run-ai").disabled = !state.llm;
   }
 }
 

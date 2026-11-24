@@ -179,7 +179,9 @@
     <div class="form-row">
       <label>人数 <select id="k"><option>20</option><option selected>40</option><option>80</option><option>160</option></select></label>
       <button id="run-ai" class="primary">インタビューを始める</button>
+      <button id="stop-ai" hidden>中止する</button>
     </div>
+    <p id="ai-how" class="note" hidden>APIキーは不要です。このページを開いている方ご自身の Claude の利用枠を使います(初回に許可の確認が出ます)。<br>人数が多いほど利用枠を多く使います。まずは20人でお試しください。PDFはこの方式では読めません。</p>
     <p id="ai-msg" class="msg"></p>
     <div id="ai-progress" class="progress" hidden><i></i></div>
     <div id="ai-result"></div>
