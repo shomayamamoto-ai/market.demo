@@ -82,8 +82,7 @@ export function electionChecks() {
   for (const e of ED.elections) for (const b of e.pr.blocks) { const got = dhondt(b.parties.map((p) => p[1]), b.seats), d = b.parties.reduce((a, p, i) => a + Math.abs(got[i] - p[2]), 0) / 2; blocks++; if (d === 0) match++; seatDiff += d; seatsAll += b.seats; }
   rows.push({ basis: "公的統計", model: "得票と議席", label: "比例代表:ドント式の計算が公式の配分と一致したブロック", a: `${match} / ${blocks}`, b: `${blocks} / ${blocks}`, diff: match / blocks - 1, points: (match / blocks - 1) * 100, tol: 15, source: "総務省 衆議院議員総選挙結果調(第44〜51回)。一致しないブロックは、名簿の候補者が足りない党の議席がほかの党に回った場合と考えられる(原因は個別に確認していない)" });
   rows.push({ basis: "公的統計", model: "得票と議席", label: "比例代表:公式の配分と違った議席の割合", a: `${((seatDiff / seatsAll) * 100).toFixed(1)}%`, b: "0%", diff: seatDiff / seatsAll, points: (seatDiff / seatsAll) * 100, tol: 5, source: "同上(8回・延べ1,424議席)" });
-  for (const e of ED.elections) { const f = fitK(e), others = ED.elections.filter((x) => x !== e).map((x) => fitK(x).k).sort((a, b) => a - b), med = others[Math.floor(others.length / 2)], miss = f.err(med);
-    rows.push({ basis: "公的統計", model: "得票と議席", label: `小選挙区(${e.name}):ほかの回から求めた k で試算したときの議席のずれ`, a: `${miss}議席`, b: "0議席", diff: miss / f.seats, points: (miss / f.seats) * 100, tol: 5, source: `総務省 結果調。この回をいちばんよく再現する k は${f.k}(そのときのずれ${f.miss}議席)、ほかの7回の中央の k は${med}` }); }
+  // 小選挙区は、画面で使っている計算(選挙区別の一律スイング)だけを成績表で採点する。k の式は画面の「過去8回での確かめ」の表に残す
   for (const r of swingBacktest()) rows.push({ basis: "公的統計", model: "得票と議席", label: `小選挙区(${r.name}):前回の選挙区別の結果から試算した自民党の議席`, a: `${r.swing}議席`, b: `${r.real}議席`, diff: (r.swing - r.real) / r.seats, points: ((r.swing - r.real) / r.seats) * 100, tol: 5,
     source: `総務省 結果調(候補者別得票数・小選挙区)。前回の各選挙区の得票率に、各党の全国得票率の変化を足して当落を決めた(今回の全国得票率は実際の値を使う)。同じ条件で k の式なら${r.k}議席` });
   return rows;
