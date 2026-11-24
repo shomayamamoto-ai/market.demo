@@ -127,11 +127,24 @@ export function sensitivity(personas, config, focus, runs = 4, seed = 1) {
   return { base, rows: out.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta)) };
 }
 
+// 入力のゆれに対する強さ:点数を±1、金額を±20%の範囲ででたらめに動かして何度も計算し、割合の幅と、1位が変わらない割合を出す
+export function robustness(personas, config, times = 12, seed = 1) {
+  const rng = makeRng(seed * 7919 + 13), K = config.options.length, shares = [], winners = [];
+  for (let i = 0; i < times; i++) {
+    const c = JSON.parse(JSON.stringify(config));
+    c.options.forEach((o, k) => { if (k === 0) return; for (const f of ["effort", "risk", "novelty", "quality"]) o[f] = clamp(o[f] + (rng.next() * 2 - 1), 0, 10); o.money *= 1 + (rng.next() * 0.4 - 0.2); });
+    const out = runCustom(personas, c, seed * 100 + i); if (!out) return null;
+    shares.push(out.final); winners.push(out.final.indexOf(Math.max(...out.final)));
+  }
+  const base = trialCustom(personas, config, 3, seed).mean, top = base.indexOf(Math.max(...base));
+  return { lo: Array.from({ length: K }, (_, k) => Math.min(...shares.map((x) => x[k]))), hi: Array.from({ length: K }, (_, k) => Math.max(...shares.map((x) => x[k]))), stable: winners.filter((w) => w === top).length / times, top, times };
+}
+
 // ---------- 画面 ----------
 export function mountCustom({ getPersonas, seedOf, before }) {
   const el = document.createElement("section");
   el.id = "tab-custom"; el.className = "tab";
-  el.innerHTML = `<div class="page-head"><h1>オリジナルの実験</h1><p>お題と選択肢を自分で決めて、仮想の日本の1人ずつがどれを選ぶかを試します。結果は、あらかじめ決まっていません。</p></div>
+  el.innerHTML = `<div class="page-head"><h1>オリジナルの実験</h1><p>お題と選択肢を自分で決めて、仮想の日本の1人ずつがどれを選ぶかを試します。結果は、あらかじめ決まっていません。<br>割合を当てる道具ではなく、「誰が動きやすいか」「何を変えると効くか」の差と順番を見る道具です。</p></div>
     <div class="card">
       <div class="form-grid"><label class="wide">お題 <input id="x-title" type="text" placeholder="例:週休3日制を選べるようにしたら、誰が選ぶか"></label>
         <label>ひな形から始める <select id="x-template">${Object.entries(TEMPLATES).map(([k, t]) => `<option value="${k}">${esc(t.label)}</option>`).join("")}</select></label></div>
@@ -188,14 +201,14 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     const config = read(), runs = Math.round(num("x-runs", 1, 50, 10)), t = trialCustom(getPersonas(), config, runs, seedOf());
     if (!t) throw new Error("条件に合う人がいません。年齢や性別の条件を広げてください。");
     const O = config.options, K = O.length, order = O.map((o, k) => k).sort((a, b) => t.mean[b] - t.mean[a]);
-    const focus = order.find((k) => k > 0) ?? 1, sens = sensitivity(getPersonas(), config, focus, Math.min(4, runs), seedOf());
+    const focus = order.find((k) => k > 0) ?? 1, sens = sensitivity(getPersonas(), config, focus, Math.min(4, runs), seedOf()), rob = robustness(getPersonas(), config, 12, seedOf());
     const table = (title, rows) => `<h3>${title}</h3><div class="table-scroll"><table class="verify"><tr><th></th>${O.map((o) => `<th class="num">${esc(o.name)}</th>`).join("")}</tr>${rows.map((g) => { const top = g.shares.indexOf(Math.max(...g.shares)); return `<tr><td>${esc(g.label)}</td>${g.shares.map((s, k) => `<td class="num">${k === top ? `<b>${pct(s)}</b>` : pct(s)}</td>`).join("")}</tr>`; }).join("")}</table></div>`;
     const spread = (g) => Math.max(...g.map((x) => x.shares[focus])) - Math.min(...g.map((x) => x.shares[focus]));
     const dims = [["年代", t.byAge], ["収入の層", t.byTier], ["性別", t.bySex]].filter(([, g]) => g.length >= 2).map(([name, g]) => ({ name, g, gap: spread(g) })).sort((a, b) => b.gap - a.gap);
     const d0 = dims[0], hiG = d0 && [...d0.g].sort((a, b) => b.shares[focus] - a.shares[focus])[0], loG = d0 && [...d0.g].sort((a, b) => a.shares[focus] - b.shares[focus])[0];
     const moved = 1 - t.mean[0], wide = Math.max(...t.hi.map((h, k) => h - t.lo[k]));
     const findings = [
-      `${config.months}か月後、「${O[order[0]].name}」が${pct(t.mean[order[0]])}でいちばん多くなりました。今のままから動いた人は${pct(moved)}(約${people(moved * t.population)})です。`,
+      `${config.months}か月後、いちばん多いのは「${O[order[0]].name}」(${pct(t.mean[order[0]])})でした。今のままから動いた人は${pct(moved)}です。`,
       d0 && `「${O[focus].name}」への反応がいちばん分かれるのは${d0.name}です。${hiG.label}では${pct(hiG.shares[focus])}、${loG.label}では${pct(loG.shares[focus])}でした。`,
       sens.rows[0] && `「${O[focus].name}」を増やすのにいちばん効くのは「${sens.rows[0].label}」で、${sens.rows[0].delta >= 0 ? "+" : ""}${(sens.rows[0].delta * 100).toFixed(1)}ポイントです。`,
       t.unaware.slice(1).some((u) => u > 0.2) && `期間が終わっても、${O.map((o, k) => (k > 0 && t.unaware[k] > 0.2 ? `「${o.name}」を${pct(t.unaware[k])}の人が知らないまま` : null)).filter(Boolean).join("、")}です。中身より先に、知らせ方が壁になっています。`,
@@ -203,15 +216,16 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     ].filter(Boolean);
     $("x-out").innerHTML = `<div class="analysis"><h2>${esc(config.title)}</h2>
         <p class="a-note">対象 約${people(t.population)}(仮想の${t.n.toLocaleString("ja-JP")}人で計算)。${runs}回の試行の平均です。</p>
-        <div class="a-cards">${O.map((o, k) => `<div class="a-card"><small>${esc(o.name)}</small><b>${pct(t.mean[k])}</b> <i>約${people(t.mean[k] * t.population)}。試行による幅 ${pct(t.lo[k])}〜${pct(t.hi[k])}</i></div>`).join("")}</div>
-        <p class="a-headline">${esc(findings[0])}</p></div>
+        <div class="a-cards">${O.map((o, k) => `<div class="a-card"><small>${esc(o.name)}</small><b>${pct(t.mean[k])}</b> <i>点数を少し変えたときの幅 ${pct(rob.lo[k])}〜${pct(rob.hi[k])}</i></div>`).join("")}</div>
+        <p class="a-headline">${esc(findings[0])}</p>
+        <p class="a-note">割合そのものは、入れた点数に強く左右されます。点数を±1、金額を±20%の範囲で${rob.times}通りに動かすと、上の幅になりました。${rob.stable >= 0.9 ? `いちばん多い選択肢は、${rob.times}通りのうち${Math.round(rob.stable * rob.times)}通りで「${esc(O[rob.top].name)}」のままでした。順位は信頼できます。` : `いちばん多い選択肢が「${esc(O[rob.top].name)}」のままだったのは、${rob.times}通りのうち${Math.round(rob.stable * rob.times)}通りです。順位も、点数の付け方しだいで入れ替わります。`}</p></div>
       <div class="card"><div class="form-row" id="x-copy"></div>
         <h3>読み取れること</h3><div class="advice"><ul>${findings.slice(1).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
         <h3>選ぶ人の割合の推移</h3>${multiLine(O.map((o, k) => ({ name: o.name, color: COLORS[k], points: t.series.map((s) => ({ x: s.x, y: s.shares[k] })) })), { xLabel: "月" })}
         ${dims.map((d) => table(`${d.name}ごとの選び方`, d.g)).join("")}
         <h3>何を変えると「${esc(O[focus].name)}」が増えるか</h3>
         <div class="table-scroll"><table class="verify"><tr><th>変えること</th><th class="num">割合の変化</th></tr>${sens.rows.map((r) => `<tr><td>${esc(r.label)}</td><td class="num">${r.delta >= 0 ? "+" : ""}${(r.delta * 100).toFixed(1)}ポイント</td></tr>`).join("")}</table></div>
-        <p class="note">いまの条件での割合は${pct(sens.base)}です。条件を1つだけ変えて、同じ人たちで計算し直した差です。<br>お金・損の感じ方・時間の価値・現状維持・周りの影響・口コミの速さは、文献の推定値を使っています。点数と金額の対応などは仮定です(一覧は「出典と仮定」)。<br>人数そのものより、「誰が動くか」と「何が効くか」の順番を見てください。</p></div>`;
+        <p class="note">いまの条件での割合は${pct(sens.base)}です。条件を1つだけ変えて、同じ人たちで計算し直した差です。<br>お金・損の感じ方・時間の価値・現状維持・周りの影響・口コミの速さは、文献の推定値を使っています。点数と金額の対応などは仮定です(一覧は「出典と仮定」)。<br>実際の調査と比べると、年代や収入による差の向きと大きさはおおむね合いますが、割合そのものは場面によって大きく外れます(一覧は「精度の成績表」)。<br>この画面は、割合を当てる道具ではなく、「誰が動くか」「何が効くか」の差と順番を見る道具として使ってください。</p></div>`;
     $("x-copy").appendChild(copyButton([`${config.title}(${config.months}か月後、${runs}回の平均)`, ...O.map((o, k) => `・${o.name}:${pct(t.mean[k])}(約${people(t.mean[k] * t.population)})`), ...findings.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n")));
   });
 
@@ -256,5 +270,12 @@ export function customChecks(personas, seed = 1) {
   hold("ネットで予約・購入:70代 ÷ 30代", on(shop, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 46.3 / 87.1, caa, 10);
   hold("フリマサイトで買う人", on(flea, (t) => t.mean[1]), 0.227, caa, 10);
   hold("フリマサイト:70代 ÷ 30代", on(flea, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 4.8 / 36.2, caa, 10);
+  // 追加の検算用(同じ調査の、別の項目)。入力の点数は結果を見る前に決め、そのあと係数は一切変えていない
+  const game = { ...stated, target: shop.target, options: [opt("やらない", 0, 0, 0, 0, 5), opt("オンラインゲームをする", 0, 2, 2, 7, 3, 1)] };
+  const fresh = (label, model, real, tol) => { hold(label, model, real, caa, tol); rows[rows.length - 1].fresh = true; };
+  fresh("オンラインゲームをする人", on(game, (t) => t.mean[1]), 0.269, 10);
+  fresh("オンラインゲーム:70代 ÷ 30代", on(game, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 9.7 / 38.5, 10);
+  fresh("動画を見る人(ネット利用者のうち)", on(video, (t) => t.mean[1]), 0.624, 10);
+  fresh("動画を見る:70代 ÷ 30代(同上)", on(video, (t) => use(band(t, "70代")) / use(band(t, "30代"))), 30.2 / 81.2, 10);
   return rows;
 }

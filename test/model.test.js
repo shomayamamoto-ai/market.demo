@@ -327,3 +327,9 @@ test("オリジナルの実験:損は得より重く、調査との照合が計�
   const rows = customChecks(P, 1);
   assert.ok(rows.length >= 5 && rows.every((r) => Number.isFinite(r.points)));
 });
+
+import { robustness } from "../public/js/custom.js";
+test("オリジナルの実験:点数をゆらしたときの幅が出る", () => {
+  const r = robustness(P, { ...TEMPLATES.benefit, n: 600 }, 6, 1);
+  assert.ok(r.lo.every((v, k) => v <= r.hi[k]) && r.stable >= 0 && r.stable <= 1 && r.hi[r.top] > 0);
+});
