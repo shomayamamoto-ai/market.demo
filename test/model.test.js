@@ -50,7 +50,9 @@ test("層別抽出の重みの合計が対象人口と一致する", () => {
 });
 
 test("普及シミュレーション:広告を増やすと利用者が増える", () => {
-  const run = (net) => runMany(D, P, product, { ...DEFAULT_PLAN, ad: { tv: 0, net, store: 0 } }, { months: 24, runs: 5 }).series.at(-1).users.mid;
+  // 買う人が少なすぎる商品だと、数人分の差しか出ず偶然に左右されるので、月980円の商品で確かめる
+  const cheap = { ...product, price: 980 };
+  const run = (net) => runMany(D, P, cheap, { ...DEFAULT_PLAN, ad: { tv: 0, net, store: 0 } }, { months: 24, runs: 5 }).series.at(-1).users.mid;
   const low = run(1_000_000), high = run(30_000_000);
   assert.ok(high > low, `${low} → ${high}`);
 });
@@ -392,4 +394,12 @@ test("オリジナルの実験: あとのお金は小さく、まれな確率は
   assert.ok(t.mean[3] > t.mean[1], "期待値が同じなら、まれに大きく当たる形のほうが選ばれる");
   const flat = trialCustom(P, { ...TEMPLATES.fourday, n: 800 }, 2, 1), same = trialCustom(P, { ...TEMPLATES.fourday, n: 800, options: TEMPLATES.fourday.options.map((o) => ({ ...o, delay: undefined, chance: undefined })) }, 2, 1);
   assert.deepEqual(flat.mean, same.mean); // 何も入れなければ、これまでと同じ結果
+});
+
+import { TRAIT_COEF } from "../public/js/personas.js";
+test("価値観:若い人ほど価格を重視し、女性のほうが周りに合わせやすい(消費者意識基本調査の向き)", () => {
+  const share = (f, k) => { const g = P.filter(f), w = g.reduce((a, p) => a + p.weight, 0); return g.reduce((a, p) => a + p.weight * p.traits[k], 0) / w; };
+  assert.ok(share((p) => p.age >= 15 && p.age < 30, "price") > share((p) => p.age >= 70, "price"));
+  assert.ok(share((p) => p.sex === "female" && p.age >= 15, "social") > share((p) => p.sex === "male" && p.age >= 15, "social"));
+  assert.ok(TRAIT_COEF.price.age < 0);
 });

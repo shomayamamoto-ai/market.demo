@@ -13,7 +13,7 @@ export const ASSUMPTIONS = {
   quintileDamp: { value: 0.5, note: "所得階層による支出総額の差を、どれだけ効かせるか。統計の差には年齢の違いも混ざっているため、半分だけ反映する。費目ごとの差は、家計調査から推定した支出弾力性で決める" },
   marriedCompat: { value: { single: 0.03, singleParent: 0.05 }, note: "既婚者が一人暮らしをする割合の上限(単身赴任など)と、ひとり親世帯になる重み" },
   unmarriedCompat: { value: { coupleOnly: 0.03 }, note: "未婚・離死別の人が「夫婦のみ」の世帯になる重み" },
-  traits: { value: "年齢・年収・ネット利用から作った指標", note: "価値観(価格感度・新しもの好き等)は公的統計に無いため、傾向を仮定して乱数で付与" },
+  traits: { value: "年齢・年収・ネット利用から作った指標", note: "価格への敏感さと周りへの同調しやすさは、消費者庁「消費者意識基本調査」(2021年・2025年)の年代別・男女別の割合に合わせた。調査で上位に入る人の割合と、ここで点数が上位の人の割合を年代ごとに比べ、係数を決めた。合わせる前は、高齢者ほど価格に敏感になっていた(調査では若い人ほど価格を重視する)。新しもの好き・品質重視・健康志向は傾向を仮定したまま(新しもの好きは調査に合わせると、高齢者のネット利用が実際より多く出たため)" },
 };
 
 const bandOf = (bands, age) => {
@@ -232,12 +232,13 @@ function applyIncomeTier(D, A, personas) {
     delete p._z;
     const inc = (p.tier - 2) / 2; // −1(低い)〜+1(高い)
     const z = (x) => x * 0.9;
+    const C = TRAIT_COEF, fem = p.sex === "female" ? 1 : 0;
     p.traits = {
-      price: round2(sigmoid(0.2 - 0.9 * inc + z(z1))), // 価格に敏感
-      novelty: round2(sigmoid(1.2 - p.age / 32 + (p.sns ? 0.5 : 0) + z(z2))), // 新しもの好き
+      price: round2(sigmoid(C.price.a + C.price.inc * inc + C.price.age * p.age + fem * C.price.female + z(z1))), // 価格に敏感
+      novelty: round2(sigmoid(C.novelty.a + C.novelty.age * p.age + (p.sns ? 0.5 : 0) + z(z2))), // 新しもの好き
       health: round2(sigmoid(-1.0 + p.age / 40 + (p.sex === "female" ? 0.3 : 0) + z(z3))), // 健康志向
-      quality: round2(sigmoid(-0.2 + 0.7 * inc + p.age / 120 + z(z4))), // 品質・ブランド重視
-      social: round2(sigmoid(0.4 - p.age / 60 + (p.sns ? 0.8 : -0.4) + z(z5))), // 周りの評判に影響される
+      quality: round2(sigmoid(C.quality.a + C.quality.inc * inc + C.quality.age * p.age + fem * C.quality.female + z(z4))), // 品質・ブランド重視
+      social: round2(sigmoid(C.social.a + C.social.age * p.age + (p.sns ? 0.8 : -0.4) + fem * C.social.female + z(z5))), // 周りの評判に影響される
     };
     // 新商品の採用タイプ(ロジャーズの5区分)を決める元になる点数
     p.innovScore = p.traits.novelty * 0.7 + p.traits.social * 0.15 + (p.internet ? 0.15 : 0) + u * 0.05;
@@ -245,6 +246,18 @@ function applyIncomeTier(D, A, personas) {
   }
 }
 
+// 価値観の点数を作る係数(シグモイドの中身 = a + inc × 所得の位置 + age × 年齢 + female × 女性)
+// price・social の年齢と男女の係数は、消費者庁「消費者意識基本調査」の年代別・男女別の割合に合わせた
+// (価格の安さを「とても重視」2021年、「多数が支持するものは良いと思う」2025年)。
+// 切片は、15歳以上の平均が合わせる前と変わらないように決めた(全体の水準は変えず、年代差と男女差だけを直した)。
+// novelty も「新しい物が好き」(2021年)に合わせられるが、合わせると高齢者のネット利用・動画視聴が実際より多く出た(年代差が実際の半分に縮む)。
+// このモデルの novelty は「デジタルに慣れているか」も兼ねているためと考え、元のまま残した。quality は合わせても良くならなかったので元のまま
+export const TRAIT_COEF = {
+  price: { a: 1.527, inc: -0.9, age: -0.025, female: 0 },
+  novelty: { a: 1.2, age: -1 / 32 },
+  quality: { a: -0.2, inc: 0.7, age: 1 / 120, female: 0 },
+  social: { a: -0.844, age: 0.005, female: 0.2 },
+};
 // ロジャーズの普及理論の5区分を、新しもの好き度の順位で割り当てる
 export const ADOPTER_TYPES = [
   { key: "innovator", label: "イノベーター", share: 0.025 },
