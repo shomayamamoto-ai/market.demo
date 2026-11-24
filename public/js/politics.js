@@ -8,7 +8,7 @@ export const POLITICS_ASSUMPTIONS = {
   dependents: { value: "年収ごとの平均額", note: "配偶者控除・扶養控除・生命保険料控除などは、1人ずつの家族の状況が分からないため、同じ年収の給与所得者の平均額を引く(国税庁「民間給与実態統計調査」令和7年分。年収450万円で平均19万円、850万円で42万円)。住宅ローン控除も、同じ統計の平均の割合を税額から引く。雇われて働く人だけに適用する" },
   employee: { value: "年収106万円以上の雇われている人", note: "厚生年金・健康保険に入る人の範囲。正規雇用と役員は全員、非正規雇用は年収106万円以上で、家族の扶養に入らない人。労働時間や会社の規模の条件は入れていない" },
   dependentSpouse: { value: "年収130万円未満で、既婚または親と暮らす人", note: "家族の扶養に入る(保険料がかからない)人の範囲。実際は扶養する家族が会社員の場合だけだが、区別していない" },
-  care65: { value: 74700, note: "65歳以上が払う介護保険料(第1号保険料)。年額 = 月6,225円 × 12。第9期(令和6〜8年度)の基準額の全国加重平均(厚生労働省 2024年5月公表)。実際は所得で段階があり、低所得の人は軽くなるが、段階は入れていない。これまでは入れておらず、65歳以上の保険料が実際より低く出ていた(厚生労働省 所得再分配調査 令和5年との照合で判明)" },
+  care65: { value: 74700, note: "65歳以上が払う介護保険料(第1号保険料)。年額 = 月6,225円 × 12。第9期(令和6〜8年度)の基準額の全国加重平均(厚生労働省 2024年5月公表)。実際は所得で段階があり、低所得の人は軽くなるが、段階は入れていない。これまでは入れておらず、65歳以上の保険料が実際より低く出ていた(厚生労働省 所得再分配調査 令和5年との照合で判明)。あわせて、年金を受け取りながら働く人の年金部分にまで会社の保険料をかけていた誤りも直した(保険料は賃金にだけかかり、年金には公的年金等控除を使う)" },
   nhi: { value: "所得割9.22%+均等割+世帯割", note: "自営業・無職の人の国民健康保険料。令和5年度の全国平均の料率で計算(上限109万円)。自治体による差、軽減制度は入れていない" },
   pensionIncome: { value: "65歳以上110万円、65歳未満60万円を控除", note: "年金にかかる税の計算で引く額(公的年金等控除)。一般に知られた値で、今回の調査では一次資料を確認していない" },
   bonus: { value: 0.2, note: "年収のうち賞与の割合(夏と冬の2回)。保険料の上限(厚生年金は月65万円・賞与1回150万円、健康保険は月139万円・賞与年573万円)を当てはめるのに使う。割合は仮定" },
@@ -23,23 +23,25 @@ export function takeHome(p) {
   if (S <= 0) return { income: 0, tax: 0, resident: 0, social: 0, net: 0 };
   // 家族の扶養に入れる人(年収130万円未満で、既婚または親と暮らす人)は、保険料がかからない。それ以外の年収106万円以上の非正規雇用は、勤め先の保険に入るとみなす
   const canDepend = S < 1300000 && (p.marital === "既婚" || p.asChild || age < 23);
-  const so = P0.social, covered = (p.status === "regular" || p.status === "exec" || (p.status === "nonRegular" && S >= 1060000 && !canDepend)) && age < 75;
+  // 年収を賃金と年金に分ける。会社の保険料は賃金にだけかかり、年金には公的年金等控除が使える
+  const Pn = p.pension != null ? Math.min(S, p.pension * 10000) : p.working ? 0 : S, W = S - Pn;
+  const earned = (employed ? Math.max(0, W - empDeduction(W)) : p.working ? W : 0) + Math.max(0, Pn - (age >= 65 ? 1100000 : 600000));
+  const so = P0.social, covered = (p.status === "regular" || p.status === "exec" || (p.status === "nonRegular" && W >= 1060000 && !canDepend)) && age < 75;
   let social = 0;
   if (covered) { // 月給と賞与に分け、保険料がかかる上限を当てはめる
-    const bonus = S * POLITICS_ASSUMPTIONS.bonus.value, monthly = (S - bonus) / 12, C = P0.caps;
+    const bonus = W * POLITICS_ASSUMPTIONS.bonus.value, monthly = (W - bonus) / 12, C = P0.caps;
     const pensionBase = Math.min(monthly, C.pensionMonthly) * 12 + 2 * Math.min(bonus / 2, C.pensionBonus), healthBase = Math.min(monthly, C.healthMonthly) * 12 + Math.min(bonus, C.healthBonusYear);
-    social = (age < 70 ? pensionBase * so.pension : 0) + healthBase * (so.health + so.child + (age >= 40 && age < 65 ? so.care : 0)) + S * so.employment;
+    social = (age < 70 ? pensionBase * so.pension : 0) + healthBase * (so.health + so.child + (age >= 40 && age < 65 ? so.care : 0)) + W * so.employment;
   }
   else {
     const dependent = canDepend && ["nonRegular", "housework", "none", "unemployed", "student"].includes(p.status);
     if (!dependent) {
-      const base = Math.max(0, (employed ? S - empDeduction(S) : p.working ? S : Math.max(0, S - (age >= 65 ? 1100000 : 600000))) - P0.residentBasicDeduction);
+      const base = Math.max(0, earned - P0.residentBasicDeduction);
       social = Math.min(so.nhi.cap, base * so.nhi.rate + so.nhi.perCapita + so.nhi.perHousehold) + (age >= 20 && age < 60 ? so.nationalPension : 0);
-    } else if (employed) social = S * so.employment;
+    } else if (employed) social = W * so.employment;
   }
   if (age >= 65) social += POLITICS_ASSUMPTIONS.care65.value; // 65歳以上は、勤め先の保険や国保とは別に介護保険料を払う
   // 所得(給与は給与所得控除、年金は公的年金等控除、自営は年収をそのまま所得とみなす)
-  const earned = employed ? Math.max(0, S - empDeduction(S)) : p.working ? S : Math.max(0, S - (age >= 65 ? 1100000 : 600000));
   const basic = P0.basicDeduction.find(([up]) => earned <= up)?.[1] ?? 0;
   // 家族や保険の控除:同じ年収の人の平均額(国税庁の統計)。p.plain が真なら入れない
   const avg = employed && !p.plain ? ntaAt(S / 10000) : null, other = avg ? avg.other * 10000 : 0;

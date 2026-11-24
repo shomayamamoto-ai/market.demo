@@ -123,9 +123,10 @@ function buildPersona(D, A, rng, base) {
   const pen = age >= 60 ? bandOf(D.pension.bands, age)?.[sex] : null;
   if (pen && rng.next() < pen.rate) {
     let u = rng.next();
-    for (const [lo, hi, share] of pen.classes) { u -= share; if (u <= 0) { income += lo + rng.next() * (hi - lo); break; } }
+    for (const [lo, hi, share] of pen.classes) { u -= share; if (u <= 0) { const amount = lo + rng.next() * (hi - lo); income += amount; p.pension = Math.round(amount); break; } }
   }
   p.income = Math.round(income);
+  if (p.pension) p.pension = Math.min(p.pension, p.income); // 年収のうち年金の分(万円)。税と保険料の計算で、賃金と分けて扱う
 
   // 6) 世帯の種類(国勢調査の年齢・性別ごとの分布に、配偶関係とのつじつまを重みで反映)
   // 一人暮らしの割合は統計に合わせる。既婚者の一人暮らしは少数とし、残りを未婚・離死別の人に割り当てる
