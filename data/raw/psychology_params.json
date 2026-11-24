@@ -1,0 +1,1297 @@
+{
+ "generated": "2026-11-24",
+ "notes": [
+  "confidence の基準:high=論文(または同じ著者の作業論文版)の本文PDFを取得して該当箇所を読んだ、あるいは本文を読んだ別論文が明記している。medium=開けなかったが、抄録の抜粋や複数の二次資料で数値が一致。low=単一の二次資料、または数値の一部しか確認できない。",
+  "本文を取得できたのは www.nber.org、gwern.net、epub.ub.uni-muenchen.de、www.rieti.go.jp のみ。それ以外の URL は検索結果に出た所在で、開いていない(verified_via に『未開封』と記載)。",
+  "NBER の作業論文版で確認したものは、刊行版と数値が違う可能性がある(citation に版を明記)。",
+  "how_to_use の換算(割り算や『35%→約41%』など)は当方の単純計算で、論文の報告値ではない。",
+  "巻・号・ページなど刊行版の書誌の一部は一般的な書誌知識による記載で、今回は原本で照合していない(推定値そのものは verified_via のとおり)。",
+  "取得した原資料:/tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/psy_dl/(PDF と txt/ のテキスト)"
+ ],
+ "params": [
+  {
+   "key": "present_bias",
+   "name_ja": "時間割引と現在バイアス(β-δ モデル)",
+   "estimates": [
+    {
+     "what": "現在バイアス β のメタ分析平均(凸型時間予算法、220推定値・28論文)",
+     "value": {
+      "overall": 0.95,
+      "money_rewards": "1に近い(表5の列で0.97〜0.99)",
+      "effort_rewards": "0.88〜0.91(結論部では0.9〜0.93)"
+     },
+     "unit": "β(1なら現在バイアスなし)",
+     "population": "主に大学生の実験室実験(各国)",
+     "citation": "Imai, Rutter & Camerer (2021) Economic Journal 131:1788-1814(確認したのは2019年7月の CRC TRR 190 DP No.168)",
+     "url": "https://epub.ub.uni-muenchen.de/69188/1/168.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(本文4節・5節、表5)",
+     "replication": "再現されている(ただし現在バイアスを大きめに報告する選択的報告が『控えめに』あると著者が明記)"
+    },
+    {
+     "what": "β の推定:金銭の選択と作業(努力)の選択",
+     "value": {
+      "money_beta": 0.974,
+      "money_se": 0.009,
+      "effort_beta": 0.9,
+      "effort_se": 0.037,
+      "individual_mean_money": 0.99,
+      "individual_mean_effort": 0.91,
+      "daily_delta": "0.997〜1.001"
+     },
+     "unit": "β、δ は1日あたり",
+     "population": "米国の大学生(UC Berkeley)",
+     "citation": "Augenblick, Niederle & Sprenger (2015) QJE 130(3)(確認したのは NBER WP 18734, 2013)",
+     "url": "https://www.nber.org/system/files/working_papers/w18734/w18734.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(表2、本文)",
+     "replication": "再現されている(Imai らのメタ分析でも努力課題のほうが β が小さい)"
+    },
+    {
+     "what": "家計のライフサイクルモデルで推定した β と δ(年率)",
+     "value": {
+      "beta": 0.5,
+      "delta_annual": 0.99,
+      "RRA": 1.3,
+      "exponential_only_delta": 0.96,
+      "beta_by_education": {
+       "高校未修了": 0.27,
+       "高卒": 0.5,
+       "大卒": 0.83
+      }
+     },
+     "unit": "β、δ(年)",
+     "population": "米国の家計(クレジットカード債務と資産のモーメント)",
+     "citation": "Laibson, Lee, Maxted, Repetto & Tobacman, NBER WP 13314 (2007, 2023年改訂)",
+     "url": "https://www.nber.org/system/files/working_papers/w13314/w13314.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨・本文)",
+     "replication": "不明(構造推定。他の実地データの推定は0.3〜0.9に散らばる)"
+    },
+    {
+     "what": "実地データによる β の推定の幅(Laibson らの文献整理)",
+     "value": {
+      "Paserman_2008_低所得": 0.4,
+      "Paserman_2008_高所得": 0.89,
+      "DellaVigna_et_al_2017": 0.58,
+      "Fang_Silverman_2009": 0.36,
+      "Skiba_Tobacman_2018": 0.5,
+      "Jones_Mahajan_2015": 0.34
+     },
+     "unit": "β",
+     "population": "米国(失業者、福祉受給者、ペイデイローン利用者など)",
+     "citation": "Laibson et al. NBER WP 13314 の文献整理(各原論文は未確認)",
+     "url": "https://www.nber.org/system/files/working_papers/w13314/w13314.pdf",
+     "confidence": "medium",
+     "verified_via": "本文PDFを取得した別論文(二次引用)の記述で確認",
+     "replication": "不明"
+    },
+    {
+     "what": "年率換算の割引率(必要収益率)の典型値",
+     "value": {
+      "Thaler_1981_3-5年の遅れ": "20〜30%",
+      "Thaler_1981_1か月の遅れ": "40〜345%",
+      "Harrison_Lau_Williams_2002_デンマーク代表標本": "28%",
+      "Dohmen_et_al_2010_ドイツ代表標本_中央値": "約30%",
+      "Andersen_et_al_2008_効用の曲率を補正": "約10%",
+      "Andreoni_Sprenger_2012_学生": "25〜35%"
+     },
+     "unit": "年率 %",
+     "population": "欧米の実験・調査",
+     "citation": "Ericson & Laibson (2018) 'Intertemporal Choice', NBER WP 25358(原論文は未確認。Andreoni & Sprenger は NBER WP 16347 の本文でも確認)",
+     "url": "https://www.nber.org/system/files/working_papers/w25358/w25358.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得した別論文(二次引用)の記述で確認(p.20)",
+     "replication": "再現されている(遅れが短いほど年率換算が高くなる傾向は一貫)"
+    },
+    {
+     "what": "Frederick ら (2002) のレビューでの年率割引率の幅",
+     "value": null,
+     "unit": "年率 %",
+     "population": "—",
+     "citation": "Frederick, Loewenstein & O'Donoghue (2002) JEL 40(2):351-401",
+     "url": "https://bpb-us-e1.wpmucdn.com/blogs.cornell.edu/dist/b/5495/files/2015/10/FLO-JEL-2002-1ko3v9w.pdf",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ。『研究間で割引率が驚くほどばらつく(spectacular variation)』という記述だけ確認。数値の幅は未確認",
+     "replication": "不明"
+    },
+    {
+     "what": "日本:冷蔵庫の購入データから逆算した主観的割引率",
+     "value": {
+      "指標1": "4.3〜7.8%",
+      "指標2": "0.7〜10.7%"
+     },
+     "unit": "年率 %",
+     "population": "日本の家電量販店 POS データ(地域別・容量別)",
+     "citation": "RIETI Discussion Paper 18-J-023『冷蔵庫の省エネ効率性に対する支払意思額と主観的割引率の推定』",
+     "url": "https://www.rieti.go.jp/jp/publications/dp/18j023.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "不明(海外の先行研究 11〜300% より低いと著者が記述)"
+    }
+   ],
+   "how_to_use": "すぐ得られる報酬と先の報酬を比べる選択では、先の価値に β(金銭なら 0.95〜1.0、手間や努力なら 0.9 前後)を掛け、さらに年率 10〜30% の割引を掛ける。家計の借入れのような大きな選択に β=0.5 を使う場合は構造推定に依存する値だと明記する。",
+   "not_confirmed": [
+    "Frederick, Loewenstein & O'Donoghue (2002) の表1の割引率の幅(マイナスから無限大と言われる数値)は本文を開けず未確認",
+    "池田・康・大竹 (2010, J Health Econ) と Kang & Ikeda (2014, Health Econ) の日本人の割引率の平均、双曲割引の回答者割合は抜粋に出てこず未確認(確認できたのは『符号効果のある人は肥満の確率が 3.69 ポイント低い』という記述のみ)",
+    "Imai らの刊行版 (EJ 2021) は 31 研究・28論文と書誌の抜粋にあり、DP 版(28論文)と数え方が違う可能性。平均 0.95 は DP 版の値"
+   ]
+  },
+  {
+   "key": "probability_weighting",
+   "name_ja": "確率の重みづけ",
+   "estimates": [
+    {
+     "what": "Tversky & Kahneman (1992) の重みづけ関数のパラメータ(利得)と、1% の確率に置かれる重み",
+     "value": {
+      "gamma_gains": 0.61,
+      "w(0.01)": 0.055
+     },
+     "unit": "γ(1なら歪みなし)",
+     "population": "原論文は未確認(標本の記載は取得できず)",
+     "citation": "Tversky & Kahneman (1992) J Risk Uncertainty 5:297-323(DellaVigna 2018 の表2a 経由)",
+     "url": "https://www.nber.org/system/files/working_papers/w24797/w24797.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得した別論文(二次引用)の記述で確認(表2a)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "同じ関数形での他の推定(γ)",
+     "value": {
+      "Camerer_Ho_1994": 0.56,
+      "Wu_Gonzalez_1996": 0.71,
+      "Harrison_List_Towe_2007": 0.83,
+      "Kliger_Levy_2009_金融市場": 0.622,
+      "Harrison_Humphrey_Verschoor_2010": 1.384,
+      "de_Brauw_Eozenou_2014_作物選択": 1.37
+     },
+     "unit": "γ",
+     "population": "実験室のくじ選択が中心",
+     "citation": "DellaVigna (2018) 'Structural Behavioral Economics', NBER WP 24797 表2a",
+     "url": "https://www.nber.org/system/files/working_papers/w24797/w24797.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(表2a)",
+     "replication": "再現されている(ただし途上国の農家などでは γ>1 の推定もある)"
+    },
+    {
+     "what": "Prelec 関数のパラメータ推定",
+     "value": {
+      "Tanaka_Camerer_Nguyen_2010": 0.74,
+      "Liu_2013": 0.69,
+      "Donkers_et_al_2001": 0.435,
+      "Snowberg_Wolfers_2010_競馬": 0.928,
+      "Aruoba_Kearney_2011_州の宝くじ": 0.89
+     },
+     "unit": "Prelec の α(1なら歪みなし)",
+     "population": "実験と実地データ",
+     "citation": "DellaVigna (2018) NBER WP 24797 表2a",
+     "url": "https://www.nber.org/system/files/working_papers/w24797/w24797.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(表2a)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "1% の確率に置かれる重みのメタ分析平均(研究を等ウェイト)",
+     "value": 0.06,
+     "unit": "重み(歪みがなければ 0.01)",
+     "population": "18研究",
+     "citation": "DellaVigna (2018) NBER WP 24797 表2a(DellaVigna & Pope 2018 のメタ分析)",
+     "url": "https://www.nber.org/system/files/working_papers/w24797/w24797.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(本文と表2a)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "プロスペクト理論の元の実験(1979)の多国間での直接再現",
+     "value": {
+      "items_replicated_pct": 94,
+      "contrasts_replicated": "13中12",
+      "n": 4098,
+      "countries": 19
+     },
+     "unit": "%",
+     "population": "19か国・13言語",
+     "citation": "Ruggeri et al. (2020) Nature Human Behaviour 4:622-633",
+     "url": "https://gwern.net/doc/psychology/cognitive-bias/2020-ruggeri.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "再現されている(効果はやや弱まる)"
+    },
+    {
+     "what": "プロスペクト理論パラメータの最新メタ分析:重みづけ関数の高さ(elevation)",
+     "value": {
+      "elevation": 0.98,
+      "95%CrI": [
+       0.95,
+       1.02
+      ]
+     },
+     "unit": "1なら楽観・悲観の偏りなし",
+     "population": "多数の研究のプール",
+     "citation": "Imai, Nunnari, Wu & Vieider (2025) CESifo WP 12334",
+     "url": "https://snunnari.github.io/invw.pdf",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ。推定値の数(812件・166論文)と曲率の値は未確認",
+     "replication": "不明"
+    }
+   ],
+   "how_to_use": "当たる確率が低い選択肢(1%)は約 5〜6 倍(重み 0.05〜0.06)に感じられる、として効用を計算する。γ=0.61 は学生の小標本の値なので、幅(0.56〜0.83)で感度を見る。",
+   "not_confirmed": [
+    "Tversky & Kahneman (1992) の損失側の値(0.69)は開けた資料に出てこず未確認",
+    "Prelec (1998) の原論文、Bruhin, Fehr-Duda & Epper (2010)、Booij ら (2010) のパラメータ値は未確認"
+   ]
+  },
+  {
+   "key": "endowment_wta_wtp",
+   "name_ja": "保有効果(売値と買値の比)",
+   "estimates": [
+    {
+     "what": "WTA/WTP の比の平均(45研究・主標本201観測)",
+     "value": "約7",
+     "unit": "倍",
+     "population": "実験・仮想評価の研究(公共財・非市場財を多く含む)",
+     "citation": "Horowitz & McConnell (2002) JEEM 44(3):426-447(抜粋は Maryland WP 98-05 版)",
+     "url": "https://ageconsearch.umn.edu/record/197848/files/agecon-maryland-98-05.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(作業論文版の本文抜粋)。7.17 や中央値 2.6 という数値は未確認",
+     "replication": "再現されている(比は財の種類で大きく変わる)"
+    },
+    {
+     "what": "財の種類別の WTA/WTP 比の平均(Tunçel & Hammitt の集計として二次資料が引用)",
+     "value": {
+      "環境財": 6.23,
+      "健康・安全": 5.09
+     },
+     "unit": "倍",
+     "population": "メタ分析(観測数は未確認)",
+     "citation": "Tunçel & Hammitt (2014) JEEM 68(1):175-187",
+     "url": "https://link.springer.com/article/10.1007/s40273-020-00890-x",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(後続のレビュー論文による引用)",
+     "replication": "再現されている(普通の私的財、誘因両立的な方法、市場経験があると比は小さい、と抄録に明記)"
+    }
+   ],
+   "how_to_use": "全体平均の 7 倍は公共財や健康リスクに引っぱられた値なので、日用品の選択には使わない。普通の商品については『手放す側の評価は買う側より高い』という向きだけを使い、大きさは取得済みの損失回避 λ≈2 と整合する範囲にとどめる。",
+   "not_confirmed": [
+    "Horowitz & McConnell の正確な平均と中央値",
+    "Tunçel & Hammitt の全体の幾何平均、普通の私的財だけの比"
+   ]
+  },
+  {
+   "key": "anchoring",
+   "name_ja": "アンカリング効果",
+   "estimates": [
+    {
+     "what": "アンカリング効果のメタ分析(高いアンカー対低いアンカー)",
+     "value": {
+      "hedges_g": 0.825,
+      "95%CI": [
+       0.765,
+       0.884
+      ],
+      "I2_pct": 93.73,
+      "effect_sizes_total": 2601,
+      "high_vs_low": 1280
+     },
+     "unit": "Hedges g",
+     "population": "50年分の実験研究",
+     "citation": "'Fifty Years of Anchoring Effects: A Theoretical Reintegration and Meta-Analysis', Management Science (DOI 10.1287/mnsc.2023.03238)。著者名は抜粋に出ず未確認",
+     "url": "https://pubsonline.informs.org/doi/fpi/10.1287/mnsc.2023.03238",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現されている(ただし異質性が非常に大きい)"
+    },
+    {
+     "what": "アンカリングのメタ分析(84効果量)",
+     "value": {
+      "r": 0.401,
+      "corrected_r": 0.558
+     },
+     "unit": "相関 r",
+     "population": "実験研究",
+     "citation": "Townson (2019) 'The anchoring effect: a meta-analysis', Michigan State University 博士論文",
+     "url": "https://d.lib.msu.edu/etd/48066",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "不明"
+    },
+    {
+     "what": "Many Labs 1 でのアンカリング4課題の再現",
+     "value": "再現された(元の研究より大きい効果。数値は未確認)",
+     "unit": "—",
+     "population": "36標本・6,344人(12か国)",
+     "citation": "Klein et al. (2014) Social Psychology 45(3):142-152",
+     "url": "https://www.doi.org/10.1027/1864-9335/A000178",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録と二次資料。OSF に 2017年10月の数値訂正の注記あり)",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "最初に見た価格が支払ってもよい額を動かす向きは使ってよいが、g=0.8 は実験室の数量推定課題が中心で異質性が大きい。購入額への効果は『中程度』にとどめ、係数は感度分析の対象にする。",
+   "not_confirmed": [
+    "Schimmelpfennig らのメタ分析という書誌そのもの(上の Management Science 論文と同じかどうか不明)",
+    "Many Labs 1 のアンカリング各課題の d",
+    "支払意思額へのアンカリングのメタ分析 (Li, Maniadis & Sedikides 2021) の数値(『中程度』という記述のみ)"
+   ]
+  },
+  {
+   "key": "framing",
+   "name_ja": "フレーミング効果",
+   "estimates": [
+    {
+     "what": "アジア病問題の選択率(原論文)",
+     "value": {
+      "利得フレーム_確実な案": 72,
+      "利得フレーム_賭け": 28,
+      "損失フレーム_確実な案": 22,
+      "損失フレーム_賭け": 78,
+      "N": [
+       152,
+       155
+      ]
+     },
+     "unit": "%",
+     "population": "スタンフォード大学とブリティッシュ・コロンビア大学の学生",
+     "citation": "Tversky & Kahneman (1981) Science 211:453-458",
+     "url": "https://gwern.net/doc/psychology/1981-tversky.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認",
+     "replication": "再現されている"
+    },
+    {
+     "what": "リスク選択のフレーミング効果のメタ分析",
+     "value": {
+      "d": 0.31,
+      "papers": 136,
+      "effect_sizes": 230,
+      "participants": "約30,000"
+     },
+     "unit": "Cohen's d",
+     "population": "136論文",
+     "citation": "Kühberger (1998) OBHDP 75(1):23-55",
+     "url": "https://ideas.repec.org/a/eee/jobhdp/v75y1998i1p23-55.html",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(d=0.31 は二次資料の引用。抄録では『小〜中程度』)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "Many Labs 1 でのアジア病問題の再現",
+     "value": {
+      "labs_showing_reversal": "36中31(86%)",
+      "opposite_direction": 0
+     },
+     "unit": "研究室数",
+     "population": "36標本・約6,000人",
+     "citation": "Klein et al. (2014) Social Psychology 45(3)",
+     "url": "https://forrt.org/open-social-psychology/chapter25.html",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(二次資料)",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "同じ中身でも『得をする』と示すと確実な案が、『損をする』と示すとリスクのある案が選ばれやすい。原論文の 72% 対 22% は強い例で、平均的な大きさは d≈0.3(選択率で十数ポイント程度の差)として使う。",
+   "not_confirmed": [
+    "Many Labs 1 のフレーミングの d(0.60 と言われる値は確認できず)"
+   ]
+  },
+  {
+   "key": "choice_overload",
+   "name_ja": "選択肢の数と選びにくさ",
+   "estimates": [
+    {
+     "what": "ジャムの試食実験:立ち寄った客と買った客",
+     "value": {
+      "24種類": {
+       "立ち寄り": 145,
+       "購入": 4,
+       "購入率_pct": 2.8
+      },
+      "6種類": {
+       "立ち寄り": 104,
+       "購入": 31,
+       "購入率_pct": 29.8
+      }
+     },
+     "unit": "人、%",
+     "population": "米国の高級食料品店の客",
+     "citation": "Iyengar & Lepper (2000) JPSP 79(6):995-1006(DellaVigna 2009, NBER WP 13420 の記述で確認)",
+     "url": "https://www.nber.org/system/files/working_papers/w13420/w13420.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得した別論文(二次引用)の記述で確認。購入率は当方で割り算",
+     "replication": "再現に疑い"
+    },
+    {
+     "what": "選択肢過多のメタ分析の平均効果",
+     "value": {
+      "mean_effect": "ほぼゼロ",
+      "conditions": 63,
+      "experiments": 50,
+      "N": 5036
+     },
+     "unit": "d",
+     "population": "公刊・未公刊の実験",
+     "citation": "Scheibehenne, Greifeneder & Todd (2010) J Consumer Research 37(3):409-425",
+     "url": "https://abcwest.cogs.indiana.edu/pmwiki/pdf/scheibehenne.options.2010.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現に疑い(平均はほぼゼロ、研究間のばらつきが大きい)"
+    },
+    {
+     "what": "条件つきの選択肢過多(4つの調整要因)",
+     "value": {
+      "observations": 99,
+      "N": 7202,
+      "moderators": [
+       "選択肢の複雑さ",
+       "課題の難しさ",
+       "好みの不確かさ",
+       "手間を減らしたい目的"
+      ],
+      "residual_variance_explained_pct": 68
+     },
+     "unit": "—",
+     "population": "先行研究99観測",
+     "citation": "Chernev, Böckenholt & Goodman (2015) J Consumer Psychology 25(2):333-358",
+     "url": "https://www.kellogg.northwestern.edu/faculty/research/detail/2015/when-product-assortment-leads-to-choice-overload-a-conceptual",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録。効果量の数値は未確認)",
+     "replication": "不明(条件を入れると主効果も有意、と著者は主張)"
+    }
+   ],
+   "how_to_use": "『選択肢が多いと買わなくなる』を一律の係数として入れない(平均効果はほぼゼロ)。入れる場合は、好みが定まっていない人が複雑で比べにくい選択肢を前にしたときだけ、選ばない確率を少し上げる。",
+   "not_confirmed": [
+    "Chernev らの調整要因ごとの効果量"
+   ]
+  },
+  {
+   "key": "nudge_overall",
+   "name_ja": "ナッジ全般の効果量",
+   "estimates": [
+    {
+     "what": "ナッジの平均効果:学術誌の研究と行政のナッジ・ユニットの全試行",
+     "value": {
+      "academic_pp": 8.7,
+      "academic_se": 2.5,
+      "academic_relative_pct": 33.5,
+      "academic_control_takeup_pct": 26.0,
+      "nudge_unit_pp": 1.4,
+      "nudge_unit_relative_pct": 8.1,
+      "trials": 126,
+      "people": "2,300万人超"
+     },
+     "unit": "パーセントポイント(利用・応答率の増加)",
+     "population": "米国の2つのナッジ・ユニットの全126試行と、学術誌26論文・74介入",
+     "citation": "DellaVigna & Linos (2022) Econometrica 90(1):81-116(確認したのは NBER WP 27594, 2020)",
+     "url": "https://www.nber.org/system/files/working_papers/w27594/w27594.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨・本文)",
+     "replication": "学術誌の値は再現に疑い(著者自身が出版バイアスで差の全部を説明できると結論)。実務の 1.4 ポイントは全試行の集計"
+    },
+    {
+     "what": "ナッジのメタ分析の平均効果",
+     "value": {
+      "d": 0.43
+     },
+     "unit": "Cohen's d",
+     "population": "研究数は未確認",
+     "citation": "Mertens, Herberz, Hahnel & Brosch (2022) PNAS 119(1) e2107346118",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9351501",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(批判レターの本文抜粋で d=0.43 を確認)",
+     "replication": "再現に疑い"
+    },
+    {
+     "what": "出版バイアス補正後の推定",
+     "value": {
+      "Maier_et_al": "補正後は効果の証拠なし(頑健ベイズ・メタ分析)",
+      "Szaszi_et_al_d_range": [
+       0.08,
+       0.31
+      ]
+     },
+     "unit": "Cohen's d",
+     "population": "同上のデータの再分析",
+     "citation": "Maier et al. (2022) PNAS 119(31) e2200300119;Szaszi et al. (2022) PNAS 119(31) e2200732119;Bakdash & Marusich (2022) PNAS",
+     "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9351501/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PMC の抄録・本文抜粋、複数源で一致)",
+     "replication": "—(批判側の結論)"
+    },
+    {
+     "what": "社会比較つきの省エネ通知(Opower)をやめた後の効果の減り方",
+     "value": {
+      "decay_per_year_pct": "10〜20"
+     },
+     "unit": "% / 年",
+     "population": "米国 600万世帯超に郵送",
+     "citation": "Allcott & Rogers (2014) AER 104(10)(確認したのは NBER WP 18492, 2012)",
+     "url": "https://www.nber.org/system/files/working_papers/w18492/w18492.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "説明文やリマインドなどのナッジの効果は、行動する人の割合で +1〜2 ポイント(相対 8% 増)を基準にする。d=0.43 や +8.7 ポイントは出版バイアスで膨らんだ値なので使わない。",
+   "not_confirmed": [
+    "Opower の平均の節電率(約2%)は今回開いた版の要旨では確認できず",
+    "Mertens らの論文本体は開けていない"
+   ]
+  },
+  {
+   "key": "conformity_social_proof",
+   "name_ja": "社会的証明・同調",
+   "estimates": [
+    {
+     "what": "Asch の線分判断実験での同調",
+     "value": {
+      "多数派に合わせた誤答の割合": "約3分の1(32%)",
+      "正答の割合_pct": 68,
+      "一度も同調しなかった人": "4分の1",
+      "半分以上の試行で同調した人": "3分の1",
+      "味方が1人いる場合の誤答_pct": "5.5〜10.4"
+     },
+     "unit": "% (判断の回数に対して)",
+     "population": "米国の男子大学生(被験者50人)",
+     "citation": "Asch (1952) 'Effects of group pressure upon the modification and distortion of judgments'",
+     "url": "https://gwern.net/doc/psychology/1952-asch.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認",
+     "replication": "再現されている(ただし米国では 1950 年代以降、同調が弱まったとメタ分析が報告)"
+    },
+    {
+     "what": "Asch 型実験のメタ分析の範囲と傾向",
+     "value": {
+      "studies": 133,
+      "countries": 17,
+      "participants": 24617,
+      "trend": "米国では1950年代以降に低下、集団主義の国ほど同調が高い",
+      "mean_d": null
+     },
+     "unit": "—",
+     "population": "17か国",
+     "citation": "Bond & Smith (1996) Psychological Bulletin 119(1):111-137",
+     "url": "https://d-r-b-o-b.github.io/teaching/web_PSY333/Week_12/Ashe_meta.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)。平均効果量 d は未確認(別の Bond 2005 が 125研究で 0.89 と引用されている)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "日本人学生での Asch 実験の再現(同じサークルの仲間どうし)",
+     "value": {
+      "conformity_rate_pct": 25.2,
+      "groups": 40,
+      "students": 140,
+      "conclusion": "内集団でも米国人より同調が高いとは言えない"
+     },
+     "unit": "%",
+     "population": "日本の大学生",
+     "citation": "Takano & Sogon (2008) J Cross-Cultural Psychology 39(3):237-250",
+     "url": "https://scite.ai/authors/shunya-sogon-lXmnev",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(結論は抄録、25.2% は学習用サイトの記述で、その記述内に矛盾あり)",
+     "replication": "不明"
+    },
+    {
+     "what": "ホテルのタオル再利用率:『他の宿泊客の多くが再利用』と伝えた場合",
+     "value": {
+      "descriptive_norm_pct": 44.1,
+      "standard_environmental_pct": 35.1
+     },
+     "unit": "%",
+     "population": "米国のホテル宿泊客(実験1)",
+     "citation": "Goldstein, Cialdini & Griskevicius (2008) J Consumer Research 35(3):472-482",
+     "url": "https://www.frontiersin.org/articles/10.3389/fams.2017.00012/full",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(複数の二次資料で一致)",
+     "replication": "再現に疑い(ドイツのホテルでの再現は弱く、7実験の統合では対数オッズ比の平均 0.25。統合の方法にも批判あり)"
+    },
+    {
+     "what": "タオル再利用の7実験を統合した効果",
+     "value": {
+      "mean_log_odds_ratio": 0.25
+     },
+     "unit": "対数オッズ比",
+     "population": "米国・欧州のホテル7実験",
+     "citation": "Scheibehenne, Jamil & Wagenmakers (2016) Psychological Science 27(7):1043-1046;批判は Carlsson et al. (2017) Psychological Science",
+     "url": "https://dare.uva.nl/id/e1d96b38-85c1-42ec-9899-a65acb417f57",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "再現に疑い"
+    }
+   ],
+   "how_to_use": "周囲の全員が同じ選択をしている場面で個人がそれに合わせる確率は約3割、味方が1人いれば1割以下、を上限の目安にする。『みんなやっています』という文面の効果は対数オッズ比 0.25(35%→約41%)程度に抑える。",
+   "not_confirmed": [
+    "Bond & Smith (1996) の平均効果量(0.92 と言われる値)",
+    "Frager (1970) の日本の同調率",
+    "Goldstein らの実験2の数値(49.3%)",
+    "Bohner & Schlüter (2014) の再利用率"
+   ]
+  },
+  {
+   "key": "scarcity_charm_decoy",
+   "name_ja": "希少性・端数価格・おとり効果",
+   "estimates": [
+    {
+     "what": "端数価格(〜99 など)と丸い価格のメタ分析",
+     "value": {
+      "purchase_g": 0.13,
+      "purchase_95%CI": [
+       0.01,
+       0.25
+      ],
+      "price_image_g": 0.28,
+      "price_image_95%CI": [
+       0.09,
+       0.48
+      ],
+      "quality_image_g": 0.0,
+      "studies": 69,
+      "effect_sizes": 362,
+      "N": 40541
+     },
+     "unit": "Hedges g",
+     "population": "事前登録されたメタ分析",
+     "citation": "Troll, Frankenbach, Friese & Loschelder (2024) J Consumer Psychology 34",
+     "url": "https://fis.leuphana.de/en/publications/a-metaanalysis-on-the-effects-of-justbelow-versus-round-prices/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現に疑い(著者自身が、効果は小さく異質で、出版バイアス補正後はさらに小さく有意でない場合もあると記述)"
+    },
+    {
+     "what": "左端の数字への偏り:中古車の走行距離が1万マイルの境目を超えたときの卸売価格の段差",
+     "value": {
+      "per_10000_mile_threshold_usd": "150〜200",
+      "79,900台と80,000台の差_usd": 210
+     },
+     "unit": "米ドル / 台",
+     "population": "米国の中古車オークション 2,200万台超",
+     "citation": "Lacetera, Pope & Sydnor (2012) AER 102(5)(確認したのは NBER WP 17030)",
+     "url": "https://www.nber.org/system/files/working_papers/w17030/w17030.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨・序論)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "希少性の訴求と購入意向のメタ分析",
+     "value": {
+      "effect_sizes": 416,
+      "studies": 131,
+      "direction": "正(購入意向を高める)",
+      "pooled_effect": null
+     },
+     "unit": "—",
+     "population": "131研究",
+     "citation": "Barton, Zlatevska & Oppewal (2022) J Retailing 98(4):741-758",
+     "url": "https://research.monash.edu/en/publications/scarcity-tactics-in-marketing-a-meta-analysis-of-product-scarcity/",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録。平均効果量は未確認)",
+     "replication": "不明"
+    },
+    {
+     "what": "おとり効果(魅力効果)の再現",
+     "value": {
+      "Frederick_Lee_Baskin_2014": "現物・画像など自然な刺激を使った19研究で効果なし(逆効果も同程度)",
+      "Yang_Lynn": "91回の試みのうち確かな効果は11回"
+     },
+     "unit": "—",
+     "population": "米国の実験参加者",
+     "citation": "Frederick, Lee & Baskin (2014) JMR 51(4):487-507;Yang & Lynn (2014) JMR 51(4):508-513;反論 Huber, Payne & Puto (2014) JMR 51(4):520-525",
+     "url": "https://marketing.wharton.upenn.edu/wp-content/uploads/2016/10/The-Limits-of-Attraction.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現に疑い(数値で属性を示した抽象的な選択肢では出るが、実物に近い選択肢では出にくい)"
+    }
+   ],
+   "how_to_use": "端数価格の購入への効果は g=0.13(ごく小さい)を上限とし、ゼロの場合も試す。おとり効果と希少性は係数として入れないか、入れても任意の仮定だと明記する。",
+   "not_confirmed": [
+    "希少性メタ分析の平均効果量",
+    "Heath & Chatterjee (1995) のおとり効果メタ分析の数値",
+    "Anderson & Simester (2003) の9で終わる価格の需要増"
+   ]
+  },
+  {
+   "key": "sunk_cost_mental_accounting",
+   "name_ja": "サンクコスト効果・メンタル・アカウンティング",
+   "estimates": [
+    {
+     "what": "サンクコスト効果のメタ分析の範囲",
+     "value": {
+      "effect_sizes": 98,
+      "period": "1976〜2013",
+      "findings": "効果は明確にある。利用の判断では時間がたつと弱まる。若い人・学生で強く、経済学教育では減らない",
+      "pooled_d": null
+     },
+     "unit": "—",
+     "population": "実験研究",
+     "citation": "Roth, Robbert & Straus (2015) Business Research 8:99-138",
+     "url": "https://link.springer.com/article/10.1007/s40685-014-0014-8",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録。d の値は未確認)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "Many Labs 2:28の古典的な効果の再現率と効果量",
+     "value": {
+      "replicated_p<.0001": "28中14(50%)",
+      "replicated_p<.05": "28中15(54%)",
+      "median_d_original": 0.6,
+      "median_d_replication": 0.15,
+      "samples": 125,
+      "N": 15305,
+      "countries": 36
+     },
+     "unit": "Cohen's d",
+     "population": "36の国・地域",
+     "citation": "Klein et al. (2018) Advances in Methods and Practices in Psychological Science 1(4):443-490",
+     "url": "https://journals.sagepub.com/doi/10.1177/2515245918810225",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録、複数の機関リポジトリで一致)",
+     "replication": "—(再現プロジェクト自体)"
+    }
+   ],
+   "how_to_use": "『すでに払った分がもったいないので続ける』向きは使えるが、大きさは未確認なので小さめの仮の係数にとどめ、払ってからの時間で弱める。メンタル・アカウンティングは数値の根拠を得られなかったので係数化しない。",
+   "not_confirmed": [
+    "Roth らの決定タイプ別の d",
+    "Many Labs 1 のサンクコスト課題の d",
+    "メンタル・アカウンティングのメタ分析(見つからない)",
+    "Many Labs 2 の個別課題(電卓とジャケットの問題など)の結果"
+   ]
+  },
+  {
+   "key": "habit_formation",
+   "name_ja": "習慣形成と行動の継続",
+   "estimates": [
+    {
+     "what": "新しい行動が自動的になるまでの日数",
+     "value": {
+      "typical_days": 66,
+      "range_days": [
+       18,
+       254
+      ],
+      "participants": 96,
+      "completed": 82,
+      "observation_days": 84,
+      "note": "254日は観察期間(84日)を超えた曲線の外挿。66日は二次資料では『平均』と書かれることが多く、中央値かどうかは未確認"
+     },
+     "unit": "日",
+     "population": "学生ら96人(健康に関する行動を1つ選んで毎日くり返す)",
+     "citation": "Lally, van Jaarsveld, Potts & Wardle (2010) European J Social Psychology 40(6):998-1009",
+     "url": "https://www.ucl.ac.uk/news/2009/aug/how-long-does-it-take-form-habit",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(大学の広報、学会誌の解説など複数源で一致)",
+     "replication": "不明(自己申告の指標、小標本)"
+    },
+    {
+     "what": "ジム通いへの金銭的報酬の効果と、報酬終了後の残り方",
+     "value": {
+      "during_incentive_visits_per_week": "+0.56〜0.68(対照群の2倍超)",
+      "after_incentive": "報酬だけの群では長期の効果はわずか",
+      "incentive_plus_commitment_非会員": "報酬終了直後 +9 ポイント → 長期 +6 ポイント(ジムに通う人の割合)"
+     },
+     "unit": "回/週、パーセントポイント",
+     "population": "米国の大企業の従業員 約1,000人",
+     "citation": "Royer, Stehr & Sydnor (2015) AEJ: Applied 7(3)(確認したのは NBER WP 18580)",
+     "url": "https://www.nber.org/system/files/working_papers/w18580/w18580.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認",
+     "replication": "再現されている(報酬をやめると効果が消えるという結果は既存研究と一致、と著者が記述)"
+    },
+    {
+     "what": "通知による行動変化が、通知をやめた後に減る速さ",
+     "value": {
+      "decay_per_year_pct": "10〜20"
+     },
+     "unit": "% / 年",
+     "population": "米国の世帯(Opower)",
+     "citation": "Allcott & Rogers, NBER WP 18492",
+     "url": "https://www.nber.org/system/files/working_papers/w18492/w18492.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "毎日くり返す行動は 2 か月前後(個人差 3 週間〜8 か月)で習慣になるとし、報酬で始めさせた行動は報酬をやめると大半が元に戻る、と設定する。",
+   "not_confirmed": [
+    "Lally らの 66 日が中央値であること",
+    "習慣形成の最近のメタ分析(Singh ら 2024)の数値",
+    "サブスクやアプリの一般的な継続率(別ファイルの churn_rate を参照)"
+   ]
+  },
+  {
+   "key": "reinforcement_rewards",
+   "name_ja": "強化スケジュールと報酬",
+   "estimates": [
+    {
+     "what": "報酬が内発的動機づけ(自由時間にその課題を続けるか)を下げる効果",
+     "value": {
+      "engagement_contingent_d": -0.4,
+      "completion_contingent_d": -0.36,
+      "performance_contingent_d": -0.28,
+      "studies": 128
+     },
+     "unit": "Cohen's d",
+     "population": "128の実験(子どもから大学生)",
+     "citation": "Deci, Koestner & Ryan (1999) Psychological Bulletin 125(6):627-668",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/10589297/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PubMed 抄録の抜粋)",
+     "replication": "再現されている(ただし Cameron & Pierce 1994 のメタ分析は悪影響は限定的と結論しており、解釈に争いがある)"
+    },
+    {
+     "what": "金銭的報酬と成果の関係",
+     "value": {
+      "quantity_corrected_r": 0.34,
+      "quality": "関係なし(別のレビューでは .08)",
+      "studies": 39
+     },
+     "unit": "相関",
+     "population": "39研究・47の関係",
+     "citation": "Jenkins, Mitra, Gupta & Shaw (1998) J Applied Psychology 83(5):777-787",
+     "url": "https://voxEU.org/voxeu/columns/how-financial-incentives-affect-performance",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "不明"
+    },
+    {
+     "what": "内発的動機づけと成果の関係(40年分のメタ分析)",
+     "value": {
+      "rho_range": [
+       0.21,
+       0.45
+      ],
+      "k": 183,
+      "N": 212468,
+      "note": "報酬が成果に直結すると内発的動機づけの寄与は小さく、質は内発的動機づけ、量は報酬がよく予測"
+     },
+     "unit": "補正相関 ρ",
+     "population": "学校・職場・運動",
+     "citation": "Cerasoli, Nicklin & Ford (2014) Psychological Bulletin 140(4):980-1008",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/24491020/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PubMed 抄録)",
+     "replication": "不明"
+    },
+    {
+     "what": "ポイント制度(ロイヤルティ・プログラム)の効果",
+     "value": {
+      "Belli_2022": "429効果量。行動面の忠誠は高めるが、態度は変えにくい",
+      "Chen_2021_thesis": "顧客の反応17項目で r<.30(正だが小さい)"
+     },
+     "unit": "相関 r",
+     "population": "1990〜2020年の研究",
+     "citation": "Belli et al. (2022) J Academy of Marketing Science 50(1):147-173;Chen (2021) Aston University 博士論文",
+     "url": "https://opus.lib.uts.edu.au/handle/10453/162448",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(平均効果量は未確認)",
+     "replication": "不明"
+    },
+    {
+     "what": "ゲーム的な仕組みの行動面の効果(教育の場面)",
+     "value": {
+      "g": 0.25,
+      "95%CI": [
+       0.04,
+       0.46
+      ],
+      "k": 9,
+      "N": 951
+     },
+     "unit": "Hedges g",
+     "population": "教育場面の実験",
+     "citation": "Sailer & Homner (2019 オンライン公開) Educational Psychology Review",
+     "url": "https://link.springer.com/article/10.1007/s10648-019-09498-w",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "不明(行動・動機づけの結果は不安定と著者が記述)"
+    }
+   ],
+   "how_to_use": "『やれば必ずもらえる』型の報酬は、もともと好きでやっていた行動の自発的な継続を d=−0.3〜−0.4 下げる、として報酬終了後の継続率を下げる。報酬は作業量を増やすが質は上げない、ポイント制度の効果は r<0.3、と置く。",
+   "not_confirmed": [
+    "変動比率・変動間隔の強化が消去への抵抗をどれだけ高めるかの定量的なメタ分析(見つからない。教科書的な定性的記述のみ)",
+    "Deci らの『有形の報酬全体』の d",
+    "ポイント制度の売上・継続率への平均効果"
+   ]
+  },
+  {
+   "key": "income_wellbeing",
+   "name_ja": "所得と幸福度",
+   "estimates": [
+    {
+     "what": "感情面の幸福が頭打ちになる年収",
+     "value": {
+      "plateau_usd": 75000,
+      "note": "生活の評価(人生の満足)は所得の対数とともに上がり続ける"
+     },
+     "unit": "米ドル / 年(世帯)",
+     "population": "米国の住民(大規模な日次調査)",
+     "citation": "Kahneman & Deaton (2010) PNAS 107(38):16489-16493",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2944762",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)。Stevenson & Wolfers (NBER WP 18992) の本文でも同じ内容の引用を確認",
+     "replication": "再現に疑い(2021年・2023年の研究で修正)"
+    },
+    {
+     "what": "その場で記録した幸福感と所得",
+     "value": {
+      "finding": "所得の対数に対して直線的に上がり、8万ドルより上でも傾きは同じ",
+      "reports": "100万件超"
+     },
+     "unit": "—",
+     "population": "米国の就業者(スマートフォンでの経験サンプリング)",
+     "citation": "Killingsworth (2021) PNAS 118(4) e2016976118",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/7848527",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現されている(2023年の共同研究で大半の人について確認)"
+    },
+    {
+     "what": "対立する2研究の共同再分析",
+     "value": {
+      "finding": "頭打ちは最も不幸な層だけ(約10万ドルで止まる)。中間層は直線的に上がり、最も幸福な層は10万ドル超で傾きが増す",
+      "unhappy_group_share_pct": "約15(報道の記述。20%という値は確認できず)"
+     },
+     "unit": "—",
+     "population": "同上のデータ",
+     "citation": "Killingsworth, Kahneman & Mellers (2023) PNAS 120(10) e2208661120",
+     "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10068796/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録と複数の報道)",
+     "replication": "—"
+    },
+    {
+     "what": "幸福度と対数所得の傾き(国をまたぐ比較)",
+     "value": {
+      "ladder": 0.33,
+      "ladder_se": 0.02,
+      "life_satisfaction": 0.44,
+      "life_satisfaction_se": 0.03,
+      "note": "飽和点の証拠なし"
+     },
+     "unit": "標準化した幸福度 / 対数所得(単位の詳細は本文の式(1)を参照)",
+     "population": "Gallup World Poll ほか多数の国",
+     "citation": "Stevenson & Wolfers (2013) AER P&P 103(3)(確認したのは NBER WP 18992)",
+     "url": "https://www.nber.org/system/files/working_papers/w18992/w18992.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "満足度は所得の対数に比例して上がる(頭打ちなし)と置く。7.5万ドルでの頭打ちは使わず、入れる場合は不幸な層(下位15%前後)だけに限定する。",
+   "not_confirmed": [
+    "Killingsworth (2021) の標本の人数(33,391人)",
+    "2023年論文での頭打ちが起きる層の正確な割合",
+    "日本の所得と満足度の関係(内閣府『満足度・生活の質に関する調査』は今回未確認)"
+   ]
+  },
+  {
+   "key": "intention_behavior_gap",
+   "name_ja": "意図と行動のずれ",
+   "estimates": [
+    {
+     "what": "意図を変えたとき行動がどれだけ変わるか(実験のメタ分析)",
+     "value": {
+      "intention_change_d": 0.66,
+      "behavior_change_d": 0.36,
+      "tests": 47
+     },
+     "unit": "Cohen's d",
+     "population": "47の実験",
+     "citation": "Webb & Sheeran (2006) Psychological Bulletin 132(2):249-268",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/16536643/",
+     "confidence": "high",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PubMed 抄録の文言そのもの、複数源で一致)",
+     "replication": "再現されている"
+    },
+    {
+     "what": "意図が行動の分散を説明する割合(メタ分析のメタ分析)",
+     "value": {
+      "variance_explained": null,
+      "note": "二次資料では『ほぼ3分の1』『20〜30%』。10のメタ分析・422研究"
+     },
+     "unit": "%",
+     "population": "422研究",
+     "citation": "Sheeran (2002) European Review of Social Psychology 12(1):1-36",
+     "url": "https://cancercontrol.cancer.gov/brp/research/constructs/intention-expectation-willingness/",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(28%、r=.53 という数値そのものは確認できず)",
+     "replication": "再現されている"
+    }
+   ],
+   "how_to_use": "アンケートの『買いたい・やりたい』という回答を行動に直すときは、意図の変化の約半分(0.36/0.66≈0.55)しか行動に現れない、として割り引く。",
+   "not_confirmed": [
+    "Sheeran (2002) の 28% と r=0.53"
+   ]
+  },
+  {
+   "key": "japan_estimates",
+   "name_ja": "日本人を対象にした推定",
+   "estimates": [
+    {
+     "what": "時間割引:冷蔵庫購入から逆算した主観的割引率",
+     "value": {
+      "指標1": "4.3〜7.8%",
+      "指標2": "0.7〜10.7%"
+     },
+     "unit": "年率 %",
+     "population": "日本の家電購入者(POS)",
+     "citation": "RIETI DP 18-J-023",
+     "url": "https://www.rieti.go.jp/jp/publications/dp/18j023.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "不明"
+    },
+    {
+     "what": "リスク回避:『50%で10万円が当たるくじ』にいくらまで払うかから作った指標(0〜1、大きいほどリスク回避的)",
+     "value": {
+      "mean": 0.8,
+      "men": 0.738,
+      "women": 0.868,
+      "earthquake_effect": "震度が2上がると男性の相対的リスク回避度が平均から 5.3% 低下"
+     },
+     "unit": "指標(0〜1)",
+     "population": "日本の成人(大阪大学『くらしの好みと満足度についてのアンケート』JHPS-CPS、平均52歳)",
+     "citation": "Hanaoka, Shigeoka & Watanabe (2018) AEJ: Applied 10(2)(確認したのは NBER WP 21400)",
+     "url": "https://www.nber.org/system/files/working_papers/w21400/w21400.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(表1、本文)",
+     "replication": "不明"
+    },
+    {
+     "what": "くじの購入:当たる確率50%と1%(期待値と価格は同じ)",
+     "value": {
+      "buy_50pct_lottery": "約70%",
+      "buy_1pct_lottery": "40%未満"
+     },
+     "unit": "回答者の割合",
+     "population": "日本の成人 約1万人(20〜79歳、ウェブ調査)",
+     "citation": "Tomiura, Ito, Mukunoki & Wakasugi, RIETI DP 13-E-009",
+     "url": "https://www.rieti.go.jp/jp/publications/dp/13e009.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認",
+     "replication": "不明"
+    },
+    {
+     "what": "時間選好と肥満:符号効果(損は割り引かない傾向)のある人",
+     "value": {
+      "obesity_probability_pp": -3.69,
+      "underweight_probability_pp": 4.02
+     },
+     "unit": "パーセントポイント",
+     "population": "日本の成人(大阪大学のアンケート)",
+     "citation": "Ikeda, Kang & Ohtake (2010) J Health Economics 29(2):268-284",
+     "url": "https://econpapers.repec.org/RePEc:eee:jhecon:v:29:y:2010:i:2:p:268-284",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "不明"
+    },
+    {
+     "what": "同調:日本人学生での Asch 実験",
+     "value": {
+      "conformity_rate_pct": 25.2,
+      "conclusion": "米国人より同調が高いとは言えない"
+     },
+     "unit": "%",
+     "population": "日本の大学生 140人",
+     "citation": "Takano & Sogon (2008) J Cross-Cultural Psychology 39(3)",
+     "url": "https://scite.ai/authors/shunya-sogon-lXmnev",
+     "confidence": "low",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "不明"
+    },
+    {
+     "what": "損失回避 λ の日本人での推定",
+     "value": null,
+     "unit": "λ",
+     "population": "—",
+     "citation": "見つからない(日本人を含む多国間調査 Rieger, Wang & Hens 2017 Theory and Decision 82(4) は存在するが国別の値は開けず)",
+     "url": "https://link.springer.com/doi/10.1007/s11238-016-9582-8",
+     "confidence": "low",
+     "verified_via": "見つからない",
+     "replication": "不明"
+    },
+    {
+     "what": "現在バイアス β の日本人での推定",
+     "value": null,
+     "unit": "β",
+     "population": "—",
+     "citation": "見つからない(Wang, Rieger & Hens 2016 J Economic Psychology 52 に日本を含む53か国の比較があるが国別の値は開けず。Falk et al. 2018 の Global Preference Survey も日本 1,000人を含むが国別の値は本文から取れず)",
+     "url": "https://www.nber.org/system/files/working_papers/w23943/w23943.pdf",
+     "confidence": "low",
+     "verified_via": "見つからない",
+     "replication": "不明"
+    }
+   ],
+   "how_to_use": "日本の住民には、割引率は年 4〜8%(耐久財の購入)と低めの値、リスク回避は男女差(男性のほうが低い)を入れる。同調を日本だから強くする、という設定は根拠が弱いので入れない。λ と β は海外のメタ分析の値を流用し、その旨を明記する。",
+   "not_confirmed": [
+    "池田・大竹らのアンケートでの割引率の平均、双曲割引の人の割合",
+    "日本人の損失回避 λ、現在バイアス β、確率の重みづけ γ の推定値",
+    "RIETI DP 11-J-054(大竹・李、派遣労働者の行動経済学的分析)は PDF の文字が抽出できず内容を確認できなかった"
+   ]
+  },
+  {
+   "key": "pop_psychology_claims",
+   "name_ja": "広く言われる『心理学の法則』の出典と再現状況",
+   "estimates": [
+    {
+     "what": "エゴ・デプリーション(自制心は使うと減る):多施設の事前登録再現",
+     "value": {
+      "d": 0.06,
+      "labs": 36,
+      "N": 3531,
+      "bayes": "帰無仮説のほうが4倍もっともらしい"
+     },
+     "unit": "Cohen's d",
+     "population": "多国の大学生",
+     "citation": "Vohs et al. (2021) Psychological Science 32(10):1566-1581",
+     "url": "https://gwern.net/doc/psychology/willpower/2021-vohs.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "再現に失敗"
+    },
+    {
+     "what": "エゴ・デプリーション:登録再現報告",
+     "value": {
+      "d": 0.04,
+      "95%CI": [
+       -0.07,
+       0.15
+      ],
+      "labs": 23,
+      "N": 2141
+     },
+     "unit": "Cohen's d",
+     "population": "多国の大学生",
+     "citation": "Hagger et al. (2016) Perspectives on Psychological Science 11(4):546-573",
+     "url": "https://www.pubmed.gov/27474142/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PubMed 抄録)",
+     "replication": "再現に失敗"
+    },
+    {
+     "what": "パワーポーズ:大標本での再現",
+     "value": {
+      "N": 200,
+      "feelings_of_power": "効果あり",
+      "hormones_and_risk_taking": "効果なし",
+      "note": "原論文の筆頭著者 Carney も効果は実在しないとの立場を公表"
+     },
+     "unit": "—",
+     "population": "男女 200人(女性98・男性102)",
+     "citation": "Ranehill et al. (2015) Psychological Science 26(5):653-656",
+     "url": "https://www.zne.uzh.ch/dam/jcr:e5fc4c3c-d50e-4aa9-96ab-4389e426d20d/Psychological%20Science-2015-Ranehill-0956797614553946.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ",
+     "replication": "再現に失敗(ホルモン・行動への効果)。気分への効果だけ残る"
+    },
+    {
+     "what": "プライミング(国旗・お金を見せると態度が変わる):Many Labs 1",
+     "value": "再現されなかった(13効果のうち国旗プライミングと通貨プライミングの2つ)",
+     "unit": "—",
+     "population": "36標本・6,344人",
+     "citation": "Klein et al. (2014) Social Psychology 45(3)",
+     "url": "https://www.doi.org/10.1027/1864-9335/A000178",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現に失敗"
+    },
+    {
+     "what": "マシュマロ・テスト(4歳で待てた子は将来の成績が良い)",
+     "value": {
+      "effect": "1分長く待つごとに15歳時の学力が約0.1標準偏差",
+      "vs_original": "元の研究の半分",
+      "with_controls": "家庭環境などを統制すると3分の2減る"
+     },
+     "unit": "標準偏差",
+     "population": "米国 NICHD 調査の子ども(母親が大卒でない層)",
+     "citation": "Watts, Duncan & Quan (2018) Psychological Science 29(7):1159-1177",
+     "url": "https://gwern.net/doc/psychology/willpower/2018-watts.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(要旨)",
+     "replication": "再現に疑い"
+    },
+    {
+     "what": "表情フィードバック(ペンをくわえて笑顔にすると面白く感じる)",
+     "value": {
+      "rating_difference": 0.03,
+      "95%CI": [
+       -0.11,
+       0.16
+      ],
+      "labs": 17,
+      "N": 1894,
+      "later": "Many Smiles (2022, N=3,878, 19か国)は表情をまねる課題では小さな効果、ペン課題では不明確"
+     },
+     "unit": "評定の差(単位)",
+     "population": "多国の大学生",
+     "citation": "Wagenmakers et al. (2016) Perspectives on Psychological Science 11(6):917-928;Coles et al. (2022) Nature Human Behaviour",
+     "url": "https://pure.uva.nl/ws/files/14872420/Registered_Replication_Report.pdf",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(抄録)",
+     "replication": "再現に失敗(ペン課題)"
+    },
+    {
+     "what": "『1万時間の法則』:計画的な練習が成績の分散を説明する割合",
+     "value": {
+      "games": 26,
+      "music": 21,
+      "sports": 18,
+      "education": 4,
+      "professions": "<1",
+      "overall_r": 0.35
+     },
+     "unit": "% (分散)",
+     "population": "メタ分析(研究数は未確認)",
+     "citation": "Macnamara, Hambrick & Oswald (2014) Psychological Science 25(8):1608-1618",
+     "url": "https://pubmed.ncbi.nlm.nih.gov/24986855/",
+     "confidence": "medium",
+     "verified_via": "未開封。WebSearch の抜粋(抄録・二次資料)のみ(PubMed 抄録)",
+     "replication": "再現に疑い(練習は重要だが、言われるほどではない)"
+    },
+    {
+     "what": "心理学の実験全体の再現率",
+     "value": {
+      "OSC_2015_有意に再現": "36%(元は97%が有意)",
+      "OSC_2015_効果量": "元の半分",
+      "SSRP_2018_Nature・Science掲載21研究": "13件(62%)が再現、効果量は元の約50%",
+      "ManyLabs5_2020": "再現時の効果量の中央値 r=.07、元(r=.37)より平均78%小さい"
+     },
+     "unit": "%",
+     "population": "心理学・社会科学の実験",
+     "citation": "Open Science Collaboration (2015) Science 349:aac4716;Camerer et al. (2018) Nature Human Behaviour 2:637-644;Ebersole et al. (2020) AMPPS 3(3)",
+     "url": "https://gwern.net/doc/statistics/bias/2015-opensciencecollaboration.pdf",
+     "confidence": "high",
+     "verified_via": "本文PDFを取得して該当箇所を確認(3本とも要旨)",
+     "replication": "—"
+    }
+   ],
+   "how_to_use": "ここに挙げた『法則』(エゴ・デプリーション、パワーポーズ、プライミング、表情フィードバック)はシミュレーターの係数にしない。心理学の実験室の効果量を使うときは、再現時には半分以下になるという経験則で割り引く。",
+   "not_confirmed": [
+    "Doyen ら (2012) の高齢者プライミングの再現失敗(今回の検索では出典の抜粋を得られず)",
+    "メラビアンの法則(7-38-55)の原論文と解釈",
+    "単純接触効果のメタ分析(Bornstein 1989 の r=0.26)",
+    "成長マインドセットのメタ分析 (Sisk ら 2018) の数値(『全体として弱い』という結論のみ確認)",
+    "YouTube などの動画の内容そのものは視聴できないため確認していない"
+   ]
+  }
+ ],
+ "hosts_needed": [
+  "pmc.ncbi.nlm.nih.gov / pubmed.ncbi.nlm.nih.gov(PNAS のナッジ論争、Kahneman-Deaton、Killingsworth、Deci ら、Webb & Sheeran の本文・抄録)",
+  "www.pnas.org",
+  "osf.io(Many Labs 1・2 の課題別の効果量表)",
+  "journals.sagepub.com",
+  "link.springer.com(Roth ら 2015、Rieger ら 2017)",
+  "www.iser.osaka-u.ac.jp / w3iser.iser.osaka-u.ac.jp(大阪大学の討議論文とアンケート:日本人の時間割引・リスク回避)",
+  "ageconsearch.umn.edu(Horowitz & McConnell 作業論文)",
+  "www.tse-fr.eu(Tunçel & Hammitt)",
+  "abcwest.cogs.indiana.edu(Scheibehenne ら 2010)",
+  "snunnari.github.io / www.cesifo.org(Imai らのプロスペクト理論メタ分析)",
+  "bpb-us-e1.wpmucdn.com(Frederick ら 2002 の PDF)",
+  "d-r-b-o-b.github.io(Bond & Smith 1996 の PDF)",
+  "pubsonline.informs.org(アンカリングのメタ分析)",
+  "www.zora.uzh.ch(Wang, Rieger & Hens 2016 の国別表)",
+  "econpapers.repec.org / ideas.repec.org",
+  "www.jstage.jst.go.jp",
+  "www.env.go.jp(日本版ナッジ・ユニットの実証結果)"
+ ]
+}

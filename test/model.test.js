@@ -377,3 +377,19 @@ test("得票と議席:ドント式と、過去の選挙の再現", () => {
   const rows = electionChecks(); assert.ok(rows[0].a.startsWith("76 / 88"));
   assert.ok(fitK(ELECTIONS.elections.at(-1)).k > 1);
 });
+
+import { discount, weightOf, psychologyChecks } from "../public/js/custom.js";
+test("オリジナルの実験: あとのお金は小さく、まれな確率は大きく感じる", () => {
+  assert.equal(discount(0), 1);
+  assert.ok(Math.abs(discount(12) - 0.95 / 1.06) < 1e-9);
+  assert.ok(discount(6) > discount(24));
+  assert.equal(weightOf(1), 1);
+  assert.equal(weightOf(0), 0);
+  assert.ok(Math.abs(weightOf(0.01) - 0.055) < 0.002); // Tversky & Kahneman (1992) の値
+  assert.ok(weightOf(0.9) < 0.9);
+  assert.ok(psychologyChecks().every((r) => Math.abs(r.diff) * 100 <= r.tol));
+  const t = trialCustom(P, { ...TEMPLATES.reward, n: 800 }, 3, 1);
+  assert.ok(t.mean[3] > t.mean[1], "期待値が同じなら、まれに大きく当たる形のほうが選ばれる");
+  const flat = trialCustom(P, { ...TEMPLATES.fourday, n: 800 }, 2, 1), same = trialCustom(P, { ...TEMPLATES.fourday, n: 800, options: TEMPLATES.fourday.options.map((o) => ({ ...o, delay: undefined, chance: undefined })) }, 2, 1);
+  assert.deepEqual(flat.mean, same.mean); // 何も入れなければ、これまでと同じ結果
+});

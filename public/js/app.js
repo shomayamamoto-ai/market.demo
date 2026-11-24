@@ -16,7 +16,7 @@ import { island } from "./island.js";
 import { climb } from "./climb.js";
 import { council } from "./council.js";
 import { labor } from "./labor.js";
-import { mountCustom, CUSTOM_ASSUMPTIONS, customChecks } from "./custom.js";
+import { mountCustom, CUSTOM_ASSUMPTIONS, customChecks, psychologyChecks } from "./custom.js";
 import { mountPolitics, POLITICS_ASSUMPTIONS, employeeRates, voteTable } from "./politics.js";
 import POLICY from "./policy-data.js";
 import { mountElections, ELECTION_ASSUMPTIONS, electionChecks } from "./elections.js";
@@ -1179,7 +1179,7 @@ function buildGuide() {
     setTimeout(() => {
       try {
         const rows = scoreboard(state.D, state.base, [{ basis: "動画の実験値", defs: LABS }, { basis: "理論", defs: THEORY_LABS }, { basis: "実験", defs: EXPERIMENT_LABS }, { basis: "公式推計", defs: [future] }], Number($("seed").value) || 1);
-        rows.push(...customChecks(state.base, Number($("seed").value) || 1), ...marketingChecks(state.D, state.base, Number($("seed").value) || 1));
+        rows.push(...psychologyChecks(), ...customChecks(state.base, Number($("seed").value) || 1), ...marketingChecks(state.D, state.base, Number($("seed").value) || 1));
         // 政治と経済:手取りの計算と投票率を、家計調査と公表値に照らす
         for (const r of employeeRates(state.base)) { const src = "国税庁 民間給与実態統計調査 令和7年分 第17表(同じ年収の給与所得者の実績)";
           rows.push({ basis: "公的統計", model: "手取りと負担", label: `年収${r.label}:社会保険料の割合`, a: `${(r.social * 100).toFixed(1)}%`, b: `${(r.realSocial * 100).toFixed(1)}%`, diff: r.social / r.realSocial - 1, source: src });

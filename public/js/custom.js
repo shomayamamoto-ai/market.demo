@@ -22,6 +22,8 @@ export const CUSTOM_ASSUMPTIONS = {
   spread: { value: 0.8, note: "手間と不安の感じ方の個人差(対数正規分布の標準偏差)。在宅勤務の価値は平均で賃金の8%だが、上位25%は14%以上、約2割はゼロ以下と個人差が大きい(Mas & Pallais 2017)ことを反映" },
   social: { value: 0.58, note: "周りの影響。選んでいる人の割合 × 影響の強さ(0〜10)× その人の同調しやすさ × この係数。強さ10で全員が選んでいるとき、身近な仲間が買ったと知った場合の効果(購入率42%→93%、Bursztyn ら 2014)に相当する大きさ。職場全体へのゆるい波及はこの10分の1以下(Duflo & Saez 2003)なので、強さは場面に合わせて入れる" },
   inertia: { value: 0.23, note: "乗り換えの面倒さ1点あたり、いま選んでいるものに足す重み。10点で、初期設定の効果がいちばん強く出た例(401(k)の加入率37%→86%、Madrian & Shea 2001)に相当。5点で、初期設定の効果のメタ分析の平均(d=0.68、Jachimowicz ら 2019)に相当" },
+  delay: { value: { beta: 0.95, annual: 0.06 }, note: "あとで動くお金は、小さく感じる。すぐでないお金には、まず beta を掛け(目先を重く見るくせ。実験220件のメタ分析の平均0.95、Imai, Rutter & Camerer 2021)、さらに1年あたり annual の割合で割り引く(日本の冷蔵庫の購入データから逆算した割引率 年4.3〜7.8%の中ほど、経済産業研究所 18-J-023)。家計の貯蓄行動から推定すると beta は0.5前後とずっと小さい(Laibson ら)ので、実際の差はもっと大きい可能性がある" },
+  chance: { value: 0.61, note: "確率の感じ方のゆがみ。めったに起きないことは実際より大きく、ほぼ確実なことは小さく感じる。重み = p^γ ÷ (p^γ + (1−p)^γ)^(1/γ)。γ は Tversky & Kahneman (1992) の利得での値。1%の確率は約5.5%の重みになる(18研究のメタ分析の平均は6.0%、DellaVigna 2018)。損の側の値(0.69とされる)は本文で確認できなかったため、同じ値を使う" },
   rethink: { value: 0.25, note: "毎月、選び直しを考える人の割合。仮定" },
   wordOfMouth: { value: 0.035, note: "口コミ。知らない人が、選んでいる人の割合 × この係数の確率で、その月に知る。普及モデルのメタ分析(Van den Bulte & Stremersch 2004、q の平均0.42/年)を月に直した値" },
   natural: { value: "月0.23%", note: "参考:宣伝をしなくても自然に知られていく速さは、同じメタ分析で年2.7%(月0.23%)。画面の「毎月、新しく知る人」は、これに宣伝や告知の分を足した値を入れる" },
@@ -29,7 +31,7 @@ export const CUSTOM_ASSUMPTIONS = {
   basis: { value: "文献値と仮定の組み合わせ", note: "お金・損失・時間・現状維持・周りの影響・口コミは文献の推定値を使った。点数と金額の対応、曲がり方、新しさ・品質の重み、年齢の傾きは仮定のまま。米国の研究が多く、日本でそのまま当てはまるとは限らない" },
 };
 
-const opt = (name, money, effort, risk, novelty, quality, online = 0) => ({ name, money, effort, risk, novelty, quality, online });
+const opt = (name, money, effort, risk, novelty, quality, online = 0, delay = 0, chance = 100) => ({ name, money, effort, risk, novelty, quality, online, delay, chance });
 export const TEMPLATES = {
   blank: { label: "白紙から作る", title: "", target: { ageMin: 18, ageMax: 79, sex: "all", workOnly: false }, social: 5, inertia: 5, aware: 20, spread: 10, months: 24,
     options: [opt("今のまま", 0, 2, 0, 0, 5), opt("新しい案", 0, 1, 2, 5, 5)] },
@@ -41,6 +43,8 @@ export const TEMPLATES = {
     options: [opt("毎日出社", 0, 7, 0, 0, 6), opt("週2日在宅", 0, 4, 2, 4, 5), opt("原則在宅", 0, 1, 6, 6, 3)] },
   cashless: { label: "例:現金のみの店がキャッシュレスを入れる", title: "キャッシュレス決済を入れたら、客はどう払うか", target: { ageMin: 15, ageMax: 89, sex: "all", workOnly: false }, social: 5, inertia: 6, aware: 50, spread: 15, months: 24,
     options: [opt("現金で払う", 0, 3, 0, 0, 7), opt("スマホ決済(1%還元)", 500, 1, 4, 6, 4, 1), opt("カードで払う", 300, 2, 2, 2, 6)] },
+  reward: { label: "例:還元の渡し方を変える(すぐ・あとで・くじ)", title: "同じ額の還元でも、渡し方でどれだけ選ばれ方が変わるか", target: { ageMin: 18, ageMax: 79, sex: "all", workOnly: false }, social: 2, inertia: 2, aware: 100, spread: 30, months: 12,
+    options: [opt("還元なし", 0, 0, 0, 0, 5), opt("毎月300円をすぐ値引き", 300, 0, 0, 2, 5), opt("半年後に300円分のポイント", 300, 0, 0, 2, 5, 0, 6), opt("1%の確率で30,000円が当たる", 30000, 0, 0, 5, 5, 0, 0, 1)] },
   benefit: { label: "例:福利厚生を3つから選ぶ", title: "福利厚生を選択制にしたら、どれが選ばれるか", target: { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, social: 3, inertia: 2, aware: 100, spread: 30, months: 12,
     options: [opt("何も選ばない", 0, 0, 0, 0, 3), opt("家賃補助 月1万円", 10000, 2, 0, 1, 5), opt("学び直し支援 月1万円分", 6000, 5, 1, 7, 6), opt("健康支援 月1万円分", 5000, 3, 0, 3, 8)] },
 };
@@ -62,11 +66,21 @@ const COLORS = ["#8b93a7", "#b4473b", "#2f8f6b", "#c9a45c"];
 
 // その人にとって、選択肢を月何円の得・損とみなせるか(お金・手間・不安・新しさ・安心を、円にそろえる)
 const AVG_WAGE = 2400; // 働いている人の平均的な時給の目安(円)。働いていない人の時間の価値に使う
+// あとで動くお金の割引(months か月後のお金を、いまのお金の何倍に感じるか)
+export function discount(months) {
+  const d = CUSTOM_ASSUMPTIONS.delay.value;
+  return months > 0 ? d.beta / (1 + d.annual) ** (months / 12) : 1;
+}
+// 確率の感じ方(実際の確率 p を、どのくらいの重みに感じるか)
+export function weightOf(p) {
+  const g = CUSTOM_ASSUMPTIONS.chance.value, q = clamp(p, 0, 1);
+  return q <= 0 ? 0 : q >= 1 ? 1 : q ** g / (q ** g + (1 - q) ** g) ** (1 / g);
+}
 function yenValue(p, o, k) {
   const A = CUSTOM_ASSUMPTIONS, t = p.traits;
   const wage = p.working && p.income > 0 ? clamp((p.income * 10000) / 1926, 900, 12000) : AVG_WAGE; // 年収 ÷ 年間の労働時間(月160.5時間 × 12)
   const purse = Math.max(p.spendTotal, takeHome(p).net / 12, 50000) / 250000; // 月25万円で暮らす人を1とした、その人の懐の大きさ。不安・新しさ・安心に払ってもよい額は、これに比例する
-  return o.money
+  return o.money * weightOf((o.chance ?? 100) / 100) * discount(o.delay ?? 0)
     - o.effort * A.time.value.hours * wage * A.time.value.share * k.effort
     - o.risk * A.risk.value * purse * (1 + A.riskAge.value * (p.age - 45) + (p.tier <= 1 ? 0.3 : 0)) * k.risk
     + o.novelty * A.novelty.value * purse * (t.novelty - 0.5) * 2
@@ -181,7 +195,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
         <label>性別 <select id="x-sex"><option value="all">すべて</option><option value="male">男性</option><option value="female">女性</option></select></label>
         <label>働いている人だけ <select id="x-work"><option value="0">いいえ</option><option value="1">はい</option></select></label></div>
       <h3>選択肢(2〜4つ)</h3>
-      <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。<br><b>割合を知りたいときは「実際の割合」を入れてください。</b>いまの利用率など、分かっている数字を1つ入れると、それを再現するように補正値を自動で決めます。そのあと金額や点数を変えると、「いまから何ポイント動くか」が出ます。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
+      <p class="note">1つ目は「今のまま」です。全員がここから始まります。「毎月のお金」は、その人の得ならプラス、負担ならマイナスの金額です。「手間」は、週に何時間ぶんの手間や負担がかかるかを入れます(通勤、手続き、待ち時間など)。<br>不安・新しさ・安心は0〜10点です。<br>お金がすぐには動かないとき(半年後のポイント、来年の昇給など)は「何か月後か」を、必ずもらえるとは限らないとき(くじ、成功報酬など)は「確率」を入れます。あとのお金は小さく、めったに当たらないお金は実際より大きく感じる、という研究の値で計算します。<br><b>割合を知りたいときは「実際の割合」を入れてください。</b>いまの利用率など、分かっている数字を1つ入れると、それを再現するように補正値を自動で決めます。そのあと金額や点数を変えると、「いまから何ポイント動くか」が出ます。不安10点は月5,000円の損、新しさ・安心は1点が月1,000円ほどの重みで計算します。</p>
       <div id="x-opts"></div>
       <div class="form-row"><button id="x-add" type="button">選択肢を追加</button></div>
       <div class="form-grid"><label class="wide">手元に数字がないとき:似た場面の実際の割合を、選択肢2の基準にする
@@ -197,11 +211,11 @@ export function mountCustom({ getPersonas, seedOf, before }) {
   before.parentNode.insertBefore(el, before);
   const $ = (id) => el.querySelector(`#${id}`);
   let options = [];
-  const FIELDS = [["money", "毎月のお金(円)", -1e7, 1e7, 500], ["effort", "手間(週に何時間ぶんか)", 0, 10, 1], ["risk", "不安・リスク", 0, 10, 1], ["novelty", "新しさ", 0, 10, 1], ["quality", "安心・品質", 0, 10, 1]];
+  const FIELDS = [["money", "毎月のお金(円)", -1e7, 1e7, 500], ["effort", "手間(週に何時間ぶんか)", 0, 10, 1], ["risk", "不安・リスク", 0, 10, 1], ["novelty", "新しさ", 0, 10, 1], ["quality", "安心・品質", 0, 10, 1], ["delay", "お金が動くのは何か月後か", 0, 120, 1], ["chance", "お金が実際に動く確率(%)", 0, 100, 1]];
   const renderOptions = () => {
     $("x-opts").innerHTML = options.map((o, k) => `<div class="x-opt" data-k="${k}" style="border-left-color:${COLORS[k]}">
         <label class="x-name">${k === 0 ? "今のまま" : `選択肢${k + 1}`} <input data-f="name" type="text" value="${esc(o.name)}"></label>
-        ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f]}"></label>`).join("")}
+        ${FIELDS.map(([f, label, min, max, step]) => `<label>${label} <input data-f="${f}" type="number" min="${min}" max="${max}" step="${step}" value="${o[f] ?? (f === "chance" ? 100 : 0)}"></label>`).join("")}
         ${k >= 1 ? `<label>ネットが必要か <select data-f="online"><option value="0"${o.online ? "" : " selected"}>いらない</option><option value="1"${o.online === 1 ? " selected" : ""}>ネットを使う人だけ</option><option value="2"${o.online === 2 ? " selected" : ""}>ネットで買い物や取引をする人だけ</option></select></label>` : ""}
         ${k >= 1 ? `<label>実際の割合(分かれば %) <input data-f="known" type="number" min="0" max="100" step="0.1" value="${o.known ?? ""}" placeholder="空欄でよい"></label>
         <label>補正値 <input data-f="asc" type="number" step="0.1" value="${Math.round((o.asc ?? 0) * 100) / 100}"></label>` : ""}
@@ -215,7 +229,7 @@ export function mountCustom({ getPersonas, seedOf, before }) {
     options = t.options.map((o) => ({ ...o })); renderOptions(); $("x-out").innerHTML = ""; $("x-stage").innerHTML = "";
   };
   $("x-template").onchange = () => load($("x-template").value);
-  $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : f === "known" ? e.target.value : Number(e.target.value) || 0; };
+  $("x-opts").onchange = $("x-opts").oninput = (e) => { const row = e.target.closest("[data-k]"), f = e.target.dataset.f; if (!row || !f) return; const o = options[Number(row.dataset.k)]; o[f] = f === "name" ? e.target.value : f === "known" ? e.target.value : f === "chance" && e.target.value === "" ? 100 : Number(e.target.value) || 0; };
   $("x-opts").onclick = (e) => { if (!e.target.classList.contains("x-del")) return; options.splice(Number(e.target.closest("[data-k]").dataset.k), 1); renderOptions(); };
   $("x-anchor").onchange = () => { const a = ANCHORS[Number($("x-anchor").value)]; if (!a || !options[1]) return; options[1].known = String(a.value); options[1].asc = 0; renderOptions(); };
   $("x-add").onclick = () => { if (options.length < 4) { options.push(opt(`案${options.length}`, 0, 3, 3, 5, 5)); renderOptions(); } };
@@ -280,6 +294,12 @@ export function mountCustom({ getPersonas, seedOf, before }) {
 }
 
 // 実際の調査との照合。係数はこれらの数字に合わせ込んでいない(文献値と仮定だけで計算した結果を、あとから比べる)
+// 文献の値との照合(確率の感じ方)
+export function psychologyChecks() {
+  const w = weightOf(0.01);
+  return [{ basis: "文献", model: "オリジナルの実験", label: "1%の確率に置かれる重み", a: `${(w * 100).toFixed(1)}%`, b: "6.0%", diff: w / 0.06 - 1, tol: 15,
+    source: "18研究のメタ分析の平均(DellaVigna 2018, NBER WP 24797 表2a)。モデルの γ=0.61 は Tversky & Kahneman (1992) の値で、この平均とは別の出どころ" }];
+}
 export function customChecks(personas, seed = 1) {
   const stated = { social: 0, inertia: 0, aware: 100, spread: 100, months: 12, n: 1000 }; // 「利用したいか」を聞く調査に合わせ、周りの影響と乗り換えの面倒さを外す
   const work = { ageMin: 20, ageMax: 64, sex: "all", workOnly: true }, F = TEMPLATES.fourday.options, rows = [];
