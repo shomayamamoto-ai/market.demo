@@ -539,6 +539,14 @@ function renderAI() {
       ${kpi("売上が最大になる価格の目安", agg.bestPrice ? `${num(agg.bestPrice)}円` : "―", `現在 ${num(brief.price_yen)}円`)}
     </div>
     <p class="note">「買う」という回答は実際より多く出やすいため、割り引いて人数に直しています(割引率は「出典と仮定」を参照)。</p>
+    <details class="note"><summary>AIの答えは、どこまで当てにできるか(研究でわかっていること)</summary>
+      <ul class="facts">
+        <li>集団の平均や回答の分布は、実際の人と近くなりやすい(米国の投票先で相関0.90〜0.94:Argyle ほか 2023。日本の生活定点調査でも分布は近い:野沢ほか 2026)。</li>
+        <li>一方で、1人ずつの答えはあまり当たらない。日本の調査では、全員に「いちばん多い答え」を当てるだけの方法に負けた(同 野沢ほか)。属性だけで作ったAIの回答者の的中率は60%で、本人が2週間後に答え直したときの80%より低い(Park ほか 2024)。</li>
+        <li>答えのばらつきは実際の人の約0.7倍と小さく、施策による差は大きく(中央値で約8倍)出やすい(Park ほか 2024)。</li>
+        <li>価格を変えたときの反応の形が、現実と違うことがある(Gui &amp; Toubia 2023)。払ってもよい額は高めに出やすい。</li>
+      </ul>
+      <p>このため、ここに出る人数や売上は「どの層が反応しやすいか」「どの理由が多いか」を見る材料として使い、割合そのものは統計モードや実際の調査と見比べてください。</p></details>
     ${report ? `<div class="report"><p class="headline">${esc(report.headline)}</p>${list("読み取れること", report.findings)}${list("反応が良かった層", report.promising_segments)}${list("ためらう理由", report.barriers)}${list("改善案", report.suggestions)}${list("この結果を疑うべき点", report.counterpoints)}</div>` : ""}
     <h3>購入意向の分布</h3>${hbar(agg.intentDist.map((d) => ({ label: labels[d.intent], value: d.share, color: colors[d.intent] })), { fmt: (v) => pct(v) })}
     ${agg.demandCurve.length > 1 ? `<h3>価格と売上の関係(払ってもよい上限額から作成)</h3>${line(agg.demandCurve.map((d) => ({ x: d.price, mid: d.revenue })), { fmt: fmtYen, xLabel: "価格(円)" })}` : ""}

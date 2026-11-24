@@ -1,0 +1,727 @@
+{
+ "generated": "2026-11-24 14:56",
+ "notes": [
+  "confidence の基準:high=本文PDFを取得して該当箇所(本文・表・図)を読んだ。medium=本文を読んだ別論文が明記している値、または抄録のみ。low=検索抜粋など単一の二次情報。value が null のものは確認できなかった。",
+  "本文を取得した資料は /tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/val_dl/<名前>/file、テキスト化したものは …/scratchpad/val_work/txt/<名前>.txt にある。",
+  "arXiv 論文は改訂で数値が変わる。取得した版を citation に明記した(例:Park et al. は v1 と最新版で指標の定義と値が違う)。",
+  "how_to_use の換算・提案は当方の単純計算と提案で、論文の報告値ではない。",
+  "PMC の記事本文(Aoki & Akai 2022、Zhang ほか 2024 の選択実験の予測精度メタ分析、Kesternich ほか 2012)は画像認証で開けなかった。回避はしていない。",
+  "value が {qualitative: …} のものは、本文で確認した定性的な結論で、数値ではない。value が null のものは確認できていない。"
+ ],
+ "params": [
+  {
+   "key": "llm_as_respondents",
+   "name_ja": "大規模言語モデル(LLM)を回答者の代わりにしたときの精度(どこで合い、どこで外れるか)",
+   "estimates": [
+    {
+     "what": "米大統領選の投票先:属性の背景文を与えたGPT-3の回答とANES実回答の一致(全体)",
+     "value": {
+      "2012": {
+       "tetrachoric": 0.9,
+       "prop_agree": 0.85
+      },
+      "2016": {
+       "tetrachoric": 0.92,
+       "prop_agree": 0.87
+      },
+      "2020": {
+       "tetrachoric": 0.94,
+       "prop_agree": 0.89
+      },
+      "2012_kappa": 0.69,
+      "2012_ICC": 0.81,
+      "share_voting_R_2012": {
+       "gpt3": 0.391,
+       "anes": 0.404
+      },
+      "share_voting_Trump_2016": {
+       "gpt3": 0.432,
+       "anes": 0.477
+      },
+      "share_voting_Trump_2020": {
+       "gpt3": 0.472,
+       "anes": 0.412
+      }
+     },
+     "unit": "相関係数・一致率・得票割合",
+     "population": "米国ANES 2012/2016/2020 回答者の属性を写した『シリコン標本』(GPT-3 davinci)",
+     "citation": "Argyle, Busby, Fulda, Gubler, Rytting & Wingate (2023) Out of One, Many: Using Language Models to Simulate Human Samples. Political Analysis 31(3). 確認したのは arXiv:2209.06899v1(2022)",
+     "url": "https://arxiv.org/pdf/2209.06899",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文の表1・本文10〜11頁と付録表を読んだ"
+    },
+    {
+     "what": "同:少数派・特定の層での一致(2012年、tetrachoric / kappa)",
+     "value": {
+      "strong_partisans": {
+       "tetra": 0.99,
+       "kappa": 0.93
+      },
+      "liberals": {
+       "tetra": 0.81,
+       "kappa": 0.43
+      },
+      "blacks": {
+       "tetra": 0.71,
+       "kappa": 0.31
+      },
+      "hispanics_2012_tetra": 0.86,
+      "age_18_30": {
+       "tetra": 0.9,
+       "kappa": 0.66
+      },
+      "over_60": {
+       "tetra": 0.9,
+       "kappa": 0.71
+      }
+     },
+     "unit": "相関係数・κ",
+     "population": "同上",
+     "citation": "Argyle et al. (2023) 同上 付録の表",
+     "url": "https://arxiv.org/pdf/2209.06899",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 付録表で確認。少数派(黒人)はκ0.31と大きく下がる"
+    },
+    {
+     "what": "同:質問どうしの関連の強さ(Cramer's V)の人と GPT-3 の差の平均",
+     "value": -0.026,
+     "unit": "Cramer's V の差(GPT-3 − 人)",
+     "population": "ANES 2016 の12項目(11項目を条件に12番目を予測)",
+     "citation": "Argyle et al. (2023) 同上 図4",
+     "url": "https://arxiv.org/pdf/2209.06899",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文12頁。なお著者は個人単位の一致は評価していないと明記"
+    },
+    {
+     "what": "米国の世論調査(Pew)への回答分布の一致度 R(1=完全一致、1−正規化Wasserstein距離)",
+     "value": {
+      "human_groups_avg": 0.949,
+      "human_worst_group": 0.865,
+      "ada": 0.824,
+      "davinci": 0.791,
+      "j1-grande": 0.813,
+      "j1-jumbo": 0.816,
+      "text-davinci-002": 0.763,
+      "text-davinci-003": 0.7
+     },
+     "unit": "一致度(0〜1)",
+     "population": "Pew American Trends Panel 1,498問(OpinionQA)、属性を与えない既定の回答",
+     "citation": "Santurkar, Durmus, Ladhak, Lee, Liang & Hashimoto (2023) Whose Opinions Do Language Models Reflect? ICML 2023. arXiv:2303.17548",
+     "url": "https://arxiv.org/pdf/2303.17548",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 7頁の図2を画像で読んだ。どのモデルも、最も代表性の低い人の層(0.865)より一致度が低い。人の好みに合わせて調整したモデルほど低い"
+    },
+    {
+     "what": "調整済みモデルの回答の偏り(分散が小さすぎる問題)",
+     "value": {
+      "text_davinci_003_prob_on_one_option": ">0.99(大半の質問で)",
+      "poorly_represented_groups": [
+       "65歳以上",
+       "モルモン教徒",
+       "配偶者と死別した人"
+      ]
+     },
+     "unit": "1つの選択肢に置く確率",
+     "population": "同上",
+     "citation": "Santurkar et al. (2023) 同上 4.1節",
+     "url": "https://arxiv.org/pdf/2303.17548",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文で確認。属性を指定して『なりきらせる』と一致度は上がるが、層ごとの差は消えない(4.2節)"
+    },
+    {
+     "what": "1,052人の米国人:本人の回答(2時間の面接+調査)を与えたAIが、本人の一般社会調査(GSS)回答を当てる率",
+     "value": {
+      "demographics_only": 0.604,
+      "interview": 0.694,
+      "survey": 0.693,
+      "interview_plus_survey": 0.728,
+      "fine_tuned_open_model": 0.752,
+      "fine_tuned_with_demographics_only": 0.622,
+      "human_test_retest_2weeks": 0.795
+     },
+     "unit": "一致率(個人ごとの正答率)",
+     "population": "米国成人1,052人(GSS 項目、面接は American Voices Project の手順)",
+     "citation": "Park, Zou, Kamphorst ほか (2024, 改訂版) AI Simulations Grounded in Rich Self-Reports Increase Accuracy and Reduce Distortion. arXiv:2411.10109 最新版(2026年11月取得)",
+     "url": "https://arxiv.org/pdf/2411.10109",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 最新版の要旨と本文を読んだ"
+    },
+    {
+     "what": "同 v1(2024年11月版):本人の2週間後の再回答に対する相対精度(正規化精度)",
+     "value": {
+      "interview_agents": 0.85,
+      "raw_accuracy": 0.6885,
+      "participants_retest": 0.8125,
+      "demographic_agents": 0.71,
+      "persona_agents": 0.7
+     },
+     "unit": "正規化精度(AIの正答率÷本人の再回答の一致率)",
+     "population": "同上(v1 の集計)",
+     "citation": "Park, Zou, Shaw ほか (2024) Generative Agent Simulations of 1,000 People. arXiv:2411.10109v1",
+     "url": "https://arxiv.org/pdf/2411.10109v1",
+     "confidence": "high",
+     "verified_via": "arXiv PDF v1 本文で確認。よく引用される『85%』はこの v1 の値"
+    },
+    {
+     "what": "同 最新版:属性だけのAIと、本人の回答を与えたAIの『集団のゆがみ』8種(人=基準)",
+     "value": {
+      "variance_compression_SD_ratio": {
+       "demographic": 0.7,
+       "survey_interview": 0.87,
+       "human": 1.0
+      },
+      "mean_bias_abs_glass_delta": {
+       "demographic": 0.31,
+       "survey_interview": 0.16,
+       "human": 0
+      },
+      "earth_movers_distance": {
+       "demographic": 0.31,
+       "survey_interview": 0.16
+      },
+      "mean_abs_spearman_between_items": {
+       "demographic": 0.36,
+       "survey_interview": 0.21,
+       "human": 0.12
+      },
+      "first_PC_variance_share": {
+       "demographic": 0.43,
+       "survey_interview": 0.24,
+       "human": 0.14
+      },
+      "ideological_sorting_r": {
+       "demographic": 0.57,
+       "survey_interview": 0.38,
+       "human": 0.26
+      },
+      "effect_size_inflation_median": {
+       "demographic": 8.2,
+       "persona": 5.8,
+       "survey_interview": 4.9,
+       "human": 1
+      },
+      "effect_size_correlation_with_humans": "r=0.91〜0.94(5実験)",
+      "hyper_rationality": "改善なし(閉じた割合 −4%)",
+      "economic_games_MAE": {
+       "demographic": 0.27,
+       "combined": 0.29,
+       "human_retest": 0.21
+      }
+     },
+     "unit": "各指標(表1)",
+     "population": "同上",
+     "citation": "Park et al. arXiv:2411.10109 最新版 表1",
+     "url": "https://arxiv.org/pdf/2411.10109",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 最新版の表1と本文で確認。属性だけのAIは、ばらつきが人の約7割、実験の効果を中央値で約8倍に誇張"
+    },
+    {
+     "what": "仮想の買い物実験:価格を変えたときの購入確率(40商品)",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "需要曲線の形",
+     "population": "米国の消費者実験(40商品)と gpt-4o-mini の模擬回答",
+     "citation": "Gui & Toubia (2025改訂) The Challenge of Using LLMs to Simulate Human Behavior: A Causal Inference Perspective. arXiv:2312.15524v3",
+     "url": "https://arxiv.org/pdf/2312.15524",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文7頁:人は右下がりの需要曲線、LLMは逆U字(価格0を除いても逆U字)。価格を上げると『競合の価格』『前回の価格』も上がったと LLM が暗に想定してしまうことが原因。実験の設計(価格は無作為に変えている)をプロンプトで明かすと誤差(MAE)が1%〜60%超改善(図6)。条件を足しすぎると逆に悪化"
+    },
+    {
+     "what": "市場調査(コンジョイント)で LLM が出した支払意思額の誤り",
+     "value": {
+      "fluoride_WTP_overestimate": "約3倍",
+      "general": "既製のまま使うと2〜3倍の過大、ブランド・画面サイズ・新しい味では符号が逆、モデルの版で不安定",
+      "fine_tuning": "同じカテゴリの人の調査データで微調整すると、未学習の新しい味の符号が人と一致、プロジェクター内蔵の3倍過大が人の値に近づく。別カテゴリ(ノートPC→タブレット)には効かず悪化"
+     },
+     "unit": "倍率・符号",
+     "population": "米国の歯磨き粉・ノートPCのコンジョイント調査と GPT-3.5 Turbo(一部 GPT-4o)",
+     "citation": "Brand, Israeli & Ngwe (2026) Using LLMs for Market Research(HBS WP 23-062 / SSRN 4395751)。値は Netzer & Sambandam (2026) arXiv:2609.13995 の要約による",
+     "url": "https://arxiv.org/pdf/2609.13995",
+     "confidence": "medium",
+     "verified_via": "Brand ほか本人の論文は SSRN・HBS(許可外)で開けず。本文を読んだ Netzer & Sambandam の論評(5〜6頁、19頁)で確認"
+    },
+    {
+     "what": "個人の『デジタルツイン』の精度の見かけ:何も情報を与えなくても高く出る",
+     "value": {
+      "twin2k500_full_500_questions": 0.748,
+      "no_individual_info": 0.734,
+      "demographics_14_vars": 0.746,
+      "uniform_random_floor": 0.629,
+      "forgotten_question_r_demog_only": 0.08,
+      "forgotten_question_r_demog_plus_attitudes": 0.57,
+      "share_questions_r_below_0.5": 0.259
+     },
+     "unit": "精度(0〜1)・相関",
+     "population": "Toubia ほか(2025)Twin-2K-500、および米国代表標本3,063人の108問",
+     "citation": "Netzer & Sambandam (2026) Synthetic Data in Marketing Research: How to Evaluate and When to Trust. arXiv:2609.13995(Toubia et al. 2025 の値を引用)",
+     "url": "https://arxiv.org/pdf/2609.13995",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文10〜11頁・表1を読んだ(Twin-2K-500 の値は同論文の引用。原典 Toubia et al. 2025 は未確認)"
+    },
+    {
+     "what": "社会科学の実験70件:GPT-4 による効果の予測と実際の効果",
+     "value": {
+      "correlation": 0.85,
+      "magnitude": "実際の約2倍に過大",
+      "within_experiment_arms_correlation": 0.39
+     },
+     "unit": "相関・倍率",
+     "population": "米国の全国代表標本の実験70件",
+     "citation": "Hewitt / Ashokkumar, Ghezae, Willer ほか(2024 作業論文、2026)。Gui & Toubia (arXiv:2312.15524v3) と Netzer & Sambandam (arXiv:2609.13995) の引用による",
+     "url": "https://arxiv.org/pdf/2609.13995",
+     "confidence": "medium",
+     "verified_via": "原典は開けず。本文を読んだ2論文が同じ 0.85 と過大推定を記載(倍率約2倍と実験内0.39は Netzer & Sambandam のみ)"
+    },
+    {
+     "what": "経済の古典実験の再現(価格つり上げの公正さ:Kahneman ほか 1986)",
+     "value": {
+      "price_hike_effect": "1ドル値上げで公正さの評価が0.004〜0.009点下がる(1〜4点尺度)",
+      "consistency": "政治的立場×値上げ幅の組の約半分で、100回の回答がすべて同じ"
+     },
+     "unit": "リッカート点・回答の一致",
+     "population": "GPT-4 に政治的立場を与えたAIエージェント",
+     "citation": "Horton, Filippas & Manning (2026改訂) Large Language Models as Simulated Economic Agents: What Can We Learn from Homo Silicus? arXiv:2301.07543v2(NBER w31122 の改訂)",
+     "url": "https://arxiv.org/pdf/2301.07543",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文8頁・本文の回帰結果を読んだ。向き(値上げが大きいほど不公正)は人の結果と一致するが、回答のばらつきが極端に小さい"
+    },
+    {
+     "what": "知識を問う推定(群衆の知恵)での『正確すぎる』ゆがみ",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "定性",
+     "population": "GPT 系 LM-1〜LM-6 と Moussaïd ほか(2013)の52人",
+     "citation": "Aher, Arriaga & Kalai (2023) Using Large Language Models to Simulate Multiple Humans and Replicate Human Subject Studies. ICML 2023. arXiv:2208.10264",
+     "url": "https://arxiv.org/pdf/2208.10264",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文7節:最大・調整済みモデルでは模擬参加者の過半数が10問すべてで正解ちょうどを答えた(人のばらつきが消える)。最後通牒ゲームなど3課題は再現"
+    },
+    {
+     "what": "選択肢の順序・記号への偏り(属性を与えない場合)",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "定性",
+     "population": "米国コミュニティ調査(ACS)と43のLLM",
+     "citation": "Dominguez-Olmedo, Hardt & Mendler-Dünner (2024) Questioning the Survey Responses of Large Language Models. NeurIPS 2024. arXiv:2306.07951v4",
+     "url": "https://arxiv.org/pdf/2306.07951",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 要旨と本文:回答は『A』の記号など順序・ラベルに左右され、選択肢の順序を無作為化して補正すると、どのモデルもほぼ一様な回答に近づく。『分布が一様に近い層ほど代表されている』ように見えるだけ"
+    },
+    {
+     "what": "属性になりきらせたときの『平板化』(同じ層の中のばらつきが小さい)",
+     "value": {
+      "gpt4_gpt35_options_covered": "5択のうち約3つ(100回答中)",
+      "temperature_fix": "温度を上げても、意味のある多様性の指標では人に届かない"
+     },
+     "unit": "選択肢の数",
+     "population": "米国3,200人(16の属性)と4つのLLM",
+     "citation": "Wang, Morgenstern & Dickerson (2025) Large language models that replace human participants can harmfully misportray and flatten identity groups. Nature Machine Intelligence. arXiv:2402.01908v3",
+     "url": "https://arxiv.org/pdf/2402.01908",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文6頁と図5の説明を読んだ"
+    },
+    {
+     "what": "ANES の感情温度:ChatGPT の合成回答",
+     "value": null,
+     "unit": "定性",
+     "population": "ANES 2016・2020 と ChatGPT 3.5 Turbo",
+     "citation": "Bisbee, Clinton, Dorff, Kenkel & Larson (2024) Synthetic Replacements for Human Survey Data? The Perils of Large Language Models. Political Analysis 32:401-416",
+     "url": "https://doi.org/10.1017/pan.2024.5",
+     "confidence": "low",
+     "verified_via": "本文は cambridge.org(許可外)で開けず。検索抜粋のみ:平均は近いが、ばらつきが小さく、回帰係数が人の値と有意に違い、同じプロンプトでも時期により結果が変わる"
+    },
+    {
+     "what": "日本人の意識調査(博報堂『生活定点』2024年、2,873人・1,127問)で、属性+同じカテゴリの他の回答から1問を当てる精度",
+     "value": {
+      "accuracy": {
+       "random": 0.459,
+       "majority_vote": 0.742,
+       "gemini_2_5_flash": 0.718,
+       "gpt_5_nano": 0.636,
+       "swallow_8b_untrained": 0.687,
+       "swallow_sft_same_category": 0.816,
+       "swallow_sft_unseen_category": 0.764
+      },
+      "macro_F1": {
+       "random": 0.403,
+       "majority_vote": 0.404,
+       "gemini": 0.376,
+       "gpt": 0.388,
+       "sft_same": 0.603,
+       "sft_unseen": 0.504
+      },
+      "JSD_answer_distribution": {
+       "random": 0.077,
+       "majority_vote": 0.104,
+       "gemini": 0.031,
+       "gpt": 0.063,
+       "untrained": 0.065,
+       "sft_same": 0.016,
+       "sft_unseen": 0.039
+      }
+     },
+     "unit": "正答率・macro-F1・Jensen-Shannon距離(小さいほど分布が近い)",
+     "population": "日本の20〜69歳男女(生活定点2024)、回答者単位で20%をホールドアウト",
+     "citation": "野沢・牛久・小西・田中・黄・熊谷 (2026) 意識調査データを用いた大規模言語モデルの教師ありファインチューニング. 2026年度人工知能学会全国大会(JSAI2026)5F2-GS-10m-03",
+     "url": "https://www.jstage.jst.go.jp/article/pjsai/JSAI2026/0/JSAI2026_5F2GS10m03/_article/-char/ja",
+     "confidence": "high",
+     "verified_via": "J-STAGE の PDF を取得し、pdfminer で本文と表1を読んだ。市販の LLM(Gemini・GPT)は個人の正答率で『いちばん多い答えを全員に当てる』単純な方法(0.742)に届かない。ただし回答の分布(JSD)は多数決よりずっと近い(0.031 対 0.104)。学会発表(査読なし)"
+    }
+   ],
+   "how_to_use": "(1) public/js/ask.js・src/llm.js のAIモード結果の注記に『AIの回答は平均は合いやすいが、ばらつきは人の約7割(Park ほか 表1、属性だけの場合 SD比0.70)、実験の差(施策の効果)は中央値で約8倍に誇張されうる』と明記する。(2) AIモードで A/B 比較(価格・訴求の違い)を出す場合は、差をそのまま示さず『向きの参考』と表示するか、差を1/2〜1/8に縮めた幅を併記する(Hewitt ほか約2倍、Park ほか4.9〜8.2倍)。(3) 価格への反応はLLMが逆U字を返すことがある(Gui & Toubia)ので、ask.js のプロンプトに『価格は無作為に変えて聞いている。ほかの条件(競合価格など)は同じ』と設計を明かす一文を入れ、統計モードの価格曲線(market.js の priceCurve/brandElasticity)と向きが一致するかを guide.js の scoreboard に1行加えて照合する。(4) 上限価格(max_price_yen)はLLMだと2〜3倍過大になりうる(Brand ほか)ので、wtpDiscount 0.8 は人の仮の質問の過大分の補正であり、LLM固有の過大は別に残る、と BASIS_NOTE/注記に書く。(5) 評価指標は『個人の一致率』でなく、平均の差+分散比+属性間の差(層別の向き)で示す(Netzer & Sambandam:個人精度0.75は情報なしでも出る)。",
+   "not_confirmed": [
+    "Brand, Israeli & Ngwe 本人の論文の表(WTP の具体値):SSRN・HBS・MSI が許可外で開けず",
+    "Bisbee et al. (2024) の数値(分散比・係数の差):Cambridge が許可外。OSF の preprint は見つけられず",
+    "Hewitt/Ashokkumar ほかの原典(70実験、r=0.85):原典は開けず二次引用のみ",
+    "Toubia et al. (2025) Twin-2K-500 の原典",
+    "日本人で『購入意向・支払意思額』をLLMと実際の人で比べた研究は見つからなかった(J-STAGE の検索で、意識調査の再現は上記1件、他に並河ら(2025、約15万人の意識調査で群ファインチューニング)の存在のみ確認、数値は未確認)"
+   ]
+  },
+  {
+   "key": "simulation_validation_methods",
+   "name_ja": "シミュレーションの検証の方法論(較正と検証の分離、合成人口の指標、事前の予測精度)",
+   "estimates": [
+    {
+     "what": "専門家208人が15種類の実験の結果を事前に予測したときの精度(事前登録あり)",
+     "value": {
+      "corr_mean_forecast_vs_actual": 0.77,
+      "mean_forecast_abs_error_pct_of_score": 5,
+      "individual_abs_error_pct": 8,
+      "mean_beats_individual_share": 0.96,
+      "rank_corr_experts": 0.83,
+      "rank_corr_online_sample_mean": 0.95,
+      "slope_actual_on_forecast": 0.527
+     },
+     "unit": "相関・誤差(平均スコアに対する%)・割合",
+     "population": "経済学・心理学などの研究者208人、比較に学部生158人・MBA160人・オンライン762人(米国の実作業実験 MTurk)",
+     "citation": "DellaVigna & Pope (2016/2018) Predicting Experimental Results: Who Knows What? NBER Working Paper 22566(JPE 126(6) 2018)",
+     "url": "https://www.nber.org/system/files/working_papers/w22566/w22566.pdf",
+     "confidence": "high",
+     "verified_via": "NBER の PDF 本文(序論と4節、図1)を読んだ。予測の傾き0.527=予測は効果の大きさを実際の約2倍に見積もる方向(差を誇張)。順位の当て方では素人の平均(0.95)が専門家(0.83)より良い"
+    },
+    {
+     "what": "合成人口の時間による劣化:2013年の個票だけで作った人口を2014〜2021年の実人口と比べたときの誤差(SRMSE)の増加",
+     "value": {
+      "marginal_SRMSE_growth_2013_to_2021": {
+       "training_data_copy": 10.2,
+       "diffusion_model": 1.19
+      },
+      "trivariate_SRMSE_growth": {
+       "training_data_copy": 3.07,
+       "diffusion_model": 1.15
+      }
+     },
+     "unit": "倍(8年間)",
+     "population": "フランス国勢調査の個票(1%抽出で学習、総人口の90%で評価)",
+     "citation": "Darsel, Côme, Rich, Pereira & Oukhellou (2026) The Fragility of Synthetic Populations over Time: An Evaluation of Forecasting Strategies for Agent-Based Models. WCTR 2026 / arXiv:2611.12344v1",
+     "url": "https://arxiv.org/pdf/2611.12344",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 本文4.2〜4.3節を読んだ。指標は1変数・2変数・3変数の分布の SRMSE と、ありえない組合せ(6歳で既婚など)の割合 SSCIOD。最新年の周辺分布に合わせ直す(IPF による静的投影)と劣化がほぼ止まる"
+    },
+    {
+     "what": "合成人口の『ありえない組合せ』を出さない割合(実行可能性)",
+     "value": {
+      "llm_bn_finetuned": 0.95,
+      "deep_generative_models": 0.8
+     },
+     "unit": "割合",
+     "population": "韓国の世帯旅行調査を使った人口合成",
+     "citation": "Lim, Yun, Bansal, Kim & Kim (2025) A Large Language Model for Feasible and Diverse Population Synthesis. arXiv:2505.04196",
+     "url": "https://arxiv.org/pdf/2505.04196",
+     "confidence": "high",
+     "verified_via": "arXiv PDF の要旨を読んだ(本文の表は未精読)"
+    },
+    {
+     "what": "経済のエージェントベースモデルの較正方法の比較",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "定性",
+     "population": "金融市場モデル等での計算実験",
+     "citation": "Platt (2020) A Comparison of Economic Agent-Based Model Calibration Methods. Journal of Economic Dynamics and Control 113. arXiv:1902.05938",
+     "url": "https://arxiv.org/pdf/1902.05938",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 要旨:ベイズ推定が目的関数を最小化する方法(SMD など)より一貫して良い。ただし大規模モデルを決定的に較正できる段階ではない"
+    },
+    {
+     "what": "仮の質問の検証研究の整理:検証には『実際の購入・支払い』との比較(外的妥当性)が必要で、指標の定義がばらばら",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "定性",
+     "population": "選択実験の仮想バイアス研究のレビュー",
+     "citation": "Haghani, Bliemer, Rose, Oppewal & Lancsar (2021) Hypothetical bias in stated choice experiments: Part I. Journal of Choice Modelling 41. arXiv:2102.02940",
+     "url": "https://arxiv.org/pdf/2102.02940",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 要旨と序論を読んだ"
+    }
+   ],
+   "how_to_use": "(1) public/js/guide.js の scoreboard は、係数を合わせ込んだ照合(例:継続率 Fader & Hardie に合わせた行、『この値に合うように係数を決めた』)と、合わせ込んでいない照合を区別し、前者は『較正(検証ではない)』と BASIS_NOTE に1語加える。data/raw/holdout_surveys.json のような使っていないデータでの照合だけを『検証』と呼ぶ。(2) 合成人口(人口とペルソナ)の照合行に、1変数の誤差だけでなく2変数・3変数の SRMSE(年齢×性別×地域など)と、ありえない組合せの割合を追加する(Darsel ほか の式)。(3) 統計の基準年が古くなると誤差が年々増える(8年で周辺分布の誤差10倍の例)ので、成績表に『基準年』を表示し、最新の周辺分布へ IPF で合わせ直す。(4) 予測の基準として『専門家の平均予測でも効果の大きさの相関0.77、傾き0.53(効果を約2倍に見積もる)』を BASIS_NOTE の注記に使い、AI モードの差の誇張(llm_as_respondents)と並べて示す。",
+   "not_confirmed": [
+    "Fagiolo, Moneta & Windrum (2007) と Windrum, Fagiolo & Moneta (2007, JASSS) の本文:LEM(santannapisa)・JASSS のサイトが許可外で開けず。内容(検証の3分類:記述・予測・反実仮想の検証、間接較正・Werker-Brenner法・歴史的較正)は一般知識のみで数値なし",
+    "Fagiolo ほか (2019) Validation of agent-based models in economics and finance:LEM WP 2017/23 は許可外",
+    "Dreber ほか (2015, PNAS) 予測市場による再現予測の的中率:PMC が画像認証で開けず"
+   ]
+  },
+  {
+   "key": "intent_to_purchase_conversion",
+   "name_ja": "購入意向から実際の購入への換算(『必ず買う』『たぶん買う』と答えた人が実際に買った割合)",
+   "estimates": [
+    {
+     "what": "『この12か月で必ず買う予定』と答えた人が12か月以内に実際に買った割合(耐久財10品目)",
+     "value": {
+      "automobile": 0.755,
+      "furniture": 0.653,
+      "carpets_rugs": 0.544,
+      "hifi": 0.483,
+      "range": 0.568,
+      "refrigerator": 0.6,
+      "washing_machine": 0.515,
+      "television": 0.409,
+      "clothes_dryer": 0.487,
+      "dishwasher": 0.529,
+      "median_of_10": 0.54
+     },
+     "unit": "購入した割合",
+     "population": "米国 Consumers Union 会員の再面接調査(1958年4月、標本を5群に分け質問文だけを変えた実験。会員は平均より高所得)",
+     "citation": "Juster (1964) Anticipations and Purchases: An Analysis of Consumer Behavior. NBER/Princeton Univ. Press. 第2章 表2 列11",
+     "url": "https://www.nber.org/system/files/chapters/c1030/c1030.pdf",
+     "confidence": "high",
+     "verified_via": "NBER の章 PDF を取得し表2を読んだ(スキャンの OCR。冷蔵庫・洗濯機などの値は列の並びで判読)。中央値は当方計算"
+    },
+    {
+     "what": "同:『必ず買う』と答えなかった人(非意向者)が12か月以内に買った割合",
+     "value": {
+      "automobile": 0.295,
+      "furniture": 0.267,
+      "carpets_rugs": 0.116,
+      "hifi": 0.123,
+      "range": 0.077,
+      "refrigerator": 0.07,
+      "washing_machine": 0.102,
+      "television": 0.101,
+      "clothes_dryer": 0.071,
+      "dishwasher": 0.041
+     },
+     "unit": "購入した割合",
+     "population": "同上",
+     "citation": "Juster (1964) 同上 表2 列12",
+     "url": "https://www.nber.org/system/files/chapters/c1030/c1030.pdf",
+     "confidence": "high",
+     "verified_via": "NBER PDF 表2"
+    },
+    {
+     "what": "同:『たぶん/もしかしたら買う』(必ずではない)と答えた人が12か月以内に買った割合(表の人数から当方が計算)",
+     "value": {
+      "automobile": 0.48,
+      "furniture": 0.37,
+      "carpets_rugs": 0.26,
+      "hifi": 0.25,
+      "range": 0.29,
+      "refrigerator": 0.23,
+      "washing_machine": 0.33,
+      "television": 0.26,
+      "clothes_dryer": 0.24,
+      "median": 0.26
+     },
+     "unit": "購入した割合",
+     "population": "同上(A 群:A1『必ず』、A2『たぶん・もしかしたら』)",
+     "citation": "Juster (1964) 同上 表2 列3・5(A1 と『A1 または A2』の差から計算)",
+     "url": "https://www.nber.org/system/files/chapters/c1030/c1030.pdf",
+     "confidence": "medium",
+     "verified_via": "表の値(100人あたり、小数1桁に丸め)から当方が引き算で計算。論文に直接の記載はない"
+    },
+    {
+     "what": "同:12か月の全購入のうち『必ず買う』と答えた人による購入の割合",
+     "value": {
+      "automobile": 0.18,
+      "furniture": 0.28,
+      "carpets_rugs": 0.22,
+      "hifi": 0.15,
+      "range": 0.16,
+      "refrigerator": 0.18,
+      "washing_machine": 0.21,
+      "television": 0.1,
+      "clothes_dryer": 0.17,
+      "dishwasher": 0.2
+     },
+     "unit": "全購入に占める割合",
+     "population": "同上",
+     "citation": "Juster (1964) 同上 表2 列14",
+     "url": "https://www.nber.org/system/files/chapters/c1030/c1030.pdf",
+     "confidence": "high",
+     "verified_via": "NBER PDF 表2。実際の購入の7〜9割は『必ず買う』と言わなかった人から出る"
+    },
+    {
+     "what": "意向の有無と購入の関係:意向者の購入率は、どの質問・期間でも非意向者より常に高い",
+     "value": {
+      "qualitative": "数値ではなく定性的な結論(verified_via に要約)"
+     },
+     "unit": "定性",
+     "population": "同上",
+     "citation": "Juster (1964) 同上 第3章",
+     "url": "https://www.nber.org/system/files/chapters/c1031/c1031.pdf",
+     "confidence": "high",
+     "verified_via": "NBER PDF 本文(c1031 冒頭)"
+    },
+    {
+     "what": "意向と実際の購入の相関(既存研究のメタ分析)と、新商品・既存商品、耐久財・非耐久財の違い",
+     "value": null,
+     "unit": "相関",
+     "population": "—",
+     "citation": "Morwitz, Steckel & Gupta (2007) International Journal of Forecasting 23(3):347-364",
+     "url": "https://ideas.repec.org/a/eee/intfor/v23y2007i3p347-364.html",
+     "confidence": "low",
+     "verified_via": "本文は開けず(SSRN・ScienceDirect・MPRA は許可外)。既存の data/raw/marketing_params.json の値(平均0.49、二次要約)を超える確認はできなかった"
+    },
+    {
+     "what": "実務の重み付け例:『必ず買う』0.4、『たぶん買う』0.2(試用率の推定)",
+     "value": {
+      "definitely": 0.4,
+      "probably": 0.2
+     },
+     "unit": "重み",
+     "population": "MIT の新製品開発講義スライド(出典の研究は不明)",
+     "citation": "MIT OpenCourseWare 15.783J (2006) 講義17 需要予測(検索抜粋)",
+     "url": "https://www.ocw.mit.edu/courses/15-783j-product-design-and-development-spring-2006/9d0327f1cb89611a5c2bafba2718aed3_cls17_dmd_forcst.pdf",
+     "confidence": "low",
+     "verified_via": "検索抜粋のみ(ocw.mit.edu は許可外)。Infosino (1986) の重みかどうかは未確認"
+    }
+   ],
+   "how_to_use": "public/js/market.js の MARKET_ASSUMPTIONS.intentWeights:(1) intentWeights[5](今0.7)は、耐久財10品目の『必ず買う』の12か月購入率(40〜76%、中央値約54%)から見ると高め。耐久財の既定値を0.55前後、幅0.4〜0.75とし、注記に『Juster 1964、米国1958年、高所得層、12か月以内』と書く。自動車など高額で計画的な買い物だけ0.7に近い。(2) intentWeights[4](今0.25)は『たぶん/もしかしたら』の購入率(23〜48%、中央値約26%)と合う。ただしこの値は『たぶん』と『もしかしたら』を合わせた群なので、5段階の4(たぶん)だけならやや高めになりうる、と注記する。(3) intentWeights[1〜3](今 3:0.05、2・1:0)について、『必ず』と言わなかった人でも12か月で4〜30%(家電で7〜12%)が買っており、全購入の7〜9割は非意向者から出る。新商品の試用率ではなく既存カテゴリの買い替え需要を出すときは、intentWeights[2]・[1]を0ではなく0.02〜0.05程度にし、guide.js の BASIS_NOTE に『非意向者の購入を含めない場合は過小』と注記する。(4) これらは耐久財の値で、消耗品・新商品の換算は確認できていない(not_confirmed)。",
+   "not_confirmed": [
+    "Morwitz, Steckel & Gupta (2007) の相関の値と、新商品/既存商品・耐久財/非耐久財別の値(本文が許可外)",
+    "Jamieson & Bass (1989) の尺度点別の実購入率・補正の重み(JMR、許可外)",
+    "Kalwani & Silk (1982)、Infosino (1986)、Young, DeSarbo & Morwitz (1998)、Sun & Morwitz (2010)、Chandon, Morwitz & Reinartz (2005) の数値:いずれも INFORMS・JSTOR・SSRN 等が許可外で本文を開けず",
+    "消耗品(日用品・食品)での『必ず買う』の実現率:開ける資料に見つからなかった",
+    "5段階の『たぶん買う』単独の実現率(Juster 1964 は『たぶん・もしかしたら』をまとめて聞いている)"
+   ]
+  },
+  {
+   "key": "hypothetical_bias_wtp",
+   "name_ja": "仮の質問での支払意思額の過大(仮想バイアス)と補正方法の効果",
+   "estimates": [
+    {
+     "what": "既存のメタ分析をまとめた仮想バイアスの大きさ(仮想の支払意思額÷実際)",
+     "value": {
+      "min_factor": 1.2,
+      "max_factor": 3.13,
+      "min_source": "Schmidt & Bijmolt (2019/2020)",
+      "max_source": "Little & Berrens (2004)",
+      "meta_analyses_listed": [
+       "Carson et al. 1996",
+       "List & Gallet 2001",
+       "Little & Berrens 2004",
+       "Little et al. 2012",
+       "Murphy et al. 2005",
+       "Penn & Hu 2018",
+       "Penn & Hu 2019",
+       "Schmidt & Bijmolt 2019"
+      ]
+     },
+     "unit": "倍",
+     "population": "仮想評価法(CV)・選択実験のメタ分析(環境・消費財など)",
+     "citation": "Haghani, Bliemer, Rose, Oppewal & Lancsar (2021) Hypothetical bias in stated choice experiments: Part I. Journal of Choice Modelling 41:100309. arXiv:2102.02940",
+     "url": "https://arxiv.org/pdf/2102.02940",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 序論2頁を読んだ(個々のメタ分析の原典は開けていないので、各値はこのレビューの要約による)"
+    },
+    {
+     "what": "分野別の仮想バイアスの傾向と、『買わない』選択肢を入れても偏りは消えないこと",
+     "value": {
+      "health": "差はほとんど見られないことが多い",
+      "consumer_and_transport": "有意な偏りがほぼ常に見られる",
+      "consumer_studies_with_HB_that_had_opt_out": "8/11",
+      "WTP_vs_marginal_rates": "総額の支払意思額や購入選択率には偏りが出るが、属性どうしの交換比率(規模を補正後)には出ないことが多い",
+      "time": "選択実験の予測シェアは初期は正確だが、時間がたつと実際のシェアとずれる(Araña & León 2013)"
+     },
+     "unit": "定性・件数",
+     "population": "選択実験の仮想バイアス研究(消費者経済18件など)",
+     "citation": "Haghani et al. (2021) Part I 同上 要旨・3節",
+     "url": "https://arxiv.org/pdf/2102.02940",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 要旨と3.2節(6〜7頁)を読んだ"
+    },
+    {
+     "what": "補正方法の種類と効果(事前:チープトーク・宣誓・正直さの喚起など/事後:確信度で割り引く)",
+     "value": {
+      "certainty_calibration": "事後補正で最も確立した方法。『とても確か』と答えた『払う』だけを数えると、仮想の寄付と実際の寄付の差が有意でなくなった例(Champ et al. 1997)",
+      "cheap_talk": "多くの研究で支払意思額を下げるが、効果は一様でない(商品に詳しくない人で効きやすい)",
+      "recommendation": "少なくとも1つの補正方法を標準にすべき"
+     },
+     "unit": "定性",
+     "population": "選択実験・仮想評価法の補正研究のレビュー",
+     "citation": "Haghani, Bliemer, Rose, Oppewal & Lancsar (2021) Hypothetical bias in stated choice experiments: Part II. Journal of Choice Modelling 41:100322. arXiv:2102.02945",
+     "url": "https://arxiv.org/pdf/2102.02945",
+     "confidence": "high",
+     "verified_via": "arXiv PDF 要旨と4.1〜4.2節を読んだ。補正の効果の数値(何%下がるか)はこのレビューには一律の値がない"
+    },
+    {
+     "what": "日本の消費者:コンビニの昼食で、事前に聞いた支払意思額と、後日レシートで確かめた実際の購入額の比較",
+     "value": {
+      "n": 126,
+      "actual_mean_yen": 459.57,
+      "actual_median_yen": 429,
+      "share_overpredicted": {
+       "RBC(予算上限を聞いてから店舗別の購入額を聞く)": 0.603,
+       "free_answer_FA": 0.786,
+       "first_price_auction_VA": 0.81,
+       "BDM": 0.802,
+       "pooled_model": 0.778
+      },
+      "MAE_yen": {
+       "RBC": 200.4,
+       "FA": 270.7,
+       "VA": 280.2,
+       "BDM": 279.4
+      }
+     },
+     "unit": "人数・円・割合",
+     "population": "日本の20〜69歳、週1回以上コンビニを使う人163人のうち職場から10分以内の店で買った126人",
+     "citation": "西本章宏・勝又壮太郎 (2018) コンジョイントデザインを用いた消費者の Willingness to Pay 測定方法の比較. 流通研究 21(3):15-25",
+     "url": "https://www.jstage.jst.go.jp/article/jsmd/21/3/21_15/_article/-char/ja",
+     "confidence": "high",
+     "verified_via": "J-STAGE の PDF を取得し表3と本文を読んだ。どの方法でも6〜8割の人で実際より高く予測された。比較しているのは『支払ってもよい額』と『実際に払った額』(同じ概念ではない)点に注意"
+    },
+    {
+     "what": "日本の募金:アンケートで聞いた支払意思額から推計した年間募金額と、実際に集まった額の比",
+     "value": {
+      "plain_CVM": 67.3,
+      "with_payment_certainty": 48.7,
+      "with_certainty_and_awareness": 1.57,
+      "share_noticing_box_and_purpose": "9/279(約3.2%)"
+     },
+     "unit": "倍(推計÷実際)",
+     "population": "福岡県朝倉市の三連水車の保全募金(道の駅のレジ利用者、回答432人、追加調査279人)",
+     "citation": "楠戸建・矢部光保 (2014) 表明された支払意思額と実際の支払額の差に関する分析 ─農業用水車への募金活動を事例として─. 農村計画学会誌 33(論文特集号):323〜(2014年11月)",
+     "url": "https://www.jstage.jst.go.jp/article/arp/33/Special_Issue/33_323/_article/-char/ja",
+     "confidence": "high",
+     "verified_via": "J-STAGE の PDF を取得し表4・表5と結論を読んだ。確信度での割引だけでは差は縮まらず(67→49倍)、『支払いの機会に気づいたか』を掛けると1.57倍まで縮んだ。公共財の寄付であり消費財ではない"
+    }
+   ],
+   "how_to_use": "public/js/market.js の MARKET_ASSUMPTIONS.wtpDiscount(今0.8):(1) メタ分析の幅1.2〜3.13倍から、0.8(=1/1.25)は過大の小さい側(消費財の Schmidt & Bijmolt に近い)。注記に『幅 0.32〜0.83(1/3.13〜1/1.2)』を足し、感度分析の下限を0.5程度にする。(2) 日本のコンビニ昼食の実測でも6〜8割の人で上限価格が実際の支払より高かった(西本・勝又 2018)ので、日本でも割り引く方向は支持される、と注記する。(3) AI モード(ask.js)の max_price_yen には、人の仮想バイアスに加えて LLM 固有の過大(llm_as_respondents の Brand ほか:2〜3倍)が重なりうるので、同じ0.8で足りるとは言えない、と注記する。(4) 補正の仕組みとして、ask.js のプロンプトに『その値段で本当に財布から払うか、確信度(0〜10)』を聞く項目を足し、確信度が高い回答だけを購入に数える(確信度での割引)。(5) 楠戸・矢部の例のとおり、実際の購入には『知る・気づく機会』(認知率)が大きく効く。市場規模の計算では、意向の割引と別に認知率の掛け算を置き、二重に割り引かないよう注記する。",
+   "not_confirmed": [
+    "List & Gallet (2001)、Murphy et al. (2005)、Little & Berrens (2004)、Schmidt & Bijmolt (2020)、Penn & Hu (2018) の本文:Springer・UMass・AgEcon・core.ac.uk などが許可外。数値は Haghani ほかのレビュー経由と、既存の data/raw/literature.json(検索抜粋)のみ",
+    "確信度での補正(Blumenschein et al. 2008 など)とチープトークの効果量の数値:原典が許可外(uky.edu、Springer)",
+    "Aoki & Akai (2022, PLoS One, 日本のミカンのカーボンフットプリントの仮想バイアス):PMC が画像認証で開けず"
+   ]
+  }
+ ],
+ "hosts_needed": [
+  "papers.ssrn.com(Morwitz, Steckel & Gupta 2007 の作業論文版、Brand, Israeli & Ngwe の本文)",
+  "mpra.ub.uni-muenchen.de(意向と販売の関係の作業論文。接続を試み、プロキシで拒否された)",
+  "www.cambridge.org(Bisbee et al. 2024、Argyle et al. 2023 の刊行版)",
+  "link.springer.com(Schmidt & Bijmolt 2020、List & Gallet 2001、Murphy et al. 2005、確信度とチープトークのメタ分析 2022)",
+  "core.ac.uk(Schmidt & Bijmolt 2020 のフローニンゲン大学版。接続を試み、拒否された)",
+  "scholarworks.umass.edu(Murphy et al. 2005 の作業論文)",
+  "ageconsearch.umn.edu(仮想バイアスの作業論文群)",
+  "pubsonline.informs.org(Infosino 1986、Young/DeSarbo/Morwitz 1998)",
+  "www.lem.sssup.it または www.lem.santannapisa.it(Fagiolo ほか 2019 の作業論文)",
+  "www.jasss.org(Windrum, Fagiolo & Moneta 2007)",
+  "confit.atlas.jp(JSAI2025 の日本語の LLM 調査再現の発表)",
+  "pmc.ncbi.nlm.nih.gov は許可済みだが、今回は記事ページが画像認証(Checking your browser)になり開けなかった(検索ページは可)"
+ ]
+}
