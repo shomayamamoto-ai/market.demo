@@ -378,6 +378,7 @@ test("得票と議席:ドント式と、過去の選挙の再現", () => {
   for (const [name, , seats] of e46.pr.parties) assert.equal(pr[name] ?? 0, seats, name); // 第46回は全ブロックで公式の配分と一致
   const rows = electionChecks(); assert.ok(rows[0].a.startsWith("76 / 88"));
   assert.ok(fitK(ELECTIONS.elections.at(-1)).k > 1);
+  for (const e of ELECTIONS.elections) { const r = simulate(e); for (const x of r.rows) assert.equal(x.pr, x.pr0, `${e.name} ${x.party} 比例`); } // 名簿不足の上限を入れると、比例代表は8回とも公式の配分どおり
 });
 
 import { discount, weightOf, psychologyChecks } from "../public/js/custom.js";

@@ -6,22 +6,30 @@ import { esc, multiLine } from "./charts.js";
 
 export const ELECTION_ASSUMPTIONS = {
   dhondt: { value: "ドント式", note: "比例代表の議席の分け方。各党の得票を1、2、3…で割り、商の大きい順に議席を配る。制度の決まりどおり" },
-  shortage: { value: "考慮しない", note: "比例代表で、名簿に載せた候補者が足りない党の議席は、ほかの党に回る。過去8回の88ブロックのうち12ブロックで起きた。この計算には入れていないので、その分は実際の配分とずれる" },
+  shortage: { value: "公式の配分から逆算した上限", note: "比例代表で、名簿に載せた候補者が足りない党の議席は、ほかの党に回る。過去8回の88ブロックのうち12ブロックで起きた。ドント式の計算より公式の議席が少なかった党を「名簿が足りなくなった党」とみなし、そのブロックでの議席の上限を公式の議席数にした。名簿の人数そのものは確認していない。また、小選挙区で当選した重複立候補者は名簿から外れるので、本当の上限は小選挙区の結果でも変わるが、ここでは固定している。得票率を上げても、上限のある党はそのブロックで議席が増えない" },
   blockSwing: { value: "全ブロックで同じ倍率", note: "比例代表の得票率を変えたとき、各ブロックでのその党の得票を、全国での増減と同じ倍率で動かす。地域ごとの強さの変化は入れていない" },
   smd: { value: "議席の割合 ∝ 得票率の k 乗", note: "小選挙区の試算。各党の議席の割合は、得票率の k 乗に比例するとおく(k=3 なら「三乗比の法則」)。k は、基準にした選挙の結果をいちばんよく再現する値を使う。過去8回で k は約1〜6と大きく動いており、候補者の調整や地域ごとの強さで変わる。全国の得票率だけからの試算には、大きな誤差がある" },
   independent: { value: "そのまま据え置き", note: "無所属・諸派の小選挙区の議席は、基準にした選挙のままとする" },
 };
 
 // ドント式:votes(党ごとの得票)に seats 議席を配る
-export function dhondt(votes, seats) {
+// caps(党ごとの議席の上限。名簿の人数)を渡すと、上限に達した党は飛ばして次の党に配る
+export function dhondt(votes, seats, caps = []) {
   const got = votes.map(() => 0);
-  for (let s = 0; s < seats; s++) { let best = -1, top = -1; votes.forEach((v, i) => { const q = v / (got[i] + 1); if (q > top) { top = q; best = i; } }); if (best < 0) break; got[best]++; }
+  for (let s = 0; s < seats; s++) { let best = -1, top = -1; votes.forEach((v, i) => { if (caps[i] != null && got[i] >= caps[i]) return; const q = v / (got[i] + 1); if (q > top) { top = q; best = i; } }); if (best < 0) break; got[best]++; }
   return got;
+}
+// 名簿が足りなくなった党の上限:ドント式の計算より公式の議席が少なかった党は、公式の議席数を上限とみなす(選挙・ブロックごと)
+const CAPS = new Map();
+export function listCaps(election, block) {
+  const key = `${election.name}|${block.name ?? block.block}`;
+  if (!CAPS.has(key)) { const g = dhondt(block.parties.map((p) => p[1]), block.seats); CAPS.set(key, block.parties.map((p, i) => (g[i] > p[2] ? p[2] : null))); }
+  return CAPS.get(key);
 }
 // 比例代表:党ごとの得票の倍率(全国)を各ブロックに掛けて、ブロックごとにドント式で配る。返り値は 党名→議席
 export function prSeats(election, scale = {}) {
   const total = {};
-  for (const b of election.pr.blocks) { const votes = b.parties.map(([name, v]) => v * (scale[name] ?? 1)), got = dhondt(votes, b.seats); b.parties.forEach(([name], i) => { total[name] = (total[name] ?? 0) + got[i]; }); }
+  for (const b of election.pr.blocks) { const votes = b.parties.map(([name, v]) => v * (scale[name] ?? 1)), got = dhondt(votes, b.seats, listCaps(election, b)); b.parties.forEach(([name], i) => { total[name] = (total[name] ?? 0) + got[i]; }); }
   return total;
 }
 // 小選挙区:得票率の k 乗に比例して議席を配る(最大剰余で整数にする)。fixed は据え置く党
