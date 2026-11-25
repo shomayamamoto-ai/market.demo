@@ -39,7 +39,7 @@ export function mountLaborMarket({ before, getPersonas }) {
       <div class="kpi"><small>完全失業率</small><b>${u}%</b><span>${uy}年。最も高かったのは2002年の${LB.unemp["2002"]}%</span></div>
       <div class="kpi"><small>有効求人倍率</small><b>${j}倍</b><span>${jy}年。求職者1人に対する求人の数</span></div>
       <div class="kpi"><small>春の賃上げ率(主要企業)</small><b>${s}%</b><span>${sy}年。定期昇給を含む</span></div>
-      <div class="kpi"><small>最低賃金(全国の加重平均)</small><b>${mw}円</b><span>${my}年度。${esc(hiP.p)} ${hiP.now}円〜${esc(loP.p)} ${loP.now}円</span></div>
+      <div class="kpi"><small>最低賃金(全国の加重平均)</small><b>${Math.round(mw).toLocaleString("ja-JP")}円</b><span>${my}年度。${esc(hiP.p)} ${hiP.now}円〜${esc(loP.p)} ${loP.now}円</span></div>
       <div class="kpi"><small>外国人労働者</small><b>${(fw / 1e4).toFixed(0)}万人</b><span>${fy}年10月末。2008年は${(LB.foreign["2008"] / 1e4).toFixed(0)}万人</span></div></div>
       <h3>失業率と求人倍率</h3><div id="lm-u"></div>
       <h3>欠員と失業の関係(ベバリッジ曲線)</h3><div id="lm-bev"></div>

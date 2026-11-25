@@ -510,3 +510,9 @@ test("心の状態:孤独感の全体は調査に合い、一人暮らしは夫�
   assert.ok(get("一人暮らし") > get("夫婦のみ"));
   const b = Q.filter((p) => p.mind.big5); assert.ok(Math.abs(b.reduce((a, p) => a + p.mind.big5.C, 0) / b.length - 8.12) < 0.3);
 });
+
+import { handout } from "../public/js/purchase.js";
+test("買う気持ち:全員に配った給付金のうち使われる割合は、2020年の分析(約22%)に近い", () => {
+  const r = handout(P, { yen: 100000, target: "all" }); assert.ok(Math.abs(r.share - 0.22) < 0.01, `${r.share}`);
+  assert.ok(handout(P, { target: "low" }).share > r.share);
+});
