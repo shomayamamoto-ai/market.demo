@@ -25,6 +25,7 @@ import { mountComposite } from "./composite.js";
 import { mountWeather } from "./weather.js";
 import { mountWorkFin } from "./workfin.js";
 import { mountMarriage } from "./marriage.js";
+import { mountCvs } from "./cvs.js";
 import ELECTIONS from "./election-data.js";
 import { regime } from "./regime.js";
 import { elders } from "./elders.js";
@@ -175,6 +176,7 @@ function buildNav() {
   NAV.find((g) => g.key === "politics").tabs.push(...mountElections({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountWeather({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "japan").tabs.push(...mountMarriage({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "japan").tabs.push(...mountCvs({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountWorkFin({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountInsurance({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountComposite({ before: $("tab-score") }).tabs);

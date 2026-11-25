@@ -460,3 +460,9 @@ test("結婚と出生:将来推計の式で、中位の仮定の出生率1.29を
   assert.ok(Math.abs(tfrOf(19.1, 1.71) - 1.29) < 0.01);
   assert.ok(tfrOf(13.4, 1.91) > tfrOf(25.6, 1.54));
 });
+
+import { cvsMarket, cvsShareOf } from "../public/js/cvs.js";
+test("コンビニ:仮想の日本の支出に占めるコンビニの割合が、家計の統計(約2%)に近い", () => {
+  const m = cvsMarket(P); let w = 0, s = 0; for (const p of P) { w += p.weight * p.spendTotal; s += p.weight * p.spendTotal * cvsShareOf(p); }
+  assert.ok(s / w > 0.015 && s / w < 0.03, String(s / w)); assert.ok(m.perPerson > 1000);
+});
