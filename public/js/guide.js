@@ -6,6 +6,7 @@ import { runMany, DEFAULT_PLAN, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 
 // 画面ごとの「何を確かめる道具か」と、探すときの言葉。basis は数字の根拠の種類
 export const CATALOG = [
+  { tab: "workfin", title: "企業と転職", desc: "1960年度からの企業の売上・利益と、転職した人がどの業種・規模からどこへ移ったか", basis: "公的統計", words: "企業 会社 売上 利益 純利益 経常利益 労働分配率 転職 離職 中途 勤続 残業 業種 規模 賃金" },
   { tab: "weather", title: "天気と暮らし", desc: "47都道府県の65年分の雨・晴れ・気温と、家計の支出や移動との関係", basis: "公的統計", words: "天気 雨 晴れ 日照 気温 暑さ 寒さ 雪 気候 温暖化 灯油 外食 衣料 移動 電車 気象" },
   { tab: "composite", title: "複合要因の分析", desc: "人口構成・所得・交通・災害が、投票や買い物にどう効くかを都道府県で調べる", basis: "公的統計", words: "要因 複合 回帰 都道府県 地域 投票率 組織票 得票率 支出 灯油 外食 車 鉄道 保険 雨 天気" },
   { tab: "insurance", title: "保険と災害", desc: "地震のあと、被災した県で地震保険の加入がどれだけ増え、どのくらい続いたか", basis: "公的統計", words: "保険 地震保険 火災保険 生命保険 災害 地震 台風 豪雨 被災 加入率 備え 防災" },

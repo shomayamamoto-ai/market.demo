@@ -447,3 +447,10 @@ test("天気:65年で平均気温は上がり、投票日の雨は投票率を�
   const T = decadeChange("temp_mean"); assert.equal(T.length, 47); assert.ok(T.reduce((s, r) => s + r.diff, 0) / T.length > 1);
   const R = rainEffects(); assert.ok(R.first.beta < 0 && R.first.t < -2);
 });
+
+import { flowFrom, stayShare } from "../public/js/workfin.js";
+import WORK from "../public/js/work-data.js";
+test("企業と転職:転職の流れの表から、移った先の割合が出る", () => {
+  const f = flowFrom(WORK.work.industry, "製造業"); assert.ok(Math.abs(f.reduce((a, r) => a + r.value, 0) - 100) < 0.5);
+  const s = stayShare(WORK.work.industry); assert.ok(s > 0.35 && s < 0.5, String(s)); // 公表:同じ産業へ43.0%
+});

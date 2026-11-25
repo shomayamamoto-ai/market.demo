@@ -23,6 +23,7 @@ import { mountElections, ELECTION_ASSUMPTIONS, electionChecks } from "./election
 import { mountInsurance } from "./insurance.js";
 import { mountComposite } from "./composite.js";
 import { mountWeather } from "./weather.js";
+import { mountWorkFin } from "./workfin.js";
 import ELECTIONS from "./election-data.js";
 import { regime } from "./regime.js";
 import { elders } from "./elders.js";
@@ -172,6 +173,7 @@ function buildNav() {
   NAV.find((g) => g.key === "politics").tabs.push(...mountPolitics({ getPersonas: () => state.personas, before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "politics").tabs.push(...mountElections({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountWeather({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "behavior").tabs.push(...mountWorkFin({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountInsurance({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountComposite({ before: $("tab-score") }).tabs);
   mountCustom({ getPersonas: () => state.personas, seedOf: () => Number($("seed").value) || 1, before: $("tab-score") });
