@@ -440,3 +440,10 @@ test("複合要因:同じ県の回ごとの比較で、投票率と得票率の�
   const T = turnoutEffects(); assert.equal(T.length, 3);
   for (const r of T) { assert.equal(r.n, 376); assert.ok(Number.isFinite(r.beta) && r.se > 0); }
 });
+
+import { decadeChange } from "../public/js/weather.js";
+import { rainEffects } from "../public/js/composite.js";
+test("天気:65年で平均気温は上がり、投票日の雨は投票率を下げる", () => {
+  const T = decadeChange("temp_mean"); assert.equal(T.length, 47); assert.ok(T.reduce((s, r) => s + r.diff, 0) / T.length > 1);
+  const R = rainEffects(); assert.ok(R.first.beta < 0 && R.first.t < -2);
+});

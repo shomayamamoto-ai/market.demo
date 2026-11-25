@@ -6,6 +6,15 @@ import { twoWay } from "./panelfe.js";
 import { esc } from "./charts.js";
 
 const YEARS = ["2005", "2009", "2012", "2014", "2017", "2021", "2024", "2026"];
+// 投票日の雨(log(1+雨量mm))で、投票率と得票率がどう動くか。雨は選挙の中身と関係なく投票率を動かすので、
+// 「投票率が下がったこと」の効き方を、接戦かどうかなどの影響から切り分けて見られる(自然実験)
+const lrain = () => { for (const k of Object.keys(PANEL.vars).filter((k) => k.startsWith("rain_"))) { const n = k.replace("rain_", "lrain_"); if (!PANEL.vars[n]) PANEL.vars[n] = { ...PANEL.vars[k], values: PANEL.vars[k].values.map((x) => (x == null ? null : Math.log1p(x))) }; } };
+export function rainEffects() {
+  lrain(); const U = ["2007", "2010", "2013", "2016", "2019", "2022", "2025"];
+  const first = twoWay(PANEL, "turnout", "lrain_shu", YEARS), firstU = twoWay(PANEL, "sturnout", "lrain_san", U);
+  const rows = [["pr_kome", "公明党(比例代表)"], ["pr_jcp", "共産党(比例代表)"], ["pr_ldp", "自民党(比例代表)"], ["ldp", "自民党(小選挙区)"]].map(([k, label]) => ({ label, ...twoWay(PANEL, k, "lrain_shu", YEARS) }));
+  return { first, firstU, rows };
+}
 export function turnoutEffects() {
   return [["pr_org", "公明党+共産党(比例代表)"], ["pr_ldp", "自民党(比例代表)"], ["ldp", "自民党(小選挙区)"]].map(([k, label]) => ({ label, ...twoWay(PANEL, k, "turnout", YEARS) }));
 }
@@ -19,6 +28,10 @@ export function mountComposite({ before }) {
       <p class="note">同じ県を、衆院選8回(2005〜2026年)で比べます。県ごとの土地柄と、回ごとの全国の流れ(その年の風)は取り除き、「その県でいつもより投票率が低かった回に、得票率がどう動いたか」だけを見ます。</p>
       <div id="cp-turnout" class="table-scroll"></div>
       <div class="analysis"><ul class="facts" id="cp-turnout-facts"></ul></div></div>
+    <div class="card"><h2>投票日に雨が降ると、どうなるか(自然実験)</h2>
+      <p class="note">雨は選挙の中身と関係なく投票率を動かします。そのため、雨で投票率が下がったときの得票率の動きを見ると、「投票率が下がったこと」の効き方を、接戦かどうかなどの影響から切り分けて調べられます。投票日の雨量は、各県の気象台の値です(気象庁)。雨量は対数(雨量が倍になるごとに同じだけ効く形)で入れています。</p>
+      <div id="cp-rain" class="table-scroll"></div>
+      <div class="analysis"><ul class="facts" id="cp-rain-facts"></ul></div></div>
     <div class="card"><h2>要因を組み合わせて調べる</h2>
       <div class="form-grid"><label class="wide">調べる結果 <select id="cp-y">${outcomes.map((k) => `<option value="${k}"${k === "turnout2024" ? " selected" : ""}>${esc(V[k].name)}</option>`).join("")}</select></label></div>
       <p class="note">要因を選んでください(多くても4つまで。47県しかないので、入れすぎると偶然の当てはまりが増えます)。</p>
@@ -55,7 +68,20 @@ export function mountComposite({ before }) {
     $("cp-turnout-facts").innerHTML = [
       `向きは「投票率が下がると、組織票の多い党と自民党の割合が上がる」で、しょーまさんの仮説と同じです。`,
       `ただし大きさは小さく、比例代表では偶然と区別できません(t の絶対値が1未満)。小選挙区の自民党は、投票率1ポイントあたり約${Math.abs(T[2].beta).toFixed(1)}ポイントで、ぎりぎりの確かさです。`,
-      `注意:接戦の選挙区では投票率そのものが上がります。このため「投票率が原因で得票率が動いた」とは言い切れません。投票日の雨のように、選挙の中身と関係なく投票率を動かすものを使うと、より確かに調べられます(投票日の雨のデータは収集中)。`,
+      `注意:接戦の選挙区では投票率そのものが上がります。このため「投票率が原因で得票率が動いた」とは言い切れません。下の「投票日に雨が降ると」で、雨を使って確かめています。`,
+    ].map((t) => `<li>${esc(t)}</li>`).join("");
+    const R = rainEffects(), mm = (b) => `${b >= 0 ? "+" : ""}${(b * Math.log(2)).toFixed(2)}ポイント`;
+    $("cp-rain").innerHTML = `<table class="verify"><tr><th>結果</th><th class="num">雨量が倍になると</th><th class="num">確かさ(t)</th></tr>
+      <tr><td><b>衆院選の投票率</b></td><td class="num"><b>${mm(R.first.beta)}</b></td><td class="num">${R.first.t.toFixed(1)}</td></tr>
+      <tr><td><b>参院選の投票率</b></td><td class="num"><b>${mm(R.firstU.beta)}</b></td><td class="num">${R.firstU.t.toFixed(1)}</td></tr>
+      ${R.rows.map((r) => `<tr><td>${esc(r.label)}の得票率(衆院選)</td><td class="num">${mm(r.beta)}</td><td class="num">${r.t.toFixed(1)}</td></tr>`).join("")}</table>
+      <p class="note">衆院選8回・参院選7回、47県。県ごとの土地柄と、回ごとの全国の流れは取り除いています。標準誤差は県ごとにまとめて計算。出典:気象庁 過去の気象データ(日ごとの値)、総務省 選挙結果調。</p>`;
+    const kome = R.rows[0], jcp = R.rows[1];
+    $("cp-rain-facts").innerHTML = [
+      `雨が降ると投票率は確かに下がります(衆院選で t=${R.first.t.toFixed(1)}、参院選でも下がる)。たとえば雨量が1mmから10mmに増えると、衆院選の投票率は約${Math.abs(R.first.beta * Math.log(11 / 2)).toFixed(1)}ポイント下がる計算です。`,
+      `一方で、組織票が固いとされる公明党(t=${kome.t.toFixed(1)})と共産党(t=${jcp.t.toFixed(1)})の得票率は、雨の日に上がるのではなく、わずかに下がりました。自民党は、比例代表でも小選挙区でも、はっきりした動きは見えません。`,
+      `つまりこのデータでは、「雨で投票率が下がると、組織票の党が相対的に強くなる」という説は確かめられませんでした。台風の2017年や大雪の2026年を除いても、同じ向きです。`,
+      `考えられる理由(推測です):組織票の多い党は期日前投票を早めに済ませる人が多く、投票日の雨で減る人の中には、もともと組織とつながりの薄い支持者も含まれる、など。また、県単位の平均なので、市町村や選挙区ごとに見ると違う結果になる可能性があります。`,
     ].map((t) => `<li>${esc(t)}</li>`).join(""); });
   return { tabs: [["composite", "複合要因の分析"]] };
 }

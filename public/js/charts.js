@@ -84,6 +84,7 @@ export function combo(rows, { barMax, barUnit = "回", legend, xLabel = "" }) {
 // 複数の折れ線 series: [{name, color, points:[{x,y}]}]、y は 0〜の割合
 export function multiLine(series, { xLabel = "", fmt = (v) => `${Math.round(v * 100)}%` } = {}) {
   const W = 640, H = 260, L = 52, R = 14, T = 30, B = 34;
+  series = series.map((s) => ({ ...s, points: s.points.filter((p) => p.y != null && Number.isFinite(p.y)) })); // 値の無い年は線を引かない
   const all = series.flatMap((s) => s.points);
   const xs = all.map((p) => p.x), hi = Math.max(1, ...all.map((p) => p.y)) * 1.05;
   const x = (v) => L + ((v - Math.min(...xs)) / Math.max(Math.max(...xs) - Math.min(...xs), 1)) * (W - L - R);
@@ -92,8 +93,9 @@ export function multiLine(series, { xLabel = "", fmt = (v) => `${Math.round(v * 
   let lx = L;
   const legend = series.map((s) => { const out = `<rect x="${lx}" y="6" width="14" height="10" rx="2" fill="${s.color}"/><text x="${lx + 18}" y="15">${esc(s.name)}</text>`; lx += 34 + s.name.length * 12; return out; }).join("");
   const lines = series.map((s) => `<path d="${s.points.map((p, i) => `${i ? "L" : "M"}${x(p.x).toFixed(1)},${y(p.y).toFixed(1)}`).join("")}" fill="none" stroke="${s.color}" stroke-width="2.5"/>`).join("");
-  const maxX = Math.max(...xs), step = Math.max(1, Math.ceil(maxX / 8));
-  const xt = []; for (let v = 0; v <= maxX; v += step) xt.push(`<text x="${x(v)}" y="${H - 14}" text-anchor="middle" class="sub">${v}</text>`);
+  // 目盛りは最初の x から(年のように0から始まらない軸でも、目盛りが枠の外に出ないように)
+  const minX = Math.min(...xs), maxX = Math.max(...xs), step = Math.max(1, Math.ceil((maxX - minX) / 8));
+  const xt = []; for (let v = minX; v <= maxX; v += step) xt.push(`<text x="${x(v)}" y="${H - 14}" text-anchor="middle" class="sub">${v}</text>`);
   return `<svg viewBox="0 0 ${W} ${H}" role="img">${legend}${ticks}${lines}${xt.join("")}<text x="${W - R}" y="${H - 2}" text-anchor="end" class="sub">${esc(xLabel)}</text></svg>`;
 }
 
