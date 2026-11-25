@@ -1,0 +1,1302 @@
+{
+ "generated": "2026-11-25 00:56",
+ "notes": [
+  "confidence の基準は前回(data/raw/validation_params.json)と同じ:high=本文・統計表を取得して該当箇所を読んだ。medium=本文を読んだ別資料が明記している値、または要旨のみ。low=検索抜粋など単一の二次情報。value が null は確認できなかった。",
+  "前回の値は調べ直していない。今回は前回の not_confirmed を埋める追加分だけを載せる。",
+  "取得した資料は /tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/val2_dl/<名前>/file、テキスト化したものは …/scratchpad/val2_work/txt/<名前>.txt。",
+  "how_to_use の換算・提案は当方の計算と提案で、論文の報告値ではない。",
+  "papers.ssrn.com は接続できるが Cloudflare の確認画面(Just a moment… / HTTP 403)、link.springer.com は 'Client Challenge'(JavaScript の確認)が返り、30秒以上おいた再試行でも同じだった。回避していない。",
+  "Brand, Israeli & Ngwe の本文は、許可リストに無い thearf-org-unified-admin.s3.amazonaws.com(MSI 版 PDF)と www.microsoft.com(講演スライド)から取得した。どちらもプロキシがそのまま通したもので、回避はしていない。その後、別のミラー(Cambridge の別ドメイン)への接続は自動の権限判定で止められたため、許可リスト外のホストへの接続はそれ以上試みていない。",
+  "gwern.net の Armstrong 編『Principles of Forecasting』(2001)の PDF に Morwitz の章があり、Jamieson & Bass (1989)、Bemmaor (1995)、Morwitz & Schmittlein (1992)、Kalwani & Silk (1982) の内容はこの章経由(medium)。",
+  "J-STAGE の『環境経済・政策研究』の2本は画像の PDF で、文字を取り出せなかったため、頁を画像にして目で読んだ(…/val2_work/img/)。"
+ ],
+ "params": [
+  {
+   "key": "simulation_validation_methods_2",
+   "name_ja": "シミュレーションの検証の方法論(追加:Windrum ほか 2007、ODD、JASSS の検証方法の総説)",
+   "estimates": [
+    {
+     "what": "エージェントベースモデルの経験的検証の3つの方法と、較正と検証の順序",
+     "value": {
+      "qualitative": "間接較正(indirect calibration):①再現したい定型化された事実を決める ②ミクロの行動は実証・実験の証拠に近づけて作る ③事実を再現できない(モンテカルロで棄却される)パラメータ領域を捨てる ④残った領域で因果の仕組みや新しい事実を調べる。先に検証、後で(間接に)較正。Werker-Brenner法:①既存の知識で初期条件・パラメータの範囲を決め(データが乏しいものは広く) ②出力を実データと照らし(ベイズ的に)尤度の低い組を捨てる ③残ったモデル群と専門家・歴史の知識で構造を絞る(方法論的アブダクション)。履歴適合(history-friendly):特定の産業の歴史に合わせて較正し、シミュレーションの軌跡を実際の歴史と比べる。Werker-Brenner と履歴適合は『較正→検証』、間接較正は『検証→較正』"
+     },
+     "unit": "定性",
+     "population": "経済学のエージェントベースモデル",
+     "citation": "Windrum, P., Fagiolo, G. & Moneta, A. (2007) Empirical Validation of Agent-Based Models: Alternatives and Prospects. JASSS 10(2) 8",
+     "url": "https://www.jasss.org/10/2/8.html",
+     "confidence": "high",
+     "verified_via": "JASSS の本文 HTML を取得し、要旨・第4節(3つの方法)・表2の前の比較の段落を読んだ"
+    },
+    {
+     "what": "モデルの違いを整理する4つの軸と、感度分析で最低限見るべきもの",
+     "value": {
+      "qualitative": "4軸:①説明したい対象(定性か定量か、ミクロ分布かマクロ集計か、一時的か長期か) ②分析の目的(過去データの再現=標本内か、予測・政策=標本外か。標本外はまれ) ③モデルの仮定(自由度の多さ、相互作用の構造) ④感度分析の方法。感度分析は少なくとも(i)ミクロ・マクロのパラメータ (ii)初期条件 (iii)乱数による試行ごとのばらつき を見て、さらにノイズの分布、更新の順序、集計の水準を変えて頑健さを確かめる"
+     },
+     "unit": "定性",
+     "population": "同上",
+     "citation": "Windrum, Fagiolo & Moneta (2007) JASSS 10(2) 8, 第3節・表1",
+     "url": "https://www.jasss.org/10/2/8.html",
+     "confidence": "high",
+     "verified_via": "本文 3.3〜3.7 段落を読んだ"
+    },
+    {
+     "what": "ODD プロトコル(第2版の更新)の7要素と、検証のための『パターン』の記載",
+     "value": {
+      "elements": [
+       "1. Purpose and patterns(目的と、モデル評価の基準にする観測パターン)",
+       "2. Entities, state variables and scales",
+       "3. Process overview and scheduling",
+       "4. Design concepts(11の設計概念)",
+       "5. Initialization",
+       "6. Input data",
+       "7. Submodels"
+      ],
+      "citations_google_scholar_2019_11_06": {
+       "ODD_2006": 2258,
+       "ODD_2010": 1783
+      },
+      "change_2020": "要素1に、モデルが目的に足りるかを判断する観測パターン(パターン指向モデリング)を明記する欄を追加。目的の種類(予測・説明・記述・理論の提示・例示・類推・社会的学習)を先に書く"
+     },
+     "unit": "項目・引用数",
+     "population": "エージェントベース/個体ベースのモデル全般",
+     "citation": "Grimm, V. et al. (2020) The ODD Protocol for Describing Agent-Based and Other Simulation Models: A Second Update… JASSS 23(2) 7",
+     "url": "https://www.jasss.org/23/2/7.html",
+     "confidence": "high",
+     "verified_via": "JASSS の本文 HTML を取得し、要旨・表1の説明・引用数の段落・要素1の更新の段落を読んだ"
+    },
+    {
+     "what": "検証を支える9つの方法の総説(JASSS 2024)と実務上の勧め",
+     "value": {
+      "methods": [
+       "docking(別実装・別モデルとの突き合わせ)",
+       "empirical validation(実データとの比較)",
+       "sampling",
+       "visualization",
+       "bootstrapping",
+       "causal analysis",
+       "inverse generative social science",
+       "role-playing",
+       "data analytics"
+      ],
+      "recommendations": "万能の方法はない。前提の違う2種類以上の方法を組み合わせる。データがない未来のシステムは経験的検証ができず、専門家による表面妥当性(face validation)が適する。経験的検証だけに頼らず、表面妥当性と可視化を組み合わせるべきとする論者がいる"
+     },
+     "unit": "定性",
+     "population": "エージェントベースのシミュレーション全般",
+     "citation": "Collins, A., Koehler, M. & Lynch, C. (2024) Methods That Support the Validation of Agent-Based Models: An Overview and Discussion. JASSS 27(1) 11",
+     "url": "https://www.jasss.org/27/1/11.html",
+     "confidence": "high",
+     "verified_via": "JASSS の本文 HTML を取得し、要旨と検証計画の節(推奨)を読んだ。9つの方法の名前は本文の節見出しと要旨から(要旨に挙がるのは8つ、data analytics は本文の節)"
+    }
+   ],
+   "how_to_use": "guide.js の成績表(検証の説明)を次のように直せる。(1) 成績表の各行に『較正に使った値』か『較正に使っていない値(検証)』かの印をつける。Windrum ほかの区別では、いまの作りは国勢調査・家計調査の周辺分布に合わせて人口を作る=較正であり、同じ周辺分布との一致は検証にならない。検証として示せるのは、較正に使っていない統計(例:クロス集計、別年の調査、holdout_surveys.json の保留した調査)との比較だけ。(2) 感度分析として、乱数シードを変えた複数回(試行ごとのばらつき)、主要な仮定値(market.js の intentWeights・wtpDiscount・baseInterest)を幅で動かしたときの結果の幅を表示する。(3) ODD の要素1にならい、ガイドの冒頭に『目的(市場規模の目安と反応の比較。予測ではなく説明・比較)』と『合格基準にする観測パターン(例:年齢別の一人暮らし率、支出の五分位)』を書く。(4) 未来の新商品の反応は経験的検証ができないため、Collins ほかの勧めどおり『表面妥当性(人が読んで不自然でないか)』の点検と、実データの比較を分けて表示する。",
+   "not_confirmed": [
+    "Fagiolo, Moneta & Windrum (2007) Computational Economics 30『A critical guide to empirical validation of agent-based models in economics』の本文:link.springer.com が JavaScript の確認画面を返し開けず",
+    "Fagiolo ほか (2019) Validation of agent-based models in economics and finance(Springer の本):同上"
+   ]
+  },
+  {
+   "key": "llm_as_respondents_2",
+   "name_ja": "LLM を回答者にした市場調査の原典(追加:Brand, Israeli & Ngwe の本文、購入意向5段階の再現、価格・支払意思額の倍率)",
+   "estimates": [
+    {
+     "what": "歯磨き粉のフッ素入りへの支払意思額(コンジョイント):GPT と人の比較",
+     "value": {
+      "pilot_gpt_text_davinci": 3.4,
+      "fong_et_al_2023_humans": 3.27,
+      "pilot_gpt35_turbo": 4.42,
+      "pilot_gpt35_no_income_in_prompt": 4.95,
+      "study1A": {
+       "human": 2.6,
+       "gpt35": 8.2
+      },
+      "study1B": {
+       "human": 2.9,
+       "gpt35": 9.3
+      },
+      "ratio_gpt_to_human_study1A_1B": "約3.2倍(8.20/2.60、9.30/2.90。当方の計算)",
+      "deodorant_aluminum_removal": {
+       "gpt": 0.91,
+       "fong_humans": "-1.97(アルミ入りを避けるのに1.97ドル払う=符号の表記が逆向き)"
+      }
+     },
+     "unit": "米ドル(1本あたり、付加価値)",
+     "population": "米国のオンライン回答者(人)と GPT-3.5 Turbo ほか(1設問50〜300回答)",
+     "citation": "Brand, J., Israeli, A. & Ngwe, D. (2025) Using LLMs for Market Research. MSI Working Paper 25-136(2025年10月6日版。旧題 Using GPT for Market Research、SSRN 4395751)",
+     "url": "https://thearf-org-unified-admin.s3.amazonaws.com/MSI/2025/MSI_Report_25-136.pdf",
+     "confidence": "high",
+     "verified_via": "MSI 版の本文 PDF を取得し、3.1節(パイロット・Study 1A/1B の本文)と脚注11を読んだ。注:このホストは許可リストに無かったが、プロキシ経由でそのまま開けた(回避はしていない)"
+    },
+    {
+     "what": "ノートPC・タブレット(Study 2A/2B/2C):GPT の支払意思額の人に対する倍率と符号",
+     "value": {
+      "storage_RAM_study2A_2B": "人の64〜90%(GPT のほうが小さい)",
+      "macbook_brand": "人はプラス、GPT はマイナス(符号が逆)",
+      "tablet_other_attributes": "人より70〜312%大きい(95%信頼区間の外)",
+      "ipad_brand": "符号は同じ、差は50ドル以内(67%)",
+      "built_in_projector_new_feature": "人の約3倍",
+      "screen_size": "人は大きいほど好む、GPT はマイナス",
+      "gpt4o_vs_gpt35": "モデルの版でブランドや画面サイズの評価が変わる"
+     },
+     "unit": "倍率・符号",
+     "population": "米国のオンライン回答者(Study 2A は302人)と GPT-3.5 Turbo",
+     "citation": "Brand, Israeli & Ngwe (2025) MSI WP 25-136, 3.1節・図3",
+     "url": "https://thearf-org-unified-admin.s3.amazonaws.com/MSI/2025/MSI_Report_25-136.pdf",
+     "confidence": "high",
+     "verified_via": "本文 3.1節の段落を読んだ"
+    },
+    {
+     "what": "価格への反応の向きと、層(所得など)による違いの誇張",
+     "value": {
+      "price_coefficient": "すべての分析で価格の係数はマイナス(値上げで選ばれにくい)。ただし年収15万ドル超の層ではプラス",
+      "opt_out_no_purchase_share_study2A": {
+       "human_income_lt50k": 0.49,
+       "human_income_gt150k": 0.47,
+       "gpt_income_lt50k": 0.95,
+       "gpt_income_50_75k": 0.34,
+       "gpt_income_75_150k": 0.19,
+       "gpt_income_gt150k": 0.34,
+       "human_all_groups": "約5割(黒人回答者のみ37%)"
+      },
+      "RAM_WTP_usd": {
+       "human_lt50k": 17.8,
+       "human_gt150k": 19.4,
+       "gpt_lt50k": -4.4,
+       "gpt_gt150k": 99.6
+      },
+      "macbook_premium_usd": {
+       "human_lt50k": 12.5,
+       "human_gt150k": 225.6,
+       "gpt_lt50k": -2.6,
+       "gpt_gt150k": 722.5
+      },
+      "fine_tuned_study2B_opt_out": "人の調査(2A)で微調整した GPT は、どの層でも買わない割合44〜49%で、人(35〜48%)に近づいたが、層の差は消えた(RAM の支払意思額20.5〜25.1ドルでほぼ一定)"
+     },
+     "unit": "割合・米ドル",
+     "population": "同上",
+     "citation": "Brand, Israeli & Ngwe (2025) MSI WP 25-136, 本文3.2節・脚注15、付録 表W3・表W4",
+     "url": "https://thearf-org-unified-admin.s3.amazonaws.com/MSI/2025/MSI_Report_25-136.pdf",
+     "confidence": "high",
+     "verified_via": "付録の表W3(Study 2A)・表W4(Study 2B)の数値を読んだ"
+    },
+    {
+     "what": "GPT の需要の基本性質(2024年の講演資料)",
+     "value": {
+      "qualitative": "値下げで選ばれやすくなる(右下がりの需要)、参照価格・文脈に反応する、ブランドの好みがある、最初に示された選択肢を選びやすい(順序の偏り)。歯磨き粉の価格は2〜6ドル、ノートPCは750〜1,250ドルで変えた"
+     },
+     "unit": "定性",
+     "population": "text-davinci-003 / GPT-3.5 Turbo",
+     "citation": "Israeli, A. (2024) Using GPT for Market Research(講演資料、with Brand & Ngwe)",
+     "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2024/05/AIsraeli_GPT_May2024_AICE_final.pdf",
+     "confidence": "medium",
+     "verified_via": "講演スライドの PDF を読んだ(図の数値は文字として取れず、要点の箇条書きのみ)。このホストも許可リスト外だが開けた"
+    },
+    {
+     "what": "購入意向5段階を LLM に直接聞いたときの分布のゆがみ(日用品57件の調査、人9,300回答)",
+     "value": {
+      "human_mean_purchase_intent": "約4.0(5点満点。4と5が最多)",
+      "direct_likert_mean": {
+       "gpt4o": "2.95〜2.97",
+       "gemini_2_0_flash": "3.17〜3.28"
+      },
+      "direct_likert_behavior": "ほぼ『3』に集中し、1や5はほとんど出ない",
+      "direct_KS_similarity": {
+       "gpt4o": 0.26,
+       "gemini": 0.39
+      },
+      "direct_correlation_attainment": "約80%(商品の順位の相関。人の再テスト信頼性に対する比)",
+      "text_then_semantic_similarity_SSR": {
+       "correlation_attainment": "約90%",
+       "KS_similarity": "0.88(GPT-4o)、0.80(Gemini)"
+      },
+      "no_demographics_in_prompt": "平均4.0で人と同じ分布になるが、商品の順位の相関は約50%に落ちる(どの商品も高く評価)",
+      "supervised_LightGBM_baseline": "相関の達成率65%"
+     },
+     "unit": "5点尺度・類似度・%",
+     "population": "米国の大手日用品メーカー(Colgate-Palmolive)のパーソナルケア商品コンセプト調査57件(各150〜400人)",
+     "citation": "Maier, B.F. et al. (2025) LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings. arXiv:2510.08338v3",
+     "url": "https://arxiv.org/pdf/2510.08338",
+     "confidence": "high",
+     "verified_via": "arXiv v3 の本文 PDF を取得し、4.1・4.2・4.4節と表1を読んだ"
+    },
+    {
+     "what": "時間選好(待てば多くもらえる選択)の再現:GPT は人より大幅にせっかち",
+     "value": {
+      "share_choosing_larger_later": {
+       "gpt35": 0.22,
+       "gpt4": 0.16,
+       "gpt4_chain_of_thought": 0.345
+      },
+      "annual_discount_rate": "GPT-4 の標準コンジョイントでは全言語で年率110%超(人の既存研究はすべて100%未満)",
+      "japanese": "日本語は未来時制の弱い言語として扱われ、強い言語より辛抱強い側に出る"
+     },
+     "unit": "割合・年率",
+     "population": "GPT-3.5 / GPT-4、24言語",
+     "citation": "Goli, A. & Singh, A. (2024) Can LLMs Capture Human Preferences? arXiv:2305.02531v6(Marketing Science 掲載版の前稿)",
+     "url": "https://arxiv.org/pdf/2305.02531",
+     "confidence": "high",
+     "verified_via": "arXiv v6 の本文を取得し、3.2節(a)(b)と3.3節を読んだ"
+    },
+    {
+     "what": "旅行の選択から推定した LLM の支払意思額:人の基準値より高く出る",
+     "value": {
+      "qualitative": "大きいモデルでは意味のある支払意思額が出るが、属性ごとに系統的にずれ、全体として人の支払意思額を過大に出す。高価な選択肢やビジネス向けの人物像を入れると過大が強まり、過去に安い方を選んだ履歴を与えると人に近づく"
+     },
+     "unit": "定性",
+     "population": "旅行アシスタントの設定、複数の LLM",
+     "citation": "Reusens, M. et al. (2026) Would a Large Language Model Pay Extra for a View? arXiv:2602.09802v1",
+     "url": "https://arxiv.org/pdf/2602.09802v1",
+     "confidence": "medium",
+     "verified_via": "arXiv の本文を取得し、要旨と結論の段落を読んだ(属性別の数値表は読んでいない)"
+    },
+    {
+     "what": "ANES の感情温度(ChatGPT 3.5 の人物像):平均は合うが、回帰係数がずれる",
+     "value": {
+      "coef_significantly_different_share": 0.48,
+      "sign_flip_among_those": 0.32,
+      "variance": "実際の調査よりばらつきが小さい",
+      "stability": "同じ指示文でも3か月で結果が有意に変わった"
+     },
+     "unit": "割合",
+     "population": "米国 ANES 2016〜2020",
+     "citation": "Bisbee, J. et al. (2024) Synthetic Replacements for Human Survey Data? The Perils of Large Language Models. Political Analysis 32: 401-416",
+     "url": "https://doi.org/10.1017/pan.2024.5",
+     "confidence": "low",
+     "verified_via": "検索エンジンが示した要旨の抜粋のみ。本文(cambridge.org)は許可外で開けず"
+    }
+   ],
+   "how_to_use": "(1) market.js の wtpDiscount:AI モードで AI が答えた『払ってもよい金額』には、人の仮想バイアス(0.8)に加えて AI 自身の偏りが乗る。Brand ほかの本文では、既存の属性で人の0.64〜0.9倍(小さい)から約3倍(フッ素・新機能のプロジェクター)、他属性で1.7〜4.1倍(70〜312%増)と、向きも大きさも一定しない。一律の倍率で割り引く根拠はないため、AI モードの wtpDiscount は0.8を据え置き、note に『AI の支払意思額は属性・新しさで人の0.6〜4倍にぶれ、符号が逆になることもある(Brand ほか 2025 MSI 版)』と書き、結果画面では支払意思額を幅(×0.5〜×1.0 など)で示すのが妥当。(2) intentWeights:AI に5段階で直接答えさせると『3』に集まり平均は約3.0、人は約4.0(Maier ほか)。いまの重み {5:0.55,4:0.25,3:0.05} のまま AI の回答を集計すると、購入見込みを大きく低く見積もる。対策は、(a) 直接の数字ではなく自由回答を書かせ、基準文との類似度で5段階に割り振る(SSR)、(b) 少なくとも AI の回答の分布を人の調査分布で並べ替える(順位だけ使う)。(3) personas.js から渡す所得の情報:GPT は所得による差を誇張する(買わない割合 低所得95% 対 高所得34%、人は49%対47%)。AI モードで低所得の人物像の購入率が極端に低ければ、この偏りを疑う。(4) guide.js の成績表には『AI の回答は商品の順位(相関の達成率 約80〜90%)には使えるが、水準(平均・買わない割合)と層の差はそのまま使えない』と明記する。",
+   "not_confirmed": [
+    "papers.ssrn.com の Brand ほか(SSRN 4395751)は Cloudflare の確認画面で開けなかった。代わりに同じ論文の MSI 版(2025年10月)を読んだ",
+    "Bisbee et al. (2024) の本文・表の数値(cambridge.org は許可外。別のミラーへの接続は試みない)",
+    "Li, Castelo, Katona & Sarvary (2024) Marketing Science の知覚マップの検証、Arora, Chakraborty & Nishimura (2025) Journal of Marketing の AI と人のハイブリッド調査:SSRN の確認画面と出版社サイトが許可外で開けず",
+    "LLM の価格弾力性の具体的な値(Brand ほかは需要曲線を図で示すのみで、弾力性の数値は本文に見当たらない)"
+   ]
+  },
+  {
+   "key": "census_institutional_households_by_age",
+   "name_ja": "国勢調査2020:施設等の世帯(寮・寄宿舎の学生、病院、社会施設、自衛隊営舎など)と一人暮らしの年齢別人口(20〜24歳の扱い)",
+   "estimates": [
+    {
+     "what": "15〜34歳の一人暮らし率・施設等の世帯の割合(全国、年齢が分かる人に対する割合。当方が表の人数から計算)",
+     "value": {
+      "male": {
+       "15～19歳": {
+        "single_share_of_age_known_pop": 0.056,
+        "single_share_of_general_household_members": 0.0579,
+        "institution_share": 0.0342,
+        "dorm_student_share": 0.0271,
+        "sdf_share": 0.0034,
+        "hospital_share": 0.0002,
+        "social_facility_share": 0.0029,
+        "company_dorm_single_share(単独世帯の内数)": 0.0069,
+        "lodging_single_share(単独世帯の内数)": 0.0026
+       },
+       "20～24歳": {
+        "single_share_of_age_known_pop": 0.3081,
+        "single_share_of_general_household_members": 0.3153,
+        "institution_share": 0.023,
+        "dorm_student_share": 0.0096,
+        "sdf_share": 0.0098,
+        "hospital_share": 0.0003,
+        "social_facility_share": 0.0021,
+        "company_dorm_single_share(単独世帯の内数)": 0.0332,
+        "lodging_single_share(単独世帯の内数)": 0.0159
+       },
+       "25～29歳": {
+        "single_share_of_age_known_pop": 0.3431,
+        "single_share_of_general_household_members": 0.3469,
+        "institution_share": 0.011,
+        "dorm_student_share": 0.0008,
+        "sdf_share": 0.0057,
+        "hospital_share": 0.0005,
+        "social_facility_share": 0.0026,
+        "company_dorm_single_share(単独世帯の内数)": 0.0334,
+        "lodging_single_share(単独世帯の内数)": 0.0148
+       },
+       "30～34歳": {
+        "single_share_of_age_known_pop": 0.2359,
+        "single_share_of_general_household_members": 0.2379,
+        "institution_share": 0.0083,
+        "dorm_student_share": 0.0002,
+        "sdf_share": 0.0032,
+        "hospital_share": 0.0007,
+        "social_facility_share": 0.0028,
+        "company_dorm_single_share(単独世帯の内数)": 0.012,
+        "lodging_single_share(単独世帯の内数)": 0.0083
+       }
+      },
+      "female": {
+       "15～19歳": {
+        "single_share_of_age_known_pop": 0.0462,
+        "single_share_of_general_household_members": 0.0471,
+        "institution_share": 0.0186,
+        "dorm_student_share": 0.0154,
+        "sdf_share": 0.0007,
+        "hospital_share": 0.0002,
+        "social_facility_share": 0.0023,
+        "company_dorm_single_share(単独世帯の内数)": 0.0024,
+        "lodging_single_share(単独世帯の内数)": 0.0022
+       },
+       "20～24歳": {
+        "single_share_of_age_known_pop": 0.2612,
+        "single_share_of_general_household_members": 0.2638,
+        "institution_share": 0.01,
+        "dorm_student_share": 0.0068,
+        "sdf_share": 0.0016,
+        "hospital_share": 0.0003,
+        "social_facility_share": 0.0011,
+        "company_dorm_single_share(単独世帯の内数)": 0.0177,
+        "lodging_single_share(単独世帯の内数)": 0.0133
+       },
+       "25～29歳": {
+        "single_share_of_age_known_pop": 0.2475,
+        "single_share_of_general_household_members": 0.2483,
+        "institution_share": 0.003,
+        "dorm_student_share": 0.0005,
+        "sdf_share": 0.0006,
+        "hospital_share": 0.0004,
+        "social_facility_share": 0.0013,
+        "company_dorm_single_share(単独世帯の内数)": 0.0115,
+        "lodging_single_share(単独世帯の内数)": 0.0106
+       },
+       "30～34歳": {
+        "single_share_of_age_known_pop": 0.1506,
+        "single_share_of_general_household_members": 0.1509,
+        "institution_share": 0.0024,
+        "dorm_student_share": 0.0001,
+        "sdf_share": 0.0002,
+        "hospital_share": 0.0005,
+        "social_facility_share": 0.0015,
+        "company_dorm_single_share(単独世帯の内数)": 0.0047,
+        "lodging_single_share(単独世帯の内数)": 0.0057
+       }
+      }
+     },
+     "unit": "割合",
+     "population": "日本の全人口(2020年10月1日、年齢「不詳」292万人を除く)",
+     "citation": "総務省統計局『令和2年国勢調査 人口等基本集計』第5表 男女,年齢(5歳階級),配偶関係,世帯の種類・世帯の家族類型・施設等の世帯の種類別世帯人員(全国、配偶関係総数)",
+     "url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032142480&fileKind=0",
+     "confidence": "high",
+     "verified_via": "e-Stat から Excel(b05シート)を取得し、全国・配偶関係総数の行を読み取って計算(…/val2_work/census_inst.py)"
+    },
+    {
+     "what": "年齢5歳階級×男女×施設等の世帯の種類の人数(全国)と、一般世帯の単独世帯に含まれる『会社などの独身寮の単身者』『間借り・下宿などの単身者』(再掲)",
+     "value": {
+      "male": {
+       "総数": {
+        "population": 61349581,
+        "general_households": 60220542,
+        "single_person_household": 10936246,
+        "institution_total": 1129039,
+        "dorm_students": 117536,
+        "hospital": 218586,
+        "social_welfare_facility": 633262,
+        "sdf_barracks": 83502,
+        "correctional": 42484,
+        "other": 33669,
+        "company_dorm_singles_in_general": 396157,
+        "lodging_room_renters_in_general": 278494
+       },
+       "0～4歳": {
+        "population": 2311189,
+        "general_households": 2308168,
+        "single_person_household": "-",
+        "institution_total": 3021,
+        "dorm_students": 3,
+        "hospital": 474,
+        "social_welfare_facility": 2535,
+        "sdf_barracks": "-",
+        "correctional": "-",
+        "other": 9,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": "-"
+       },
+       "5～9歳": {
+        "population": 2606651,
+        "general_households": 2601626,
+        "single_person_household": 1,
+        "institution_total": 5025,
+        "dorm_students": 138,
+        "hospital": 248,
+        "social_welfare_facility": 4634,
+        "sdf_barracks": "-",
+        "correctional": "-",
+        "other": 5,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": "-"
+       },
+       "10～14歳": {
+        "population": 2742131,
+        "general_households": 2729237,
+        "single_person_household": 93,
+        "institution_total": 12894,
+        "dorm_students": 4664,
+        "hospital": 408,
+        "social_welfare_facility": 7792,
+        "sdf_barracks": "-",
+        "correctional": 19,
+        "other": 11,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": 61
+       },
+       "15～19歳": {
+        "population": 2880029,
+        "general_households": 2781606,
+        "single_person_household": 161138,
+        "institution_total": 98423,
+        "dorm_students": 78017,
+        "hospital": 638,
+        "social_welfare_facility": 8356,
+        "sdf_barracks": 9742,
+        "correctional": 1196,
+        "other": 474,
+        "company_dorm_singles_in_general": 19878,
+        "lodging_room_renters_in_general": 7627
+       },
+       "20～24歳": {
+        "population": 3017869,
+        "general_households": 2948345,
+        "single_person_household": 929657,
+        "institution_total": 69524,
+        "dorm_students": 29112,
+        "hospital": 1016,
+        "social_welfare_facility": 6239,
+        "sdf_barracks": 29627,
+        "correctional": 2410,
+        "other": 1120,
+        "company_dorm_singles_in_general": 100266,
+        "lodging_room_renters_in_general": 47961
+       },
+       "25～29歳": {
+        "population": 3074087,
+        "general_households": 3040167,
+        "single_person_household": 1054783,
+        "institution_total": 33920,
+        "dorm_students": 2353,
+        "hospital": 1495,
+        "social_welfare_facility": 7918,
+        "sdf_barracks": 17440,
+        "correctional": 3580,
+        "other": 1134,
+        "company_dorm_singles_in_general": 102824,
+        "lodging_room_renters_in_general": 45411
+       },
+       "30～34歳": {
+        "population": 3297031,
+        "general_households": 3269747,
+        "single_person_household": 777928,
+        "institution_total": 27284,
+        "dorm_students": 707,
+        "hospital": 2145,
+        "social_welfare_facility": 9259,
+        "sdf_barracks": 10442,
+        "correctional": 3766,
+        "other": 965,
+        "company_dorm_singles_in_general": 39591,
+        "lodging_room_renters_in_general": 27386
+       },
+       "35～39歳": {
+        "population": 3696855,
+        "general_households": 3670006,
+        "single_person_household": 666019,
+        "institution_total": 26849,
+        "dorm_students": 183,
+        "hospital": 3334,
+        "social_welfare_facility": 11123,
+        "sdf_barracks": 6485,
+        "correctional": 4581,
+        "other": 1143,
+        "company_dorm_singles_in_general": 19935,
+        "lodging_room_renters_in_general": 18318
+       },
+       "40～44歳": {
+        "population": 4189446,
+        "general_households": 4158496,
+        "single_person_household": 674340,
+        "institution_total": 30950,
+        "dorm_students": 67,
+        "hospital": 4927,
+        "social_welfare_facility": 15056,
+        "sdf_barracks": 4630,
+        "correctional": 4786,
+        "other": 1484,
+        "company_dorm_singles_in_general": 16021,
+        "lodging_room_renters_in_general": 15664
+       },
+       "45～49歳": {
+        "population": 4862990,
+        "general_households": 4822475,
+        "single_person_household": 830740,
+        "institution_total": 40515,
+        "dorm_students": 52,
+        "hospital": 8073,
+        "social_welfare_facility": 21372,
+        "sdf_barracks": 3491,
+        "correctional": 5464,
+        "other": 2063,
+        "company_dorm_singles_in_general": 19236,
+        "lodging_room_renters_in_general": 17266
+       },
+       "50～54歳": {
+        "population": 4277003,
+        "general_households": 4236233,
+        "single_person_household": 807438,
+        "institution_total": 40770,
+        "dorm_students": 26,
+        "hospital": 10489,
+        "social_welfare_facility": 21170,
+        "sdf_barracks": 1623,
+        "correctional": 4811,
+        "other": 2651,
+        "company_dorm_singles_in_general": 18747,
+        "lodging_room_renters_in_general": 15377
+       },
+       "55～59歳": {
+        "population": 3865303,
+        "general_households": 3823872,
+        "single_person_household": 740353,
+        "institution_total": 41431,
+        "dorm_students": 14,
+        "hospital": 13199,
+        "social_welfare_facility": 21600,
+        "sdf_barracks": 20,
+        "correctional": 3763,
+        "other": 2835,
+        "company_dorm_singles_in_general": 15156,
+        "lodging_room_renters_in_general": 13729
+       },
+       "60～64歳": {
+        "population": 3592903,
+        "general_households": 3543716,
+        "single_person_household": 651007,
+        "institution_total": 49187,
+        "dorm_students": 11,
+        "hospital": 16642,
+        "social_welfare_facility": 26539,
+        "sdf_barracks": 2,
+        "correctional": 2580,
+        "other": 3413,
+        "company_dorm_singles_in_general": 8824,
+        "lodging_room_renters_in_general": 11847
+       },
+       "65～69歳": {
+        "population": 3910060,
+        "general_households": 3840239,
+        "single_person_household": 690959,
+        "institution_total": 69821,
+        "dorm_students": 5,
+        "hospital": 23599,
+        "social_welfare_facility": 39990,
+        "sdf_barracks": "-",
+        "correctional": 2182,
+        "other": 4045,
+        "company_dorm_singles_in_general": 4922,
+        "lodging_room_renters_in_general": 11925
+       },
+       "70～74歳": {
+        "population": 4249286,
+        "general_households": 4156270,
+        "single_person_household": 669710,
+        "institution_total": 93016,
+        "dorm_students": 2,
+        "hospital": 28676,
+        "social_welfare_facility": 58340,
+        "sdf_barracks": "-",
+        "correctional": 1937,
+        "other": 4061,
+        "company_dorm_singles_in_general": 2326,
+        "lodging_room_renters_in_general": 11147
+       },
+       "75～79歳": {
+        "population": 3092860,
+        "general_households": 2996621,
+        "single_person_household": 399236,
+        "institution_total": 96239,
+        "dorm_students": 1,
+        "hospital": 26456,
+        "social_welfare_facility": 66516,
+        "sdf_barracks": "-",
+        "correctional": 895,
+        "other": 2371,
+        "company_dorm_singles_in_general": 588,
+        "lodging_room_renters_in_general": 6731
+       },
+       "80～84歳": {
+        "population": 2196093,
+        "general_households": 2080505,
+        "single_person_household": 270835,
+        "institution_total": 115588,
+        "dorm_students": "-",
+        "hospital": 27590,
+        "social_welfare_facility": 86537,
+        "sdf_barracks": "-",
+        "correctional": 357,
+        "other": 1104,
+        "company_dorm_singles_in_general": 78,
+        "lodging_room_renters_in_general": 4615
+       },
+       "85～89歳": {
+        "population": 1303473,
+        "general_households": 1173754,
+        "single_person_household": 180497,
+        "institution_total": 129719,
+        "dorm_students": "-",
+        "hospital": 25069,
+        "social_welfare_facility": 104100,
+        "sdf_barracks": "-",
+        "correctional": 132,
+        "other": 418,
+        "company_dorm_singles_in_general": 16,
+        "lodging_room_renters_in_general": 3139
+       },
+       "90～94歳": {
+        "population": 491303,
+        "general_households": 401292,
+        "single_person_household": 79475,
+        "institution_total": 90011,
+        "dorm_students": "-",
+        "hospital": 13475,
+        "social_welfare_facility": 76421,
+        "sdf_barracks": "-",
+        "correctional": 24,
+        "other": 91,
+        "company_dorm_singles_in_general": 5,
+        "lodging_room_renters_in_general": 1645
+       },
+       "95歳以上": {
+        "population": 101876,
+        "general_households": 71306,
+        "single_person_household": 17459,
+        "institution_total": 30570,
+        "dorm_students": "-",
+        "hospital": 3895,
+        "social_welfare_facility": 26649,
+        "sdf_barracks": "-",
+        "correctional": 1,
+        "other": 25,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": 490
+       }
+      },
+      "female": {
+       "総数": {
+        "population": 64796518,
+        "general_households": 62942453,
+        "single_person_household": 10214796,
+        "institution_total": 1854065,
+        "dorm_students": 67670,
+        "hospital": 307814,
+        "social_welfare_facility": 1461234,
+        "sdf_barracks": 8971,
+        "correctional": 3913,
+        "other": 4463,
+        "company_dorm_singles_in_general": 135888,
+        "lodging_room_renters_in_general": 260038
+       },
+       "0～4歳": {
+        "population": 2204893,
+        "general_households": 2202332,
+        "single_person_household": "-",
+        "institution_total": 2561,
+        "dorm_students": "-",
+        "hospital": 370,
+        "social_welfare_facility": 2188,
+        "sdf_barracks": "-",
+        "correctional": "-",
+        "other": 3,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": "-"
+       },
+       "5～9歳": {
+        "population": 2482442,
+        "general_households": 2478491,
+        "single_person_household": 3,
+        "institution_total": 3951,
+        "dorm_students": 127,
+        "hospital": 207,
+        "social_welfare_facility": 3615,
+        "sdf_barracks": "-",
+        "correctional": "-",
+        "other": 2,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": 1
+       },
+       "10～14歳": {
+        "population": 2608386,
+        "general_households": 2600072,
+        "single_person_household": 31,
+        "institution_total": 8314,
+        "dorm_students": 2263,
+        "hospital": 355,
+        "social_welfare_facility": 5685,
+        "sdf_barracks": "-",
+        "correctional": 3,
+        "other": 8,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": 15
+       },
+       "15～19歳": {
+        "population": 2737411,
+        "general_households": 2686488,
+        "single_person_household": 126485,
+        "institution_total": 50923,
+        "dorm_students": 42123,
+        "hospital": 526,
+        "social_welfare_facility": 6195,
+        "sdf_barracks": 1820,
+        "correctional": 114,
+        "other": 145,
+        "company_dorm_singles_in_general": 6646,
+        "lodging_room_renters_in_general": 5984
+       },
+       "20～24歳": {
+        "population": 2913437,
+        "general_households": 2884412,
+        "single_person_household": 760895,
+        "institution_total": 29025,
+        "dorm_students": 19848,
+        "hospital": 743,
+        "social_welfare_facility": 3312,
+        "sdf_barracks": 4606,
+        "correctional": 168,
+        "other": 348,
+        "company_dorm_singles_in_general": 51469,
+        "lodging_room_renters_in_general": 38709
+       },
+       "25～29歳": {
+        "population": 2957877,
+        "general_households": 2949069,
+        "single_person_household": 732121,
+        "institution_total": 8808,
+        "dorm_students": 1619,
+        "hospital": 1064,
+        "social_welfare_facility": 3960,
+        "sdf_barracks": 1686,
+        "correctional": 247,
+        "other": 232,
+        "company_dorm_singles_in_general": 33897,
+        "lodging_room_renters_in_general": 31451
+       },
+       "30～34歳": {
+        "population": 3187563,
+        "general_households": 3179760,
+        "single_person_household": 479906,
+        "institution_total": 7803,
+        "dorm_students": 392,
+        "hospital": 1541,
+        "social_welfare_facility": 4741,
+        "sdf_barracks": 600,
+        "correctional": 335,
+        "other": 194,
+        "company_dorm_singles_in_general": 14917,
+        "lodging_room_renters_in_general": 18228
+       },
+       "35～39歳": {
+        "population": 3614712,
+        "general_households": 3605421,
+        "single_person_household": 370170,
+        "institution_total": 9291,
+        "dorm_students": 118,
+        "hospital": 2311,
+        "social_welfare_facility": 6129,
+        "sdf_barracks": 166,
+        "correctional": 394,
+        "other": 173,
+        "company_dorm_singles_in_general": 7724,
+        "lodging_room_renters_in_general": 11282
+       },
+       "40～44歳": {
+        "population": 4101631,
+        "general_households": 4089364,
+        "single_person_household": 355511,
+        "institution_total": 12267,
+        "dorm_students": 24,
+        "hospital": 3488,
+        "social_welfare_facility": 8123,
+        "sdf_barracks": 39,
+        "correctional": 419,
+        "other": 174,
+        "company_dorm_singles_in_general": 4586,
+        "lodging_room_renters_in_general": 10348
+       },
+       "45～49歳": {
+        "population": 4787303,
+        "general_households": 4768900,
+        "single_person_household": 448288,
+        "institution_total": 18403,
+        "dorm_students": 30,
+        "hospital": 5759,
+        "social_welfare_facility": 11734,
+        "sdf_barracks": 38,
+        "correctional": 596,
+        "other": 246,
+        "company_dorm_singles_in_general": 3193,
+        "lodging_room_renters_in_general": 12218
+       },
+       "50～54歳": {
+        "population": 4262848,
+        "general_households": 4242467,
+        "single_person_household": 476502,
+        "institution_total": 20381,
+        "dorm_students": 13,
+        "hospital": 7416,
+        "social_welfare_facility": 12269,
+        "sdf_barracks": 16,
+        "correctional": 422,
+        "other": 245,
+        "company_dorm_singles_in_general": 1486,
+        "lodging_room_renters_in_general": 13096
+       },
+       "55～59歳": {
+        "population": 3902179,
+        "general_households": 3878674,
+        "single_person_household": 493412,
+        "institution_total": 23505,
+        "dorm_students": 11,
+        "hospital": 9467,
+        "social_welfare_facility": 13457,
+        "sdf_barracks": "-",
+        "correctional": 299,
+        "other": 271,
+        "company_dorm_singles_in_general": 1015,
+        "lodging_room_renters_in_general": 12676
+       },
+       "60～64歳": {
+        "population": 3704287,
+        "general_households": 3675708,
+        "single_person_household": 494812,
+        "institution_total": 28579,
+        "dorm_students": 6,
+        "hospital": 11671,
+        "social_welfare_facility": 16434,
+        "sdf_barracks": "-",
+        "correctional": 226,
+        "other": 242,
+        "company_dorm_singles_in_general": 898,
+        "lodging_room_renters_in_general": 11091
+       },
+       "65～69歳": {
+        "population": 4165208,
+        "general_households": 4120029,
+        "single_person_household": 640136,
+        "institution_total": 45179,
+        "dorm_students": 4,
+        "hospital": 18012,
+        "social_welfare_facility": 26706,
+        "sdf_barracks": "-",
+        "correctional": 178,
+        "other": 279,
+        "company_dorm_singles_in_general": 750,
+        "lodging_room_renters_in_general": 12231
+       },
+       "70～74歳": {
+        "population": 4762509,
+        "general_households": 4683688,
+        "single_person_household": 908293,
+        "institution_total": 78821,
+        "dorm_students": 1,
+        "hospital": 26179,
+        "social_welfare_facility": 52071,
+        "sdf_barracks": "-",
+        "correctional": 231,
+        "other": 339,
+        "company_dorm_singles_in_general": 644,
+        "lodging_room_renters_in_general": 14309
+       },
+       "75～79歳": {
+        "population": 3838068,
+        "general_households": 3702406,
+        "single_person_household": 915179,
+        "institution_total": 135662,
+        "dorm_students": "-",
+        "hospital": 32122,
+        "social_welfare_facility": 103076,
+        "sdf_barracks": "-",
+        "correctional": 149,
+        "other": 315,
+        "company_dorm_singles_in_general": 225,
+        "lodging_room_renters_in_general": 13852
+       },
+       "80～84歳": {
+        "population": 3100635,
+        "general_households": 2840243,
+        "single_person_household": 888137,
+        "institution_total": 260392,
+        "dorm_students": "-",
+        "hospital": 44505,
+        "social_welfare_facility": 215510,
+        "sdf_barracks": "-",
+        "correctional": 96,
+        "other": 281,
+        "company_dorm_singles_in_general": 41,
+        "lodging_room_renters_in_general": 15320
+       },
+       "85～89歳": {
+        "population": 2366350,
+        "general_households": 1935478,
+        "single_person_household": 694254,
+        "institution_total": 430872,
+        "dorm_students": 1,
+        "hospital": 56887,
+        "social_welfare_facility": 373668,
+        "sdf_barracks": "-",
+        "correctional": 31,
+        "other": 285,
+        "company_dorm_singles_in_general": 14,
+        "lodging_room_renters_in_general": 14909
+       },
+       "90～94歳": {
+        "population": 1287713,
+        "general_households": 873442,
+        "single_person_household": 298051,
+        "institution_total": 414271,
+        "dorm_students": "-",
+        "hospital": 48392,
+        "social_welfare_facility": 365700,
+        "sdf_barracks": "-",
+        "correctional": 5,
+        "other": 174,
+        "company_dorm_singles_in_general": 3,
+        "lodging_room_renters_in_general": 9097
+       },
+       "95歳以上": {
+        "population": 470371,
+        "general_households": 240423,
+        "single_person_household": 64585,
+        "institution_total": 229948,
+        "dorm_students": "-",
+        "hospital": 26711,
+        "social_welfare_facility": 203179,
+        "sdf_barracks": "-",
+        "correctional": "-",
+        "other": 58,
+        "company_dorm_singles_in_general": "-",
+        "lodging_room_renters_in_general": 3022
+       }
+      }
+     },
+     "unit": "人",
+     "population": "同上",
+     "citation": "総務省統計局『令和2年国勢調査 人口等基本集計』第5表 男女,年齢(5歳階級),配偶関係,世帯の種類・世帯の家族類型・施設等の世帯の種類別世帯人員(全国、配偶関係総数)",
+     "url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032142480&fileKind=0",
+     "confidence": "high",
+     "verified_via": "同上。総数=一般世帯+施設等の世帯 が各年齢で一致することを確認(例 男20〜24歳 2,948,345+69,524=3,017,869)"
+    },
+    {
+     "what": "全国の総数(全年齢・男女計)",
+     "value": {
+      "population": 126146099,
+      "general_household_members": 123162995,
+      "institutional_total": 2983104,
+      "dorm_students": 185206,
+      "hospital": 526400,
+      "social_welfare_facility": 2094496,
+      "sdf_barracks": 92473,
+      "correctional": 46397,
+      "other": 38132,
+      "single_person_households": 21151042,
+      "family_type_unknown_in_general": 469844,
+      "age_unknown": 2931838,
+      "company_dorm_singles": 532045,
+      "lodging_singles": 538532
+     },
+     "unit": "人",
+     "population": "同上",
+     "citation": "総務省統計局『令和2年国勢調査 人口等基本集計』第5表 男女,年齢(5歳階級),配偶関係,世帯の種類・世帯の家族類型・施設等の世帯の種類別世帯人員(全国、配偶関係総数)",
+     "url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032142480&fileKind=0",
+     "confidence": "high",
+     "verified_via": "同上。家族類型『不詳』469,844人はすべて年齢『不詳』の列に入っている"
+    }
+   ],
+   "how_to_use": "(1) personas.js の世帯の割り当てでは、65歳未満は『施設等』を作らず(inst=0)、typeBands の outside を捨てて全員を普通の世帯に割り振っている。国勢調査の実数では20〜24歳の施設等は 男2.30%(寮・寄宿舎の学生0.96%、自衛隊営舎0.98%)・女1.00%(学生0.68%)、15〜19歳は 男3.42%(学生2.71%)・女1.86%(学生1.54%)で、小さいが『一人暮らしでも親と同居でもない人』である。15〜29歳にもこの割合で householdType='institution'(または新たに 'dorm')を割り当てると、この年齢の一人暮らしと親同居が少しずつ過大になるのを直せる。(2) typeBands の outside(男20〜24歳 0.0883、女 0.0653)は『1 − 一般世帯の人数 ÷ 不詳補完の人口』で、施設等(2.30%/1.00%)のほかに年齢・世帯が分からない人(約6.5ポイント/5.5ポイント、当方の推定)を含む。成績表(guide.js)で『施設で暮らす人』として示すなら、上の施設等の割合を使い、残りは『調査で世帯が分からない人』として分けて書く。(3) 一人暮らし率の検証の基準:20〜24歳の単独世帯は、年齢の分かる人の 男30.8%・女26.1%、一般世帯の人の中では 男31.5%・女26.4%。build_data.py は年齢不詳の一人暮らしを年齢構成どおりに割り振るため typeBands の single は 男34.4%・女28.6% と高めになる。成績表には『30.8〜34.4%(男)』のように、不詳の扱いで変わる幅として表示するのが正直。(4) 会社などの独身寮の単身者(男20〜24歳 3.32%、25〜29歳 3.34%)と間借り・下宿(男20〜24歳 1.59%)は、国勢調査では『単独世帯=一人暮らし』に入る。家賃・食費の支出を一人暮らしの平均で与えると、寮の人の分は住居費が過大になる点を note に書ける。",
+   "not_confirmed": [
+    "年齢不詳を補完した(不詳補完値の)施設等の世帯の年齢別人数:不詳補完結果の参考表に施設等の世帯の種類別の表があるかは確認していない",
+    "都道府県別の値(同じ表にあるが、今回は全国のみ読み取った)",
+    "大学の寮以外の学生のアパート一人暮らしの割合(国勢調査は在学かどうかと世帯の種類のクロスを別表で持つが、今回は取得していない)"
+   ]
+  },
+  {
+   "key": "hypothetical_bias_wtp_2",
+   "name_ja": "仮の質問での支払意思額の過大(追加:メタ分析の平均と中央値、消費財での実測、補正の効き方)",
+   "estimates": [
+    {
+     "what": "Murphy ほか (2005) のメタ分析:仮想の支払い÷実際の支払い(28研究・83観測)",
+     "value": {
+      "mean": 2.6,
+      "median": 1.35,
+      "n_studies": 28,
+      "n_observations": 83,
+      "qualitative": "自由回答形式より二肢選択など離散的な選択の方が乖離が小さい。私的財より公共財の方が乖離が大きい"
+     },
+     "unit": "倍(仮想÷実際)",
+     "population": "表明選好の実験研究(主に米国、環境財・私的財)",
+     "citation": "Murphy, J.J., Allen, P.G., Stevens, T.H. & Weatherhead, D. (2005) Environmental and Resource Economics 30: 313-325(日本語の展望論文2本による紹介:三谷羊平・伊藤伸幸 2013『環境経済学における実験研究の最新動向』環境経済・政策研究 6(2): 26-40、栗山浩一 2008『表明選好法におけるバイアスの経済分析』同 1(2): 51-63)",
+     "url": "https://www.jstage.jst.go.jp/article/reeps/6/2/6_26/_pdf/-char/ja",
+     "confidence": "medium",
+     "verified_via": "J-STAGE の2本の PDF(画像の頁)を表示して該当段落を読んだ(三谷・伊藤 p.28、栗山 p.55)。原典(Springer)は確認画面で開けず"
+    },
+    {
+     "what": "消費財(大学の名入りジムバッグ・スウェット)で、自由回答の支払意思額と、実際に買わせる方式(BDM)の比較",
+     "value": {
+      "gym_bag_CHF": {
+       "open_ended_mean": 16.046,
+       "BDM_mean": 13.041,
+       "dichotomous_choice_mean": 10.954,
+       "ratio_OE_to_BDM": 1.23
+      },
+      "sweatshirt_CHF": {
+       "open_ended_mean": 45.758,
+       "BDM_mean": 37.12,
+       "dichotomous_choice_mean": 40.324,
+       "ratio_OE_to_BDM": 1.23
+      },
+      "profit_overestimate_using_raw_OE": {
+       "gym_bag": "+38.2%",
+       "sweatshirt": "+48.8%"
+      },
+      "profit_error_using_raw_DC": {
+       "gym_bag": "-9.5%",
+       "sweatshirt": "+23.0%"
+      },
+      "after_full_debiasing": "最適利益の誤差 −1.9%〜+5.3%",
+      "sample_gym_bag": "OE 270人、DC 279人、BDM 277人(スイスの大学の学生・職員)",
+      "BDM_buyers": "BDM 群の19.9%が実際に購入"
+     },
+     "unit": "スイスフラン・倍・%",
+     "population": "スイスの大きな大学の学生ほか(2つのオンライン実験)",
+     "citation": "Hofstetter, R., Miller, K.M., Krohmer, H. & Zhang, Z.J. A De-biased Direct Question Approach to Measuring Consumers' Willingness to Pay. arXiv:2005.11318",
+     "url": "https://arxiv.org/pdf/2005.11318",
+     "confidence": "high",
+     "verified_via": "arXiv の本文を取得し、表4・表5・付録の表G.1・G.2と実験の説明を読んだ。倍率(16.046/13.041 など)は当方の計算"
+    },
+    {
+     "what": "同論文による先行研究の整理:高価な商品ほど過大が大きい",
+     "value": {
+      "qualitative": "安い消費財では偏りは比較的小さく、高価で買う頻度の低い耐久財ほど仮想バイアスが大きい傾向(Murphy et al. 2005; Schmidt & Bijmolt 2019 を引用)。値札の記憶が薄いことが理由として挙げられている"
+     },
+     "unit": "定性",
+     "population": "同上",
+     "citation": "Hofstetter ほか, arXiv:2005.11318(考察)",
+     "url": "https://arxiv.org/pdf/2005.11318",
+     "confidence": "medium",
+     "verified_via": "本文の考察の段落を読んだ(先行研究の要約なので medium)"
+    },
+    {
+     "what": "仮の選択と実際の選択(米国 Medicare Part D の薬剤保険)の支払意思額の比",
+     "value": {
+      "insurance_takeup": {
+       "ratio": 2.32,
+       "ci95": [
+        1.34,
+        3.3
+       ],
+       "real_usd_month": 12.86,
+       "hypothetical_usd_month": 29.86
+      },
+      "no_deductible": {
+       "ratio": 1.51,
+       "ci95": [
+        0.66,
+        2.37
+       ]
+      },
+      "gap_coverage_brand_drugs": {
+       "ratio": 0.74,
+       "ci95": [
+        0.27,
+        1.2
+       ]
+      },
+      "interpretation": "属性(免責なし・ギャップ補償)の支払意思額は仮と実で有意差なし。加入そのものの価値は仮で約2.3倍。現実では『入らない』が既定値であることが原因とみられる"
+     },
+     "unit": "倍・米ドル/月",
+     "population": "米国の高齢者(RAND の調査パネル、2006年)",
+     "citation": "Kesternich, I., Heiss, F., McFadden, D. & Winter, J. (2012) Suit the action to the word, the word to the action: Hypothetical choices and real decisions in Medicare Part D. Munich Discussion Paper 2012-25",
+     "url": "https://epub.ub.uni-muenchen.de/14124/1/Kesternich_Heiss_McFadden_Winter_2012_LMU-DP.pdf",
+     "confidence": "high",
+     "verified_via": "LMU の本文 PDF を取得し、表5・表6と5節の段落を読んだ"
+    },
+    {
+     "what": "補正の手がかり:結果に影響する(帰結性のある)質問にすると仮想バイアスが消える",
+     "value": {
+      "qualitative": "回答が実際に実施されるかどうかに影響する確率が20%以上なら、実際の支払いとの差が統計的に有意でなくなった(Carson ほか 2004 の実験。Vossler & Evans 2009 なども同方向)。チープトーク(Cummings & Taylor 1999)は事前の補正として広く使われる"
+     },
+     "unit": "定性",
+     "population": "表明選好の実験研究",
+     "citation": "三谷羊平・伊藤伸幸 (2013) 環境経済・政策研究 6(2): 26-40, pp.28-29",
+     "url": "https://www.jstage.jst.go.jp/article/reeps/6/2/6_26/_pdf/-char/ja",
+     "confidence": "medium",
+     "verified_via": "J-STAGE の PDF の画像頁を表示して読んだ(展望論文による紹介)"
+    },
+    {
+     "what": "(参考)手放すときの評価(WTA)と払う評価(WTP)の比:Horowitz & McConnell (2002) のメタ分析",
+     "value": {
+      "non_market_goods": 10.4,
+      "market_goods": 2.9
+     },
+     "unit": "倍(WTA÷WTP の平均)",
+     "population": "実験研究のメタ分析",
+     "citation": "Horowitz & McConnell (2002)(三谷・伊藤 2013 による紹介)",
+     "url": "https://www.jstage.jst.go.jp/article/reeps/6/2/6_26/_pdf/-char/ja",
+     "confidence": "medium",
+     "verified_via": "同上 p.29"
+    }
+   ],
+   "how_to_use": "market.js の wtpDiscount(0.8)は、安い消費財での実測(自由回答は実際に買わせる方式の1.23倍 → 割引 0.81、Hofstetter ほか)とほぼ一致するので、日用品・食品などの安い商品の値として根拠が強まった。一方、メタ分析の平均は2.60倍(割引0.38)、中央値1.35倍(割引0.74)で、高価な商品・耐久財ほど過大が大きい。そこで (1) wtpDiscount を価格帯で変える案:費目予算に占める割合が小さい日用品は0.8、家電など高額品は0.74(Murphy の中央値)を基準にし、幅として0.38〜0.81 を note に書く。(2) 二肢選択(この値段なら買うか)で聞く場合は平均で過大がほぼ消える一方(ジムバッグでは実際より低い)、利益の推定はずれる(−9.5%〜+23%)。AI モードで『○円なら買うか』の形式に変えると、wtpDiscount は 1.0 に近くてよいが、需要曲線の形の誤差は残る、と note に書ける。(3) 『加入する・買う』そのものの価値は仮の質問で2倍以上に出やすく(Medicare の加入 2.32倍)、属性ごとの価値はずれにくい(Kesternich ほか)。intentWeights による割引と wtpDiscount を二重に掛けすぎないよう、guide.js の成績表には『購入するか(水準)は大きく割り引く/どの属性を好むか(比)はそのまま使う』と区別して示す。",
+   "not_confirmed": [
+    "List & Gallet (2001) の数値(平均の倍率、私的財と公共財の違い):本文は Springer、解説の作業論文は許可外。日本語の展望論文は名前を挙げるだけで数値はなかった",
+    "Schmidt & Bijmolt (2020) の消費財で約21%の過大の確認:link.springer.com が確認画面で開けず(Hofstetter ほかの実測1.23倍は近い値だが、メタ分析そのものの確認ではない)",
+    "Little & Berrens (2004) の3.13倍は前回(Haghani ほか経由)の値のみ。原典は未確認",
+    "確信度での補正(Champ ほか 1997、Blumenschein ほか 2008)の効果量、チープトークの効果量(%)の数値:原典が許可外で開けず、日本語展望にも数値はなかった"
+   ]
+  },
+  {
+   "key": "intent_to_purchase_conversion_2",
+   "name_ja": "購入意向から実際の購入への換算(追加:5段階の重みの実務例、新商品と既存商品の違い、経験の有無)",
+   "estimates": [
+    {
+     "what": "5段階の購入意向(必ず買う〜絶対に買わない)から販売を予測するために、調査会社・広告会社が使っていた6種類の重み(Jamieson & Bass 1989 の調査)",
+     "value": {
+      "scheme1": {
+       "definitely": 1.0
+      },
+      "scheme2": {
+       "definitely": 0.28
+      },
+      "scheme3": {
+       "definitely": 0.8,
+       "probably": 0.2
+      },
+      "scheme4": {
+       "definitely": 0.96,
+       "probably": 0.36
+      },
+      "scheme5": {
+       "definitely": 0.7,
+       "probably": 0.54,
+       "might_or_might_not": 0.35,
+       "probably_not": 0.24,
+       "definitely_not": 0.2
+      },
+      "scheme6": {
+       "definitely": 0.75,
+       "probably": 0.25,
+       "might_or_might_not": 0.1,
+       "probably_not": 0.05,
+       "definitely_not": 0.02
+      },
+      "result": "新商品10品目の販売を各方式で予測すると、どの方式もすべての品目で最善にはならず、重みは商品分野で違うと考えられる",
+      "practice": "市場調査会社の顧客の70〜90%が購入意向データを日常的に使う"
+     },
+     "unit": "『実際に買う割合』として掛ける重み",
+     "population": "米国の新商品10品目(Jamieson & Bass 1989, JMR)",
+     "citation": "Morwitz, V.G. (2001) Methods for Forecasting from Intentions Data. In J.S. Armstrong (ed.) Principles of Forecasting, Kluwer, pp.33-56(Jamieson & Bass 1989 の紹介)",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "medium",
+     "verified_via": "gwern.net にある本の PDF を取得し、Morwitz の章の該当段落(pp.42-43)を読んだ。原典(JMR)の表は未確認なので medium。各方式がどの会社のものかは書かれていない"
+    },
+    {
+     "what": "意向から予測した購入割合の『範囲』が実際を含んだ割合:既存商品と新商品の差(Bemmaor 1995 の93件のデータを Morwitz が分類)",
+     "value": {
+      "bounds_contained_actual_all": 0.88,
+      "existing_products": {
+       "share_contained": 0.92,
+       "n": 79
+      },
+      "new_products": {
+       "share_contained": 0.36,
+       "n": 11,
+       "examples": "新しい電話サービス、パソコン、タッチランプ、コードレス電話、コードレスアイロン、シャワーラジオ"
+      },
+      "avg_bound_width": {
+       "multi_category_probability_scale": 0.12,
+       "binary_intention": 0.23,
+       "manski_bounds": 0.5
+      },
+      "failures": "外れたのは主に新商品と企業向け商品"
+     },
+     "unit": "割合・範囲の幅(購入割合のポイント)",
+     "population": "購入意向調査と販売の93件(主に既存の家庭用品)",
+     "citation": "Morwitz (2001) 同章 pp.46-48(Bemmaor 1995, JMR の再分析)",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "medium",
+     "verified_via": "章の本文を読んだ。新商品/既存商品の分類は Morwitz 自身の再分類(章内で明記)"
+    },
+    {
+     "what": "使った経験の有無で、意向の実現率が違う(パソコン、6か月以内に買う予定と答えた人)",
+     "value": {
+      "with_experience_at_work_or_school": 0.48,
+      "without_experience": 0.29
+     },
+     "unit": "6か月以内に実際に買った割合",
+     "population": "米国の家計パネル(Morwitz & Schmittlein 1992、パソコンの質問は24,420世帯)",
+     "citation": "Morwitz (2001) 同章 p.47(Morwitz & Schmittlein 1992, Management Science の紹介)",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "medium",
+     "verified_via": "章の本文を読んだ"
+    },
+    {
+     "what": "過去の『意向者の実現率』で直すと予測誤差が下がる(自動車、約4,000世帯×四半期、1961〜65年)",
+     "value": {
+      "mean_abs_pct_error_unadjusted": 0.172,
+      "mean_abs_pct_error_adjusted": 0.097,
+      "note": "調整=前年の意向者・非意向者それぞれの実際の購入率を今回の意向に掛ける。期間のずれを直した別の未調整法では誤差が逆に大きくなり、調整法が73%の四半期でより正確"
+     },
+     "unit": "平均絶対誤差率",
+     "population": "米国(Theil & Kosobud 1968 のデータ)",
+     "citation": "Morwitz (2001) 同章 pp.41-42(著者自身の計算)",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "high",
+     "verified_via": "章の本文で、著者が自分で計算した結果として書かれている段落を読んだ"
+    },
+    {
+     "what": "意向と行動の相関(87の行動のメタ分析)と、選択を伴う行動での違い",
+     "value": {
+      "weighted_mean_r": 0.53,
+      "ci95": [
+       0.15,
+       0.92
+      ],
+      "choice_among_alternatives_r": 0.77,
+      "no_choice_r": 0.47
+     },
+     "unit": "相関係数",
+     "population": "Sheppard, Hartwick & Warshaw (1988) のメタ分析",
+     "citation": "Morwitz (2001) 同章 p.47",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "medium",
+     "verified_via": "章の本文を読んだ(原典は未確認)"
+    },
+    {
+     "what": "回答の段階を細かくすると予測は良くなるか(Kalwani & Silk 1982 の議論と実証)",
+     "value": {
+      "qualitative": "Kalwani & Silk は、段階を増やすと偶然の誤差は減るが回答のくせによる系統誤差が増えるとして結論を保留。Morwitz & Schmittlein では、意向ありの4段階をまとめて実現率を当てた方が、段階別より誤差が9〜16%小さかった。一方 Juster は11段階の確率尺度が5段階より良いとした。消耗品については、最後に買った時期を最近と思い込むと購入頻度を過大に見て意向が高く出る、という Kalwani & Silk の仮説は未検証"
+     },
+     "unit": "定性",
+     "population": "同上",
+     "citation": "Morwitz (2001) 同章 pp.37-38, 50-51",
+     "url": "https://gwern.net/doc/statistics/prediction/2001-armstrong-principlesforecasting.pdf",
+     "confidence": "medium",
+     "verified_via": "章の本文を読んだ"
+    }
+   ],
+   "how_to_use": "market.js の intentWeights {5:0.55, 4:0.25, 3:0.05, 2:0.02, 1:0} は、実務の6方式のうち方式6(0.75/0.25/0.10/0.05/0.02)より『必ず買う』が低く、方式3(0.80/0.20)や方式2(0.28)の間にある。Jamieson & Bass によれば最適な重みは商品分野で違い一つに決まらないので、(1) note に『実務の重みは必ず買う 0.28〜1.0、たぶん買う 0〜0.54 と大きく違う(Jamieson & Bass 1989、Morwitz 2001 経由)』を加え、現在の値がその範囲の中ほどであることを示す。(2) 新商品(brief に『新しい』印がある場合)は、意向による予測の範囲が実際を含んだのが36%(既存商品92%)なので、結果を点ではなく幅で出す(例:現在の重み×0.5〜×1.5)。(3) 使った経験がない人の実現率は経験者の約6割(29%÷48%)なので、personas.js で対象商品の分野を使っていない人には intentWeights を0.6倍する案がある(パソコン1例からの類推で、仮定である旨を note に)。(4) guide.js の成績表では、意向の『水準』の検証には過去の同種商品の実現率(意向者・非意向者別)が必要で、それがあれば誤差は約半分(17.2%→9.7%)になる、と書ける。消耗品での『必ず買う』の実現率は今回も見つからなかった。",
+   "not_confirmed": [
+    "Morwitz, Steckel & Gupta (2007) の新商品/既存商品・耐久財/消耗品別の相関の値:SSRN は確認画面、出版社・NYU・MSI は許可外。Morwitz (2014) の総説(nowpublishers)も許可外",
+    "Jamieson & Bass (1989) の品目別の実購入率と最適な重み(原典の表):JMR は許可外",
+    "Kalwani & Silk (1982) の数値、Infosino (1986)、Young, DeSarbo & Morwitz (1998)、Sun & Morwitz (2010)、Chandon, Morwitz & Reinartz (2005):本文を開けるホストが見つからなかった",
+    "消耗品・食品の新商品での『必ず買う』『たぶん買う』の実現率:見つからなかった"
+   ]
+  }
+ ],
+ "hosts_needed": [
+  "papers.ssrn.com:接続はできるが Cloudflare の確認画面(Just a moment… / 403)。30秒以上おいた再試行でも同じ。回避していない(Morwitz, Steckel & Gupta 2007 の SSRN 946194、Li ほか、Arora ほか)",
+  "link.springer.com:接続はできるが 'Client Challenge'(JavaScript の確認)。再試行でも同じ(Schmidt & Bijmolt 2020、List & Gallet 2001、Murphy et al. 2005、Fagiolo, Moneta & Windrum 2007 Computational Economics)",
+  "www.cambridge.org / resolve.cambridge.org(Bisbee et al. 2024 の本文):プロキシが拒否",
+  "ideas.repec.org または www.sciencedirect.com(Morwitz, Steckel & Gupta 2007 の要旨・本文)",
+  "nowpublishers.com(Morwitz 2014 の総説 Consumers' Purchase Intentions and their Behavior。Jamieson & Bass、Kalwani & Silk、Infosino、Young ほか、Sun & Morwitz の数値がまとまっている見込み)",
+  "pubsonline.informs.org と www.jstor.org(Kalwani & Silk 1982、Infosino 1986、Young/DeSarbo/Morwitz 1998、Jamieson & Bass 1989)",
+  "mpra.ub.uni-muenchen.de(Armstrong, Morwitz & Kumar 2000)",
+  "scholarworks.umass.edu と ageconsearch.umn.edu(仮想バイアスの作業論文)"
+ ]
+}
