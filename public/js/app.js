@@ -33,6 +33,7 @@ import { mountPurchase } from "./purchase.js";
 import { mountCrime } from "./crime.js";
 import { mountEnt, attachEnt } from "./ent.js";
 import { mountNudge } from "./nudge.js";
+import { mountInfluence } from "./influence.js";
 import { mountEducation } from "./education.js";
 import { mountTravel } from "./travel.js";
 import { mountJapanMap, mapHub, mountHomeHero } from "./japanmap.js";
@@ -196,6 +197,7 @@ function buildNav() {
   NAV.find((g) => g.key === "japan").tabs.push(...mountCvs({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "japan").tabs.push(...mountEducation({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountWorkFin({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "behavior").tabs.push(...mountInfluence({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountNudge({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountPurchase({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountLaborMarket({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);

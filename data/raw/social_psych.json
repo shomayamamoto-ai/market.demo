@@ -1,0 +1,787 @@
+{
+ "generated": "2026-11-25",
+ "notes": "All numbers extracted from downloaded documents (soc_dl). 'secondary' = number quoted by another accessible paper; primary not accessed. Page refs are PDF pages unless 'journal page'.",
+ "findings": [
+  {
+   "id": "norm_opower_111rct",
+   "topic": "1_descriptive_norms",
+   "cite": "Allcott H. (2012/2015) Site Selection Bias in Program Evaluation. NBER WP 18373 (QJE 2015)",
+   "url": "https://www.nber.org/system/files/working_papers/w18373/w18373.pdf",
+   "country": "US",
+   "data": "111 Opower RCTs, 8.6 million households",
+   "method": "Randomized home energy reports with social comparison; meta-analysis of site ATEs",
+   "numbers": {
+    "mean_first_year_ATE_pct_of_usage": 1.31,
+    "mean_first_year_ATE_kWh_per_day": 0.47,
+    "site_ATE_range_pct": [
+     0.5,
+     2.63
+    ],
+    "site_ATE_range_kWh_day": [
+     0.1,
+     1.47
+    ],
+    "SD_of_site_ATEs_pp": 0.45,
+    "mean_SE_pp": 0.18,
+    "first_10_sites_ATE_pct": 1.707,
+    "overprediction_from_first_sites_pp": "approx 0.5 (0.64 / 0.40 in two specs)",
+    "opt_out_rate_first_year_pct": 0.6
+   },
+   "interpretation_ja": "近所比較つき省エネレポートの効果は平均で電力使用量の約1.3%減（地点により0.5〜2.6%）。最初に導入した地域ほど効果が大きく、後から広げると効果は小さくなる（初期10地点は1.7%）。シミュレーターでは記述的規範メッセージの行動変化は「1〜2%程度」が上限目安。",
+   "replication": "111 replications in the field; heterogeneity significant (Cochran Q p<0.001); effect declines in later sites (site selection bias)",
+   "page": "pp.17 (dispersion), 21 (1.707%), 39 Table 6 notes (1.31%) [PDF page numbers]"
+  },
+  {
+   "id": "norm_opower_persistence",
+   "topic": "1_descriptive_norms",
+   "cite": "Allcott H., Rogers T. (2014) The Short-Run and Long-Run Effects of Behavioral Interventions: Experimental Evidence from Energy Conservation. NBER WP 18492 (AER 2014)",
+   "url": "https://www.nber.org/system/files/working_papers/w18492/w18492.pdf",
+   "country": "US",
+   "data": "Opower home energy reports, >6 million households",
+   "method": "Long-run RCT incl. discontinuation arm",
+   "numbers": {
+    "decay_after_discontinuation_pct_per_year": [
+     10,
+     20
+    ],
+    "pattern": "high-frequency action and backsliding after each early report, attenuating over time; slow habituation after 2 years"
+   },
+   "interpretation_ja": "比較レポートを2年送った後に止めても、効果は年10〜20%ずつしか減衰しない（習慣化）。初期は報告直後に節電→徐々に元に戻るサイクルがある。",
+   "replication": "Body text of the NBER PDF uses an unreadable font encoding; only abstract numbers extracted",
+   "page": "abstract p.1"
+  },
+  {
+   "id": "norm_tax_letters_uk",
+   "topic": "1_descriptive_norms",
+   "cite": "Hallsworth M., List J.A., Metcalfe R.D., Vlaev I. (2014) The Behavioralist as Tax Collector. NBER WP 20007 (J Public Econ 2017)",
+   "url": "https://www.nber.org/system/files/working_papers/w20007/w20007.pdf",
+   "country": "UK",
+   "data": "HMRC administrative data; Exp.1 ~100,000 taxpayers, Exp.2 119,527; total >200,000",
+   "method": "Natural field experiments: reminder letters with norm / public-good messages; outcome = payment within 23 days",
+   "numbers": {
+    "exp1_basic_norm_pp": 1.3,
+    "exp1_basic_norm_sigma": 0.025,
+    "exp1_country_norm_pp": 2.1,
+    "exp1_minority_norm_pp": 5.1,
+    "exp1_minority_norm_sigma": 0.1,
+    "reminder_letter_vs_no_letter_pp": 6.7,
+    "exp2_control_payment_rate_pct": 33.6,
+    "exp2_financial_messages_pp": [
+     3.2,
+     3.9
+    ],
+    "note": "descriptive norms > injunctive norms in Exp.2; minority-norm effect replicated"
+   },
+   "interpretation_ja": "「10人中9人は期限内に納税」に「あなたは少数派」を加えると納付率が+5.1ポイント（単なる規範は+1.3ポイント）。手紙そのものの効果は+6.7ポイント。規範メッセージは「自分が少数派だと気づかせる」と効く。",
+   "replication": "Minority norm effect replicated in second experiment within the paper",
+   "page": "pp.5-6 (Exp.1 effects), p.17 (letter effect), p.25 (control 33.6%) [PDF pages]"
+  },
+  {
+   "id": "norm_hotel_towel_replication_de",
+   "topic": "1_descriptive_norms",
+   "cite": "Bohner G., Schlüter L.E. (2014) A room with a viewpoint revisited: descriptive norms and hotel guests' towel reuse behavior. PLoS ONE 9(8):e104086",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4118982/",
+   "country": "Germany (original: US)",
+   "data": "Study1 N=724 (4-star hotel, 162 rooms); Study2 N=204; pilot N=64",
+   "method": "Field experiment replicating Goldstein, Cialdini & Griskevicius (2008)",
+   "numbers": {
+    "original_Goldstein2008_norm_vs_standard_pct": [
+     44.1,
+     35.1
+    ],
+    "study1_overall_reuse_pct": 82.3,
+    "study1_norm_conditions_pct": 81.9,
+    "study1_standard_message_pct": 83.7,
+    "study1_p": 0.62,
+    "study1_same_room_norm_pct": 78.0,
+    "study1_hotel_guest_norm_pct": 85.6,
+    "study2_no_message_baseline_pct": 64.3,
+    "study2_any_message_pct": 79.6,
+    "study2_standard_message_pct": 93.3,
+    "study2_norm_messages_pct": 76.5,
+    "pilot_perceived_reuse_mean_pct": 46
+   },
+   "interpretation_ja": "米国の原典では規範メッセージで再利用率44%対35%（+9ポイント）だったが、ドイツの再現では規範メッセージは通常の環境メッセージより効かなかった。メッセージ自体（何か掲示すること）の効果は+15ポイント程度。文化・ベースラインで効果が消えうる。",
+   "replication": "Failed to replicate descriptive-norm advantage over standard message (also Reese et al. in AT/CH cited as mixed)",
+   "page": "Abstract; Results Study1 & Study2; Introduction (Goldstein numbers, secondary)"
+  },
+  {
+   "id": "norm_japan_home_energy_report",
+   "topic": "1_descriptive_norms",
+   "cite": "松川勇 (2020) 家計に対する情報提供の省エネルギー効果―フィールド実験による検証―. 環境経済・政策研究 13(1):42-",
+   "url": "https://www.jstage.jst.go.jp/article/reeps/13/1/13_42_2/_article/-char/ja",
+   "country": "Japan",
+   "data": "京都府南部 571世帯 (2013, HER訪問指導) / けいはんな IHD実験 (Matsukawa 2016, 2018 を要約)",
+   "method": "Review of Japanese field experiments (author's own RCTs)",
+   "numbers": {
+    "HER_peer_comparison_all_electric_households_saving_pct": [
+     3.9,
+     5.6
+    ],
+    "HER_other_contract_households": "no significant saving",
+    "persistence": "up to about 3 months",
+    "IHD_high_users_saving_pct_month": 1.6,
+    "IHD_low_users_boomerang_increase_pct": 4.1,
+    "foreign_refs_cited": {
+     "Opower_200k_households_pct": 1.3,
+     "Allcott_Kessler_gas_pct": [
+      1.3,
+      2.0
+     ],
+     "IHD_avg_pct": 3
+    }
+   },
+   "interpretation_ja": "日本でも「多い/平均/省エネ」の他者比較で、オール電化世帯は約4〜6%節電したが他の世帯では効果なし。もともと節電していた少量使用世帯は情報で逆に4%増える「ブーメラン効果」。規範メッセージは平均以下の人を平均に引き戻す副作用を入れるべき。",
+   "replication": "Single-site Japanese experiments; boomerang effect consistent with Schultz et al. 2007",
+   "page": "p.44 (journal page; PDF p.3)"
+  },
+  {
+   "id": "norm_japan_covid_vaccine_peer_info",
+   "topic": "1_descriptive_norms",
+   "cite": "Sasaki S., Saito T., Ohtake F. (2022) Nudges for COVID-19 voluntary vaccination: How to explain peer information? Social Science & Medicine 292:114561",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8577869/",
+   "country": "Japan",
+   "data": "Online pre-registered experiment, March 16-18 2021, N=1595 (798 aged 65-74, 797 aged 25-34)",
+   "method": "RCT: control / social comparison ('7-8 out of 10 in your age group will get vaccinated') / influence-gain / influence-loss messages",
+   "numbers": {
+    "control_willing_free_vaccine_older_pct": 84.4,
+    "control_willing_young_pct": 67.0,
+    "influence_gain_effect_older_pp": "approx +7 (to 91.5%), Cohen d=0.21, p<.05",
+    "influence_gain_with_covariates_pp": 6,
+    "influence_loss_WTP_increase_JPY": 3361.8,
+    "comparison_nudge_effect_on_willingness": "not significant overall",
+    "comparison_nudge_WTP_among_already_willing_JPY": 1148.9,
+    "comparison_nudge_among_unwilling_JPY": "-522.81 (p=.49, n.s.)",
+    "young_adults": "no promoting effect of any message",
+    "control_WTP_older_JPY": 427.1,
+    "control_WTP_young_JPY": -3300.0
+   },
+   "interpretation_ja": "日本の高齢者では「あなたの接種が周りを守る」型が接種意向を約7ポイント上げた。「同年代の7〜8割が接種予定」という記述的規範は、もともと接種したい人の意向を強めるだけで、迷っている人には効かず（むしろ弱める傾向）、若者には全メッセージが無効。規範効果は既存意向で非対称。",
+   "replication": "Consistent with Moehring et al. 2021 (23-country) for comparison nudge direction; intention not behavior",
+   "page": "Abstract; Section 4 Results (Fig.3, Table 1); Discussion"
+  },
+  {
+   "id": "norm_japan_covid_majority_message",
+   "topic": "1_descriptive_norms",
+   "cite": "Tanaka T., Nihonsugi T., Ohtake F., Haruno M. (2021) A message of the majority with scientific evidence encourages young people to show their prosocial nature in COVID-19 vaccination. Scientific Reports 11:23261",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8636594/",
+   "country": "Japan",
+   "data": "Online survey experiment, N=6232",
+   "method": "9 message conditions incl. 'majority + scientific evidence'",
+   "numbers": {
+    "overall_vaccine_acceptance_pct": 68.6,
+    "majority_plus_evidence_effect": "increased strong-willingness ratio among males aged 10-20s vs altruistic control (p=0.049)",
+    "other_effects": "some messages decreased willingness in males 30s-40s (p=0.041, 0.023)"
+   },
+   "interpretation_ja": "「多数派が接種する＋科学的根拠」メッセージは若年男性の強い接種意向をわずかに高めた（p=0.049）。効果は小さく層によって逆効果もあり、規範メッセージの効果は属性依存。",
+   "replication": "Single study; marginal p-values",
+   "page": "Abstract; Results (Fig.2); Discussion. NOTE: first author listed in metadata is Toshiko Tanaka; author list from PMC metadata"
+  },
+  {
+   "id": "norm_42country_tightness",
+   "topic": "1_descriptive_norms",
+   "cite": "Acierno J., Tedaldi E., Ginn J., Goldwert D., Vlasceanu M., et al. (2026) Conformity to social norm interventions is not amplified in tighter nations. Communications Psychology 4:68",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13083840/",
+   "country": "42 countries (Japan not confirmed in text)",
+   "data": "N=16,089 participants",
+   "method": "Pre-registered multi-country experiment: dynamic norm, work-together norm, pluralistic ignorance correction vs control; climate beliefs/policy/sharing/tree-planting effort",
+   "numbers": {
+    "moderation_by_cultural_tightness": "no consistent amplification",
+    "behavioral_outcome": "tree-planting effort showed backfire across most interventions; Work-Together Norm reduced tree planting vs control",
+    "N_outcomes": {
+     "belief": 12760,
+     "policy": 12722,
+     "sharing": 9794,
+     "tree_planting": 12769
+    }
+   },
+   "interpretation_ja": "「規範が強い（タイトな）文化ほど規範メッセージが効く」とは言えない。日本＝タイト文化だから同調メッセージを強く設定する、という前提は根拠が弱い。行動指標ではむしろ逆効果も。",
+   "replication": "Large pre-registered multi-country test",
+   "page": "Abstract; Results sections"
+  },
+  {
+   "id": "norm_energy_review",
+   "topic": "1_descriptive_norms",
+   "cite": "Vesely S., Klöckner C.A., et al. (2022) Norms, prices, and commitment: A comprehensive overview of field experiments in the energy domain and treatment effect moderators. Frontiers in Psychology 13:967318",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9680531/",
+   "country": "Multi",
+   "data": "Review of energy field experiments",
+   "method": "Narrative review with effect-size coding (<5% small; 5-10% medium; >10% large)",
+   "numbers": {
+    "conclusion": "social norm and incentive interventions mostly achieve small (<5%) reductions; commitment-based effects essentially zero for the most part"
+   },
+   "interpretation_ja": "エネルギー分野の規範介入はほとんど5%未満の小効果。コミットメント（約束）型はほぼゼロ。",
+   "replication": "Review",
+   "page": "Abstract; Methods coding"
+  },
+  {
+   "id": "contagion_bakshy_feed_rct",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Bakshy E., Rosenn I., Marlow C., Adamic L. (2012) The Role of Social Networks in Information Diffusion. WWW 2012; arXiv:1201.4145",
+   "url": "https://arxiv.org/abs/1201.4145",
+   "country": "Global (Facebook)",
+   "data": "253 million subjects; randomized removal of friends' link-share stories from News Feed",
+   "method": "Field experiment (feed vs no-feed)",
+   "numbers": {
+    "share_prob_feed_pct": 0.191,
+    "share_prob_no_feed_pct": 0.025,
+    "risk_ratio": 7.37,
+    "risk_ratio_95CI": [
+     7.23,
+     7.72
+    ],
+    "multiple_sharing_friends": "absolute difference grows with # sharing friends but relative risk ratio falls",
+    "tie_strength": "strong tie (3 comments) 2.83x more likely to cause sharing than no-comment tie, but weak ties responsible for most novel information spread"
+   },
+   "interpretation_ja": "友人の共有を見ると共有確率は7.4倍（0.025%→0.19%）。ただし1回の露出での共有確率自体は0.2%と非常に低い。友人の共有者数が増えると絶対差は増えるが倍率は下がる（逓減）。強い紐帯は1本あたりは強いが、数の多い弱い紐帯が拡散の主役。",
+   "replication": "Large RCT; consistent with later Facebook studies",
+   "page": "p.4 (Section 4), p.5 (Fig.4), p.6 (tie strength)"
+  },
+  {
+   "id": "contagion_ugander_structural_diversity",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Ugander J., Backstrom L., Marlow C., Kleinberg J. (2012) Structural diversity in social contagion. PNAS 109(16):5962-5966",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3341012/",
+   "country": "Global (Facebook)",
+   "data": "54 million Facebook invitation emails; ~10 million new users for engagement",
+   "method": "Observational, conditional conversion rates by contact-neighborhood topology",
+   "numbers": {
+    "key_result": "P(join) stratified by number of connected components in contact neighborhood, not by number of contacts; controlling components, neighborhood size is a NEGATIVE predictor; edge density within 1-component neighborhoods has no discernible effect",
+    "exact_rates": "reported only in figures on relative scale (1.0 = one-node neighborhood) - not extracted"
+   },
+   "interpretation_ja": "加入確率は「誘ってくれた人数」ではなく「何種類の別々の人間関係（グループ）から来たか」で決まる。同じグループからの重複露出は効かない。シミュレーターでは露出数ではなく異なるクラスター数で採用確率を上げる設計が妥当。",
+   "replication": "Observational; widely cited",
+   "page": "Results (Fig.1-2); numbers figure-only"
+  },
+  {
+   "id": "contagion_centola2018_tipping_25pct",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Centola D., Becker J., Brackbill D., Baronchelli A. (2018) Experimental evidence for tipping points in social convention. Science 360:1116 — as summarized in Guilbeault D., Caplan S., Yang C. (2026) A simple threshold captures the social learning of conventions. PNAS 123(17):e2508061123",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13123839/",
+   "country": "US (online experiments)",
+   "data": "Name-game experiments in networks with committed minority confederates",
+   "method": "Secondary citation",
+   "numbers": {
+    "tipping_point_committed_minority_share_avg_pct": 25,
+    "below_tipping": "convention remains intact",
+    "agent_model_memory_M": 12
+   },
+   "interpretation_ja": "固い信念を持つ少数派が全体の約25%に達すると既存の慣習がひっくり返る。それ未満ではほぼ変わらない（閾値的）。",
+   "replication": "Secondary source (primary Science paper not accessible from allowed hosts) - number unverified against primary",
+   "page": "PNAS (Guilbeault et al.) Results section on critical mass"
+  },
+  {
+   "id": "contagion_andreoni_tipping_threshold",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Andreoni J., Nikiforakis N., Siegenthaler S. (2021) Predicting social tipping and norm change in controlled experiments. PNAS 118(16):e2014893118",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8072257/",
+   "country": "Lab (US/Europe)",
+   "data": "Large lab experiment; societies of 20 individuals; 24 societies in main comparisons",
+   "method": "Coordination game with gradually changing preferences (10% per period chance of switching preference)",
+   "numbers": {
+    "prediction_accuracy_pct": 96,
+    "societies_correctly_predicted": "23 of 24",
+    "tipping_threshold_cutoff_pct": 35,
+    "prob_norm_abandonment_if_threshold_below_35pct": "~100% (predicted)",
+    "prob_if_above_35pct": "drops quickly to ~0%",
+    "preference_switch_rate_per_period": 0.1
+   },
+   "interpretation_ja": "規範の転換は、必要な「転換点（離脱者の割合）」が35%未満ならほぼ確実に起き、35%超だとほぼ起きない（同調の罠）。人々が自分で同調コストを決めても高く設定しすぎ、有害な規範が残りやすい。",
+   "replication": "Model predictions validated within experiment",
+   "page": "Abstract; Results (Fig.2)"
+  },
+  {
+   "id": "contagion_minority_consistency",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Mlakar Ž., Bolderdijk J.W., Risselada H., Fennis B.M. (2026) Consistently refusing to go along both helps and hinders minorities to induce social tipping. Scientific Reports 16:10322",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13032008/",
+   "country": "Online (Prolific)",
+   "data": "112 experimental group sessions",
+   "method": "Multi-round coordination; minority holds 25% average support for alternative; consistent vs inconsistent minority",
+   "numbers": {
+    "minority_share_pct": 25,
+    "tipping_rate_consistent_pct": 66,
+    "tipping_rate_inconsistent_pct": 50,
+    "full_conversion_consistent_pct": 54,
+    "full_conversion_inconsistent_pct": 39,
+    "full_conversion_overall_pct": 46
+   },
+   "interpretation_ja": "25%の少数派でも、一貫して主張すると転換確率66%（一貫しないと50%）。ただし頑固すぎると「妥協しない」と見られ逆効果も。",
+   "replication": "Single study, Bayesian",
+   "page": "Results"
+  },
+  {
+   "id": "contagion_review_hashtags",
+   "topic": "2_thresholds_complex_contagion",
+   "cite": "Guilbeault D., Becker J., Centola D. (2018) Complex Contagions: A Decade in Review. arXiv:1710.07606",
+   "url": "https://arxiv.org/abs/1710.07606",
+   "country": "Multi",
+   "data": "Review",
+   "method": "Review citing Fink et al. 2016, Beaman et al., Romero et al. 2011",
+   "numbers": {
+    "political_hashtags_late_adopters_with_2plus_adopter_friends_pct": "almost 60 (Fink et al. 2016, Nigeria)",
+    "news_hashtags_with_2plus_pct": "<10",
+    "complex_contagion_seeding_uptake_gain_pct": 56,
+    "benchmark_villages_no_diffusion_pct": 45
+   },
+   "interpretation_ja": "政治的・社会的コストのある行動（政治ハッシュタグ等）は複数の知人からの強化が必要（遅い採用者の約6割が2人以上の採用者とつながる）。ニュース系は単純伝染（1人で十分、2人以上は1割未満）。商品の種類でsimple/complexを切り替えるべき。",
+   "replication": "Secondary summaries",
+   "page": "pp.10, 17 (PDF)"
+  },
+  {
+   "id": "polar_japan_extreme_posting",
+   "topic": "3_group_polarization_echo",
+   "cite": "山口真一 (2020) なぜソーシャルメディア上では極端な意見が多く見られるのか？日韓米の実証分析. 情報社会学会 研究発表大会予稿 2020:25",
+   "url": "https://www.jstage.jst.go.jp/article/ssiproceedings/2020/0/2020_25/_article/-char/ja",
+   "country": "Japan, Korea, US",
+   "data": "Online survey N=5,986 (JP target 3,000; KR, US 1,000 each)",
+   "method": "Tobit model of number of SNS posts on opinion extremity",
+   "numbers": {
+    "japan_constitution_extreme_two_opinions_share_of_people_pct": 14.5,
+    "their_share_of_SNS_posts_pct": 46.1,
+    "posts_increase_per_1pt_extremity_constitution_JP_pct": 73.4,
+    "immigration_topic_posts_increase_per_1pt_pct": {
+     "US": 99.6,
+     "KR": 55.0,
+     "JP": 32.0
+    },
+    "US_one_extreme_opinion_share_of_posts_pct": 34.0,
+    "secondary_Tanaka_Hamaya_2018": "~50,000 Japanese, 2 waves: Twitter users follow tens of % opposite-ideology accounts; no SNS-induced extremization"
+   },
+   "interpretation_ja": "憲法改正では両極端の意見の人は14.5%しかいないのにSNS投稿の46.1%を占める。意見が1段階極端になると投稿数が約1.7倍。SNS上の意見分布は社会の実態より極端に見える（分極化の多くは「発信の偏り」）。",
+   "replication": "Survey-based; consistent with Tanaka & Hamaya (secondary)",
+   "page": "pp.3-5 (proceedings PDF)"
+  },
+  {
+   "id": "polar_japan_internet_affective",
+   "topic": "3_group_polarization_echo",
+   "cite": "辻大介 (2021) ネット社会における世論形成の「分断」. マス・コミュニケーション研究 99:3-",
+   "url": "https://www.jstage.jst.go.jp/article/mscom/99/0/99_3/_article/-char/ja",
+   "country": "Japan",
+   "data": "National stratified random sample after 2019 upper-house election, ages 18-69, valid N=1,094 (response 50.6%)",
+   "method": "Generalized ordered probit",
+   "numbers": {
+    "result": "hours of PC internet use for personal interests significantly polarizes approval/disapproval of Abe administration (affect-based); mobile internet time n.s.; high political interest -> hard news, low -> soft news (gap widening)"
+   },
+   "interpretation_ja": "日本でもネット利用（PC）が政権支持・不支持の両極化と関連するが、イデオロギーより感情ベース。関心の高い層と低い層の情報格差が広がる。",
+   "replication": "Cross-sectional; coefficients not extracted",
+   "page": "pp.3-9"
+  },
+  {
+   "id": "polar_japan_xenophobia",
+   "topic": "3_group_polarization_echo",
+   "cite": "辻大介・北村智 (2018) インターネットでのニュース接触と排外主義的態度の極性化. 情報通信学会誌 36(2):99-",
+   "url": "https://www.jstage.jst.go.jp/article/jsicr/36/2/36_99/_article/-char/ja",
+   "country": "Japan, US",
+   "data": "Web surveys 2016",
+   "method": "Quantile regression",
+   "numbers": {
+    "result": "Japan: PC net-news frequency associated with bipolarization of xenophobic attitudes; US: shifts only toward anti-xenophobic"
+   },
+   "interpretation_ja": "ネットニュース接触による分極化の有無は国・文脈次第。日本では排外的態度が両方向に割れる傾向。",
+   "replication": "Abstract only",
+   "page": "abstract"
+  },
+  {
+   "id": "polar_japan_text_deliberation",
+   "topic": "3_group_polarization_echo",
+   "cite": "松木祐馬 (2020) テキストベースの討議が個人の態度変容に与える影響. 実験社会心理学研究 59(2):61-",
+   "url": "https://www.jstage.jst.go.jp/article/jjesp/59/2/59_1822/_article/-char/ja",
+   "country": "Japan",
+   "data": "N=68 students (two sessions), topic: Japan joining TPP; 6-point scale",
+   "method": "Experiment, Bayesian ANOVA (ingroup vs anonymous discussants x majority vs minority)",
+   "numbers": {
+    "minority_ingroup_softening_pts_6pt_scale": -0.16,
+    "minority_anonymous_softening": -0.2,
+    "majority_anonymous_polarization": 0.07,
+    "posterior_prob": "~90%",
+    "majority_ingroup": "no polarization",
+    "prob_minority_change_below_0_pct": 99.79
+   },
+   "interpretation_ja": "ネット討論を読むだけで、少数派は6段階で約0.2ポイント軟化、多数派は匿名討論のときだけ約0.07ポイント極化。集団極性化は日本でも起こるが小さい（尺度の1〜3%程度）。",
+   "replication": "Small N; Isenberg 1986 meta not accessible",
+   "page": "p.70 (Results, Fig.3-5) approx; PDF p.10"
+  },
+  {
+   "id": "repl_ego_depletion",
+   "topic": "4_persuasion_replication",
+   "cite": "Lurquin J.H., Michaelson L.E., Barker J.E., Gustavson D.E., von Bastian C.C., Carruth N.P., Miyake A. (2016) No Evidence of the Ego-Depletion Effect across Task Characteristics and Individual Differences: A Pre-Registered Study. PLoS ONE 11(2):e0147770",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4749338/",
+   "country": "US",
+   "data": "N=200 pre-registered",
+   "method": "Pre-registered experiment",
+   "numbers": {
+    "Hagger2010_meta_d": 0.62,
+    "Hagger2010_k_experiments": 198,
+    "Hagger2010_nonsignificant_k": 47,
+    "this_study_t": "t(198)=1.46, p=.146",
+    "this_study_d": 0.22,
+    "direction": "opposite (depletion group slightly better: M=.39 vs .36)"
+   },
+   "interpretation_ja": "自我消耗（意志力の消耗）は過去のメタ分析でd=0.62とされたが、事前登録研究では効果なし（むしろ逆方向）。シミュレーターに「意志力消耗」を入れるなら効果はほぼゼロ扱いが安全。",
+   "replication": "Failed (also Hagger et al. 2016 RRR, d≈0 - not accessed, see hosts_needed)",
+   "page": "Introduction; Results"
+  },
+  {
+   "id": "repl_power_posing",
+   "topic": "4_persuasion_replication",
+   "cite": "Metzler H., Grèzes J. (2019) Repeatedly adopting power postures does not affect hormonal correlates of dominance and affiliative behavior. PeerJ 7:e6726",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6585898/",
+   "country": "France",
+   "data": "N=82 males",
+   "method": "Experiment with repeated 2-min postures",
+   "numbers": {
+    "result": "no posture effects on testosterone, cortisol, progesterone",
+    "prior_replications": "four subsequent studies (Ranehill et al. 2015 etc.) failed to replicate Carney, Cuddy & Yap (2010) hormone effects"
+   },
+   "interpretation_ja": "パワーポーズのホルモン効果は再現されない。",
+   "replication": "Failed",
+   "page": "Abstract; Introduction"
+  },
+  {
+   "id": "bystander_cctv_copenhagen",
+   "topic": "5_bystander",
+   "cite": "Liebst L.S., Philpot R., Bernasco W., Dausel K.L., Ejbye-Ernst P., Nicolaisen M.H., Lindegaard M.R. (2019) Social relations and presence of others predict bystander intervention: Evidence from violent incidents captured on CCTV. Aggressive Behavior 45(6):598-609",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6790599/",
+   "country": "Denmark",
+   "data": "764 bystanders in 81 violent incidents (CCTV, Copenhagen)",
+   "method": "Case-control sampling, multilevel logistic regression",
+   "numbers": {
+    "OR_number_of_bystanders_per_SD": 0.28,
+    "OR_social_relation_to_conflict_party": ">20",
+    "Fischer2011_meta_secondary": "bystander effect attenuates or reverses in high-danger contexts"
+   },
+   "interpretation_ja": "実際の暴力場面でも、居合わせる人数が1SD増えると各個人が介入するオッズは約0.28倍（古典的傍観者効果）。ただし当事者と知り合いだと介入オッズは20倍以上で、人数効果より大きい。",
+   "replication": "Field data; consistent with classical effect at individual level; group-level helping (Philpot 2020, 90% of incidents) not accessed",
+   "page": "Results (Fig.1, Table A3)"
+  },
+  {
+   "id": "coop_pgg_16pools_variance",
+   "topic": "6_cooperation_public_goods",
+   "cite": "Gächter S., Herrmann B., Thöni C. (2010) Culture and cooperation. Phil Trans R Soc B 365:2651-2661 (re-analysis of Herrmann, Thöni & Gächter 2008 Science)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2936171/",
+   "country": "16 subject pools (no Japan; Asian pools: Seoul, Chengdu)",
+   "data": "1,120 participants; groups of 4; 10 periods; 20 ECU endowment; MPCR 0.4",
+   "method": "Public goods game without (N) and with (P) costly punishment (1 ECU cost : 3 ECU reduction)",
+   "numbers": {
+    "endowment_ECU": 20,
+    "MPCR": 0.4,
+    "group_size": 4,
+    "periods": 10,
+    "punish_cost_ratio": "1:3",
+    "N_condition_variance_share_pct": {
+     "culture": 3.9,
+     "group": 29.3,
+     "individual": 16.0,
+     "time": 7.4,
+     "unexplained": 43.4
+    },
+    "decline": "contributions decline over periods in all pools except Athens, Riyadh, Muscat",
+    "antisocial_punishment_cross_cultural_KW_chi2": 82.5,
+    "freerider_punishment_KW_chi2": 11.2,
+    "punishment_effect": "contributions significantly higher with punishment in 4 of 6 cultures"
+   },
+   "interpretation_ja": "公共財ゲームでは協力（拠出）は回を追うごとにほぼ必ず低下。罰の機会があると多くの文化で拠出が上がるが、協力者を罰する「反社会的罰」の多さは文化差が大きい。個人差より集団差（30%）が大きく、文化差は4%程度。日本のデータはこの研究に含まれない。",
+   "replication": "Decay is near-universal; Japan numbers from Herrmann 2008 do not exist (not a subject pool)",
+   "page": "Methods; Results (Fig.1, Fig.5 decomposition)"
+  },
+  {
+   "id": "coop_network_rewiring",
+   "topic": "6_cooperation_public_goods",
+   "cite": "Shirado H., Fu F., Fowler J.H., Christakis N.A. (2013) Quality versus quantity of social ties in experimental cooperative networks. Nature Communications 4:2814",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3868237/",
+   "country": "US (online)",
+   "data": "1,529 participants in 90 networks",
+   "method": "Networked cooperation game with rewiring rates 0-100%",
+   "numbers": {
+    "initial_cooperation_pct": 65,
+    "best_rewiring_rate_pct": 70,
+    "asymptotic_cooperation_pct": [
+     60,
+     70
+    ],
+    "pattern": "cooperation declines at 0%, 30%, 100% rewiring; maintained at 70% (Goldilocks)"
+   },
+   "interpretation_ja": "初回の協力率は約65%。関係の組み替え（離脱・再接続）が適度（70%程度）なときに協力が最も維持される。",
+   "replication": "Single study",
+   "page": "Results"
+  },
+  {
+   "id": "coop_trust_japan_us_enthronement",
+   "topic": "6_cooperation_public_goods",
+   "cite": "清成透子・山岸俊男 (1999) 分配委任ゲームを用いた信頼と信頼性の比較研究. 社会心理学研究 15(2):100-",
+   "url": "https://www.jstage.jst.go.jp/article/jssp/15/2/15_KJ00003724804/_article/-char/ja",
+   "country": "Japan vs US",
+   "data": "Student samples n=95 and n=120 (inferred)",
+   "method": "'Game of enthronement' separating trust from trustworthiness",
+   "numbers": {
+    "trust_choice_pct_n95_vs_n120": [
+     80.0,
+     88.3
+    ],
+    "chi2_p": "χ2(1)=2.83, p<.10",
+    "second_trust_measure_pct_n120_vs_n95": [
+     83.3,
+     71.6
+    ],
+    "chi2_p2": "χ2(1)=4.29, p<.05",
+    "trustworthiness": "no significant difference (e.g., 643.7 vs 614.2 yen returned; t(218)=.87 ns)",
+    "abstract": "Americans higher trust than Japanese; no difference in trustworthiness"
+   },
+   "interpretation_ja": "米国人の方が日本人より見知らぬ相手を信頼する（約8〜12ポイント高い）が、信頼に応える度合いは日米で同程度。日本は「安心社会」で、信頼は低めだが裏切りが多いわけではない。",
+   "replication": "UNVERIFIED mapping: scanned PDF lost Japanese labels; which sample is JP vs US inferred from abstract (US higher) and n. Consistent with Yamagishi & Yamagishi 1994",
+   "page": "pp.104-105 (journal pages)"
+  },
+  {
+   "id": "coop_parochial_trust_17",
+   "topic": "7_ingroup_favoritism",
+   "cite": "Romano A., Balliet D., Yamagishi T., Liu J.H. (2017) Parochial trust and cooperation across 17 societies. PNAS 114(48):12702-12707",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5715771/",
+   "country": "17 countries incl. Japan",
+   "data": "N=3,236 (Nielsen panels, stratified), ≥193/country",
+   "method": "Trust game (endowment 5 MU, tripled) with ingroup (same nationality)/outgroup/stranger partners; reputation manipulation",
+   "numbers": {
+    "endowment_MU": 5,
+    "multiplier": 3,
+    "ingroup_vs_other_trust_b_MU": 0.19,
+    "ingroup_expectation_b": 0.29,
+    "ingroup_trustworthiness_return_b_MU": 0.95,
+    "common_knowledge_reputation_trust_b": 0.18,
+    "common_knowledge_return_b": 1.24,
+    "outgroup_vs_stranger_trust_b": 0.12,
+    "men_extra_ingroup_bias_b": 0.06,
+    "design_power_d": 0.26
+   },
+   "interpretation_ja": "同じ国籍の相手には5単位中約0.19単位多く送る（約4%）。評判がかかる（相手に自分の国籍が知られる）と信頼が同程度増える。内集団ひいきは主に「身内からの見返り期待」で説明される。日本を含め普遍的。",
+   "replication": "Multi-country; Japan-specific estimates in SI only (not extracted)",
+   "page": "Results"
+  },
+  {
+   "id": "ingroup_balliet2014_meta_secondary",
+   "topic": "7_ingroup_favoritism",
+   "cite": "Balliet D., Wu J., De Dreu C.K.W. (2014) Ingroup favoritism in cooperation: A meta-analysis. Psych Bull 140:1556 — as cited in Everett J.A.C., Faber N.S., Crockett M. (2015) Front Behav Neurosci 9:15",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4327620/",
+   "country": "Multi",
+   "data": "Meta-analysis",
+   "method": "Secondary citation",
+   "numbers": {
+    "d_interdependent_social_dilemmas": 0.42,
+    "d_no_interdependence_dictator": 0.19,
+    "ingroup_love_vs_outgroup_hate": "ingroup love stronger than outgroup derogation"
+   },
+   "interpretation_ja": "身内びいきの効果量は、相互依存がある協力場面でd=0.42（中程度）、一方的に分けるだけ（独裁者ゲーム）でd=0.19。外集団を嫌うより身内を優遇する効果が主。",
+   "replication": "Secondary - primary meta-analysis not accessible (psycnet)",
+   "page": "Everett et al. section on bounded generalized reciprocity"
+  },
+  {
+   "id": "ingroup_japan_minimal_group",
+   "topic": "7_ingroup_favoritism",
+   "cite": "神信人・山岸俊男・清成透子 (1996) 双方向依存性と“最小条件集団パラダイム”. 心理学研究 67(2):77-85",
+   "url": "https://www.jstage.jst.go.jp/article/jjpsy1926/67/2/67_2_77/_article/-char/ja",
+   "country": "Japan",
+   "data": "Two lab experiments (students)",
+   "method": "Minimal group paradigm, bilateral vs unilateral dependency",
+   "numbers": {
+    "result": "ingroup bias in reward allocation only in bilateral-dependency condition; none in unilateral; only those with illusion of control showed bias"
+   },
+   "interpretation_ja": "日本の最小条件集団実験では、自分の報酬が他者の分配に依存する（お互い様）ときだけ内集団ひいきが出る。単なるラベルではなく「身内からの見返り期待」が原因。",
+   "replication": "Consistent with Karp et al. 1993; numbers not extracted (scanned PDF)",
+   "page": "abstract"
+  },
+  {
+   "id": "ingroup_japan_trust_radius",
+   "topic": "7_ingroup_favoritism",
+   "cite": "Ward P.R., Mamerow L., Meyer S.B. (2014) Interpersonal trust across six Asia-Pacific countries. PLoS ONE 9(4):e95555",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3997396/",
+   "country": "Japan (and AU, HK, KR, TW, TH)",
+   "data": "Cross-sectional surveys 2009-10, total N=6,331",
+   "method": "Survey",
+   "numbers": {
+    "japan_overall_higher_trust_pct": 54,
+    "japan_high_trust_neighbours_pct": 79.5,
+    "japan_high_trust_strangers_pct": 33,
+    "japan_high_trust_foreigners_pct": 28,
+    "japan_high_trust_different_religion_pct": 30
+   },
+   "interpretation_ja": "日本では近所の人を高く信頼する人が約8割だが、見知らぬ人は33%、外国人は28%。身内と他人で信頼の差が大きい（信頼の半径が狭い）。※一般的信頼の全国値は別担当。",
+   "replication": "Survey",
+   "page": "Results (Japan subsection)"
+  },
+  {
+   "id": "ingroup_emerges_repeated",
+   "topic": "7_ingroup_favoritism",
+   "cite": "Dorrough A.R., Glöckner A., Hellmann D.M., Ebert I. (2015) The development of ingroup favoritism in repeated social dilemmas. Frontiers in Psychology 6:476",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4411968/",
+   "country": "Germany",
+   "data": "Two incentivized studies",
+   "method": "Repeated continuous PD with 10 ingroup then 10 outgroup partners (or reverse)",
+   "numbers": {
+    "result": "no initial ingroup-outgroup difference in cooperation; clear ingroup favoritism after repeated interaction, driven by partner group change after round 10"
+   },
+   "interpretation_ja": "身内びいきは最初からあるとは限らず、繰り返しのやり取りで後から生じる。",
+   "replication": "Two studies",
+   "page": "Abstract"
+  },
+  {
+   "id": "misinfo_debunking_meta",
+   "topic": "8_misinformation",
+   "cite": "Chan M.S., Jones C.R., Hall Jamieson K., Albarracín D. (2017) Debunking: A Meta-Analysis of the Psychological Efficacy of Messages Countering Misinformation. Psychological Science 28(11):1531-1546",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5673564/",
+   "country": "Multi (mostly US)",
+   "data": "k=52 studies, N=6,878",
+   "method": "Meta-analysis",
+   "numbers": {
+    "misinformation_effect_d": [
+     2.41,
+     3.08
+    ],
+    "debunking_effect_d": [
+     1.14,
+     1.33
+    ],
+    "persistence_after_debunking_d": [
+     0.75,
+     1.06
+    ],
+    "moderators": "persistence stronger & debunking weaker when audiences generate reasons supporting misinformation; detailed debunking increases both debunking and persistence"
+   },
+   "interpretation_ja": "誤情報を見せると信念は大きく動き（d≈2.4〜3.1）、訂正で戻るのは半分程度（d≈1.1〜1.3）、訂正後も誤信念が残る（d≈0.75〜1.06）。シミュレーターでは「訂正で誤信念の約4〜6割を解消、残りは持続」が目安。",
+   "replication": "Meta-analysis; Walter & Murphy 2018 not accessed",
+   "page": "Abstract"
+  },
+  {
+   "id": "misinfo_japan_spread",
+   "topic": "8_misinformation",
+   "cite": "山口真一・谷原吏 (2024) 偽・誤情報拡散行動と真偽判断・リテラシーの関係：日本におけるコロナワクチンと政治の偽・誤情報に関する実証分析. 情報社会学会 研究発表大会予稿 2022:145",
+   "url": "https://www.jstage.jst.go.jp/article/ssiproceedings/2022/0/2022_145/_article/-char/ja",
+   "country": "Japan",
+   "data": "Online survey Feb 10-23 2022; 12 fact-checked misinformation items (6 vaccine, 6 political); vaccine sample 8,169 obs (4,469 persons); political 2,920 obs (1,841 persons)",
+   "method": "Logit, marginal effects, SE clustered by item",
+   "numbers": {
+    "share_of_exposed_who_spread_vaccine_misinfo_pct": 21.8,
+    "share_of_exposed_who_spread_political_misinfo_pct": 24.0,
+    "believers_vs_dontknow_vaccine_pp": 16.3,
+    "believers_vs_dontknow_political_pp": 21.6,
+    "believers_vs_think_false_vaccine_pp": 24.2,
+    "believers_vs_think_false_political_pp": 14.2,
+    "think_false_vs_dontknow_vaccine_pp": -7.9,
+    "think_false_vs_dontknow_political_pp": 8.4,
+    "literacy": "media & information literacy significantly reduce spreading",
+    "Vosoughi2018_secondary": "false news ~70% more likely to be retweeted than truth"
+   },
+   "interpretation_ja": "日本で偽情報に接した人の約2割（ワクチン21.8%、政治24.0%）が何らかの形で拡散（SNSだけでなく口頭も含む）。信じた人は信じていない人より拡散確率が14〜24ポイント高い。政治では「嘘だと思う人」も拡散（批判目的）する点に注意。",
+   "replication": "Single survey; consistent with international literature",
+   "page": "pp.2-3 (Table 1; proceedings PDF)"
+  },
+  {
+   "id": "misinfo_correction_format",
+   "topic": "8_misinformation",
+   "cite": "Swire-Thompson B., Cook J., Butler L.H., Sanderson J.A., Lewandowsky S., Ecker U.K.H. (2021) Correction format has a limited role when debunking misinformation. Cognitive Research: Principles and Implications 6:83",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8715407/",
+   "country": "US/Australia/online",
+   "data": "4 experiments (Qualtrics panel, MOOC, MTurk, students)",
+   "method": "Experiments comparing myth-first, fact-first, fact-only, myth-only corrections",
+   "numbers": {
+    "result": "impact of correction on belief largely independent of format; myth-first slightly better after delay in Exp.4; familiarity backfire not supported"
+   },
+   "interpretation_ja": "訂正の書き方（神話を先に書くか事実を先に書くか）は効果にほとんど影響しない。「訂正が逆効果になる（バックファイア）」は起きにくい。",
+   "replication": "4 experiments",
+   "page": "Abstract"
+  }
+ ],
+ "hosts_needed": [
+  {
+   "url": "https://www.science.org/doi/10.1126/science.1185231",
+   "why": "Centola 2010 Science (adoption vs # adopter contacts, clustered vs random networks) - primary numbers"
+  },
+  {
+   "url": "https://www.science.org/doi/10.1126/science.aas8827",
+   "why": "Centola et al. 2018 tipping point ~25% (only secondary citation obtained)"
+  },
+  {
+   "url": "https://www.science.org/doi/10.1126/science.aap9559",
+   "why": "Vosoughi, Roy & Aral 2018 false vs true news diffusion (70% figure only secondary)"
+  },
+  {
+   "url": "https://www.science.org/doi/10.1126/science.1153808",
+   "why": "Herrmann, Thöni & Gächter 2008 antisocial punishment, contribution levels by city (figures)"
+  },
+  {
+   "url": "https://www.science.org/doi/10.1126/science.aac4716",
+   "why": "Open Science Collaboration 2015 replication rate"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/a0023304",
+   "why": "Fischer et al. 2011 bystander meta-analysis (effect sizes)"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/a0037737",
+   "why": "Balliet, Wu & De Dreu 2014 ingroup favoritism meta (primary)"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/0022-3514.50.6.1141",
+   "why": "Isenberg 1986 group polarization meta-analysis"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/0033-2909.106.2.265",
+   "why": "Bornstein 1989 mere exposure meta (r)"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/bul0000085",
+   "why": "Montoya et al. 2017 mere exposure meta"
+  },
+  {
+   "url": "https://www.tandfonline.com/doi/full/10.1080/03637751.2018.1467564",
+   "why": "Walter & Murphy 2018 correction meta-analysis"
+  },
+  {
+   "url": "https://journals.sagepub.com/doi/10.1177/1745691616652873",
+   "why": "Hagger et al. 2016 ego-depletion RRR (d≈0)"
+  },
+  {
+   "url": "https://journals.sagepub.com/doi/10.1177/0956797614553946",
+   "why": "Ranehill et al. 2015 power posing replication"
+  },
+  {
+   "url": "https://www.sciencedirect.com/science/article/pii/S0047272711000478",
+   "why": "Allcott 2011 J Public Econ Opower (~2% / 'nudge equivalent to 11-20% price increase')"
+  },
+  {
+   "url": "https://academic.oup.com/jcr/article/35/3/472/1856433",
+   "why": "Goldstein, Cialdini & Griskevicius 2008 hotel towel (primary)"
+  },
+  {
+   "url": "https://www.fujitsu.com/jp/group/fri/",
+   "why": "田中辰雄・浜屋敏 富士通総研レポート (SNS and polarization, ~50,000 panel) - primary"
+  },
+  {
+   "url": "https://www.soumu.go.jp/",
+   "why": "総務省 偽・誤情報 実態調査 (Japan misinformation exposure/belief rates)"
+  },
+  {
+   "url": "https://psycnet.apa.org/ (Burger 1999; Dillard 1991; O'Keefe & Hale 1998/2001; Pornpitakpan 2004)",
+   "why": "FITD / DITF / reciprocity / source credibility meta-analytic effect sizes"
+  },
+  {
+   "url": "https://psycnet.apa.org/doi/10.1037/amp0000469",
+   "why": "Philpot et al. 2020 Am Psych: intervention occurs in ~90% of CCTV conflicts (group-level)"
+  }
+ ],
+ "not_found": [
+  "Foot-in-the-door, door-in-the-face, reciprocity, commitment, authority meta-analytic effect sizes: no open copy on allowed hosts (only Fennis et al. 2010 replication on PMC with 17% control compliance, not included)",
+  "Mere exposure meta-analysis (Bornstein 1989 r≈0.26 commonly cited) - not verified",
+  "Isenberg 1986 group polarization meta - not accessible; Japanese small-N experiment used instead",
+  "Herrmann et al. 2008 Japan numbers: Japan was NOT one of the 16 subject pools",
+  "Yamagishi & Yamagishi 1994 (Motivation & Emotion) Japan-US trust numbers: link.springer.com request failed (HTTP 000)",
+  "Japan organ donation nudge field experiments (大竹・佐々木): not located on J-STAGE/PMC by search",
+  "Centola 2010 adoption-curve numbers (Science) - only qualitative review text available",
+  "Walter & Murphy 2018 correction meta: not accessible; Chan et al. 2017 used instead"
+ ],
+ "failures": [
+  "pmc.ncbi.nlm.nih.gov intermittently returned a reCAPTCHA 'Checking your browser' page on rapid requests; retried later with spacing (no circumvention). PMC2689715 (Gächter & Herrmann 2009) remained blocked",
+  "NBER w18492 (Allcott & Rogers) body text uses an unreadable embedded font; only abstract extracted",
+  "J-STAGE jssp 15(2) 1999 and jjpsy 67(2) 1996 PDFs are scans; Japanese labels lost - numbers from 1999 paper flagged UNVERIFIED mapping",
+  "Ugander et al. 2012 exact conversion rates only in figures (relative scale)",
+  "link.springer.com fetch failed (connection, HTTP 000)"
+ ]
+}
