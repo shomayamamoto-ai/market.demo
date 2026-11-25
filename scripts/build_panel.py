@@ -45,6 +45,28 @@ if sd:
         name = e["election"].split(" ")[0]; year = int(e["election"].split(" ")[1][:4])
         elections.append(name)
         put(f"ldp{year}", f"自民党の小選挙区の得票率({year}年)", "%", "結果", "総務省 衆議院議員総選挙結果調 候補者別得票数", year, {p: 100 * ldp[p] / tot[p] for p in tot})
+# 都道府県別の結果(総務省 結果調・家計調査・全国消費実態調査・国勢調査)
+po = load("pref_outcomes.json")
+if po:
+    S = po["series"]
+    for y in ("2005", "2009", "2012", "2014", "2017", "2021", "2024", "2026"):
+        put(f"turnout{y}", f"衆院選の投票率({y}年)", "%", "結果", "総務省 衆議院議員総選挙結果調", int(y), {p: v.get(y) for p, v in S["shu_turnout"]["by_pref"].items()})
+        pv = S["shu_pr_party_votes"]["by_pref"]
+        def share(p, names):
+            r = pv.get(p, {}).get(y) or {}; tot = sum(x for x in r.values() if isinstance(x, (int, float)) and x > 0) - (r.get("合計") or 0) * 0
+            tot = r.get("合計") or sum(x for k, x in r.items() if isinstance(x, (int, float)) and k != "合計")
+            return 100 * sum(r.get(n, 0) for n in names) / tot if tot else None
+        put(f"pr_ldp{y}", f"比例代表の自民党の得票率({y}年)", "%", "結果", "総務省 結果調 都道府県別党派別得票数(比例代表)", int(y), {p: share(p, ["自由民主党"]) for p in prefs})
+        put(f"pr_org{y}", f"比例代表の公明党+共産党の得票率({y}年)", "%", "結果", "総務省 結果調 都道府県別党派別得票数(比例代表)", int(y), {p: share(p, ["公明党", "日本共産党"]) for p in prefs})
+    for k in ("外食", "被服及び履物", "灯油", "教養娯楽", "火災・地震保険料", "自動車等関係費", "消費支出"):
+        put(f"spend_{k}", f"{k}(年間、二人以上の世帯、2023〜25年平均)", "円", "結果", "総務省 家計調査 県庁所在市別(東京都は区部)", 2024, {p: v.get("2023-2025平均") for p, v in S[f"kakei_{k}"]["by_pref"].items()})
+    put("car2014", "自動車の普及率(二人以上の世帯、2014年)", "%", "要因", "総務省 全国消費実態調査 2014年", 2014, {p: v.get("2014") for p, v in S["car_share_2plus"]["by_pref"].items()})
+    put("rail2020", "通勤・通学で鉄道を使う人の割合(2020年)", "%", "要因", "総務省 国勢調査 2020年 利用交通手段", 2020, {p: v.get("2020") for p, v in S["commute_rail_share"]["by_pref"].items()})
+ins = load("insurance_disaster.json")
+if ins:
+    put("eq2025", "地震保険の世帯加入率(2025年)", "%", "結果", "損害保険料率算出機構", 2025, {p: v.get("2025") for p, v in ins["series"]["eq_household_rate"]["by_pref"].items()})
+    fl = ins["series"]["flood_damage_total_oku"]["by_pref"]
+    put("flood10", "水害の被害額(2014〜2023年の合計、人口千人あたり)", "百万円", "要因", "国土交通省 水害統計", 2023, {p: sum(x for x in fl[p].values() if isinstance(x, (int, float))) * 100 / pop[p]["total"] for p in fl if p in pop})
 out = {"prefs": prefs, "vars": vars_, "notes": ["都道府県を1つの単位として比べる表。県どうしの違いから個人の行動を言い切ることはできない(生態学的誤謬)。"]}
 (root / "public/js/panel-data.js").write_text("// scripts/build_panel.py が作るファイル。手で書き換えない。\nexport default " + json.dumps(out, ensure_ascii=False, separators=(",", ":")) + ";\n")
 print(len(prefs), "prefs", len(vars_), "vars:", ", ".join(vars_))

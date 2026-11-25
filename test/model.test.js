@@ -434,3 +434,9 @@ test("保険と災害:大きな地震のあと、被災した県の地震保険�
   assert.ok(q("東日本大震災").k[0].diff > 3 && q("熊本地震").k[0].diff > 3);
   assert.ok(q("東日本大震災").k[3].diff > 0, "10年後も上乗せが残る");
 });
+
+import { turnoutEffects } from "../public/js/composite.js";
+test("複合要因:同じ県の回ごとの比較で、投票率と得票率の関係が計算できる", () => {
+  const T = turnoutEffects(); assert.equal(T.length, 3);
+  for (const r of T) { assert.equal(r.n, 376); assert.ok(Number.isFinite(r.beta) && r.se > 0); }
+});

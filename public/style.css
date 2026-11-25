@@ -239,3 +239,4 @@ html.stage-big{overflow:hidden}
 .viewtabs.more-l,.toc .wrap.more-l{-webkit-mask-image:linear-gradient(90deg,transparent,#000 36px);mask-image:linear-gradient(90deg,transparent,#000 36px)}
 .viewtabs.more-l.more-r,.toc .wrap.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 36px,#000 calc(100% - 36px),transparent);mask-image:linear-gradient(90deg,transparent,#000 36px,#000 calc(100% - 36px),transparent)}
 .verify td{vertical-align:middle}
+label.chip{display:inline-flex;align-items:center;gap:6px;line-height:1.4}label.chip input{width:auto;min-height:0;margin:0}
