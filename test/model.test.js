@@ -472,3 +472,9 @@ test("進学と学歴:学歴ごとの賃金は、大学院 > 大学 > 高校の�
   const W = Object.fromEntries(wageCurves().map((w) => [w.label, w.all]));
   assert.ok(W["大学院"] > W["大学"] && W["大学"] > W["高校"]);
 });
+
+import { railShareAfter, hokurikuCheck } from "../public/js/travel.js";
+test("空と陸の移動:鉄道が速くなると鉄道の割合が上がる(北陸新幹線では実際より控えめ)", () => {
+  assert.ok(railShareAfter({ shareNow: 0.42, railTime: 228, railTime2: 148 }) > 0.42);
+  const H = hokurikuCheck(); assert.ok(H.model < H.real);
+});
