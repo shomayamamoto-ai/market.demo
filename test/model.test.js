@@ -536,3 +536,12 @@ test("インバウンド:変化なしなら2025年の消費に一致し、円高
   const r = inboundScenario({ yen: 10 }); assert.ok(r.spend < r.base);
   const ps = Object.values(r.pref).reduce((a, v) => a + v.spend, 0), cs = r.rows.filter((x) => x.name).reduce((a, x) => a + x.spend, 0); assert.ok(ps <= cs + 1e-6 && ps > 0.8 * cs, `${ps} ${cs}`);
 });
+
+import PG from "../public/js/pop-grid.js";
+import IBD from "../public/js/inbound-data.js";
+test("3Dの地図:ます目の人口の合計は国勢調査に近く、外国人の泊数の配分は県の値の合計に一致する", () => {
+  const pop = PG.cells.reduce((a, c) => a + c[2], 0); assert.ok(pop > 1.24e8 && pop < 1.27e8, `${pop}`);
+  const byPref = {}; for (const c of PG.cells) byPref[PG.prefs[c[3]]] = (byPref[PG.prefs[c[3]]] ?? 0) + c[4];
+  for (const p of ["東京都", "京都府", "北海道"]) assert.ok(Math.abs(byPref[p] / IBD.prefs[p].nights["2025"] - 1) < 0.01, p);
+  assert.ok(PG.check.corr > 0.9);
+});

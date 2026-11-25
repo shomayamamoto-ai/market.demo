@@ -5,6 +5,8 @@ import IB from "./inbound-data.js";
 import GEO from "./geo-data.js";
 import { esc, multiLine, hbar } from "./charts.js";
 import { createJapan3D } from "./japan3d.js";
+import { WORLD } from "./japanmap.js";
+import PG from "./pop-grid.js";
 
 export const INBOUND_ASSUMPTIONS = {
   eFx: { value: 1.0, range: [0.5, 1.9], note: "円が1%高くなると、訪日客が何%減るか。外国人の延べ宿泊者で −1.89(RIETI DP 15-J-049)。国ごとのデータでの簡単な推計では0.4〜1.0と小さく、0.5〜1.9の幅で試すのがよい(収集担当の計算)" },
@@ -41,6 +43,12 @@ export function mountInbound({ before }) {
       <h3>国・地域ごとの消費(2025年)</h3><div id="ib-top"></div>
       <h3>主な国の入国者の推移</h3><div id="ib-trend"></div>
       <p class="note">出典:観光庁「インバウンド消費動向調査」、法務省「出入国管理統計」(e-Stat)。法務省の入国者は、日本に住む外国人の再入国も含み、日本政府観光局の「訪日外客数」とは定義が違います(2025年:法務省 4,243万人、政府観光局 4,268万人)。推移のグラフは、新しく入国した短期滞在の人(観光客に近い)です。</p></div>
+    <div class="card"><h2>訪日外国人の需要が多い県と地域</h2>
+      <p class="note">金色の人が訪日外国人です(頭の上にピンクの目印)。国際線の多い空港とクルーズ船の港から入り、外国人の泊数が多い地域へ向かい、滞在して、また空港から帰ります。茶色の点は住んでいる人です。</p>
+      <div id="ib-world" class="ls-map"></div>
+      <div class="form-grid"><label class="wide">県の並べ方 <select id="ib-sort"><option value="n">外国人の延べ宿泊者数</option><option value="pc">人口1人あたり</option><option value="g">2019年からの伸び</option></select></label></div>
+      <div id="ib-prefs" class="table-scroll"></div><h3>外国人の泊数が多い地域(推計、上位15)</h3><div id="ib-areas" class="table-scroll"></div>
+      <p class="note">県の値:観光庁「宿泊旅行統計調査」(2025年、外国人延べ宿泊者数)。地域の値は推計です。県の値を、県の中の約10km四方のます目に、「宿泊業・飲食サービス業の従業者のうち、地元の人口では説明できない分」(総務省・経済産業省 経済センサス2021)に比例して配りました。この指標の県ごとの合計は、実際の外国人の泊数と相関0.97(対数では0.86)で、よく一致します。地域の名前は、そのます目で乗降客数が最も多い駅です。市区町村ごとの公式の値ではありません。</p></div>
     <div class="card"><h2>円高・円安、相手の国の所得、特定の国の増減で、どう変わるか</h2><p class="note">最初は「中国からの客が40%減る」場合です(2025年12月〜2026年9月に実際に38〜54%減っています)。</p>
       <div class="form-grid"><label>円の価値の変化(%、プラスが円高) <input id="ib-yen" type="number" min="-50" max="50" step="5" value="0"></label>
         <label>相手の国の所得の伸び(%) <input id="ib-gdp" type="number" min="-20" max="30" step="1" value="0"></label>
@@ -70,8 +78,20 @@ export function mountInbound({ before }) {
     createJapan3D($("ib-map"), { ...GEO, color: { label: "訪日外国人の消費の変化率", unit: "%", values: Object.fromEntries(Object.entries(r.pref).map(([p, v]) => [p, v.base ? ((v.spend - v.base) / v.base) * 100 : 0])) } }, { people: matchMedia("(max-width: 640px)").matches ? 400 : 800 });
   };
   ["ib-yen", "ib-gdp", "ib-efx", "ib-siso", "ib-spct"].forEach((id) => ($(id).onchange = draw));
+  const popOf = Object.fromEntries(GEO.prefs.map((p) => [p.name, p.pop]));
+  const drawPrefs = () => {
+    const rows = Object.entries(IB.prefs).map(([p, v]) => ({ p, n: v.nights?.["2025"] ?? 0, n19: v.nights?.["2019"] ?? 0, spend: v.spend?.["2025"] })).filter((r) => r.n > 0).map((r) => ({ ...r, pc: r.n / (popOf[r.p] || 1), g: r.n19 ? r.n / r.n19 - 1 : null }));
+    const k = $("ib-sort").value, sorted = rows.sort((a, b) => (b[k] ?? -9) - (a[k] ?? -9)).slice(0, 15), tot = rows.reduce((a, r) => a + r.n, 0);
+    $("ib-prefs").innerHTML = `<table class="verify"><tr><th>県</th><th class="num">延べ宿泊者(2025年)</th><th class="num">全国に占める割合</th><th class="num">人口1人あたり</th><th class="num">2019年から</th><th class="num">消費(2025年)</th></tr>${sorted.map((r) => `<tr><td>${esc(r.p)}</td><td class="num">${(r.n / 1e4).toLocaleString("ja-JP", { maximumFractionDigits: 0 })}万泊</td><td class="num">${((r.n / tot) * 100).toFixed(1)}%</td><td class="num">${r.pc.toFixed(2)}泊</td><td class="num">${r.g == null ? "―" : `${r.g >= 0 ? "+" : ""}${(r.g * 100).toFixed(0)}%`}</td><td class="num">${r.spend == null ? "―" : `${Math.round(r.spend).toLocaleString("ja-JP")}億円`}</td></tr>`).join("")}</table>`;
+  };
+  const drawAreas = () => { const m = new Map(); for (const a of PG.areas) { const key = `${a.name}|${a.pref}`; m.set(key, (m.get(key) ?? 0) + a.foreign); }
+    const tot = PG.cells.reduce((a, c) => a + c[4], 0), rows = [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 15);
+    $("ib-areas").innerHTML = `<table class="verify"><tr><th>地域(近くの主な駅)</th><th>県</th><th class="num">外国人の泊数(推計)</th><th class="num">全国に占める割合</th></tr>${rows.map(([k, v]) => { const [n, p] = k.split("|"); return `<tr><td>${esc(n)}駅の周辺</td><td>${esc(p)}</td><td class="num">${(v / 1e4).toLocaleString("ja-JP", { maximumFractionDigits: 0 })}万泊</td><td class="num">${((v / tot) * 100).toFixed(1)}%</td></tr>`; }).join("")}</table>`; };
   el.addEventListener("lab:open", () => {
     if ($("ib-top").innerHTML) return;
+    $("ib-sort").onchange = drawPrefs; drawPrefs(); drawAreas();
+    const pcColor = { label: "外国人の延べ宿泊者(人口1人あたり、2025年)", unit: "泊", values: Object.fromEntries(Object.entries(IB.prefs).map(([p, v]) => [p, (v.nights?.["2025"] ?? 0) / (popOf[p] || 1)])) };
+    createJapan3D($("ib-world"), { ...WORLD(), color: pcColor }, { people: matchMedia("(max-width: 640px)").matches ? 400 : 800, foreign: matchMedia("(max-width: 640px)").matches ? 260 : 520 });
     $("ib-top").innerHTML = hbar(top.slice(0, 12).map(([iso, c]) => ({ label: `${c.name}`, value: c.total["2025"].total })), { fmt: oku, labelWidth: 130 });
     const colors = ["#b4473b", "#2f6fd0", "#c9a45c", "#2f8f6b", "#7a2fb0", "#888"];
     $("ib-trend").innerHTML = multiLine(["CHN", "KOR", "TWN", "USA", "HKG", "THA"].map((iso, i) => ({ name: IB.countries[iso].name, color: colors[i], points: Object.entries(IB.countries[iso].tourists ?? {}).map(([y, v]) => ({ x: Number(y), y: v / 1e6 })) })), { xLabel: "年", fmt: (v) => `${v.toFixed(1)}百万` });
