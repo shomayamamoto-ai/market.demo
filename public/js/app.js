@@ -20,6 +20,7 @@ import { mountCustom, CUSTOM_ASSUMPTIONS, customChecks, psychologyChecks } from 
 import { mountPolitics, POLITICS_ASSUMPTIONS, employeeRates, voteTable, burdenByAge } from "./politics.js";
 import POLICY from "./policy-data.js";
 import { mountElections, ELECTION_ASSUMPTIONS, electionChecks } from "./elections.js";
+import { mountInsurance } from "./insurance.js";
 import ELECTIONS from "./election-data.js";
 import { regime } from "./regime.js";
 import { elders } from "./elders.js";
@@ -157,6 +158,7 @@ const NAV = [
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
   { key: "behavior", label: "経済と行動", tabs: [] },
   { key: "politics", label: "政治と経済", tabs: [] },
+  { key: "region", label: "地域と暮らし", tabs: [] },
   { key: "theory", label: "理論で確かめる", tabs: [] },
   { key: "experiment", label: "実験と比べる", tabs: [] },
   { key: "source", label: "精度と出典", tabs: [["score", "精度の成績表"], ["source", "出典と仮定"]] },
@@ -167,6 +169,7 @@ const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
   NAV.find((g) => g.key === "politics").tabs.push(...mountPolitics({ getPersonas: () => state.personas, before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "politics").tabs.push(...mountElections({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "region").tabs.push(...mountInsurance({ before: $("tab-score") }).tabs);
   mountCustom({ getPersonas: () => state.personas, seedOf: () => Number($("seed").value) || 1, before: $("tab-score") });
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
   for (const def of EXPERIMENT_LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "experiment").tabs.push([def.key, def.title]); }

@@ -427,3 +427,10 @@ test("複合要因の分析:都道府県の表がそろい、重回帰が計算�
   const r = regress(PANEL, "ldp2024", ["old65", "wage", "logpop"]);
   assert.equal(r.n, 47); assert.ok(r.r2 >= 0 && r.r2 <= 1); assert.ok(r.looR2 <= r.r2 + 1e-9, "当てはめに使っていない県での当たり方は、使った県より良くならない");
 });
+
+import { quakeTable } from "../public/js/insurance.js";
+test("保険と災害:大きな地震のあと、被災した県の地震保険の加入はほかの県より増える", () => {
+  const T = quakeTable(), q = (n) => T.find((x) => x.name === n);
+  assert.ok(q("東日本大震災").k[0].diff > 3 && q("熊本地震").k[0].diff > 3);
+  assert.ok(q("東日本大震災").k[3].diff > 0, "10年後も上乗せが残る");
+});
