@@ -238,6 +238,10 @@ for key in [k for k in HT["male"] if k not in ("total", "unknown")]:
         row[sex] = {"single": round(single / n, 4), "coupleOnly": round(v["couple_only"] / n, 4), "coupleKids": round(v["couple_with_children"] / n, 4),
                     "singleParent": round(v["single_parent_with_children"] / n, 4)}
         row[sex]["other"] = round(1 - sum(row[sex].values()), 4)
+        # 普通の世帯の外で暮らす人(老人ホーム・病院・寮など、と世帯が分からない人)の割合:1 − 一般世帯の人数 ÷ その年齢の人口(国勢調査の不詳補完値)
+        pk = ["95-99", "100+"] if key == "95+" else [key]
+        pop = sum(M[sex][k]["population"] for k in pk if k in M[sex])
+        if pop and lo >= 15: row[sex]["outside"] = round(max(0.0, 1 - v["total"] / pop), 4)
     household["typeBands"].append(row)
 
 # 所得による支出の違い:家計調査の年間収入五分位(全体平均 = 1 とした費目別の倍率)

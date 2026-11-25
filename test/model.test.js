@@ -411,3 +411,11 @@ test("得票と議席:選挙区別の結果で、得票率を変えなければ�
   const B = swingBacktest(), mae = (f) => B.reduce((a, r) => a + Math.abs(f(r) - r.real), 0) / B.length;
   assert.ok(mae((r) => r.swing) < mae((r) => r.k), "前回の選挙区別の結果からの試算は、k の式より当たる");
 });
+
+import { jointChecks } from "../public/js/personas.js";
+test("合成人口:年齢×性別の組み合わせが統計と偶然の範囲で合い、ありえない組み合わせがない", () => {
+  const J = jointChecks(D, P);
+  assert.equal(J.at(-1).count, 0);
+  for (const j of J.slice(0, 2)) assert.ok(j.rmse <= j.chance * 1.5, `${j.label} ${j.rmse} ${j.chance}`);
+  assert.ok(P.some((p) => p.householdType === "institution" && p.age >= 85), "施設で暮らす高齢者がいる");
+});

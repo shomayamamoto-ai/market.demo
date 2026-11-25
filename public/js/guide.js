@@ -1,6 +1,6 @@
 // 「お題から探す」の目次と、「精度の成績表」(このツールの計算を、統計・理論・実験と照らし合わせた一覧)。
 import { trial, formatMetric } from "./lab.js";
-import { validate } from "./personas.js";
+import { validate, jointChecks } from "./personas.js";
 import { buyProbability, MARKET_ASSUMPTIONS } from "./market.js";
 import { runMany, DEFAULT_PLAN, DIFFUSION_ASSUMPTIONS } from "./diffusion.js";
 
@@ -64,6 +64,11 @@ export function findScreens(text) {
 export function scoreboard(D, personas, groups, seed = 1) {
   const rows = [];
   for (const t of validate(D, personas)) { const f = (v) => (Math.abs(v) < 1 ? `${(v * 100).toFixed(1)}%` : Math.round(v).toLocaleString("ja-JP")); rows.push({ basis: "公的統計", model: "人口とペルソナ", label: t.label, a: f(t.model), b: f(t.value), diff: t.error }); }
+  // 年齢×性別の組み合わせの照合。ずれが「人数が有限なので偶然でも出る大きさ」の1.5倍以内なら合格
+  for (const j of jointChecks(D, personas)) {
+    if (j.impossible != null) { rows.push({ basis: "公的統計", model: "人口とペルソナ", label: j.label, a: `${j.count}人`, b: "0人", diff: j.impossible, inRange: j.count === 0, source: "制度上ありえない組み合わせ(合成人口の検証で見る標準の指標の1つ)" }); continue; }
+    rows.push({ basis: "公的統計", model: "人口とペルソナ", label: `${j.label}:${j.cells}マスの平均のずれ`, a: `${j.rmse.toFixed(1)}ポイント`, b: `偶然で${j.chance.toFixed(1)}ポイント`, diff: j.rmse / 100, inRange: j.rmse <= j.chance * 1.5,
+      source: `${j.source}。いちばん大きいずれは${j.worst.band}(この計算${(j.worst.model * 100).toFixed(1)}%、統計${(j.worst.real * 100).toFixed(1)}%)。人数を増やすと偶然のずれは小さくなる` }); }
   for (const { basis, defs } of groups) for (const def of defs) for (const [key, p] of Object.entries(def.presets)) {
     const years = p.years ?? def.years, summary = trial(def, p.rules, def.runs ?? 20, seed, years).summary;
     for (const v of def.verify?.(summary, p.rules) ?? []) {

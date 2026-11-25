@@ -131,11 +131,15 @@ function buildPersona(D, A, rng, base) {
   // 6) 世帯の種類(国勢調査の年齢・性別ごとの分布に、配偶関係とのつじつまを重みで反映)
   // 一人暮らしの割合は統計に合わせる。既婚者の一人暮らしは少数とし、残りを未婚・離死別の人に割り当てる
   const T = { ...bandOf(D.household.typeBands, age)[sex] };
+  // 65歳以上で、普通の世帯の外(老人ホーム・病院など)で暮らす人。60〜64歳でも世帯の外にいる割合(世帯が分からない人など)を差し引いた分を、施設で暮らす人とみなす
+  const outBase = bandOf(D.household.typeBands, 62)?.[sex]?.outside ?? 0, inst = age >= 65 ? Math.max(0, (T.outside ?? 0) - outBase) : 0;
+  delete T.outside;
   const marriedShare = age >= 15 ? bandOf(D.marital.bands, age)?.[sex]?.married ?? 0 : 0;
   const singleMarried = Math.min(T.single, A.marriedCompat.value.single);
   const pSingle = age < 15 ? T.single : married ? singleMarried
     : clamp((T.single - marriedShare * singleMarried) / Math.max(1 - marriedShare, 0.02), 0, 0.98);
-  if (rng.next() < pSingle) p.householdType = "single";
+  if (inst > 0 && rng.next() < inst) p.householdType = "institution";
+  else if (rng.next() < pSingle) p.householdType = "single"; // pSingle は普通の世帯に住む人の中での割合
   else {
     delete T.single;
     if (married) T.singleParent *= A.marriedCompat.value.singleParent;
@@ -295,6 +299,29 @@ export function validate(D, personas) {
     married: W(adults.filter((p) => p.marital === "既婚")) / W(adults),
   };
   return D.targets.map((t) => ({ ...t, model: model[t.key], error: model[t.key] / t.value - 1 }));
+}
+
+// 年齢×性別ごとの割合を統計と比べる(1変数の合計だけでなく、組み合わせのずれを見る)。
+// 合成人口の検証では、2〜3変数の組み合わせの誤差と、ありえない組み合わせの数を見るのが標準とされる(Darsel ほか 2026 など)。
+// 返り値:表ごとに、年齢×性別の各マスの差の二乗平均(ポイント)と、いちばん大きい差
+export function jointChecks(D, personas) {
+  const tables = [
+    { label: "既婚の割合(年齢5歳×性別)", bands: D.marital.bands, real: (b, sex) => b[sex].married, model: (p) => p.marital === "既婚", source: "総務省「令和2年国勢調査」不詳補完結果 第2-3表" },
+    { label: "働いている割合(年齢5歳×性別)", bands: D.employment.bands, real: (b, sex) => b[sex].rate, model: (p) => p.working, source: "総務省「労働力調査」2025年平均 表3(3)" },
+    { label: "一人暮らしの割合(年齢5歳×性別)", bands: D.household.singleRate, real: (b, sex) => b[sex], model: (p) => p.single, source: "総務省「令和2年国勢調査」第11-1表から作った値" },
+  ];
+  const out = tables.map((t) => { const cells = [];
+    for (const b of t.bands) for (const sex of ["male", "female"]) {
+      const g = personas.filter((p) => p.sex === sex && p.age >= b.min && p.age <= (b.max ?? 200)), w = g.reduce((a, p) => a + p.weight, 0); if (g.length < 30 || t.real(b, sex) == null) continue;
+      cells.push({ band: `${b.min}${b.max ? `〜${b.max}` : "以上"}歳・${sex === "male" ? "男性" : "女性"}`, model: g.reduce((a, p) => a + (t.model(p) ? p.weight : 0), 0) / w, real: t.real(b, sex), n: g.length }); }
+    const rmse = Math.sqrt(cells.reduce((a, c) => a + (c.model - c.real) ** 2, 0) / cells.length) * 100, worst = cells.reduce((a, c) => (Math.abs(c.model - c.real) > Math.abs(a.model - a.real) ? c : a), cells[0]);
+    // 人数が有限なので、作り方が正しくても偶然だけでこのくらいはずれる(各マスの標本のばらつきの二乗平均)
+    const chance = Math.sqrt(cells.reduce((a, c) => a + (c.real * (1 - c.real)) / c.n, 0) / cells.length) * 100;
+    return { label: t.label, source: t.source, cells: cells.length, rmse, chance, worst }; });
+  // ありえない組み合わせ(重みつきの割合)
+  const W = personas.reduce((a, p) => a + p.weight, 0), odd = personas.filter((p) => (p.age < 18 && p.marital === "既婚") || (p.age < 15 && p.working) || (p.age < 60 && p.pension > 0) || (p.age < 15 && p.single));
+  out.push({ label: "ありえない組み合わせ(18歳未満の既婚、15歳未満の就業・一人暮らし、60歳未満の年金)", impossible: odd.reduce((a, p) => a + p.weight, 0) / W, count: odd.length });
+  return out;
 }
 
 // AIに渡す・画面に出すための短い自己紹介
