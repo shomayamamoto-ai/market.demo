@@ -1,0 +1,849 @@
+{
+ "meta": {
+  "compiled": "2026-11-25",
+  "note": "Numbers extracted from actual downloaded documents unless key contains 'secondary' (cited by another verified document). Pages refer to PDF pages or article sections.",
+  "excluded_topics_already_in_app": [
+   "habit formation time (Lally)",
+   "general reinforcement",
+   "nudge overall effect (DellaVigna & Linos, Mertens)",
+   "defaults/status quo",
+   "present bias",
+   "loss aversion",
+   "sunk cost",
+   "social norms/proof",
+   "ad effects"
+  ]
+ },
+ "findings": [
+  {
+   "id": "II-milkman2011",
+   "topic": "1_implementation_intentions",
+   "cite": "Milkman KL, Beshears J, Choi JJ, Laibson D, Madrian BC (2011). Using implementation intentions prompts to enhance influenza vaccination rates. PNAS 108(26):10415-20.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3127912/",
+   "country": "US",
+   "data": "Field RCT, employees of a large US firm offered free on-site flu shots; 3 arms of reminder mailers (control / date-plan / date+time-plan); N≈3,272",
+   "method": "Randomized field experiment; outcome = vaccination at workplace clinic",
+   "numbers": {
+    "control_rate_pct": 33.1,
+    "control_95CI": [
+     30.5,
+     35.7
+    ],
+    "date_plan_rate_pct": 35.6,
+    "date_plan_diff_pp_unadj": 2.4,
+    "date_plan_diff_95CI": [
+     -1.9,
+     6.8
+    ],
+    "time_plan_rate_pct": 37.1,
+    "time_plan_diff_pp_unadj": 4.0,
+    "time_plan_diff_95CI": [
+     0.3,
+     7.7
+    ],
+    "time_plan_diff_pp_regression_adjusted": 4.2,
+    "time_plan_adj_95CI": [
+     0.5,
+     7.8
+    ],
+    "relative_lift_time_plan": "~+12% relative (4.0/33.1)",
+    "note": "larger effect at sites with single-day clinics (short window)"
+   },
+   "durability": "One-shot behavior (single vaccination window); no persistence measured.",
+   "interpretation_ja": "「日付と時刻を書き込む」計画欄をリマインダーに付けるだけで接種率が33.1%→37.1%（+4pp, 相対+12%）。日付だけでは有意差なし。計画の具体性が効く。機会が短期間に限られるほど効果大。",
+   "page": "Abstract; Results Table 2"
+  },
+  {
+   "id": "II-alcohol-meta2022",
+   "topic": "1_implementation_intentions",
+   "cite": "Cooke R, et al. (2023). The effect of forming implementation intentions on alcohol consumption: A systematic review and meta-analysis. Drug Alcohol Rev 42(1):68-80.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10087331/",
+   "country": "multi (mostly UK)",
+   "data": "16 studies (random-effects meta-analysis)",
+   "method": "Meta-analysis of RCTs",
+   "numbers": {
+    "weekly_consumption_d": -0.14,
+    "d_95CI": [
+     -0.24,
+     -0.03
+    ],
+    "community_samples_d": -0.38,
+    "community_95CI": [
+     -0.58,
+     -0.18
+    ],
+    "university_samples_d": -0.04,
+    "paper_delivery_d": -0.26,
+    "online_delivery_d": -0.04,
+    "volitional_help_sheet_d": -0.34,
+    "plain_II_format_d": -0.07,
+    "heavy_episodic_drinking_d": -0.01,
+    "HED_95CI": [
+     -0.1,
+     0.08
+    ],
+    "decay_with_followup_B": 0.02,
+    "longest_followup_weeks": 24
+   },
+   "durability": "Effects diminished with longer follow-up (meta-regression B=0.02/unit time); longest follow-up 24 weeks.",
+   "interpretation_ja": "if-then計画は飲酒量をわずかに減らす（d≈-0.14）が、オンライン実施や大学生では効果ほぼゼロ、時間経過で減衰。Gollwitzer & Sheeran (2006) のd≈0.65は近年の実地研究ではかなり小さくなる。",
+   "page": "Abstract; Discussion"
+  },
+  {
+   "id": "II-PA-meta2018",
+   "topic": "1_implementation_intentions",
+   "cite": "Silva MAV, et al. (2018). Impact of implementation intentions on physical activity practice in adults: systematic review and meta-analysis of RCTs. PLoS One 13(11):e0206294.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6235272/",
+   "country": "multi",
+   "data": "13 RCTs, adults 18-76 incl. patients",
+   "method": "Random-effects meta-analysis",
+   "numbers": {
+    "SMD_reinforced_II_subgroup": 0.25,
+    "SMD_95CI": [
+     0.05,
+     0.45
+    ]
+   },
+   "durability": "Effect found mainly when implementation-intention strategy was reinforced (boosters).",
+   "interpretation_ja": "運動の実施計画（いつ・どこで）を立てさせる介入は、繰り返し強化した場合に小さな効果（SMD 0.25）。一度きりの計画では効果が弱い。",
+   "page": "Abstract (Results)"
+  },
+  {
+   "id": "FI-giles2014-meta",
+   "topic": "3_financial_incentives",
+   "cite": "Giles EL, Robalino S, McColl E, Sniehotta FF, Adams J (2014). The effectiveness of financial incentives for health behaviour change: systematic review and meta-analysis. PLoS One 9(3):e90347.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3949711/",
+   "country": "high-income countries (mostly US)",
+   "data": "16 studies (smoking n=10, vaccination/screening n=5, PA n=1)",
+   "method": "Meta-analysis + meta-regression",
+   "numbers": {
+    "smoking_cessation_short_term_RR_le6mo": 2.48,
+    "RR_95CI_short": [
+     1.77,
+     3.46
+    ],
+    "smoking_cessation_long_term_RR_gt6mo": 1.5,
+    "RR_95CI_long": [
+     1.05,
+     2.14
+    ],
+    "vaccination_screening_attendance_RR": 1.92,
+    "RR_95CI_vacc": [
+     1.46,
+     2.53
+    ],
+    "all_behaviours_RR": 1.62,
+    "RR_95CI_all": [
+     1.38,
+     1.91
+    ]
+   },
+   "durability": "RR falls from 2.48 (≤6 months) to 1.50 (>6 months) for smoking: about 2/3 of the log-effect lost after incentives end; limited evidence effect decreases with longer post-intervention follow-up.",
+   "interpretation_ja": "金銭インセンティブは健康行動を約1.6倍にする。禁煙では短期2.5倍→長期1.5倍に縮小（終了後に効果が大きく剥落）。単発行動（検診・ワクチン）では約1.9倍。",
+   "page": "Abstract (Results)"
+  },
+  {
+   "id": "FI-volpp2008-lottery-deposit",
+   "topic": "3_financial_incentives;6_variable_vs_fixed;4_commitment",
+   "cite": "Volpp KG, John LK, Troxel AB, Norton L, Fassbender J, Loewenstein G (2008). Financial incentive-based approaches for weight loss: a randomized trial. JAMA 300(22):2631-7.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3583583/",
+   "country": "US",
+   "data": "57 obese veterans (BMI 30-40), Philadelphia VA; 16-week intervention, follow-up to 7 months",
+   "method": "3-arm RCT: monthly weigh-in control vs daily lottery (1/5 chance $10, 1/100 chance $100) vs deposit contract (own money matched 1:1)",
+   "numbers": {
+    "weight_loss_16wk_lb": {
+     "control": 3.9,
+     "lottery": 13.1,
+     "deposit": 14.0
+    },
+    "met_16lb_goal_pct": {
+     "control": 10.5,
+     "lottery": 52.6,
+     "deposit": 47.4
+    },
+    "net_weight_loss_7mo_lb": {
+     "control": 4.4,
+     "lottery": 9.2,
+     "deposit": 6.2
+    },
+    "p_vs_control_7mo": {
+     "lottery": 0.23,
+     "deposit": 0.61
+    }
+   },
+   "durability": "Significant at 4 months (end of incentive) but NOT at 7 months; substantial regain after incentives stopped (lottery retained ~9.2-4.4=4.8 lb of 9.2 lb excess, deposit ~1.8 of 10.1 lb excess).",
+   "interpretation_ja": "くじ型（変動報酬）も預託金型（コミットメント）も16週で約13-14ポンド減（対照3.9）と同程度に強力。しかし報酬終了後3か月でリバウンドし、7か月時点では有意差消失。",
+   "page": "Abstract; Results (Figure 3 text)"
+  },
+  {
+   "id": "FI-halpern2015-smoking",
+   "topic": "3_financial_incentives;4_commitment",
+   "cite": "Halpern SD, French B, Small DS, et al. (2015). Randomized trial of four financial-incentive programs for smoking cessation. NEJM 372(22):2108-17.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4471993/",
+   "country": "US",
+   "data": "2,538 CVS Caremark employees + friends/family",
+   "method": "RCT: individual/group × reward(~$800)/deposit($150 + $650 reward) vs usual care",
+   "numbers": {
+    "acceptance_reward_pct": 90.0,
+    "acceptance_deposit_pct": 13.7,
+    "sustained_abstinence_6mo_incentive_range_pct": [
+     9.4,
+     16.0
+    ],
+    "usual_care_6mo_pct": 6.0,
+    "reward_vs_deposit_6mo_pct": [
+     15.7,
+     10.2
+    ],
+    "group_vs_individual_6mo_pct": [
+     13.7,
+     12.1
+    ],
+    "IV_effect_deposit_vs_reward_among_compliers_pp": 13.2,
+    "IV_95CI": [
+     3.1,
+     22.8
+    ],
+    "prior_GE_trial_quit_pct": "5.0 -> 14.7 with $750 bundle (Volpp 2009, cited)"
+   },
+   "durability": "At 12 months (6 months after incentives ended) roughly half of 6-month abstainers remained abstinent; only reward-based programs stayed superior to usual care.",
+   "interpretation_ja": "自分のお金を預ける（コミットメント）型は効果が強いが参加を選ぶのは13.7%だけ。報酬型は90%が受け入れ、結果的に集団全体の禁煙率は報酬型が上。インセンティブ終了半年後には成功者の約半数が再喫煙。",
+   "page": "Abstract; Results"
+  },
+  {
+   "id": "FI-royer2015-gym-commit",
+   "topic": "3_financial_incentives;4_commitment",
+   "cite": "Royer H, Stehr M, Sydnor J (2015). Incentives, commitments and habit formation in exercise: evidence from a field experiment with workers at a Fortune-500 company. AEJ: Applied 7(3):51-84 (NBER WP 18580, 2012).",
+   "url": "https://www.nber.org/system/files/working_papers/w18580/w18580.pdf",
+   "country": "US",
+   "data": "~1,000 employees of a Fortune-500 firm; 1-month incentive $10/visit (max 3/week); 2-year observation",
+   "method": "Field RCT: control / incentive only / incentive + optional self-funded commitment contract",
+   "numbers": {
+    "control_weekly_attendance_baseline_pct": 20,
+    "in_treatment_effect_pp": "18-20 (doubling)",
+    "in_treatment_visits_per_week": "+0.56 to +0.68",
+    "incentive_only_retained_first_post_month_pct": 25,
+    "incentive_only_retained_wk5_13_pct": 17,
+    "incentive_only_post_visits_per_week": 0.11,
+    "incentive_only_wk14_52": "not significant",
+    "incentive_commit_wk5_13_pp": 9,
+    "incentive_commit_retained_pct_of_in_treatment": 45,
+    "incentive_commit_wk14_52_attendance_vs_control_pct": "+25%",
+    "non_members_incentive_only_permanent_pp": "3-4 (≈25% of in-treatment)",
+    "commitment_takeup_pct": 12.4,
+    "takeup_ex_ante_members_pct": 23,
+    "takeup_nonmembers_pct": 6,
+    "takeup_if_visited_during_incentive_pct": 21,
+    "avg_stake_usd": 58,
+    "committers_kept_commitment_pct": 63,
+    "Charness_Gneezy2009_in_treatment_visits_per_week_secondary": 1.2,
+    "Charness_Gneezy2009_post_effect_visits_per_week_secondary": 0.59,
+    "Acland_Levy2011_post_effect_secondary": 0.26
+   },
+   "durability": "Incentive-only: 25% of increase remains 1st month after, mostly gone by month 2, zero by weeks 14-52 (except ~3-4pp among prior non-users). Incentive+commitment: 45% retained in weeks 5-13, +25% attendance vs control still at weeks 14-52.",
+   "interpretation_ja": "1か月の運動報酬でジム通いは倍増するが、終了1か月後に効果の25%、2か月後にはほぼ消滅。自腹のコミットメント契約を選べるようにすると1年後も+25%が残る。ただしコミットメントを選ぶのは12%程度。",
+   "page": "NBER WP pdf p.5 (intro), p.19-21 (Table 2 text), p.23 (take-up)"
+  },
+  {
+   "id": "FI-japan-rapid-review2026",
+   "topic": "3_financial_incentives;5_points_programs;8_japan",
+   "cite": "Aoki K, et al. (2026). Financial Incentives to Promote Physical Activity in Japan: A Rapid Review. J Prim Care Community Health 17:21501319261415805.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12966530/",
+   "country": "Japan",
+   "data": "14 Japanese studies (11 peer-reviewed, 3 gray incl. Yokohama Walking Point); incentives ¥11-¥100/day mostly redeemable points/gift certificates",
+   "method": "Rapid review; descriptive synthesis of step-count change, ROI",
+   "numbers": {
+    "avg_step_increase_per_day": 997,
+    "steps_per_1000yen_incentive": 748,
+    "older_adults_avg_steps": 998,
+    "avg_annual_medical_expenditure_reduction_yen": 28425,
+    "avg_ROI": 5.67,
+    "incentive_amount_vs_effect": "no correlation within ¥10-¥100/day",
+    "western_meta_607_steps_secondary": "meta of 23 RCTs: +607 steps/day (Mitchell et al. 2020, cited as ref 4)"
+   },
+   "durability": "Effects sustained while incentives continued (up to ~1 year); only 1 study measured post-withdrawal and found step increases NOT maintained after incentive ended.",
+   "interpretation_ja": "日本の健康ポイント型（1日10〜100円相当）で歩数は平均+約1000歩/日。金額の大小と効果は無関係（少額でよい）。ポイント継続中は1年程度維持されるが、終了後は維持されないとの報告。",
+   "page": "Abstract; Results; Discussion"
+  },
+  {
+   "id": "LOT-kimmel2012-warfarin",
+   "topic": "6_variable_vs_fixed",
+   "cite": "Kimmel SE, Troxel AB, Loewenstein G, et al. (2012). Randomized trial of lottery-based incentives to improve warfarin adherence. Am Heart J 164(2):268-74.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4738867/",
+   "country": "US",
+   "data": "100 warfarin patients, 6 months",
+   "method": "RCT daily lottery incentive vs none",
+   "numbers": {
+    "out_of_range_INR_pct": {
+     "lottery": 23.0,
+     "control": 25.9
+    },
+    "adjusted_OR_all": 0.93,
+    "OR_95CI_all": [
+     0.62,
+     1.41
+    ],
+    "subgroup_low_baseline_INR_OR": 0.39,
+    "subgroup_95CI": [
+     0.25,
+     0.62
+    ],
+    "subgroup_therapeutic_baseline_OR": 1.26
+   },
+   "durability": "Not measured post-intervention.",
+   "interpretation_ja": "毎日のくじ型インセンティブは全体では服薬管理を改善せず（OR 0.93, 有意差なし）。もともと服薬が悪い層にだけ効く（OR 0.39）。くじは万能ではなく、改善余地のある層で効果。",
+   "page": "Abstract"
+  },
+  {
+   "id": "REM-karlan2016-savings",
+   "topic": "7_reminders",
+   "cite": "Karlan D, McConnell M, Mullainathan S, Zinman J (2016). Getting to the Top of Mind: How Reminders Increase Saving. Management Science 62(12):3393-3411 (NBER WP 16205, 2010).",
+   "url": "https://www.nber.org/system/files/working_papers/w16205/w16205.pdf",
+   "country": "Bolivia, Peru, Philippines",
+   "data": "3 field experiments, new commitment-savings account holders; monthly SMS or letter reminders",
+   "method": "Randomized field experiments",
+   "numbers": {
+    "prob_reaching_savings_goal_increase_pct": 3,
+    "total_amount_saved_increase_pct": 6,
+    "goal_specific_reminders_vs_generic": "about 2x as effective",
+    "comparison_commitment_savings_Ashraf2006": "+49 pesos (+7%) short-term balance (cited)"
+   },
+   "durability": "Measured over account horizon (months); repeated monthly reminders still effective; decay with repetition not separately estimated.",
+   "interpretation_ja": "毎月のSMS・手紙リマインダーで貯蓄目標達成率+3%、貯蓄額+6%。具体的な使い道（学費など）に触れるリマインダーは効果が約2倍。注意の限界（忘れる）がリマインダーで補える。",
+   "page": "NBER WP pdf p.6 (Introduction, section text p.4)"
+  },
+  {
+   "id": "REM-allcott-rogers2014-persistence",
+   "topic": "7_reminders;durability",
+   "cite": "Allcott H, Rogers T (2014). The Short-Run and Long-Run Effects of Behavioral Interventions: Experimental Evidence from Energy Conservation. AER 104(10):3003-37 (NBER WP 18492, 2012).",
+   "url": "https://www.nber.org/system/files/working_papers/w18492/w18492.pdf",
+   "country": "US",
+   "data": "Opower home energy reports, 3 long-running RCT sites (>6 million households receive reports nationally)",
+   "method": "Randomized continuation vs discontinuation after ~2 years",
+   "numbers": {
+    "post_discontinuation_decay_per_year_pct": "10-20",
+    "pattern": "initial reports cause 'action and backsliding' cycles that attenuate over time; slow habituation—households still respond after 2 years"
+   },
+   "durability": "If reports stop after 2 years, effect decays only 10-20%/year (persistent 'capital stock' of habits/appliances); repeated treatment keeps working (little habituation).",
+   "interpretation_ja": "繰り返し届く省エネ通知（社会比較フィードバック）は、最初は届くたびに行動→元に戻るの繰り返し。2年続けた後に止めても効果は年10〜20%しか減らない。長く続けるほど習慣化して持続。※数値詳細は本文フォント抽出不可のため要旨のみ。",
+   "page": "Abstract (pdf p.2)"
+  },
+  {
+   "id": "JP-ito-ida-tanaka2018-energy",
+   "topic": "8_japan;3_financial_incentives;7_reminders",
+   "cite": "Ito K, Ida T, Tanaka M (2018). Moral Suasion and Economic Incentives: Field Experimental Evidence from Energy Demand. AEJ: Economic Policy 10(1):240-67 (NBER WP 20910, 2015).",
+   "url": "https://www.nber.org/system/files/working_papers/w20910/w20910.pdf",
+   "country": "Japan (Keihanna, Kyoto)",
+   "data": "~690 households, 30-min smart-meter data, summer 2012 & winter 2013 critical-peak days",
+   "method": "Field RCT: moral suasion requests vs dynamic critical-peak pricing (65-105 cents/kWh) vs control",
+   "numbers": {
+    "moral_suasion_first_cycle_pct": -8.0,
+    "moral_suasion_second_cycle_pct": -3.2,
+    "moral_suasion_later_cycles": "≈0",
+    "moral_suasion_overall_peak_pct": -3.1,
+    "economic_incentive_peak_pct": "-14 (lowest price) to -17 (highest price); avg -15.4",
+    "post_experiment_3mo_habit_economic_pct": {
+     "after_summer": -7.4,
+     "after_winter": -6.7
+    },
+    "post_experiment_moral_suasion": "not significant",
+    "moral_suasion_reset_after_break": "effect partially reset after months-long break"
+   },
+   "durability": "Moral suasion habituates quickly (8%→3%→0 over repeated requests); price incentives persistent across repetitions and ~half of effect (≈7%) persisted 3 months after final intervention (habit formation).",
+   "interpretation_ja": "日本の節電実験：『お願い（道徳的説得）』は初回8%減→2回目3%→以降ほぼ0と急速に慣れる。価格インセンティブは15%減を繰り返しても維持、終了3か月後も約7%減が残る（習慣化）。",
+   "page": "NBER WP pdf p.4 (intro), p.17 (Table: cycles), p.20 (post-period)"
+  },
+  {
+   "id": "JP-hachioji-lossframe-crc",
+   "topic": "8_japan",
+   "cite": "厚生労働省（2019）『受診率向上施策ハンドブック（第2版）』事例：東京都八王子市 大腸がんリピート検診（平成28年度）",
+   "url": "https://www.mhlw.go.jp/content/10901000/000500406.pdf",
+   "country": "Japan (Hachioji, Tokyo)",
+   "data": "前年度大腸がん検診受診者で検査キット送付対象 A群 n=1,761（利得メッセージ）, B群 n=1,761（損失メッセージ）; 平成28年10月時点",
+   "method": "2-arm randomized message test by municipality (gain vs loss framing)",
+   "numbers": {
+    "gain_frame_rate_pct": 22.7,
+    "loss_frame_rate_pct": 29.9,
+    "diff_pp": 7.2,
+    "relative_lift": "~+32%",
+    "subgroups": "40代女性・50代男性で10pt以上の差"
+   },
+   "durability": "Single screening season; not reported.",
+   "interpretation_ja": "「受診しないと来年は検査キットが届かなくなります」という損失フレームで受診率22.7%→29.9%（+7.2pt）。既得の便益を失うと伝えると動く。",
+   "page": "p.9 (事例 東京都八王子市)"
+  },
+  {
+   "id": "JP-tachikawa-plan-card",
+   "topic": "8_japan;1_implementation_intentions",
+   "cite": "厚生労働省（2019）『受診率向上施策ハンドブック（第2版）』事例：東京都立川市 乳がん検診の再受診勧奨「受診計画カード」",
+   "url": "https://www.mhlw.go.jp/content/10901000/000500406.pdf",
+   "country": "Japan (Tachikawa, Tokyo)",
+   "data": "乳がん検診未受診者を未受診理由で3群に分け個別メッセージ; 計画カード同封群",
+   "method": "Municipal message trial (comparison with conventional message)",
+   "numbers": {
+    "plan_card_group_improvement_pt": 18.2,
+    "relative": "約3倍の受診率（従来メッセージ比）",
+    "Leventhal_tetanus_example_cited": "plan+map group 28% vs lecture only 3%"
+   },
+   "durability": "Not reported.",
+   "interpretation_ja": "受診日を書き込む「受診計画カード」で乳がん再受診率が18.2pt改善（約3倍）。実行意図（いつ行くか決めさせる）の日本自治体版。厳密なRCTかは資料からは不明。",
+   "page": "p.13 (事例 東京都立川市)"
+  },
+  {
+   "id": "JP-chiba-tokuteikenshin",
+   "topic": "8_japan",
+   "cite": "厚生労働省（2019）『受診率向上施策ハンドブック（第2版）』事例：千葉市 特定健診受診勧奨（平成29年度）",
+   "url": "https://www.mhlw.go.jp/content/10901000/000500406.pdf",
+   "country": "Japan (Chiba City)",
+   "data": "不定期受診者・未受診者向け勧奨案内の改善",
+   "method": "Municipal before/after with message redesign",
+   "numbers": {
+    "overall_screening_rate_change_pt": 3.7
+   },
+   "durability": "Not reported.",
+   "interpretation_ja": "特定健診の案内を「最初の一歩（どこで受けるか）」に絞って改善し全体受診率+3.7pt。",
+   "page": "p.7 (事例 千葉市)"
+  },
+  {
+   "id": "JP-cancerscan-mizota2023",
+   "topic": "8_japan",
+   "cite": "溝田友里・山本精一郎（2023）がん検診受診勧奨におけるナッジ等の行動科学の有用性. 日本健康教育学会誌 31(2):83-92.",
+   "url": "https://www.jstage.jst.go.jp/article/kenkokyoiku/31/2/31_310213/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "2015-2018, nudge/social-marketing invitation materials sent to 4.3 million residents in 787 municipalities; 167 municipalities with year-on-year data",
+   "method": "Dissemination study; before/after vs previous year (no randomized control)",
+   "numbers": {
+    "municipalities_improved_pct": 83,
+    "municipalities_improved_n": "141/167",
+    "screening_rate_change_pt": 2.6,
+    "relative": 1.44,
+    "TV_campaign_breast_screening_3mo": "1.5-7.6x vs same month previous year"
+   },
+   "durability": "TV-linked campaign effects observed over 3 months after broadcast.",
+   "interpretation_ja": "ナッジ型受診勧奨資材を全国787市町村・430万人に展開、データのある167市町村の83%で受診率が上昇、平均+2.6pt（1.44倍）。全国展開時の現実的な効果量はこの程度。",
+   "page": "English abstract (p.92)"
+  },
+  {
+   "id": "JP-rubella-coupon-RDD",
+   "topic": "8_japan",
+   "cite": "加藤大貴・佐々木周作・大竹文雄（2022）回帰不連続デザインによる風しん予防対策の効果検証―抗体検査・ワクチン接種の無料クーポン券の自動送付―. RIETI DP 22-J-011.",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/22j011.pdf",
+   "country": "Japan",
+   "data": "National online survey; men 40-57; FY2019 coupons auto-mailed to age 40-46, opt-in application for 47+",
+   "method": "Regression discontinuity at age cutoff",
+   "numbers": {
+    "antibody_test_uptake_effect_pp": 16,
+    "test_and_vaccination_effect_pp": 5.1,
+    "raw_rates": {
+     "auto_coupon_test_rate": 0.36,
+     "auto_coupon_vacc_rate": 0.159,
+     "opt_in_test_rate": 0.15,
+     "opt_in_vacc_rate": 0.076
+    }
+   },
+   "durability": "Cumulative uptake within program year.",
+   "interpretation_ja": "無料クーポンを自動送付（申請不要）にするだけで抗体検査受検率が約16pt上昇。手間（申請）を取り除く効果は大きい。",
+   "page": "p.6 (要旨/はじめに); 本文 p.~20"
+  },
+  {
+   "id": "JP-rubella-nudge-RCT",
+   "topic": "8_japan",
+   "cite": "加藤大貴・佐々木周作・大竹文雄（2022）風しんの抗体検査とワクチン接種を促進するためのナッジ・メッセージの探究―全国規模オンライン・フィールド実験による効果検証―. RIETI DP 22-J-010.",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/22j010.pdf",
+   "country": "Japan",
+   "data": "National online RCT, men in target cohort",
+   "method": "Online RCT with follow-up survey of actual behavior",
+   "numbers": {
+    "intention_control_pct": 20.8,
+    "intention_altruistic_pct": 35.1,
+    "intention_effect_pp": 14.3,
+    "behavior_test_effect_pp_coupon_cohort": 7.5,
+    "behavior_test_and_vacc_altruistic_pp": 3.8,
+    "behavior_social_comparison_pp": 4.0,
+    "monetary_value_per_person_yen": 2000,
+    "opt_in_cohort": "no significant effect of any message"
+   },
+   "durability": "Behavior measured at follow-up survey (months later).",
+   "interpretation_ja": "「妊婦と胎児を守る」利他的メッセージで受検意向+14.3pt、実際の受検は+7.5pt（意向→行動で約半分に縮む）。申請が必要な層ではどのメッセージも無効。",
+   "page": "p.14 (意向), p.16 (行動), p.23 (結論)"
+  },
+  {
+   "id": "JP-covid-repeated-nudges",
+   "topic": "8_japan;7_reminders",
+   "cite": "Sasaki S, Kurokawa H, Ohtake F (2021). Effective but fragile? Responses to repeated nudge-based messages for preventing the spread of COVID-19 infection. Japanese Economic Review 72(3):371-408.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8200318/",
+   "country": "Japan",
+   "data": "4-wave online panel experiment Apr-Aug 2020, N=4,241, 5 message types",
+   "method": "Repeated randomized message exposure",
+   "numbers": {
+    "effective_message": "gain-framed altruistic only",
+    "control_contact_avoidance_wave2_change": 0.057,
+    "infection_prevention_index_altruistic_coef": -0.107,
+    "selfish_message_coef": -0.129
+   },
+   "durability": "Behavioral effect of the only effective message disappeared by waves 3-4 (1-3 months later) despite repeated display, while intentions were still reinforced (intention-behavior gap); adverse effect for already-compliant subgroup.",
+   "interpretation_ja": "同じナッジ・メッセージを繰り返し見せても、行動への効果は1〜3か月で消える（意向は上がり続けても行動は伴わない）。既に行動できている人には逆効果も。",
+   "page": "Abstract; Results"
+  },
+  {
+   "id": "JP-physician-notification-nudge",
+   "topic": "8_japan;7_reminders",
+   "cite": "大竹文雄・中村文香・杉山巧馬（2026）感染症発生届出促進ナッジ. RIETI DP 26-J-011.",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/26j011.pdf",
+   "country": "Japan",
+   "data": "Online survey RCT of physicians; 3-month follow-up",
+   "method": "RCT with follow-up",
+   "numbers": {
+    "immediate_intention_increase_pp_min": 20,
+    "viral_hepatitis_control_pct": 37,
+    "viral_hepatitis_info_group_pct": 81,
+    "viral_hepatitis_effect_pp": 44,
+    "acute_encephalitis_effect_pp": 30,
+    "effect_after_3_months": "vanished (no significant difference)"
+   },
+   "durability": "Immediate effect +20 to +44pp on intention; fully disappeared at 3-month follow-up.",
+   "interpretation_ja": "医師への届出促進メッセージで直後の届出意思は20〜44pt上昇するが、3か月後には効果ゼロ。一回きりの情報提供ナッジは短命。",
+   "page": "p.23 (immediate), p.32 (3-month)"
+  },
+  {
+   "id": "GAM-education-meta2021",
+   "topic": "5_gamification",
+   "cite": "Kim J, et al. (2021). Effects of Gamification on Behavioral Change in Education: A Meta-Analysis. IJERPH 18(7):3550.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8037535/",
+   "country": "multi",
+   "data": "Controlled experimental studies 2010-2019 in educational settings",
+   "method": "Random-effects meta-analysis",
+   "numbers": {
+    "overall_d": 0.48,
+    "d_95CI": [
+     0.33,
+     0.62
+    ],
+    "higher_ed_d": 0.95,
+    "K12_d": 0.92,
+    "brief_interventions_lt1wk_d": 1.57,
+    "up_to_20wk_d": 0.3,
+    "across_years_d": -0.2
+   },
+   "durability": "Strong novelty decay: <1 week d=1.57, ≤20 weeks d=0.30, multi-year d=-0.20 (adverse).",
+   "interpretation_ja": "バッジ・ランキング等のゲーミフィケーションは平均d≈0.48の効果。ただし1週間未満ならd=1.57、20週でd=0.30、数年続けるとマイナス。新奇性効果で急速に減衰。",
+   "page": "Abstract"
+  },
+  {
+   "id": "JP-tanji2020-shopping-points-RCT",
+   "topic": "3_financial_incentives;5_points_programs;8_japan",
+   "cite": "Tanji F, Tomata Y, Abe S, et al. (2020). Effect of a financial incentive (shopping point) on increasing the number of daily walking steps among community-dwelling adults in Japan: a randomised controlled trial. BMJ Open 10(11):e037303.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7643498/",
+   "country": "Japan (Sendai)",
+   "data": "72 physically inactive adults (69% women, mean age 61; baseline 6,364 steps/day); local shopping points worth ¥1,000-2,000 (~US$9-18) for meeting step targets",
+   "method": "2-arm RCT (wait-list control); baseline wk1-3, incentive wk4-6, follow-up wk7-9 after incentive removed",
+   "numbers": {
+    "during_increase_steps": {
+     "intervention": 1650,
+     "intervention_95CI": [
+      1182,
+      2119
+     ],
+     "control": 514,
+     "control_95CI": [
+      136,
+      891
+     ]
+    },
+    "during_diff_steps": 1136,
+    "during_pct_increase": {
+     "intervention": 31.0,
+     "control": 9.1
+    },
+    "after_increase_steps": {
+     "intervention": 933,
+     "intervention_95CI": [
+      312,
+      1555
+     ],
+     "control": 556,
+     "control_95CI": [
+      136,
+      976
+     ]
+    },
+    "after_diff_steps": 377,
+    "after_p": 0.311,
+    "share_ge_1000_steps_increase_pct": {
+     "intervention": 69.4,
+     "control": 30.6
+    },
+    "OR": 5.17,
+    "OR_95CI": [
+     1.89,
+     14.08
+    ]
+   },
+   "durability": "Between-group difference fell from +1,136 steps/day during incentive to +377 (ns, p=0.31) in the 3 weeks after removal (~1/3 retained, not significant).",
+   "interpretation_ja": "仙台の買い物ポイント（最大2000円）で歩数が+1650歩（対照+514歩）。ポイント終了後3週間で群間差は約1/3に縮み有意差消失。少額ポイントは短期には効くが持続しない。",
+   "page": "Abstract; Results para 1"
+  },
+  {
+   "id": "GAM-sailer-homner2020-meta",
+   "topic": "5_gamification",
+   "cite": "Sailer M, Homner L (2020). The Gamification of Learning: a Meta-analysis. Educational Psychology Review 32(1):77-112.",
+   "url": "https://epub.ub.uni-muenchen.de/88490/",
+   "country": "multi",
+   "data": "k=19 (cognitive, N=1,686), k=16 (motivational, N=2,246), k=9 (behavioral, N=951)",
+   "method": "Random-effects meta-analysis",
+   "numbers": {
+    "cognitive_g": 0.49,
+    "cognitive_95CI": [
+     0.3,
+     0.69
+    ],
+    "motivational_g": 0.36,
+    "motivational_95CI": [
+     0.18,
+     0.54
+    ],
+    "behavioral_g": 0.25,
+    "behavioral_95CI": [
+     0.04,
+     0.46
+    ],
+    "moderators": "game fiction and competition+collaboration more effective for behavioral outcomes; motivational/behavioral effects less stable in high-rigor subsplit"
+   },
+   "durability": "Period of time tested as moderator; not reported as post-intervention persistence.",
+   "interpretation_ja": "学習のゲーミフィケーション効果は小さい（認知g=0.49、動機g=0.36、行動g=0.25）。厳密な研究では動機・行動面の効果は不安定。競争＋協力の組み合わせが有効。",
+   "page": "Abstract (LMU Open Access record)"
+  },
+  {
+   "id": "GAM-github-streak-removal",
+   "topic": "5_gamification",
+   "cite": "Moldon L, Strohmaier M, Wachs J (2021). How Gamification Affects Software Developers: Cautionary Evidence from a Natural Experiment on GitHub. ICSE 2021 (arXiv:2006.02371).",
+   "url": "https://arxiv.org/abs/2006.02371",
+   "country": "global (GitHub)",
+   "data": "GitHub contribution logs around unannounced removal of streak counters (May 2016); streaks started early 2016 vs early 2017",
+   "method": "Natural experiment; regression discontinuity; survival curves",
+   "numbers": {
+    "avg_length_streaks_gt14d_days": {
+     "before": 26,
+     "after": 22
+    },
+    "share_streaks_ge14_exceeding_100d_pct": {
+     "before": 4.4,
+     "after": 2.0
+    },
+    "single_contribution_days_share_pct_long_streaks": {
+     "before": 36,
+     "after": 32,
+     "end_of_long_streaks_before": ">40",
+     "after_end": "~36"
+    },
+    "weekend_share_drop_pct_points": {
+     "all": 0.09,
+     "long_streakers": "0.28-0.34"
+    }
+   },
+   "durability": "Removing the streak display immediately shortened streaks: very long (100+ day) streaks fell by more than half; behavior sustained only by the counter disappears when it is removed.",
+   "interpretation_ja": "連続記録（ストリーク）表示を消すと、100日超の長期連続が4.4%→2.0%に半減、平均連続日数26→22日。『最低限だけやって記録をつなぐ日』も減少。ストリークは行動を強く維持させるが、表示がなくなると即座に剥がれる。",
+   "page": "pdf p.6 (Sec. streak survival), p.6-7 (SCD)"
+  },
+  {
+   "id": "GS-vetrovsky2022-selfmonitoring-meta",
+   "topic": "2_goal_setting_self_monitoring",
+   "cite": "Vetrovsky T, et al. (2022). Do physical activity interventions combining self-monitoring with other components provide an additional benefit compared with self-monitoring alone? A systematic review and meta-analysis. Br J Sports Med 56(23):1366-1374.",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9685716/",
+   "country": "multi",
+   "data": "85 RCTs, 12,057 participants (75 at post-intervention, 24 at follow-up)",
+   "method": "Random-effects meta-analysis + meta-regression; active control = self-monitoring alone",
+   "numbers": {
+    "added_components_post_MD_steps": 926,
+    "post_95CI": [
+     651,
+     1201
+    ],
+    "followup_MD_steps": 413,
+    "followup_95CI": [
+     210,
+     615
+    ],
+    "median_followup_months": 3,
+    "prescribed_goal_added_steps_approx": 600,
+    "PACE_UP_example": {
+     "nurse+pedometer_vs_usual_3mo": 1172,
+     "postal_pedometer+goal_vs_usual_3mo": 692,
+     "net_nurse": 480,
+     "9mo": {
+      "nurse": 677,
+      "pedometer_only": 642
+     },
+     "note": "pedometer self-monitoring effect maintained to 3 years (cited)"
+    },
+    "high_quality_studies_reduction_steps": 150
+   },
+   "durability": "Net effect of extra components roughly halves at follow-up (926→413 steps, median ~3 months). Self-monitoring+goal alone (PACE-UP) maintained to 9 months and up to 3 years.",
+   "interpretation_ja": "歩数計で自己記録＋目標設定が基本形。そこに追加要素（電話カウンセリング等）を足すと+926歩/日、終了後（中央値3か月）は+413歩/日へ半減。具体的な目標を与えるだけで約+600歩。セルフモニタリング＋目標は安価で持続性も比較的高い。",
+   "page": "Abstract; Discussion"
+  },
+  {
+   "id": "CMT-takeup-summary",
+   "topic": "4_commitment",
+   "cite": "Synthesis of commitment-device take-up rates reported in Royer, Stehr & Sydnor (NBER WP 18580, p.23) and Halpern et al. (2015, NEJM)",
+   "url": "https://www.nber.org/system/files/working_papers/w18580/w18580.pdf",
+   "country": "US/Philippines",
+   "data": "Take-up of voluntary commitment devices when offered",
+   "method": "Field experiments (offered option)",
+   "numbers": {
+    "gym_commitment_contract_Royer": 12.4,
+    "smoking_deposit_contract_acceptance_Halpern": 13.7,
+    "reward_program_acceptance_Halpern": 90.0,
+    "CARES_smoking_Philippines_Gine_Karlan_Zinman2010_secondary": 11,
+    "SEED_savings_Ashraf_Karlan_Yin2006_secondary": 28,
+    "note": "Gine/Ashraf figures as cited by Royer et al. p.23 (secondary, not verified from original)"
+   },
+   "durability": "Commitment raises persistence for those who take it (Royer: +25% gym attendance 1 year later), but only ~10-30% of offered people choose it.",
+   "interpretation_ja": "自分を縛る仕組み（預託金・コミットメント契約）を自ら選ぶ人は提示された人の約1〜3割（ジム12%、禁煙11〜14%、貯蓄28%）。選んだ人には効くが、普及の天井が低い。",
+   "page": "NBER WP 18580 p.23; NEJM 2015 Abstract"
+  }
+ ],
+ "hosts_needed": [
+  {
+   "url": "https://doi.org/10.1016/S0065-2601(06)38002-1",
+   "host": "doi.org / sciencedirect.com",
+   "what": "Gollwitzer & Sheeran (2006) implementation intentions meta-analysis d=0.65 (Adv Exp Soc Psychol 38) - not verified"
+  },
+  {
+   "url": "https://doi.org/10.1037/bul0000025",
+   "host": "psycnet.apa.org",
+   "what": "Harkin et al. (2016) Psychol Bull: progress monitoring meta-analysis (d≈0.40 on goal attainment; unverified)"
+  },
+  {
+   "url": "https://doi.org/10.1037/ccp0000260",
+   "host": "psycnet.apa.org",
+   "what": "Epton, Currie & Armitage (2017) J Consult Clin Psychol goal-setting meta-analysis (d≈0.34; unverified)"
+  },
+  {
+   "url": "https://doi.org/10.3982/ECTA6556",
+   "host": "econometricsociety.org / onlinelibrary.wiley.com",
+   "what": "Charness & Gneezy (2009) Incentives to Exercise, Econometrica 77(3) (only secondary numbers via Royer et al.)"
+  },
+  {
+   "url": "https://doi.org/10.1136/bjsports-2019-100633",
+   "host": "bjsm.bmj.com (or PMC, blocked by captcha)",
+   "what": "Mitchell MS et al. (2020) Financial incentives for physical activity meta-analysis (+607 steps/day secondary via Aoki 2026)"
+  },
+  {
+   "url": "https://doi.org/10.1086/380085",
+   "host": "journals.uchicago.edu",
+   "what": "Thaler & Benartzi (2004) Save More Tomorrow, JPE 112(S1): savings rate 3.5%→13.6% (unverified)"
+  },
+  {
+   "url": "https://doi.org/10.1257/app.2.4.213",
+   "host": "aeaweb.org",
+   "what": "Giné, Karlan & Zinman (2010) CARES smoking commitment (AEJ Applied): 11% take-up, +3.3-5.8pp quit (take-up verified only secondarily)"
+  },
+  {
+   "url": "https://doi.org/10.1146/annurev.economics.102308.124324",
+   "host": "annualreviews.org",
+   "what": "Bryan, Karlan & Nelson (2010) Commitment Devices review"
+  },
+  {
+   "url": "https://doi.org/10.1001/jamainternmed.2019.3505",
+   "host": "jamanetwork.com (PMC blocked)",
+   "what": "Patel MS et al. (2019) STEP UP gamification RCT and 2017 BE FIT trial incl. post-intervention follow-up"
+  },
+  {
+   "url": "https://doi.org/10.2196/26779",
+   "host": "jmir.org (PMC blocked)",
+   "what": "Mazeas A et al. (2022) gamification & physical activity meta-analysis (JMIR)"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10966941/",
+   "host": "pmc.ncbi.nlm.nih.gov (captcha)",
+   "what": "Cochrane 2024: SMS text messaging for CVD medication adherence"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10632955/",
+   "host": "pmc.ncbi.nlm.nih.gov (captcha)",
+   "what": "JAMA Netw Open 2023: reduction of financial health incentives (Vitality) and change in physical activity — direct evidence on effect after incentive cut"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10403254/",
+   "host": "pmc.ncbi.nlm.nih.gov (captcha)",
+   "what": "Management Science 2022: Health wearables, gamification and healthful activity"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7037430/",
+   "host": "pmc.ncbi.nlm.nih.gov (captcha)",
+   "what": "Hachioji SIB / nudge & ML cancer screening (IJERPH 2020)"
+  },
+  {
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7849075/",
+   "host": "pmc.ncbi.nlm.nih.gov (captcha)",
+   "what": "Hepatitis screening uptake at Japanese worksites with nudge + full subsidy (EHPM 2021)"
+  },
+  {
+   "url": "https://www.soumu.go.jp/kojinbango_card/mynumber_point.html",
+   "host": "www.soumu.go.jp",
+   "what": "マイナポイント事業 申込者数・付与実績（総務省）"
+  },
+  {
+   "url": "https://www.city.yokohama.lg.jp/kenko-iryo-fukushi/kenko-iryo/kenkozukuri/",
+   "host": "www.city.yokohama.lg.jp",
+   "what": "よこはまウォーキングポイント 参加者数・歩数集計報告"
+  },
+  {
+   "url": "https://www.env.go.jp/earth/ondanka/nudge.html",
+   "host": "www.env.go.jp",
+   "what": "日本版ナッジ・ユニット(BEST) 実証事業報告（省エネ・ホームエネルギーレポート等）"
+  },
+  {
+   "url": "https://doi.org/10.1007/s11747-021-00805-w",
+   "host": "link.springer.com (bot challenge) / journal sites",
+   "what": "Loyalty program meta-analyses (e.g., effect on purchase frequency/share of wallet) - none retrieved"
+  },
+  {
+   "url": "https://www.meti.go.jp/policy/mono_info_service/cashless/",
+   "host": "www.meti.go.jp",
+   "what": "キャッシュレス・ポイント還元事業 効果検証"
+  }
+ ],
+ "not_found": [
+  "Original Gollwitzer & Sheeran 2006 d=0.65 and Sheeran et al. later meta-analyses: not on allowed open hosts (only alcohol & PA II meta-analyses verified).",
+  "Harkin 2016 and Epton 2017 meta-analyses (APA journals): not accessible; topic 2 covered by Vetrovsky 2022 self-monitoring meta-analysis instead.",
+  "SMarT (Thaler & Benartzi 2004) 3.5%→13.6% and Bryan/Karlan/Nelson 2010: not on allowed hosts; values unverified.",
+  "Mitchell 2020 meta (financial incentives for PA): PMC search found no hit; +607 steps/day only as secondary citation.",
+  "Loyalty/points program meta-analysis (purchase frequency, share of wallet): none found on allowed hosts.",
+  "マイナポイント take-up numbers: soumu.go.jp/digital.go.jp not allowed; not found on cao/esri/caa within time.",
+  "Volpp 2009 NEJM smoking (GE) only via secondary citation in Halpern 2015 (5.0%→14.7%).",
+  "SMS medication-adherence meta-analysis and reminder-habituation estimates: PMC captcha blocked; habituation evidence covered by Ito-Ida-Tanaka (Japan), Sasaki et al. (Japan), Allcott & Rogers.",
+  "Patel et al. gamification RCTs with post-intervention follow-up: PMC captcha blocked."
+ ],
+ "failures": [
+  {
+   "host": "pmc.ncbi.nlm.nih.gov",
+   "issue": "reCAPTCHA 'Checking your browser' page served intermittently (rate-based) even with 15-60s pacing; gave up on PMC10632955, PMC7037430, PMC10002044, PMC10966941, PMC7849075, PMC10403254, PMC9115654, PMC6693254, PMC13655945, PMC8149892 (no circumvention attempted)."
+  },
+  {
+   "host": "link.springer.com",
+   "issue": "'Client Challenge' bot page for Sailer & Homner 2020; used LMU Open Access record (epub.ub.uni-muenchen.de) abstract instead."
+  },
+  {
+   "host": "papers.ssrn.com",
+   "issue": "HTTP 403 on test request; not used."
+  },
+  {
+   "host": "repub.eur.nl",
+   "issue": "Search is JS-rendered; no results retrievable."
+  },
+  {
+   "host": "www.iser.osaka-u.ac.jp",
+   "issue": "DP list URL 404; could not locate DP index."
+  },
+  {
+   "host": "www.nber.org (Allcott & Rogers w18492)",
+   "issue": "PDF body uses obfuscated font encoding; only abstract numbers usable."
+  },
+  {
+   "host": "www.jstage.jst.go.jp (Mizota 2023 PDF)",
+   "issue": "Japanese body text not extractable (font encoding); used English abstract."
+  }
+ ]
+}

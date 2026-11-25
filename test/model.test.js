@@ -524,3 +524,8 @@ test("エンタメ:1人あたりの平均が家計調査に合い、月ごとの
   for (const k of Object.keys(ED.items)) { const mean = sum(Q, (p) => p.weight * p.ent.yen[k]) / W; assert.ok(Math.abs(mean / (ED.items[k].age["平均"] / m0) - 1) < 0.02, k); }
   const p = Q.find((x) => x.ent.total > 0); assert.ok(Math.abs(entMonthly(p).reduce((a, b) => a + b, 0) - p.ent.total) < 3);
 });
+
+import { remainingAt } from "../public/js/nudge.js";
+test("行動を変える工夫:現金のご褒美は、やめて3か月後には効果が残らず、約束つきは残る", () => {
+  assert.equal(remainingAt("cash", 3), 0); assert.ok(remainingAt("commit", 3) > 20); assert.equal(remainingAt("cash", 0), 100);
+});
