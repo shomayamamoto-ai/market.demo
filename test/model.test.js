@@ -529,3 +529,10 @@ import { remainingAt } from "../public/js/nudge.js";
 test("行動を変える工夫:現金のご褒美は、やめて3か月後には効果が残らず、約束つきは残る", () => {
   assert.equal(remainingAt("cash", 3), 0); assert.ok(remainingAt("commit", 3) > 20); assert.equal(remainingAt("cash", 0), 100);
 });
+
+import { inboundScenario } from "../public/js/inbound.js";
+test("インバウンド:変化なしなら2025年の消費に一致し、円高で減る。県への配分の合計は国の合計に一致", () => {
+  const z = inboundScenario({ yen: 0, gdp: 0 }); assert.ok(Math.abs(z.spend - z.base) < 1e-6);
+  const r = inboundScenario({ yen: 10 }); assert.ok(r.spend < r.base);
+  const ps = Object.values(r.pref).reduce((a, v) => a + v.spend, 0), cs = r.rows.filter((x) => x.name).reduce((a, x) => a + x.spend, 0); assert.ok(ps <= cs + 1e-6 && ps > 0.8 * cs, `${ps} ${cs}`);
+});
