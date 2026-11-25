@@ -26,6 +26,7 @@ import { mountWeather } from "./weather.js";
 import { mountWorkFin } from "./workfin.js";
 import { mountMarriage } from "./marriage.js";
 import { mountCvs } from "./cvs.js";
+import { mountLeisure, attachLeisure, leisureChecks } from "./leisure.js";
 import { mountEducation } from "./education.js";
 import { mountTravel } from "./travel.js";
 import { mountJapanMap, mapHub, mountHomeHero } from "./japanmap.js";
@@ -189,6 +190,7 @@ function buildNav() {
   NAV.find((g) => g.key === "japan").tabs.push(...mountEducation({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "behavior").tabs.push(...mountWorkFin({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountInsurance({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "region").tabs.push(...mountLeisure({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountComposite({ before: $("tab-score") }).tabs);
   mountCustom({ getPersonas: () => state.personas, seedOf: () => Number($("seed").value) || 1, before: $("tab-score") });
   for (const def of LABS) { mountLab(def, { seedOf: () => Number($("seed").value) || 1 }); NAV.find((g) => g.key === "behavior").tabs.push([def.key, def.title]); }
@@ -235,7 +237,7 @@ function showTab() {
 }
 
 function regenerate() {
-  state.base = assignAdopterTypes(generatePersonas(state.D, { n: Number($("n").value), seed: Number($("seed").value) || 1 }));
+  state.base = attachLeisure(assignAdopterTypes(generatePersonas(state.D, { n: Number($("n").value), seed: Number($("seed").value) || 1 }))); // レジャーの行く見込みと支出も付ける
   applyYear();
 }
 function applyYear() {
@@ -294,8 +296,8 @@ function personaCard(p, extra = "") {
   return `<div class="persona"><b>${esc(describePersona(p))}</b><br>
     <span class="tag">年収 ${num(p.income)}万円</span><span class="tag">${p.marital}</span>${p.savings != null ? `<span class="tag">貯蓄 ${num(p.savings)}万円</span>` : ""}
     <span class="tag">月の支出 ${num(p.spendTotal)}円</span><span class="tag">${p.internet ? (p.sns ? "ネット・SNS利用" : "ネット利用") : "ネット利用なし"}</span>
-    <span class="tag">${ADOPTER_TYPES.find((a) => a.key === p.adopter)?.label ?? ""}</span><br>
-    <span class="note">支出の上位:${top}<br>価格に敏感 ${t.price}/新しもの好き ${t.novelty}/健康志向 ${t.health}/品質重視 ${t.quality}</span>${extra}</div>`;
+    <span class="tag">${ADOPTER_TYPES.find((a) => a.key === p.adopter)?.label ?? ""}</span>${p.leisure ? `<span class="tag">レジャー 年${num(p.leisure.total)}円</span>` : ""}<br>
+    <span class="note">支出の上位:${top}${p.leisure ? `<br>遊園地などに行く見込み ${Math.round(p.leisure.go.park * 100)}%/観光旅行 ${Math.round(p.leisure.go.tour * 100)}%` : ""}<br>価格に敏感 ${t.price}/新しもの好き ${t.novelty}/健康志向 ${t.health}/品質重視 ${t.quality}</span>${extra}</div>`;
 }
 function renderPersonaList(seed) {
   const rng = makeRng(seed);
@@ -1233,6 +1235,7 @@ function buildGuide() {
         for (const r of burdenByAge(state.base)) rows.push({ basis: "調査", model: "手取りと負担", label: `${r.label}:税と社会保険料の割合`, a: `${(r.model * 100).toFixed(1)}%`, b: `${(r.real * 100).toFixed(1)}%`, diff: r.model / r.real - 1, points: (r.model - r.real) * 100, tol: 2,
           source: "厚生労働省「令和5年 所得再分配調査報告書」第9表(世帯員の年齢階級別、2022年の所得)。表の金額から割り算した値。調査は世帯単位の等価所得で、税に固定資産税などを含むため、1人ずつのこの計算とは定義が少し違う。差2ポイント以内を合格とした" });
         rows.push(...electionChecks());
+        for (const r of leisureChecks(state.base)) rows.push({ basis: "調査", model: "レジャーと温泉", label: r.label, a: `${(r.model * 100).toFixed(1)}%`, b: `${(r.value * 100).toFixed(1)}%`, diff: r.model / r.value - 1, points: (r.model - r.value) * 100, source: "総務省 社会生活基本調査 2021年(行動者率)。性別・年齢の割合は入力に使っているので、年収の倍率を掛けたあとの検算" });
         { const e = POLICY.turnout["衆院選"].at(-1), v = voteTable(state.base, { ...e.pct, "10歳代": e.pct["10歳代"] ?? 0 }); rows.push({ basis: "調査", model: "選挙と世代", label: `全体の投票率(${e.name})`, a: `${(v.turnout * 100).toFixed(1)}%`, b: `${e.pct["全体"]}%`, diff: (v.turnout * 100) / e.pct["全体"] - 1, points: v.turnout * 100 - e.pct["全体"], tol: 2, source: "総務省 国政選挙における年代別投票率について。年代別の投票率に、仮想の日本の年代別人口を掛けて合計した値と、公表された全体の投票率を比べた" }); }
         const ok = (r) => (r.inRange != null ? r.inRange : Math.abs(r.diff) <= 0.05 || (r.points != null && Math.abs(r.points) <= (r.tol ?? 0.5))), order2 = ["公的統計", "公式推計", "理論", "文献", "実験", "調査", "動画の実験値"];
         const cell = (r) => (r.inRange != null ? (r.inRange ? "範囲内" : "範囲外") : `${r.diff >= 0 ? "+" : ""}${(r.diff * 100).toFixed(1)}%`);

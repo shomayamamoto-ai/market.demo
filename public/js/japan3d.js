@@ -60,6 +60,13 @@ export function createJapan3D(root, geo, opts = {}) {
   // 乗降客数の多い駅:高さが1日の乗降客数に比例する柱
   if (geo.stations?.length) { const maxR = Math.max(...geo.stations.map((st) => st.riders_per_day)), cyl = new THREE.CylinderGeometry(0.22, 0.22, 1, 6), m = new THREE.MeshLambertMaterial({ color: 0x7a2fb0 });
     for (const st of geo.stations) { const h = 0.4 + (st.riders_per_day / maxR) * 9, [x, z] = project([st.lon, st.lat]), c = new THREE.Mesh(cyl, m); c.scale.y = h; c.position.set(x, 0.5 + h / 2, z); land.add(c); } }
+  // レジャー施設:点(温泉・遊園地・動植物園)と、大きなテーマパークの金色の柱(高さ=年間の入場者)
+  const FAC = { onsen: [0xe07b1f, "温泉"], leisure: [0xd0508a, "遊園地・レジャー施設"], zoo: [0x2f8f6b, "動物園・植物園・水族館"] };
+  if (geo.facilities?.points?.length) { const pts = geo.facilities.points, box = new THREE.BoxGeometry(0.32, 0.5, 0.32), fm = new THREE.InstancedMesh(box, new THREE.MeshLambertMaterial({ color: 0xffffff }), pts.length), o = new THREE.Object3D(), c = new THREE.Color();
+    pts.forEach(([lon, lat, kind], k) => { const [x, z] = project([lon, lat]); o.position.set(x, 0.8, z); o.updateMatrix(); fm.setMatrixAt(k, o.matrix); fm.setColorAt(k, c.setHex(FAC[kind]?.[0] ?? 0x888888)); });
+    fm.instanceMatrix.needsUpdate = true; if (fm.instanceColor) fm.instanceColor.needsUpdate = true; land.add(fm); }
+  if (geo.facilities?.big?.length) { const maxV = Math.max(...geo.facilities.big.map((b) => b.value || 0), 1), cyl = new THREE.CylinderGeometry(0.45, 0.45, 1, 10), m = new THREE.MeshLambertMaterial({ color: 0xd4a017, emissive: 0x3a2a00 });
+    for (const b of geo.facilities.big) { const h = 1 + ((b.value || 0) / maxV) * 14, [x, z] = project([b.lon, b.lat]), cy = new THREE.Mesh(cyl, m); cy.scale.y = h; cy.position.set(x, 0.5 + h / 2, z); land.add(cy); } }
   // 人:出発地は人口に比例、行き先は流れの表に比例。弧を描いて移動し、着いたら次の行き先を選ぶ
   const popW = geo.prefs.map((p) => p.pop || 1), body = new THREE.SphereGeometry(0.28, 8, 6);
   const dots = new THREE.InstancedMesh(body, new THREE.MeshLambertMaterial({ color: 0xffffff }), people); scene.add(dots);
@@ -87,6 +94,7 @@ export function createJapan3D(root, geo, opts = {}) {
   const drawLegend = () => { const n = {}; for (const tr of travelers) n[tr.m] = (n[tr.m] ?? 0) + 1;
     legend.innerHTML = `<h4>いま移動中の人</h4>${Object.entries(n).sort((a, b) => b[1] - a[1]).map(([m, c]) => `<div class="j-row"><span style="color:#${MODE_COLOR[m].toString(16).padStart(6, "0")}">●</span> ${MODE_LABEL[m]} <b>${c}</b></div>`).join("")}
       ${geo.color ? `<p class="j-note">地図の色:${geo.color.label}(濃いほど高い。${lo.toFixed(1)}〜${hi.toFixed(1)}${geo.color.unit ?? ""})</p>` : ""}
+      ${geo.facilities ? `<p class="j-note"><span style="color:#d4a017">■</span> 金色の柱:大きなテーマパーク(高さ=年間の入場者)<br>${Object.values(FAC).map(([c, l]) => `<span style="color:#${c.toString(16).padStart(6, "0")}">■</span> ${l}`).join(" ")}</p>` : ""}
       <p class="j-note">${geo.od ? "行き先は、実際の県と県の旅客の流れに比例" : "行き先は、人口と距離から決めた仮の流れ(重力モデル)"}</p>${geo.stations?.length ? `<p class="j-note"><span style="color:#7a2fb0">■</span> 紫の柱:乗降客数の多い駅(高さ=1日の乗降客数)</p>` : ""}`; };
   drawLegend();
 

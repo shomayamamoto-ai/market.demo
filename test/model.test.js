@@ -485,3 +485,20 @@ test("新駅の試算:メッシュコードから中心の緯度経度が出る"
   assert.ok(Math.abs(la - 35.6792) < 0.01 && Math.abs(lo - 139.7688) < 0.01, `${la} ${lo}`);
   assert.ok(Math.abs(distKm(35, 135, 35.009, 135) - 1) < 0.02);
 });
+
+import { attachLeisure, leisureChecks, leisureMonthly, prefCheck, LEISURE_ITEMS } from "../public/js/leisure.js";
+import LD from "../public/js/leisure-data.js";
+test("レジャーと温泉:1人あたりの支出の平均が家計調査に合い、行く割合が社会生活基本調査に近い", () => {
+  const Q = attachLeisure(P.map((p) => ({ ...p }))), W = sum(Q, (p) => p.weight);
+  for (const it of LEISURE_ITEMS) {
+    const mean = sum(Q, (p) => p.weight * p.leisure.yen[it.key]) / W, target = LD.kakei.age[it.item][0] / LD.kakei.age.members[0];
+    assert.ok(Math.abs(mean / target - 1) < 0.02, `${it.label} ${mean} ${target}`);
+  }
+  for (const r of leisureChecks(Q)) assert.ok(Math.abs(r.model - r.value) < 0.04, `${r.label} ${r.model} ${r.value}`);
+  // 年収の高い人ほど遊園地に使う額が大きい
+  const hi = Q.filter((p) => p.tier === 4 && p.age >= 30 && p.age < 40), lo = Q.filter((p) => p.tier === 0 && p.age >= 30 && p.age < 40);
+  assert.ok(sum(hi, (p) => p.leisure.yen.park) / hi.length > 3 * sum(lo, (p) => p.leisure.yen.park) / lo.length);
+  // 月ごとの合計は年額に一致する
+  const p = Q.find((x) => x.leisure.total > 0); assert.ok(Math.abs(leisureMonthly(p).reduce((a, b) => a + b, 0) - p.leisure.total) < 2);
+  const c = prefCheck(Q); assert.ok(c.prefs.length === 47 && Number.isFinite(c.corr));
+});
