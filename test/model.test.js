@@ -502,3 +502,11 @@ test("レジャーと温泉:1人あたりの支出の平均が家計調査に合
   const p = Q.find((x) => x.leisure.total > 0); assert.ok(Math.abs(leisureMonthly(p).reduce((a, b) => a + b, 0) - p.leisure.total) < 2);
   const c = prefCheck(Q); assert.ok(c.prefs.length === 47 && Number.isFinite(c.corr));
 });
+
+import { attachMind, mindChecks } from "../public/js/mind.js";
+test("心の状態:孤独感の全体は調査に合い、一人暮らしは夫婦のみより高い(当てはめに使っていない分け方)", () => {
+  const Q = attachMind(P.map((p) => ({ ...p })), 1), rows = mindChecks(Q), get = (l) => rows.find((r) => r.label.includes(l)).model;
+  assert.ok(Math.abs(rows[0].model - rows[0].value) < 0.005);
+  assert.ok(get("一人暮らし") > get("夫婦のみ"));
+  const b = Q.filter((p) => p.mind.big5); assert.ok(Math.abs(b.reduce((a, p) => a + p.mind.big5.C, 0) / b.length - 8.12) < 0.3);
+});

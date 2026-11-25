@@ -1,0 +1,1407 @@
+{
+ "meta": {
+  "generated": "2026-11-25",
+  "note": "Numbers extracted from downloaded documents (pdftotext / HTML) unless unverified=true. Pages: printed page unless 'PDF p.' given.",
+  "downloads_dir": "/tmp/claude-0/-home-user-market-demo/58797c3c-dab0-558e-9c19-020f9abfe635/scratchpad/media_dl"
+ },
+ "findings": [
+  {
+   "id": "T1-1",
+   "topic": "1_media_trust_japan",
+   "cite": "総務省情報通信政策研究所『令和7年度 情報通信メディアの利用時間と情報行動に関する調査 報告書』(2026年6月) 表7-2-1",
+   "url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+   "country": "JP",
+   "data": "全国13-79歳 N=1,800 (令和7年度調査)",
+   "method": "アンケート5件法、『全部信頼できる』+『大部分信頼できる』の合計",
+   "numbers": {
+    "unit": "% trusting (all/most info reliable)",
+    "all_ages": {
+     "TV": 57.9,
+     "newspaper": 58.8,
+     "internet": 26.3,
+     "magazine": 12.9
+    },
+    "by_age": {
+     "10s": {
+      "TV": 55.7,
+      "newspaper": 47.1,
+      "internet": 33.6,
+      "magazine": 15.7
+     },
+     "20s": {
+      "TV": 48.2,
+      "newspaper": 47.7,
+      "internet": 28.9,
+      "magazine": 14.7
+     },
+     "30s": {
+      "TV": 48.5,
+      "newspaper": 50.6,
+      "internet": 30.2,
+      "magazine": 15.7
+     },
+     "40s": {
+      "TV": 50.0,
+      "newspaper": 51.0,
+      "internet": 29.2,
+      "magazine": 14.8
+     },
+     "50s": {
+      "TV": 58.9,
+      "newspaper": 64.5,
+      "internet": 23.4,
+      "magazine": 13.3
+     },
+     "60s": {
+      "TV": 68.6,
+      "newspaper": 67.2,
+      "internet": 25.5,
+      "magazine": 10.9
+     },
+     "70s": {
+      "TV": 70.7,
+      "newspaper": 72.4,
+      "internet": 19.2,
+      "magazine": 7.4
+     }
+    },
+    "n_by_age": {
+     "10s": 140,
+     "20s": 218,
+     "30s": 235,
+     "40s": 298,
+     "50s": 338,
+     "60s": 274,
+     "70s": 297
+    }
+   },
+   "interpretation_ja": "テレビ・新聞を『信頼できる』とする人は約6割、ネットは約1/4、雑誌は約1割強。年齢が上がるほどテレビ・新聞の信頼が高く（70代で7割超）、ネットの信頼は若年層でやや高い（10代33.6%）が最も高い年代でも新聞・テレビより低い。",
+   "page": "報告書p.102 (PDF p.105)",
+   "unverified": false
+  },
+  {
+   "id": "T1-2",
+   "topic": "1_media_trust_japan",
+   "cite": "同上 令和7年度・令和6年度報告書 表7-2-1 参考表（令和6年度・令和5年度）",
+   "url": "https://www.soumu.go.jp/main_content/001079141.pdf ; https://www.soumu.go.jp/main_content/001017241.pdf",
+   "country": "JP",
+   "data": "各年 N≈1,800 (13-79歳)",
+   "method": "同上",
+   "numbers": {
+    "unit": "% trusting, all ages",
+    "trend": {
+     "2023(R5)": {
+      "TV": 63.0,
+      "newspaper": 63.5,
+      "internet": 27.7,
+      "magazine": 17.2
+     },
+     "2024(R6)": {
+      "TV": 58.2,
+      "newspaper": 59.9,
+      "internet": 27.0,
+      "magazine": 15.7
+     },
+     "2025(R7)": {
+      "TV": 57.9,
+      "newspaper": 58.8,
+      "internet": 26.3,
+      "magazine": 12.9
+     }
+    },
+    "by_age_2024": {
+     "10s": {
+      "TV": 52.1,
+      "newspaper": 57.9,
+      "internet": 24.3
+     },
+     "20s": {
+      "TV": 46.8,
+      "newspaper": 50.0,
+      "internet": 28.0
+     },
+     "30s": {
+      "TV": 43.5,
+      "newspaper": 43.0,
+      "internet": 29.1
+     },
+     "40s": {
+      "TV": 54.6,
+      "newspaper": 54.9,
+      "internet": 31.7
+     },
+     "50s": {
+      "TV": 63.0,
+      "newspaper": 66.4,
+      "internet": 33.0
+     },
+     "60s": {
+      "TV": 66.4,
+      "newspaper": 69.4,
+      "internet": 22.5
+     },
+     "70s": {
+      "TV": 72.1,
+      "newspaper": 71.1,
+      "internet": 18.5
+     }
+    },
+    "by_age_2023": {
+     "10s": {
+      "TV": 67.1,
+      "newspaper": 62.9,
+      "internet": 30.7
+     },
+     "20s": {
+      "TV": 51.6,
+      "newspaper": 50.2,
+      "internet": 28.1
+     },
+     "30s": {
+      "TV": 51.5,
+      "newspaper": 49.8,
+      "internet": 27.8
+     },
+     "40s": {
+      "TV": 61.3,
+      "newspaper": 62.9,
+      "internet": 29.7
+     },
+     "50s": {
+      "TV": 64.3,
+      "newspaper": 68.0,
+      "internet": 31.7
+     },
+     "60s": {
+      "TV": 67.8,
+      "newspaper": 68.5,
+      "internet": 25.2
+     },
+     "70s": {
+      "TV": 74.7,
+      "newspaper": 75.7,
+      "internet": 21.6
+     }
+    },
+    "approx_annual_change_pp_2023_2025": {
+     "TV": -2.55,
+     "newspaper": -2.35,
+     "internet": -0.7,
+     "magazine": -2.15
+    }
+   },
+   "interpretation_ja": "2023→2025の2年でテレビ・新聞の信頼度はそれぞれ約5pt低下（年-2.5pt程度）、ネットはほぼ横ばい（-1.4pt）。従来メディアの信頼は緩やかに低下中だが依然ネットの2倍以上。年代別数値はサンプル約140-340人のため±4-8pt程度の標本誤差に注意。",
+   "page": "R7報告書p.102 / R6報告書p.100 (PDF p.103)",
+   "unverified": false
+  },
+  {
+   "id": "T1-3",
+   "topic": "1_media_trust_japan",
+   "cite": "同上 令和7年度報告書 表7-2-2-1【経年】テーマ別の各メディアの信頼度（全年代）",
+   "url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+   "country": "JP",
+   "data": "2020-2025各年 N≈1,800",
+   "method": "4件法+非利用、『非常に』+『ある程度信頼できる』（全回答者ベース）",
+   "numbers": {
+    "unit": "% trusting",
+    "politics_economy_domestic": {
+     "2020": {
+      "TV": 81.4,
+      "radio": 42.6,
+      "newspaper": 62.6,
+      "magazine": 18.3,
+      "internet_news_sites": 51.6,
+      "social_media": 21.7,
+      "blogs": 6.1,
+      "video_sites": 10.4
+     },
+     "2025": {
+      "TV": 73.4,
+      "radio": 36.3,
+      "newspaper": 51.9,
+      "magazine": 14.1,
+      "internet_news_sites": 47.6,
+      "social_media": 17.8,
+      "blogs": 5.3,
+      "video_sites": 12.3
+     }
+    },
+    "social_issues_domestic": {
+     "2020": {
+      "TV": 82.1,
+      "newspaper": 63.0,
+      "internet_news_sites": 52.1,
+      "social_media": 22.3
+     },
+     "2025": {
+      "TV": 74.3,
+      "newspaper": 51.5,
+      "internet_news_sites": 48.3,
+      "social_media": 18.4
+     }
+    },
+    "foreign_news": {
+     "2020": {
+      "TV": 75.2,
+      "newspaper": 58.0,
+      "internet_news_sites": 46.0,
+      "social_media": 19.8
+     },
+     "2025": {
+      "TV": 67.8,
+      "newspaper": 47.7,
+      "internet_news_sites": 42.4,
+      "social_media": 16.3
+     }
+    },
+    "user_base_politics_2025": {
+     "TV": 77.5,
+     "radio": 78.6,
+     "newspaper": 82.7,
+     "magazine": 35.6,
+     "internet_news_sites": 57.1,
+     "social_media": 27.1,
+     "blogs": 13.1,
+     "video_sites": 20.9
+    }
+   },
+   "interpretation_ja": "政治・経済ニュースではテレビ信頼が5年で81%→73%、新聞63%→52%と低下。SNSの信頼は約2割で横ばい〜微減、動画サイトは1割強。利用者ベースでは新聞(83%)・ラジオ・テレビ(約78%)が最も信頼され、SNS利用者でもSNSを信頼するのは27%程度。",
+   "page": "R7報告書p.103-104",
+   "unverified": false
+  },
+  {
+   "id": "T1-4",
+   "topic": "1_news_source_japan",
+   "cite": "同上 令和7年度報告書 表6-1-2-2『世の中のできごとや動きについて信頼できる情報を得る』最も利用するメディア",
+   "url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+   "country": "JP",
+   "data": "N=1,800 (2025)",
+   "method": "択一",
+   "numbers": {
+    "unit": "% choosing as most-used",
+    "2025": {
+     "all": {
+      "TV": 50.3,
+      "radio": 1.0,
+      "newspaper": 13.0,
+      "internet": 32.9
+     },
+     "10s": {
+      "TV": 52.1,
+      "newspaper": 5.0,
+      "internet": 41.4
+     },
+     "20s": {
+      "TV": 37.2,
+      "newspaper": 7.3,
+      "internet": 51.8
+     },
+     "30s": {
+      "TV": 37.0,
+      "newspaper": 7.7,
+      "internet": 51.5
+     },
+     "40s": {
+      "TV": 40.9,
+      "newspaper": 11.1,
+      "internet": 42.6
+     },
+     "50s": {
+      "TV": 55.9,
+      "newspaper": 14.2,
+      "internet": 26.9
+     },
+     "60s": {
+      "TV": 60.6,
+      "newspaper": 15.7,
+      "internet": 20.1
+     },
+     "70s": {
+      "TV": 63.3,
+      "newspaper": 23.2,
+      "internet": 9.4
+     }
+    },
+    "2024": {
+     "all": {
+      "TV": 51.6,
+      "newspaper": 14.3,
+      "internet": 29.9
+     },
+     "10s": {
+      "TV": 53.6,
+      "internet": 34.3
+     },
+     "20s": {
+      "TV": 38.5,
+      "internet": 46.3
+     },
+     "30s": {
+      "TV": 39.7,
+      "internet": 47.3
+     },
+     "70s": {
+      "TV": 64.1,
+      "internet": 5.7
+     }
+    }
+   },
+   "interpretation_ja": "信頼できる情報を得るための主メディアは全体でテレビ50%、ネット33%。20-30代はネットが過半（約52%）、50代以上はテレビが過半。ネットの比率は1年で約3pt上昇。",
+   "page": "R7報告書p.95 (PDF p.98)",
+   "unverified": false
+  },
+  {
+   "id": "T1-5",
+   "topic": "1_news_source_japan",
+   "cite": "同上 令和7年度報告書 表5-2-1 利用しているテキスト系ニュースサービス / 表5-2-2 最も利用（経年）",
+   "url": "https://www.soumu.go.jp/main_content/001079141.pdf",
+   "country": "JP",
+   "data": "N=1,800 (2025)",
+   "method": "複数回答（表5-2-1）、択一（表5-2-2）",
+   "numbers": {
+    "unit": "% using (multiple answer)",
+    "2025": {
+     "all": {
+      "paper_newspaper": 37.6,
+      "paid_news_site": 3.8,
+      "free_newspaper_site": 16.4,
+      "portal(Yahoo!/Google)": 69.1,
+      "social_media_news(LINE NEWS等)": 43.8,
+      "curation(SmartNews等)": 18.2,
+      "none": 8.4
+     },
+     "10s": {
+      "paper": 5.7,
+      "portal": 52.9,
+      "sns_news": 53.6,
+      "none": 25.0
+     },
+     "20s": {
+      "paper": 9.6,
+      "portal": 61.0,
+      "sns_news": 58.3,
+      "none": 13.8
+     },
+     "30s": {
+      "paper": 13.6,
+      "portal": 77.0,
+      "sns_news": 53.6,
+      "none": 5.1
+     },
+     "40s": {
+      "paper": 29.2,
+      "portal": 82.9,
+      "sns_news": 46.6,
+      "none": 4.4
+     },
+     "50s": {
+      "paper": 43.8,
+      "portal": 79.0,
+      "sns_news": 45.0,
+      "none": 5.6
+     },
+     "60s": {
+      "paper": 59.9,
+      "portal": 71.5,
+      "sns_news": 40.5,
+      "none": 4.0
+     },
+     "70s": {
+      "paper": 72.7,
+      "portal": 48.8,
+      "sns_news": 19.9,
+      "none": 10.8
+     }
+    },
+    "most_used_trend_all": {
+     "2020": {
+      "paper": 28.7,
+      "portal": 39.7,
+      "sns_news": 14.9
+     },
+     "2022": {
+      "paper": 26.6,
+      "portal": 41.4,
+      "sns_news": 16.0
+     },
+     "2025": {
+      "paper": 21.7,
+      "portal": 44.2,
+      "sns_news": 15.5
+     }
+    }
+   },
+   "interpretation_ja": "文字ニュースの入手経路はポータル（Yahoo!等）が7割で最大、SNS経由4割強、紙の新聞は4割弱。紙新聞は10代6%→70代73%と年齢勾配が極端。10代の1/4は文字ニュースを全く読まない。『最も利用』で紙新聞は5年で29%→22%に減少。",
+   "page": "R7報告書p.85-86 (PDF p.88-89)",
+   "unverified": false
+  },
+  {
+   "id": "T2-1",
+   "topic": "2_ad_effectiveness_field",
+   "cite": "Blake, Nosko & Tadelis (2015, Econometrica) 'Consumer Heterogeneity and Paid Search Effectiveness: A Large Scale Field Experiment' NBER WP 20171",
+   "url": "https://www.nber.org/system/files/working_papers/w20171/w20171.pdf",
+   "country": "US",
+   "data": "eBay paid search; brand-keyword shutoff & non-brand shutoff in ~30% of DMAs",
+   "method": "Geo-randomized field experiment (DMA) vs OLS",
+   "numbers": {
+    "ROI_experimental": -0.63,
+    "ROI_95CI": [
+     -1.24,
+     -0.03
+    ],
+    "ROI_OLS_no_controls": ">41 (i.e. >4,100%)",
+    "ROI_OLS_with_controls": ">14 (>1,400%)",
+    "brand_keyword_click_retention_when_ads_off_pct": 99.5,
+    "nonbrand_paid_search_total_sales_lift_pct": 0.66,
+    "paid_clicks_drop_pct": 41,
+    "total_clicks_drop_pct": 2
+   },
+   "interpretation_ja": "有名ブランドの検索広告は、止めても99.5%のクリックが自然検索で戻り効果ほぼゼロ。非ブランド検索広告もROI −63%（赤字）。観測データ回帰では数十倍の過大評価になる。",
+   "page": "pp.5,10,14 (PDF p.7,10,14); Table 4 p.20",
+   "unverified": false
+  },
+  {
+   "id": "T2-2",
+   "topic": "2_ad_effectiveness_field",
+   "cite": "Lewis, Rao & Reiley (2013) 'Measuring the Effects of Advertising: The Digital Frontier' NBER WP 19520 (summarizing Lewis & Rao 2015 QJE 'Unfavorable economics', 25 Yahoo! experiments)",
+   "url": "https://www.nber.org/system/files/working_papers/w19520/w19520.pdf",
+   "country": "US",
+   "data": "25 large Yahoo! display-ad RCTs (summarized); worked example",
+   "method": "RCT power analysis",
+   "numbers": {
+    "sd_of_sales_to_mean_ratio": 10,
+    "example_mean_sales_usd": 7,
+    "example_sd_usd": 75,
+    "campaign_cost_per_user_usd": 0.14,
+    "target_lift_pct": 5,
+    "effect_to_sd_ratio": 0.0047,
+    "R2_of_ad_treatment": 5.4e-06,
+    "t_stat_with_2M_users": 3.3,
+    "t_stat_with_200k_users": 1.04,
+    "prob_fail_to_reject_200k": 0.74,
+    "bias_threshold_partial_R2": 5e-05,
+    "subjects_needed": ">1 million"
+   },
+   "interpretation_ja": "広告の売上効果は売上のばらつきに比べ極小（効果/SD≈0.005）。ROI25%の成功キャンペーンでも200万人規模のRCTでやっと検出でき、20万人では74%の確率で見逃す。シミュレータでは広告効果に大きなノイズを乗せ、企業が効果を正確に学習できない設定が現実的。",
+   "page": "pp.3,6-7 (PDF p.5,8,9)",
+   "unverified": false
+  },
+  {
+   "id": "T2-3",
+   "topic": "2_ad_effectiveness_field",
+   "cite": "Gordon, Moakler & Zettelmeyer (2022/2023, Marketing Science) 'Close Enough? A Large-Scale Exploration of Non-Experimental Approaches to Advertising Measurement' arXiv:2201.07055 (extends Gordon et al. 2019, 15 RCTs)",
+   "url": "https://arxiv.org/abs/2201.07055",
+   "country": "US",
+   "data": "663 Facebook ad RCTs, >5,000 user features",
+   "method": "RCT vs DML / stratified propensity score matching",
+   "numbers": {
+    "median_RCT_lift_pct": {
+     "upper_funnel": 29,
+     "mid_funnel": 18,
+     "lower_funnel(purchase)": 5
+    },
+    "median_DML_lift_pct": {
+     "upper": 83,
+     "mid": 58,
+     "lower": 24
+    },
+    "median_SPSM_lift_pct": {
+     "upper": 173,
+     "mid": 176,
+     "lower": 64
+    }
+   },
+   "interpretation_ja": "Facebook広告の真の効果（RCT）中央値は購買系で+5%、認知系で+29%。観察データ手法では購買効果を約5倍（24%）〜13倍（64%）過大評価。",
+   "page": "Abstract p.1",
+   "unverified": false
+  },
+  {
+   "id": "T2-4",
+   "topic": "2_ad_effectiveness_TV",
+   "cite": "Shapiro, Hitsch & Tuchman (2021, Econometrica) 'TV Advertising Effectiveness and Profitability: Generalizable Results from 288 Brands' NBER WP 27684",
+   "url": "https://www.nber.org/system/files/working_papers/w27684/w27684.pdf",
+   "country": "US",
+   "data": "Nielsen 288 CPG brands, DMA-week TV ads & scanner sales",
+   "method": "Fixed effects & border-DMA strategy",
+   "numbers": {
+    "long_run_ad_stock_elasticity": {
+     "median": 0.014,
+     "mean": 0.025,
+     "median_naive_no_FE": 0.0299,
+     "median_border": 0.0136
+    },
+    "share_not_significant_pct": 66.3,
+    "share_negative_significant_pct": 7.3,
+    "weekly_ad_ROI_median_pct": -79.0,
+    "weekly_ROI_median_at_margin0.3_pct": -87.8,
+    "share_brands_positive_significant_ROI_pct": 1.1,
+    "share_negative_ROI_pct": 71.2,
+    "effect_multiple_needed_for_profitability": 6,
+    "median_ad_to_sales_ratio_pct": 2.8,
+    "median_annual_TV_spend_musd": 10.5
+   },
+   "interpretation_ja": "TV広告の売上弾力性は中央値0.014（広告を1%増やすと売上0.014%増）で、従来文献の数分の一。週次の追加広告ROIは中央値−79%で7割の銘柄が過剰投資。ただし広告ゼロより現状の方が良い銘柄は多い。",
+   "page": "pp.3,21,33 (PDF p.5,23,35)",
+   "unverified": false
+  },
+  {
+   "id": "T2-5",
+   "topic": "2_ad_effectiveness_field",
+   "cite": "Dai, Kim & Luca (2023) 'Which Firms Gain from Digital Advertising? Evidence from a Field Experiment' NBER WP 30925",
+   "url": "https://www.nber.org/system/files/working_papers/w30925/w30925.pdf",
+   "country": "US",
+   "data": "Yelp, 18,294 restaurants, 7,209 treated (free 3-month ads)",
+   "method": "Randomized field experiment",
+   "numbers": {
+    "page_views_lift_pct": 19,
+    "purchase_intention_lift_pct_range": [
+     7,
+     14
+    ],
+    "overall_outcome_range_pct": [
+     7,
+     19
+    ],
+    "customer_reviews_lift_pct": 5
+   },
+   "interpretation_ja": "中小飲食店へのYelp広告3か月で、ページ閲覧+19%、電話・道順検索など購買意向+7〜14%、レビュー数+5%。独立系・高評価店ほど効果大。",
+   "page": "Abstract / p.2 (PDF p.4)",
+   "unverified": false
+  },
+  {
+   "id": "T2-6",
+   "topic": "2_ad_frequency_wearout",
+   "cite": "Schmidt & Eisend (2015) 'Advertising Repetition: A Meta-Analysis on Effective Frequency in Advertising', Journal of Advertising 44(4)",
+   "url": "https://doi.org/10.1080/00913367.2015.1018460",
+   "country": "multi",
+   "data": "meta-analysis",
+   "method": "meta-analysis",
+   "numbers": {},
+   "interpretation_ja": "未取得（tandfonline.comは許可ホスト外）。効果的頻度・ウェアアウトの定量値は本調査では検証できず。",
+   "page": "UNVERIFIED - not fetched",
+   "unverified": true
+  },
+  {
+   "id": "T3-1",
+   "topic": "3_reviews_fake",
+   "cite": "Akesson, Hahn, Metcalfe & Monti-Nussbaum (2023) 'The Impact of Fake Reviews on Demand and Welfare' NBER WP 31836",
+   "url": "https://www.nber.org/system/files/working_papers/w31836/w31836.pdf",
+   "country": "UK",
+   "data": "Incentive-compatible online experiment, nationally representative n=10,000",
+   "method": "RCT (mock Amazon platform)",
+   "numbers": {
+    "inflated_stars_effect_on_choosing_inferior_pp": 5.8,
+    "SE_pp": 1.2,
+    "relative_increase_pct": 55,
+    "baseline_choice_inferior_pct": 10,
+    "demand_increase_per_1star_pct": 38,
+    "star_elasticity_low_quality": 1.21,
+    "welfare_loss_per_dollar": 0.12,
+    "education_intervention_reduces_harm_pct": 44,
+    "secondary_cited_share_fake_or_unreliable_Amazon_pct": 42
+   },
+   "interpretation_ja": "偽の高評価で低品質品を選ぶ確率が10%→約16%（+5.8pt）。星1つ上がると需要+38%。被害は購入額1ドル当たり約0.12ドル。注意喚起教育で被害が44%減。※Amazonレビューの42%が偽/不確か（Lee 2020, Fakespot）は二次引用で未検証。",
+   "page": "pp.1-2,4 (PDF p.2,3,6)",
+   "unverified": false
+  },
+  {
+   "id": "T3-2",
+   "topic": "3_reviews_sales",
+   "cite": "Chevalier & Mayzlin (2006, JMR) 'The Effect of Word of Mouth on Sales: Online Book Reviews' NBER WP 10148",
+   "url": "https://www.nber.org/system/files/working_papers/w10148/w10148.pdf",
+   "country": "US",
+   "data": "Amazon vs BN.com book ranks & reviews",
+   "method": "Difference-in-differences across sites",
+   "numbers": {
+    "example": "changing one of four 5-star reviews to 1-star at Amazon moves sales rank 500→603 ≈ −20 books/week",
+    "finding": "1-star reviews have larger impact than 5-star reviews (negativity asymmetry)",
+    "share_books_zero_reviews_pct": {
+     "BN.com": 54.22,
+     "Amazon": 12.61
+    }
+   },
+   "interpretation_ja": "レビューは売上に因果的影響があり、悪評（★1）の影響は好評（★5）より大きい（ネガティブ・バイアス）。",
+   "page": "p.19-20 (PDF p.21)",
+   "unverified": false
+  },
+  {
+   "id": "T3-3",
+   "topic": "3_reviews_sales",
+   "cite": "Luca (2016) 'Reviews, Reputation, and Revenue: The Case of Yelp.com' HBS WP 12-016",
+   "url": "https://www.hbs.edu/faculty/Pages/item.aspx?num=41233",
+   "country": "US",
+   "data": "Seattle restaurants",
+   "method": "Regression discontinuity",
+   "numbers": {
+    "claimed_1star_revenue_effect_pct": "5-9 (per caller; NOT verified)"
+   },
+   "interpretation_ja": "未検証（hbs.eduは許可ホスト外）。依頼文の『★1つで売上5-9%』は原典で確認できていない。",
+   "page": "UNVERIFIED",
+   "unverified": true
+  },
+  {
+   "id": "T3-4",
+   "topic": "3_stealth_marketing_japan",
+   "cite": "消費者庁『ステルスマーケティングに関する検討会 報告書』(2022年12月28日)",
+   "url": "https://www.caa.go.jp/policies/policy/representation/meeting_materials/review_meeting_005/assets/representation_cms216_221228_03.pdf",
+   "country": "JP",
+   "data": "現役インフルエンサーへのアンケート n=300、事業者ヒアリング",
+   "method": "アンケート・ヒアリング",
+   "numbers": {
+    "influencers_ever_asked_for_stealth_marketing_pct": 41.0,
+    "n": 300,
+    "of_asked_accepted_all_or_some_pct": 44.7,
+    "accepted_all_pct": 2.4,
+    "accepted_some_pct": 42.3,
+    "n_asked": 123,
+    "reason_low_understanding_pct": 63.6,
+    "reason_more_pay_pct": 30.9,
+    "reason_lose_follower_trust_pct": 18.2,
+    "agency_perceived_sales_uplift_from_undisclosed_ads_pct": "約20%（広告代理店の体感・定性、統計ではない）"
+   },
+   "interpretation_ja": "インフルエンサーの41%がステマ依頼を受けた経験があり、依頼された人の約45%が全部/一部受けた。業界の体感では『広告と明示しない』ことで売上が少なくとも約2割増える（逸話的）。2023年10月からステマは景品表示法で規制。",
+   "page": "p.10 (PDF p.12)",
+   "unverified": false
+  },
+  {
+   "id": "T3-5",
+   "topic": "3_reviews_trust_japan",
+   "cite": "消費者庁『令和7年度 消費者意識基本調査』調査結果の概要（2026年6月公表、2025年11月調査）",
+   "url": "https://www.caa.go.jp/policies/policy/consumer_research/research_report/survey_002/assets/consumer_research_cms201_260612_15.pdf",
+   "country": "JP",
+   "data": "全国の消費者（標本抽出方法は同ページ別PDF参照）",
+   "method": "アンケート",
+   "numbers": {
+    "unit": "%",
+    "trust_ordinary_user_reviews": 40.9,
+    "trust_seller_own_info": 35.4,
+    "trust_celebrity_influencer_posts": 20.3,
+    "distrust_influencer_posts": 64.6,
+    "distrust_seller_info": 50.6,
+    "distrust_user_reviews": 45.8,
+    "trouble_after_influencer_info": 0.5,
+    "trouble_after_user_reviews": 1.5,
+    "personalized_ads_easier_to_find_wanted_items": 47.3,
+    "personalized_ads_anxious_why_shown": 45.1,
+    "felt_scarcity_countdown_pressure": 44.4
+   },
+   "interpretation_ja": "一般人の口コミを信頼する人は41%、インフルエンサー投稿は20%のみ（65%が不信）。パーソナライズ広告は『探しやすい』47%と『なぜ表示されるか不安』45%が拮抗。",
+   "page": "pp.34-35 (PDF p.28-29); 問11 (PDF p.21)",
+   "unverified": false
+  },
+  {
+   "id": "T3-6",
+   "topic": "3_reviews_fake",
+   "cite": "Mayzlin, Dover & Chevalier (2014, AER) 'Promotional Reviews' NBER WP 18340",
+   "url": "https://www.nber.org/system/files/working_papers/w18340/w18340.pdf",
+   "country": "US",
+   "data": "TripAdvisor vs Expedia hotel reviews",
+   "method": "Difference across platforms by incentive to fake",
+   "numbers": {
+    "finding": "Hotels with neighbors have more 1-2 star reviews on TripAdvisor (open platform) vs Expedia (verified); independent hotels have more 5-star share on TripAdvisor"
+   },
+   "interpretation_ja": "誰でも投稿できるサイトでは、競合店への悪評・自店への高評価の操作が統計的に確認される。認証付きレビューは操作に強い。",
+   "page": "Abstract",
+   "unverified": false
+  },
+  {
+   "id": "T4-1",
+   "topic": "4_sns_wellbeing",
+   "cite": "Allcott, Braghieri, Eichmeyer & Gentzkow (2020, AER) 'The Welfare Effects of Social Media' NBER WP 25514",
+   "url": "https://www.nber.org/system/files/working_papers/w25514/w25514.pdf",
+   "country": "US",
+   "data": "Facebook users, deactivation 4 weeks before 2018 midterms (7,455 consented at baseline; see paper for randomized N)",
+   "method": "RCT with incentive (BDM WTA)",
+   "numbers": {
+    "SWB_index_SD": 0.09,
+    "life_satisfaction_SD": 0.12,
+    "anxiety_SD": 0.1,
+    "depression_SD": 0.09,
+    "happiness_SD": 0.08,
+    "news_knowledge_SD": -0.19,
+    "polarization_index_SD": -0.16,
+    "freed_time_min_per_day": 60,
+    "post_experiment_use_reduction_min": 11,
+    "post_experiment_use_reduction_pct": 22,
+    "post_use_index_SD": -0.61,
+    "WTA_4weeks_usd": {
+     "median": 100,
+     "mean": 180
+    },
+    "WTA_drop_after_deactivation_pct": "up to 14",
+    "share_treatment_saying_good_for_them_pct": 80,
+    "benchmark": "25-40% of psychological interventions effect"
+   },
+   "interpretation_ja": "Facebookを4週間やめると主観的幸福が+0.09SD（心理療法の効果の25-40%程度）。ニュース知識は-0.19SD、分極化-0.16SD。やめた後も利用が22%減り、習慣性がうかがえる。",
+   "page": "pp.3-5,22 (PDF p.4-6,24)",
+   "unverified": false
+  },
+  {
+   "id": "T4-2",
+   "topic": "4_sns_wellbeing",
+   "cite": "Allcott, Gentzkow, Wittenbrink et al. (2025) 'The Effect of Deactivating Facebook and Instagram on Users' Emotional State' NBER WP 33697",
+   "url": "https://www.nber.org/system/files/working_papers/w33697/w33697.pdf",
+   "country": "US",
+   "data": "Two large RCTs, 6 weeks before 2020 election (Meta collaboration)",
+   "method": "RCT",
+   "numbers": {
+    "facebook_emotional_index_SD": 0.06,
+    "facebook_p": "<0.001",
+    "instagram_emotional_index_SD": 0.041,
+    "instagram_p": 0.016,
+    "instagram_q_value": 0.139,
+    "heterogeneity": "FB effect driven by age 35+; IG effect by women under 25"
+   },
+   "interpretation_ja": "6週間のSNS停止で感情状態がFacebook +0.06SD、Instagram +0.04SD改善。効果は小さいが有意。Instagramは25歳未満女性で効果大。",
+   "page": "Abstract, pp.2-4 (PDF p.3)",
+   "unverified": false
+  },
+  {
+   "id": "T4-3",
+   "topic": "4_sns_wellbeing",
+   "cite": "Allcott, Gentzkow & Song (2022, AER) 'Digital Addiction' NBER WP 28936",
+   "url": "https://www.nber.org/system/files/working_papers/w28936/w28936.pdf",
+   "country": "US",
+   "data": "Smartphone app usage RCT (Phone Dashboard)",
+   "method": "RCT + structural model",
+   "numbers": {
+    "share_of_social_media_use_due_to_self_control_problems_pct": 31
+   },
+   "interpretation_ja": "SNS利用の約31%は自制心の問題（本当はやめたいのに使ってしまう分）によると推定。習慣形成もあり一時的な削減インセンティブが持続効果を持つ。",
+   "page": "Abstract",
+   "unverified": false
+  },
+  {
+   "id": "T4-4",
+   "topic": "4_sns_wellbeing",
+   "cite": "Dienlin & Johannes (2020) 'The impact of digital technology use on adolescent well-being', Dialogues Clin Neurosci (review)",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7366938/",
+   "country": "multi",
+   "data": "Narrative review incl. Orben & Przybylski specification-curve studies",
+   "method": "Review",
+   "numbers": {
+    "summary": "general effects negative but very small; passive use more negative, active/social use more positive; moderate use best (inverted U)"
+   },
+   "interpretation_ja": "デジタル技術利用と若者の幸福の関連は負だが非常に小さい。受動的利用はマイナス、能動的・社会的利用はプラス、適度な利用が最良。※Orben & Przybylski 2019（分散の約0.4%）の原典数値は未取得。",
+   "page": "Abstract",
+   "unverified": false
+  },
+  {
+   "id": "T4-5",
+   "topic": "4_youth_internet_time_japan",
+   "cite": "こども家庭庁『令和7年度 青少年のインターネット利用環境実態調査 調査結果（概要）』(2026年3月) 概要10-12",
+   "url": "https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/9a55b57d-cd9d-4cf6-8ed4-3da8efa12d63/67f41585/20260327_policies_youth-kankyou_internet_research_results-etc_21.pdf",
+   "country": "JP",
+   "data": "満10-17歳 3,060人（回収61.2%）、0-9歳保護者1,907人; 調査期間2025/11/1-12/18",
+   "method": "個別面接・訪問配布回収・オンライン; 平日1日あたり、利用機器合計",
+   "numbers": {
+    "unit": "minutes per weekday (internet users)",
+    "youth_10_17_mean": {
+     "2023(R5)": 296.9,
+     "2024(R6)": 302.3,
+     "2025(R7)": 326.6
+    },
+    "share_3h_plus_2025_pct": 76.0,
+    "share_5h_plus_2025_pct": 47.6,
+    "by_school_2025": {
+     "elementary(10+)": 233.6,
+     "junior_high": 324.3,
+     "high_school": 404.0
+    },
+    "by_school_2023": {
+     "elementary(10+)": 226.3,
+     "junior_high": 282.1,
+     "high_school": 374.2
+    },
+    "high_school_5h_plus_pct": {
+     "2023": 54.4,
+     "2025": 63.3
+    },
+    "by_age_2025": {
+     "1": 114.0,
+     "2": 97.5,
+     "3": 110.9,
+     "4": 115.5,
+     "5": 118.1,
+     "6": 129.2,
+     "7": 145.7,
+     "8": 160.1,
+     "9": 165.5,
+     "10": 206.2,
+     "11": 241.8,
+     "12": 278.7,
+     "13": 317.0,
+     "14": 325.2,
+     "15": 362.3,
+     "16": 397.3,
+     "17": 427.2
+    },
+    "by_purpose_youth_2025": {
+     "hobby_entertainment": 180.9,
+     "study": 65.9,
+     "communication": 58.1
+    },
+    "young_children_0_9_mean": {
+     "2023": 124.9,
+     "2024": 129.2,
+     "2025": 137.7
+    },
+    "high_schoolers_experienced_overuse_hurting_study_or_sleep_pct": 26.2
+   },
+   "interpretation_ja": "10-17歳のネット利用は平日平均約5時間27分で、2年で約30分増。高校生は6時間44分、17歳は約7時間。年齢1歳ごとに約30分ずつ増える傾向。高校生の26%が『ネットにのめり込み勉強に集中できない・睡眠不足』を経験。※子どもの0-9歳は保護者回答のため直接比較不可。",
+   "page": "概要10-13 (PDF p.16-19)",
+   "unverified": false
+  },
+  {
+   "id": "T5-1",
+   "topic": "5_cultivation_agenda_TPE",
+   "cite": "Morgan & Shanahan (1997) cultivation meta-analysis; Hermann, Morgan & Shanahan (2021) J. Communication; Paul, Salwen & Dupagne (2000) / Sun, Pan & Shen (2008) third-person effect meta-analyses; Wanta & Ghanem agenda-setting meta",
+   "url": "",
+   "country": "multi",
+   "data": "",
+   "method": "meta-analysis",
+   "numbers": {},
+   "interpretation_ja": "許可ホストで原典・数値を取得できず（Springerはbot-check、J-STAGEの日本語論文は縦書きOCRで数値抽出不可）。cultivation r≈0.09等の数値は未検証のため本JSONでは採用しない。",
+   "page": "UNVERIFIED",
+   "unverified": true
+  },
+  {
+   "id": "T6-1",
+   "topic": "6_attention_video_ads",
+   "cite": "遠藤茉樹・加藤拓巳 (2022)「YouTubeにおける動画広告挿入のタイミングによる記憶と購入意向への影響」マーケティングレビュー 3(1):28-36",
+   "url": "https://www.jstage.jst.go.jp/article/marketingreview/3/1/3_2022.004/_article/-char/ja",
+   "country": "JP",
+   "data": "日本のYouTube利用者、各群n=100、3分20秒コンテンツに10秒広告",
+   "method": "ランダム化比較実験（カイ二乗検定）",
+   "numbers": {
+    "brand_recall_pct_tea": {
+     "pre_roll": 17,
+     "mid_roll": 32,
+     "post_roll": 21
+    },
+    "p_pre_vs_mid": 0.021,
+    "brand_recall_pct_fitness": {
+     "post_roll": "see paper",
+     "mid_roll": 30
+    },
+    "purchase_intent_yes_pct_tea": {
+     "pre": 12,
+     "mid": 13,
+     "post": 6
+    },
+    "purchase_intent_no_pct_tea": {
+     "pre": 37,
+     "mid": 53,
+     "post": 54
+    },
+    "secondary_cited_Ooyala2016": {
+     "share_of_placements_pct": {
+      "pre": 60,
+      "post": 7,
+      "mid": 33
+     },
+     "completion_rate_pct": {
+      "pre": 78,
+      "post": 65,
+      "mid": 90
+     }
+    }
+   },
+   "interpretation_ja": "ミッドロール広告はブランド名想起が冒頭広告の約2倍（17%→32%）だが、購入意向『なし』は増える（37%→53%）。動画途中広告の完視聴率90%・冒頭78%・末尾65%（Ooyala 2016の二次引用、未検証）。",
+   "page": "pp.29,32",
+   "unverified": false
+  },
+  {
+   "id": "T6-2",
+   "topic": "6_attention_video_ads",
+   "cite": "佐々木大晴・辛島光彦「動画サイトにおける動画広告形式と嫌悪感の関係」ヒューマンセントリックデザイン 17(1) 短報",
+   "url": "https://www.jstage.jst.go.jp/article/hcd/17/1/17_26/_article/-char/ja",
+   "country": "JP",
+   "data": "被験者実験（小標本）",
+   "method": "2×3被験者内要因計画",
+   "numbers": {
+    "finding": "6秒バンパー広告と5秒後スキップ可能広告は、15秒スキップ不可広告より嫌悪感が有意に低い（挿入位置によらず）"
+   },
+   "interpretation_ja": "スキップ不可の長い広告は嫌悪感を高める。短尺・スキップ可が受容されやすい（定性的、効果量は報告形式上抽出困難）。",
+   "page": "Abstract",
+   "unverified": false
+  },
+  {
+   "id": "T7-1",
+   "topic": "7_internet_dependency_japan",
+   "cite": "Mihara, Osaki, Nakayama, Higuchi et al. (2016) 'Internet use and problematic Internet use among adolescents in Japan: A nationwide representative survey', Addictive Behaviors Reports 4:58-64",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5836521/",
+   "country": "JP",
+   "data": "2012-13 nationwide, 100,050 junior/senior high students (random schools)",
+   "method": "Young's Diagnostic Questionnaire (YDQ) 5+ = PIU",
+   "numbers": {
+    "PIU_prevalence_pct": {
+     "total": 7.9,
+     "male": 6.2,
+     "female": 9.8
+    },
+    "maladaptive_use_pct": {
+     "total": 15.9,
+     "male": 13.7,
+     "female": 18.3
+    },
+    "PIU_by_grade_pct": {
+     "7th": 3.9,
+     "8th": 5.7,
+     "9th": 8.0,
+     "10th": 9.7,
+     "11th": 8.8,
+     "12th": 9.2
+    },
+    "MIU_by_grade_pct": {
+     "7th": 9.7,
+     "8th": 12.1,
+     "9th": 15.3,
+     "10th": 18.8,
+     "11th": 17.7,
+     "12th": 18.1
+    },
+    "risk_apps": "downloading (both), online gaming (male), SNS/blogs/BBS (female; ~60% of female PAR)"
+   },
+   "interpretation_ja": "中高生の病的ネット使用は7.9%（女子9.8%、男子6.2%）、不適応的使用も含めると約24%。学年が上がるほど増え、中1の3.9%から高校で約9%。女子はSNS、男子はオンラインゲームがリスク。",
+   "page": "Abstract; Table 2",
+   "unverified": false
+  },
+  {
+   "id": "T7-2",
+   "topic": "7_internet_dependency_japan",
+   "cite": "総務省情報通信政策研究所『青少年のインターネット利用と依存傾向に関する調査 調査結果報告書』(平成25年6月)",
+   "url": "https://www.soumu.go.jp/iicp/chousakenkyu/data/research/survey/telecom/2013/internet-addiction.pdf",
+   "country": "JP",
+   "data": "オンラインパネル n=2,605（小4〜25歳社会人）",
+   "method": "Young 20項目尺度（IAT）",
+   "numbers": {
+    "IAT_70plus_high_pct": {
+     "all": 6.3,
+     "elementary4-6": 2.3,
+     "junior_high": 7.6,
+     "high_school": 9.2,
+     "university": 6.1,
+     "workers_to25": 6.2,
+     "male": 5.8,
+     "female": 6.7,
+     "smartphone_owner": 6.8,
+     "non_owner": 5.8
+    },
+    "IAT_40_69_mid_pct": {
+     "all": 37.5,
+     "high_school": 50.8,
+     "university": 45.0
+    },
+    "IAT_40plus_high_school_pct": 60.0,
+    "IAT_40plus_smartphone_owners_pct": 50.5
+   },
+   "interpretation_ja": "依存傾向『高』(70点以上)は6.3%、高校生で9.2%が最多。『中』以上（40点以上）は高校生60%、スマホ所有者で5割超。ネットパネル調査のため高めに出る可能性あり（報告書自身が注記）。",
+   "page": "p.14",
+   "unverified": false
+  },
+  {
+   "id": "T7-3",
+   "topic": "7_internet_dependency_japan",
+   "cite": "中山秀紀 (2015)「若者のインターネット依存」心身医学 55(12):1343-1352",
+   "url": "https://www.jstage.jst.go.jp/article/jjpm/55/12/55_KJ00010102673/_article/-char/ja",
+   "country": "JP",
+   "data": "2012年全国中高生調査の推計を引用",
+   "method": "review",
+   "numbers": {
+    "estimated_JHS_SHS_students_with_suspected_PIU": "約52万人 (DQ 5点以上, 2012)"
+   },
+   "interpretation_ja": "2012年調査に基づき、中高生約52万人にネット依存（病的使用）の疑いがあると推計。",
+   "page": "抄録 p.1343",
+   "unverified": false
+  },
+  {
+   "id": "T8-1",
+   "topic": "8_fear_appeals",
+   "cite": "Tannenbaum, Hepler, Zimmerman et al. (2015) 'Appealing to fear: A meta-analysis of fear appeal effectiveness and theories', Psychological Bulletin 141(6):1178-1204",
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5789790/",
+   "country": "multi",
+   "data": "127 papers, 248 independent samples, N=27,372",
+   "method": "random-effects meta-analysis",
+   "numbers": {
+    "d_overall": 0.29,
+    "CI95": [
+     0.22,
+     0.35
+    ],
+    "I2_pct": 85.11,
+    "d_attitudes": 0.23,
+    "CI_att": [
+     0.11,
+     0.34
+    ],
+    "d_intentions": 0.31,
+    "CI_int": [
+     0.24,
+     0.38
+    ],
+    "d_behaviors": 0.27,
+    "CI_beh": [
+     0.13,
+     0.42
+    ],
+    "d_fear_manipulation_check": 1.0,
+    "high_vs_moderate_fear_d": -0.05,
+    "CI_high_vs_mod": [
+     -0.34,
+     0.24
+    ],
+    "CI_with_efficacy_statement": [
+     0.31,
+     0.55
+    ],
+    "CI_without_efficacy": [
+     0.13,
+     0.29
+    ],
+    "CI_one_time_behavior": [
+     0.3,
+     0.56
+    ],
+    "CI_repeated_behavior": [
+     0.14,
+     0.29
+    ],
+    "female_share_slope_per_10pct": 0.03,
+    "backfire": "none identified"
+   },
+   "interpretation_ja": "恐怖訴求は態度・意図・行動を小〜中程度改善（d=0.29）。『どうすればよいか』（効力感）を添えると効果増。中程度以上に恐怖を強めても追加効果なし、逆効果（ブーメラン）も見られない。1回限りの行動（ワクチン等）に効きやすい。",
+   "page": "Results (PMC); Appendix A",
+   "unverified": false
+  },
+  {
+   "id": "T8-2",
+   "topic": "8_celebrity_endorsement",
+   "cite": "Alatas, Chandrasekhar, Mobius, Olken & Paladines (2019) 'When Celebrities Speak: A Nationwide Twitter Experiment Promoting Vaccination in Indonesia' NBER WP 25589",
+   "url": "https://www.nber.org/system/files/working_papers/w25589/w25589.pdf",
+   "country": "ID",
+   "data": "46 celebrities/orgs, 7.8M followers",
+   "method": "Randomized Twitter field experiment",
+   "numbers": {
+    "celebrity_authorship_effect_on_likes_retweets_pct": 70,
+    "citing_source_effect_on_retweet_pct": -26.3,
+    "p_source": 0.051,
+    "campaign_exposure_1SD_effect_on_knowing_hashtag_pct": 20
+   },
+   "interpretation_ja": "同じ内容でも有名人発と分かると『いいね・RT』が70%増。出典を明記すると拡散が約26%減る。",
+   "page": "p.4 (PDF p.6)",
+   "unverified": false
+  },
+  {
+   "id": "T8-3",
+   "topic": "8_celebrity_endorsement",
+   "cite": "Garthwaite (2014, Marketing Science) 'Demand Spillovers, Combative Advertising, and Celebrity Endorsements' NBER WP 17915 (Oprah Book Club)",
+   "url": "https://www.nber.org/system/files/working_papers/w17915/w17915.pdf",
+   "country": "US",
+   "data": "Nielsen BookScan (~75% of US book sales)",
+   "method": "Event study",
+   "numbers": {
+    "peak_sales_increase_week_after_endorsement_pct": 400,
+    "persistence": "significant >6 months",
+    "market_expansion": "none; aggregate adult fiction sales decreased (business stealing)"
+   },
+   "interpretation_ja": "オプラの推薦で翌週の売上は約5倍（+400%）に達し半年以上持続。ただし市場全体は拡大せず他の本から需要を奪う（奪い合い型）。",
+   "page": "p.3 (PDF p.5)",
+   "unverified": false
+  },
+  {
+   "id": "T8-4",
+   "topic": "8_celebrity_humor_meta",
+   "cite": "Knoll & Matthes (2017) JAMS celebrity endorsement meta-analysis; Eisend (2009) JAMS humor in advertising meta-analysis",
+   "url": "https://link.springer.com/article/10.1007/s11747-016-0503-8 ; https://link.springer.com/article/10.1007/s11747-008-0096-y",
+   "country": "multi",
+   "data": "",
+   "method": "meta-analysis",
+   "numbers": {},
+   "interpretation_ja": "Springerがbot-check（JavaScript challenge）を返したため取得断念。効果量は未検証。",
+   "page": "UNVERIFIED",
+   "unverified": true
+  }
+ ],
+ "tables": {
+  "jp_media_trust_by_age_2025_pct": {
+   "10s": {
+    "TV": 55.7,
+    "newspaper": 47.1,
+    "internet": 33.6,
+    "magazine": 15.7
+   },
+   "20s": {
+    "TV": 48.2,
+    "newspaper": 47.7,
+    "internet": 28.9,
+    "magazine": 14.7
+   },
+   "30s": {
+    "TV": 48.5,
+    "newspaper": 50.6,
+    "internet": 30.2,
+    "magazine": 15.7
+   },
+   "40s": {
+    "TV": 50.0,
+    "newspaper": 51.0,
+    "internet": 29.2,
+    "magazine": 14.8
+   },
+   "50s": {
+    "TV": 58.9,
+    "newspaper": 64.5,
+    "internet": 23.4,
+    "magazine": 13.3
+   },
+   "60s": {
+    "TV": 68.6,
+    "newspaper": 67.2,
+    "internet": 25.5,
+    "magazine": 10.9
+   },
+   "70s": {
+    "TV": 70.7,
+    "newspaper": 72.4,
+    "internet": 19.2,
+    "magazine": 7.4
+   }
+  },
+  "jp_media_trust_all_trend_pct": {
+   "2023(R5)": {
+    "TV": 63.0,
+    "newspaper": 63.5,
+    "internet": 27.7,
+    "magazine": 17.2
+   },
+   "2024(R6)": {
+    "TV": 58.2,
+    "newspaper": 59.9,
+    "internet": 27.0,
+    "magazine": 15.7
+   },
+   "2025(R7)": {
+    "TV": 57.9,
+    "newspaper": 58.8,
+    "internet": 26.3,
+    "magazine": 12.9
+   }
+  },
+  "jp_main_source_reliable_news_2025_pct": {
+   "all": {
+    "TV": 50.3,
+    "radio": 1.0,
+    "newspaper": 13.0,
+    "internet": 32.9
+   },
+   "10s": {
+    "TV": 52.1,
+    "newspaper": 5.0,
+    "internet": 41.4
+   },
+   "20s": {
+    "TV": 37.2,
+    "newspaper": 7.3,
+    "internet": 51.8
+   },
+   "30s": {
+    "TV": 37.0,
+    "newspaper": 7.7,
+    "internet": 51.5
+   },
+   "40s": {
+    "TV": 40.9,
+    "newspaper": 11.1,
+    "internet": 42.6
+   },
+   "50s": {
+    "TV": 55.9,
+    "newspaper": 14.2,
+    "internet": 26.9
+   },
+   "60s": {
+    "TV": 60.6,
+    "newspaper": 15.7,
+    "internet": 20.1
+   },
+   "70s": {
+    "TV": 63.3,
+    "newspaper": 23.2,
+    "internet": 9.4
+   }
+  },
+  "jp_text_news_service_use_2025_pct": {
+   "all": {
+    "paper_newspaper": 37.6,
+    "paid_news_site": 3.8,
+    "free_newspaper_site": 16.4,
+    "portal(Yahoo!/Google)": 69.1,
+    "social_media_news(LINE NEWS等)": 43.8,
+    "curation(SmartNews等)": 18.2,
+    "none": 8.4
+   },
+   "10s": {
+    "paper": 5.7,
+    "portal": 52.9,
+    "sns_news": 53.6,
+    "none": 25.0
+   },
+   "20s": {
+    "paper": 9.6,
+    "portal": 61.0,
+    "sns_news": 58.3,
+    "none": 13.8
+   },
+   "30s": {
+    "paper": 13.6,
+    "portal": 77.0,
+    "sns_news": 53.6,
+    "none": 5.1
+   },
+   "40s": {
+    "paper": 29.2,
+    "portal": 82.9,
+    "sns_news": 46.6,
+    "none": 4.4
+   },
+   "50s": {
+    "paper": 43.8,
+    "portal": 79.0,
+    "sns_news": 45.0,
+    "none": 5.6
+   },
+   "60s": {
+    "paper": 59.9,
+    "portal": 71.5,
+    "sns_news": 40.5,
+    "none": 4.0
+   },
+   "70s": {
+    "paper": 72.7,
+    "portal": 48.8,
+    "sns_news": 19.9,
+    "none": 10.8
+   }
+  },
+  "jp_youth_internet_minutes_by_age_2025": {
+   "1": 114.0,
+   "2": 97.5,
+   "3": 110.9,
+   "4": 115.5,
+   "5": 118.1,
+   "6": 129.2,
+   "7": 145.7,
+   "8": 160.1,
+   "9": 165.5,
+   "10": 206.2,
+   "11": 241.8,
+   "12": 278.7,
+   "13": 317.0,
+   "14": 325.2,
+   "15": 362.3,
+   "16": 397.3,
+   "17": 427.2
+  },
+  "ad_effect_benchmarks": {
+   "TV_ad_stock_elasticity_median": 0.014,
+   "TV_weekly_ROI_median": -0.79,
+   "FB_RCT_median_lift_purchase": 0.05,
+   "FB_RCT_median_lift_upper_funnel": 0.29,
+   "observational_overestimate_factor_purchase_DML": 4.8,
+   "paid_search_brand_ROI": "~0 (99.5% clicks substitute)",
+   "paid_search_nonbrand_ROI": -0.63,
+   "Yelp_ads_page_view_lift": 0.19
+  },
+  "persuasion_effect_sizes_d": {
+   "fear_appeal": 0.29,
+   "facebook_deactivation_SWB": 0.09,
+   "FB_deactivation_2020_emotion": 0.06,
+   "IG_deactivation_2020_emotion": 0.041
+  },
+  "jp_problematic_internet_use_pct": {
+   "JHS_SHS_PIU_2012_13": 7.9,
+   "JHS_SHS_MIU": 15.9,
+   "IAT70plus_2013_panel_all": 6.3,
+   "IAT70plus_high_school": 9.2
+  }
+ },
+ "hosts_needed": [
+  {
+   "url": "https://www.nhk.or.jp/bunken/",
+   "why": "NHK放送文化研究所 国民生活時間調査・メディア信頼/視聴率等 日本の長期トレンド"
+  },
+  {
+   "url": "https://www.chosakai.gr.jp/",
+   "why": "新聞通信調査会『メディアに関する全国世論調査』各メディア信頼度（100点満点）の長期時系列"
+  },
+  {
+   "url": "https://www.dentsu.co.jp/",
+   "why": "電通『日本の広告費』媒体別広告費（TV vs ネット）"
+  },
+  {
+   "url": "https://www.tandfonline.com/doi/10.1080/00913367.2015.1018460",
+   "why": "Schmidt & Eisend 2015 広告反復メタ分析（effective frequency, wear-out）"
+  },
+  {
+   "url": "https://www.hbs.edu/faculty/Pages/item.aspx?num=41233",
+   "why": "Luca 2016 Yelp ★1=売上5-9% の原典確認"
+  },
+  {
+   "url": "https://papers.ssrn.com/ (returned 403)",
+   "why": "Lewis & Rao 2015 QJE, Gordon et al. 2019 Marketing Science 原典"
+  },
+  {
+   "url": "https://academic.oup.com/joc",
+   "why": "Hermann/Morgan/Shanahan 2021 cultivation meta, Sun et al. 2008 third-person meta (J Communication)"
+  },
+  {
+   "url": "https://www.nature.com/articles/s41562-018-0506-1",
+   "why": "Orben & Przybylski 2019 Nature Human Behaviour (variance explained ≈0.4%)"
+  },
+  {
+   "url": "https://www.mhlw.go.jp/ or https://www.kurihama-med.jp/",
+   "why": "厚労省研究班（樋口ら）成人のネット/ゲーム依存全国推計"
+  },
+  {
+   "url": "https://www.journals.uchicago.edu/ / https://journals.sagepub.com/",
+   "why": "広告スキップ率・視聴完了率（YouTube TrueView等）学術値、Pashkevich et al. 2012"
+  }
+ ],
+ "not_found": [
+  "Cultivation / agenda-setting / third-person effect meta-analytic effect sizes (topic 5) — no accessible source on allowed hosts",
+  "Effective frequency (3+) / wear-in/wear-out quantitative meta-analysis (topic 2)",
+  "Celebrity endorsement & humor appeal meta-analysis effect sizes (topic 8) — Springer blocked",
+  "Average attention span to ads (seconds) from peer-reviewed source (topic 6)",
+  "Japan adult problematic internet use national prevalence (topic 7)",
+  "Luca 2016 Yelp 1-star revenue effect (topic 3) — original not reachable",
+  "Orben & Przybylski 2019 original numbers (topic 4)"
+ ],
+ "failures": [
+  {
+   "host": "pmc.ncbi.nlm.nih.gov",
+   "what": "reCAPTCHA 'Checking your browser' after several requests (PMC6534991 Orben PNAS)",
+   "action": "gave up"
+  },
+  {
+   "host": "link.springer.com",
+   "what": "JavaScript 'Client Challenge' bot-check on Knoll&Matthes 2017, Eisend 2009, Eisend 2011",
+   "action": "gave up"
+  },
+  {
+   "host": "papers.ssrn.com",
+   "what": "HTTP 403",
+   "action": "gave up"
+  },
+  {
+   "host": "www.nber.org",
+   "what": "w34161 (Gandhi/Hollenbeck/Li fake reviews Amazon 2025) returned 403",
+   "action": "gave up"
+  },
+  {
+   "host": "www.jstage.jst.go.jp",
+   "what": "Older vertical-text Japanese PDFs (培養理論再考, 議題設定研究) produce garbled OCR text; numbers not extractable",
+   "action": "skipped"
+  }
+ ]
+}

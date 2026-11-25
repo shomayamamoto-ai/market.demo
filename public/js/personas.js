@@ -5,6 +5,7 @@ import { CATEGORY_KEYS } from "./constants.js";
 
 // 統計に無く、モデルとして置いた仮定。画面の「出典と仮定」に一覧表示する。
 export const ASSUMPTIONS = {
+  wallAdjust: { value: 0.61, note: "既婚の女性のパート(65歳未満)で、賃金が103〜200万円になる人のうち、「年収の壁」で働く時間を減らし、年収を90〜103万円に抑える人の割合。パートの女性のうち就業調整をしている人18.0%(厚生労働省 パートタイム・有期雇用労働者総合実態調査 2021年 第20表)に合うよう決めた" },
   incomeSigma: { value: 0.4, note: "同じ年齢・性別・働き方の中での年収のばらつき(対数正規分布の標準偏差)" },
   selfEmployedFactor: { value: 0.8, note: "自営業・家族従業者の年収(正規雇用に対する倍率)" },
   executiveFactor: { value: 1.5, note: "役員の年収(正規雇用に対する倍率)" },
@@ -119,6 +120,8 @@ function buildPersona(D, A, rng, base) {
     const median = status === "regular" ? w.regular : status === "exec" ? w.regular * A.executiveFactor.value
       : status === "self" ? w.regular * A.selfEmployedFactor.value : partTime ? w.partTime : w.nonRegular;
     income += lognormal(rng, median * (partTime ? 1 : pref.wageIndex), A.incomeSigma.value);
+    // 年収の壁:配偶者の扶養の範囲に収めるため、働く時間を減らす人がいる(税の103万円、社会保険の130万円)
+    if (partTime && sex === "female" && married && age < 65 && income >= 103 && income < 200 && rng.next() < A.wallAdjust.value) income = 90 + rng.next() * 13;
   }
   const pen = age >= 60 ? bandOf(D.pension.bands, age)?.[sex] : null;
   if (pen && rng.next() < pen.rate) {
