@@ -454,3 +454,9 @@ test("企業と転職:転職の流れの表から、移った先の割合が出�
   const f = flowFrom(WORK.work.industry, "製造業"); assert.ok(Math.abs(f.reduce((a, r) => a + r.value, 0) - 100) < 0.5);
   const s = stayShare(WORK.work.industry); assert.ok(s > 0.35 && s < 0.5, String(s)); // 公表:同じ産業へ43.0%
 });
+
+import { tfrOf } from "../public/js/marriage.js";
+test("結婚と出生:将来推計の式で、中位の仮定の出生率1.29を再現する", () => {
+  assert.ok(Math.abs(tfrOf(19.1, 1.71) - 1.29) < 0.01);
+  assert.ok(tfrOf(13.4, 1.91) > tfrOf(25.6, 1.54));
+});
