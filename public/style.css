@@ -248,3 +248,17 @@ label.chip{display:inline-flex;align-items:center;gap:6px;line-height:1.4}label.
 @media (max-width:640px){.japan3d .j-legend{left:8px;right:auto;top:8px;width:138px}}
 @media (max-width:640px){.japan3d .s-bar{flex-wrap:wrap;gap:4px;right:8px}.japan3d .s-bar button,.japan3d .s-bar select{padding:4px 8px;font-size:12px}}
 .ns-map svg{width:100%;height:auto;max-height:520px;cursor:crosshair;background:#dcecf5;border-radius:8px}
+/* はじめに:動く日本地図を主役に */
+.hero3d{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;margin:6px 0 18px;align-items:stretch}
+.home-3d.visual{aspect-ratio:4/3;min-height:340px;margin:0}
+.hero-cta{display:flex;flex-direction:column;gap:10px;min-width:0}
+.hero-cap{margin:0;font-size:13px;color:var(--sub);line-height:1.7}
+.cta{display:block;text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;color:var(--ink)}
+.cta b{display:block;font-family:var(--display);font-size:16px}.cta span{display:block;font-size:13px;color:var(--sub);margin-top:2px}
+.cta.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}.cta.primary span{color:var(--accent-ink);opacity:.9}
+@media (hover:hover){.cta:hover{border-color:var(--sub)}}
+.japan3d.compact .j-legend,.japan3d.compact .s-bar select,.japan3d.compact .s-bar .j-big{display:none}
+@media (max-width:820px){.hero3d{grid-template-columns:1fr}.home-3d.visual{aspect-ratio:4/5;min-height:0}}
+
+[hidden]{display:none!important}
+@media (max-width:640px){.japan3d .j-legend .j-note{display:none}.japan3d .j-legend{width:auto;max-width:150px}}

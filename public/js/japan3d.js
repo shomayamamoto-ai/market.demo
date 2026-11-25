@@ -22,9 +22,10 @@ export function destinationWeights(geo, i, mode = "all") {
 }
 const pickIndex = (w, r) => { const s = w.reduce((a, b) => a + b, 0); if (!s) return -1; let u = r * s; for (let i = 0; i < w.length; i++) { u -= w[i]; if (u <= 0) return i; } return w.length - 1; };
 
-export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
+export function createJapan3D(root, geo, opts = {}) {
+  const { people = 1200, seed = 7, compact = false } = opts;
   const THREE = window.THREE;
-  root.innerHTML = ""; root.classList.add("visual", "stage3d", "japan3d");
+  root._stop3d?.(); root.innerHTML = ""; root.classList.add("visual", "stage3d", "japan3d"); root.classList.toggle("compact", compact); // compact:はじめにの画面用(説明と操作を減らす)
   if (!THREE) { root.innerHTML = `<p class="note" style="padding:16px">3D表示の部品を読み込めませんでした。ページを開き直してください。</p>`; return null; }
   let rs = seed >>> 0; const rnd = () => ((rs = (rs * 1664525 + 1013904223) >>> 0) / 4294967296);
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); root.appendChild(renderer.domElement);
@@ -101,8 +102,12 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
   dom.addEventListener("pointerup", up); dom.addEventListener("pointercancel", up);
   dom.addEventListener("wheel", (e) => { e.preventDefault(); cam.dist = Math.min(400, Math.max(25, cam.dist * (1 + e.deltaY * 0.001))); setCam(); }, { passive: false });
   const [playBtn, modeSel, speedSel, bigBtn] = ui.children;
-  let running = true, speed = 1, last = performance.now();
-  playBtn.onclick = () => { running = !running; playBtn.textContent = running ? "一時停止" : "再生"; if (running) { last = performance.now(); requestAnimationFrame(frame); } };
+  // 画面に見えていないあいだは止めて、見えたら再開する(電池と処理の節約)。「一時停止」を押したときは、見えても再開しない
+  let running = false, userPaused = !!opts.paused, visible = false, speed = 1, last = performance.now();
+  const start = () => { if (running || userPaused || !visible || !root.isConnected) return; running = true; last = performance.now(); requestAnimationFrame(frame); };
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else running = false; }).observe(root);
+  playBtn.textContent = userPaused ? "再生" : "一時停止";
+  playBtn.onclick = () => { userPaused = !userPaused; playBtn.textContent = userPaused ? "再生" : "一時停止"; if (userPaused) running = false; else start(); };
   modeSel.onchange = () => { mode = modeSel.value; travelers.forEach((tr) => startTrip(tr)); drawLegend(); };
   speedSel.onchange = () => (speed = Number(speedSel.value));
   bigBtn.onclick = () => { const on = !root.classList.contains("big"); root.classList.toggle("big", on); document.documentElement.classList.toggle("stage-big", on); bigBtn.textContent = on ? "戻す" : "大きく"; resize(); };
@@ -117,6 +122,7 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
     if (++tick % 60 === 0) drawLegend();
     renderer.render(scene, camera); requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
-  return { stop: () => (running = false) };
+  renderer.render(scene, camera); // 止まっていても1枚は描いておく
+  const stop = () => { userPaused = true; running = false; }; root._stop3d = stop; // 同じ場所に別の3Dを描くときに、この地図の動きを止める
+  return { stop };
 }

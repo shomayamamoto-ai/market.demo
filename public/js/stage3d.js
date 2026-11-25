@@ -97,7 +97,9 @@ export function buildProp(THREE, kind, color = "#b4473b") {
 
 export function createStage(root) {
   const THREE = window.THREE;
+  root._stop3d?.(); root._stop3d = null; // 日本地図の3Dが動いていたら止める
   root.innerHTML = "";
+  root.classList.remove("japan3d", "compact");
   root.classList.add("visual", "stage3d");
   if (!THREE) { root.innerHTML = `<p class="note" style="padding:16px;color:#3b2a27">3D表示の部品を読み込めませんでした。インターネット接続を確認して、ページを開き直してください。</p>`; return null; }
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });

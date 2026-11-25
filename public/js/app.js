@@ -28,7 +28,7 @@ import { mountMarriage } from "./marriage.js";
 import { mountCvs } from "./cvs.js";
 import { mountEducation } from "./education.js";
 import { mountTravel } from "./travel.js";
-import { mountJapanMap } from "./japanmap.js";
+import { mountJapanMap, mapHub, mountHomeHero } from "./japanmap.js";
 import { mountNewStation } from "./newstation.js";
 import ELECTIONS from "./election-data.js";
 import { regime } from "./regime.js";
@@ -161,9 +161,10 @@ async function init() {
 // ---------- 画面の切り替え(大きな区分 → 画面) ----------
 const NAV = [
   { key: "home", label: "はじめに", tabs: [["home", "はじめに"]] },
+  { key: "3d", label: "3Dで見る", tabs: [["visual", "3Dシミュレーション"]] },
   { key: "custom", label: "自分で試す", tabs: [["custom", "オリジナルの実験"]] },
   { key: "japan", label: "仮想の日本", tabs: [["people", "人口とペルソナ"], ["market", "市場の規模感"]] },
-  { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["visual", "3Dで見る"], ["game", "経営ゲーム"], ["report", "レポート"]] },
+  { key: "market", label: "市場を試す", tabs: [["sim", "お題と市場規模"], ["spread", "発売後の広がり"], ["game", "経営ゲーム"], ["report", "レポート"]] },
   { key: "rules", label: "制度を試す", tabs: [["org", "職場のルール"], ["tax", "税率と助け合い"], ["chain", "多重下請け"]] },
   { key: "behavior", label: "経済と行動", tabs: [] },
   { key: "politics", label: "政治と経済", tabs: [] },
@@ -178,7 +179,8 @@ const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
   NAV.find((g) => g.key === "politics").tabs.push(...mountPolitics({ getPersonas: () => state.personas, before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "politics").tabs.push(...mountElections({ before: $("tab-score") }).tabs);
-  NAV.find((g) => g.key === "region").tabs.push(...mountJapanMap({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "3d").tabs.push(...mountJapanMap({ before: $("tab-score") }).tabs);
+  mountHomeHero($("home-3d"));
   NAV.find((g) => g.key === "region").tabs.push(...mountNewStation({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountWeather({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountTravel({ before: $("tab-score") }).tabs);
@@ -221,7 +223,7 @@ function showTab() {
   // 「制度を試す」の2画面は、人数や期間の入力欄を共有する
   const slot = document.querySelector(`#tab-${tab} .slot`);
   if (slot) { slot.appendChild($("org-common")); $("org-common").hidden = false; }
-  if (tab === "visual") { if (state.hubOn) state.hubPlay(); else openVisual(); } else state.visual?.run(false);
+  if (tab === "visual") { if (state.hubPlay) state.hubPlay(); else openVisual(); } else state.visual?.run(false); // 3Dの一覧は、選んでいる内容をその場で動かす
   // 初めて開いた画面は、標準の条件で結果を出しておく
   if (!state.opened[tab]) {
     state.opened[tab] = true;
@@ -1014,6 +1016,7 @@ function chainSweep() {
 // ---------- ⑦ 3Dビジュアル ----------
 // 「3Dで見る」の画面で、どの内容でもその場で選んで検証できるようにする
 const HUB = () => [
+  mapHub(),
   { key: "product", label: "商品を試す(お題と市場規模の条件)" },
   { key: "org", initial: "fixedPush", label: "職場のルール", presets: PRESETS, play: org3d, param: { key: "push", label: "早い人に回す割合(%)", scale: 100, min: 0, max: 100, step: 10 } },
   { key: "tax", initial: "heavy", label: "税率と助け合い", presets: SOCIETY_PRESETS, play: soc3d, param: { key: "tax", label: "税率(%)", scale: 100, min: 0, max: 90, step: 10 } },
@@ -1034,7 +1037,7 @@ function buildHub() {
   const fillParam = () => {
     const h = current(), p = h.param, v = p && h.presets[$("v-hub-preset").value].rules[p.key];
     $("v-hub-param-wrap").hidden = !p || h.key === "product";
-    $("v-hub-n-wrap").hidden = !h.play; // 人数を変えられるのは、職場・税率・下請けの3つ
+    $("v-hub-n-wrap").hidden = !h.play || h.fixedN; // 日本地図は人数を変えても結果が変わらないので出さない // 人数を変えられるのは、職場・税率・下請けの3つ
     $("v-hub-n").value = $("o-n").value;
     if (p) { $("v-hub-param-label").textContent = p.label; Object.assign($("v-hub-param"), { min: p.min, max: p.max, step: p.step ?? 1, value: Math.round((v ?? 0) * p.scale) }); }
   };
@@ -1083,6 +1086,8 @@ function hubSummary(h, rules, preset, label) {
     const t = trial(h.def, rules, RUNS, seed, preset.years ?? h.def.years);
     cards = h.def.metrics.map((m) => [m.label, formatMetric(m, t.summary[m.key]), m.sub ?? ""]);
     advice = h.def.advise?.(t.summary, rules) ?? [];
+  } else if (h.summary) { // 日本地図など、内容ごとに要約を持つもの
+    ({ cards, advice } = h.summary(rules));
   } else if (h.key === "org") {
     const { config, years } = orgConfig(), t = trialOrg(config, rules, years, RUNS);
     cards = [[`${years}年後の生産力`, pct(t.productivity, 0), "最初を100%として"], ["エースの割合", pct(t.ace), `最初は${pct(config.mix.ace, 0)}`], ["エースが全滅した回数", `${t.wiped}回`, `${RUNS}回中`], ["平均の労働時間", `${num(t.hours, 1)}時間`, "1日あたり"]];
@@ -1098,10 +1103,11 @@ function hubSummary(h, rules, preset, label) {
     if (t.delivered < 0.7) advice.push(`予算の${pct(1 - t.delivered, 0)}が途中で抜かれています。現場で働き続けられる人数は、届く予算でほぼ決まります。`);
     if (rules.open) advice.push("横流しだけの段階が消え、実作業を担う業者だけが残っています。");
   }
-  $("v-hub-summary").innerHTML = `<h3>${esc(label.replace(/^[A-Z] /, ""))}を${RUNS}回試した平均</h3>
+  const head = h.summary ? `${esc(label.replace(/^[A-Z] /, ""))}:読み取れること` : `${esc(label.replace(/^[A-Z] /, ""))}を${RUNS}回試した平均`; // 地図は実際の統計なので「平均」とは書かない
+  $("v-hub-summary").innerHTML = `<h3>${head}</h3>
     <div class="kpis">${cards.map(([l, v, sub]) => kpi(l, v, sub)).join("")}</div>
     ${advice.length ? `<div class="advice"><ul>${advice.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}<div class="form-row" id="v-hub-copy"></div>`;
-  $("v-hub-copy").appendChild(copyButton([`${h.label}:${label.replace(/^[A-Z] /, "")}(${RUNS}回の平均)`, ...cards.map(([l, v]) => `・${l}:${v}`), ...advice.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n")));
+  $("v-hub-copy").appendChild(copyButton([`${h.label}:${label.replace(/^[A-Z] /, "")}${h.summary ? "" : `(${RUNS}回の平均)`}`, ...cards.map(([l, v]) => `・${l}:${v}`), ...advice.map((x) => `→ ${x}`), "※ 仮定にもとづく試算です。"].join("\n")));
 }
 
 function openVisual() {
