@@ -31,6 +31,7 @@ import { mountLeisure, attachLeisure, leisureChecks } from "./leisure.js";
 import { mountMind, attachMind, mindChecks } from "./mind.js";
 import { mountPurchase } from "./purchase.js";
 import { mountCrime } from "./crime.js";
+import { mountEnt, attachEnt } from "./ent.js";
 import { mountEducation } from "./education.js";
 import { mountTravel } from "./travel.js";
 import { mountJapanMap, mapHub, mountHomeHero } from "./japanmap.js";
@@ -198,6 +199,7 @@ function buildNav() {
   NAV.find((g) => g.key === "behavior").tabs.push(...mountLaborMarket({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountInsurance({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountCrime({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
+  NAV.find((g) => g.key === "region").tabs.push(...mountEnt({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountLeisure({ before: $("tab-score"), getPersonas: () => state.personas }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountComposite({ before: $("tab-score") }).tabs);
   mountCustom({ getPersonas: () => state.personas, seedOf: () => Number($("seed").value) || 1, before: $("tab-score") });
@@ -245,7 +247,7 @@ function showTab() {
 }
 
 function regenerate() {
-  state.base = attachMind(attachLeisure(assignAdopterTypes(generatePersonas(state.D, { n: Number($("n").value), seed: Number($("seed").value) || 1 }))), Number($("seed").value) || 1); // レジャーの行く見込みと支出、心の状態も付ける
+  state.base = attachMind(attachEnt(attachLeisure(assignAdopterTypes(generatePersonas(state.D, { n: Number($("n").value), seed: Number($("seed").value) || 1 })))), Number($("seed").value) || 1); // レジャー・エンタメの支出と、心の状態も付ける
   applyYear();
 }
 function applyYear() {
@@ -304,7 +306,7 @@ function personaCard(p, extra = "") {
   return `<div class="persona"><b>${esc(describePersona(p))}</b><br>
     <span class="tag">年収 ${num(p.income)}万円</span><span class="tag">${p.marital}</span>${p.savings != null ? `<span class="tag">貯蓄 ${num(p.savings)}万円</span>` : ""}
     <span class="tag">月の支出 ${num(p.spendTotal)}円</span><span class="tag">${p.internet ? (p.sns ? "ネット・SNS利用" : "ネット利用") : "ネット利用なし"}</span>
-    <span class="tag">${ADOPTER_TYPES.find((a) => a.key === p.adopter)?.label ?? ""}</span>${p.leisure ? `<span class="tag">レジャー 年${num(p.leisure.total)}円</span>` : ""}<br>
+    <span class="tag">${ADOPTER_TYPES.find((a) => a.key === p.adopter)?.label ?? ""}</span>${p.leisure ? `<span class="tag">レジャー 年${num(p.leisure.total)}円</span>` : ""}${p.ent ? `<span class="tag">エンタメ 年${num(p.ent.total)}円</span>` : ""}<br>
     <span class="note">支出の上位:${top}${p.mind?.big5 ? `<br>性格(2〜14点):外向 ${p.mind.big5.E}/協調 ${p.mind.big5.A}/勤勉 ${p.mind.big5.C}/神経症 ${p.mind.big5.N}/開放 ${p.mind.big5.O}。生活満足度 ${p.mind.life.toFixed(1)}点` : ""}${p.leisure ? `<br>遊園地などに行く見込み ${Math.round(p.leisure.go.park * 100)}%/観光旅行 ${Math.round(p.leisure.go.tour * 100)}%` : ""}<br>価格に敏感 ${t.price}/新しもの好き ${t.novelty}/健康志向 ${t.health}/品質重視 ${t.quality}</span>${extra}</div>`;
 }
 function renderPersonaList(seed) {

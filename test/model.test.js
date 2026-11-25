@@ -516,3 +516,11 @@ test("買う気持ち:全員に配った給付金のうち使われる割合は�
   const r = handout(P, { yen: 100000, target: "all" }); assert.ok(Math.abs(r.share - 0.22) < 0.01, `${r.share}`);
   assert.ok(handout(P, { target: "low" }).share > r.share);
 });
+
+import { attachEnt, entMonthly } from "../public/js/ent.js";
+import ED from "../public/js/ent-data.js";
+test("エンタメ:1人あたりの平均が家計調査に合い、月ごとの合計が年額になる", () => {
+  const Q = attachEnt(P.map((p) => ({ ...p }))), W = sum(Q, (p) => p.weight), m0 = LD.kakei.age.members[0];
+  for (const k of Object.keys(ED.items)) { const mean = sum(Q, (p) => p.weight * p.ent.yen[k]) / W; assert.ok(Math.abs(mean / (ED.items[k].age["平均"] / m0) - 1) < 0.02, k); }
+  const p = Q.find((x) => x.ent.total > 0); assert.ok(Math.abs(entMonthly(p).reduce((a, b) => a + b, 0) - p.ent.total) < 3);
+});
