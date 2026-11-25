@@ -247,3 +247,4 @@ label.chip{display:inline-flex;align-items:center;gap:6px;line-height:1.4}label.
 .japan3d .s-bar button,.japan3d .s-bar select{white-space:nowrap}
 @media (max-width:640px){.japan3d .j-legend{left:8px;right:auto;top:8px;width:138px}}
 @media (max-width:640px){.japan3d .s-bar{flex-wrap:wrap;gap:4px;right:8px}.japan3d .s-bar button,.japan3d .s-bar select{padding:4px 8px;font-size:12px}}
+.ns-map svg{width:100%;height:auto;max-height:520px;cursor:crosshair;background:#dcecf5;border-radius:8px}

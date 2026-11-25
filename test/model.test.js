@@ -478,3 +478,10 @@ test("空と陸の移動:鉄道が速くなると鉄道の割合が上がる(北
   assert.ok(railShareAfter({ shareNow: 0.42, railTime: 228, railTime2: 148 }) > 0.42);
   const H = hokurikuCheck(); assert.ok(H.model < H.real);
 });
+
+import { meshCenter, distKm } from "../public/js/newstation.js";
+test("新駅の試算:メッシュコードから中心の緯度経度が出る", () => {
+  const [la, lo] = meshCenter(53394611); // 東京駅付近の1kmメッシュ
+  assert.ok(Math.abs(la - 35.6792) < 0.01 && Math.abs(lo - 139.7688) < 0.01, `${la} ${lo}`);
+  assert.ok(Math.abs(distKm(35, 135, 35.009, 135) - 1) < 0.02);
+});
