@@ -466,3 +466,9 @@ test("コンビニ:仮想の日本の支出に占めるコンビニの割合が�
   const m = cvsMarket(P); let w = 0, s = 0; for (const p of P) { w += p.weight * p.spendTotal; s += p.weight * p.spendTotal * cvsShareOf(p); }
   assert.ok(s / w > 0.015 && s / w < 0.03, String(s / w)); assert.ok(m.perPerson > 1000);
 });
+
+import { wageCurves } from "../public/js/education.js";
+test("進学と学歴:学歴ごとの賃金は、大学院 > 大学 > 高校の順", () => {
+  const W = Object.fromEntries(wageCurves().map((w) => [w.label, w.all]));
+  assert.ok(W["大学院"] > W["大学"] && W["大学"] > W["高校"]);
+});
