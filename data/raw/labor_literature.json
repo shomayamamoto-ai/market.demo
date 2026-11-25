@@ -1,0 +1,1003 @@
+{
+ "meta": {
+  "generated": "2026-11-25",
+  "purpose": "market.demo シミュレーター較正用 労働経済学の定量知見(主に日本)",
+  "method": "許可ホストからPDFを取得し pdfminer でテキスト化、本文/表から値を転記。pageはPDFのページ番号(誌面ページと異なる場合あり)",
+  "verified_flag": "true=PDF本文/表で確認; partial/secondary/qualitative は注記参照; false=原典未確認"
+ },
+ "findings": [
+  {
+   "id": "mw_km2013",
+   "topic": "1_minimum_wage",
+   "cite": "川口大司・森悠子(2013)「最低賃金と若年雇用：2007年最低賃金法改正の影響」RIETI DP 13-J-009",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/13j009.pdf",
+   "country": "Japan",
+   "data": "労働力調査等の都道府県パネル 47都道府県×2007-2010年, 16-19歳男女",
+   "method": "加重最小二乗(WLS)・操作変数(WIV: 2007年時点の生活保護費と最低賃金の乖離から作る最低賃金予測値), 都道府県・年ダミー",
+   "numbers": {
+    "teen_emp_rate_coef_on_lnMW_WLS": -0.525,
+    "SE_WLS": 0.228,
+    "teen_emp_rate_coef_on_lnMW_WIV": -0.942,
+    "SE_WIV": 0.344,
+    "meaning": "MW+10% -> 16-19歳就業率 -5.25%pt (WLS, 著者の採用値)",
+    "mean_teen_emp_rate": 0.17,
+    "implied_employment_elasticity": "約-3 (著者計算)",
+    "wage_p10_per_10pct_MW": "+3.9%",
+    "wage_p20_per_10pct_MW": "+2.75%",
+    "wage_p30_per_10pct_MW": "+3.27%",
+    "wage_p40_median": "+1.38%, +0.90% (非有意)",
+    "hausman_t": 1.615
+   },
+   "interpretation_ja": "最低賃金が10%上がると10代の就業率が約5%pt（平均17%に対し約3割）下がる。若年への雇用抑制効果は大きい。",
+   "page": "pdf p.2(要旨), p.13(表3 賃金分位), p.20-21(表6)",
+   "verified": true
+  },
+  {
+   "id": "mw_km2021",
+   "topic": "1_minimum_wage",
+   "cite": "Kawaguchi, D. & Mori, Y. (2021) Estimating the Effects of the Minimum Wage Using the Introduction of Indexation. RIETI DP 21-E-007",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/21e007.pdf",
+   "country": "Japan",
+   "data": "労働力調査個票(学歴≤12年), 賃金構造基本統計調査(BSWS), 2007年法改正後",
+   "method": "OLS/IV(2006年の生活保護給付と最低賃金収入の乖離), 都道府県・年FE+都道府県別トレンド, 都道府県クラスタSE",
+   "numbers": {
+    "emp_coef_men19_24_OLS": -0.78,
+    "SE": 0.32,
+    "emp_coef_men19_24_IV": -0.93,
+    "SE_IV": 0.43,
+    "mean_emp_men19_24": 0.8,
+    "implied_elasticity_OLS": -0.98,
+    "implied_elasticity_IV": -1.2,
+    "emp_coef_men25_59_OLS_IV": "-0.06(0.08) / -0.08(0.13) 非有意",
+    "women_all_ages": "非有意 (例 F25-59 OLS 0.02(0.12))",
+    "hours_ln_men19_24": "OLS -0.43(0.30), IV -0.06(0.26) 非有意",
+    "share_workers_in_[MW,1.05MW)": "約2%; MW+10%で+1.7%(pt)",
+    "spillover_reach": "MWの1.15倍まで波及",
+    "share_below_1.05MW": "3.7%",
+    "share_below_MW_noncompliers": "約1%",
+    "MW_worker_share_fulltime_vs_parttime": "約1% vs 約10%",
+    "prime_age_women_P(E|E)_per_10pct_MW": "+0.7%pt (平均92%)",
+    "older_women_P(E|E)": "-2.4%pt"
+   },
+   "interpretation_ja": "最低賃金上昇は高卒以下の19-24歳男性の雇用を弾力性-1〜-1.2で減らすが、女性や壮年男性の就業率には有意な影響なし。賃金への波及はMWの1.15倍まで。",
+   "page": "pdf p.14-15(表2本文), p.20-21(本文), p.27(遷移), p.41(表3)",
+   "verified": true
+  },
+  {
+   "id": "mw_km2009",
+   "topic": "1_minimum_wage",
+   "cite": "Kawaguchi, D. & Mori, Y. (2009) Is Minimum Wage an Effective Anti-Poverty Policy in Japan? RIETI DP 09-E-032",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/09e032.pdf",
+   "country": "Japan",
+   "data": "就業構造基本調査 1982-2002 個票",
+   "method": "都道府県×属性グループの差分回帰; FA=最低賃金引上げで影響を受ける労働者割合",
+   "numbers": {
+    "share_at_MW_2002_male": "4-10%",
+    "share_at_MW_2002_female": "22-41%",
+    "share_at_MW_1982_male": "3-6%",
+    "share_at_MW_1982_female": "22-36%",
+    "MW_workers_in_households_income_over_5M_yen_nonhead": "約半数",
+    "male_teen_emp_per_1pct_FA": "-0.2%pt (平均就業率16%, 平均FA約5%)",
+    "married_women_25_59_emp_per_1pct_FA": "-0.4〜-0.8%pt (就業率約66%)"
+   },
+   "interpretation_ja": "最低賃金近傍で働く人の約半数は世帯年収500万円超の非世帯主で、貧困対策としての的が外れやすい。雇用抑制は10代男性・既婚中年女性で中程度。",
+   "page": "pdf p.6, p.18-19",
+   "verified": true
+  },
+  {
+   "id": "mw_mori_okudaira2025",
+   "topic": "1_minimum_wage",
+   "cite": "Mori, Y. & Okudaira, H. (2025) Higher Minimum Wage, Stagnant Income? The case of women's work hours in Japan. RIETI DP 25-E-042",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/25e042.pdf",
+   "country": "Japan",
+   "data": "賃金構造基本統計調査 1998,2006,2008,2014,2015 (N=165,600 地域×ビン)",
+   "method": "Cengiz et al.(2019)型 stacked event-study (2007年改正後の10イベント), 賃金ビンを地域賃金プレミアムで正規化; UQPE",
+   "numbers": {
+    "own_wage_employment_elasticity_OWE": 0.63,
+    "OWE_SE": 0.31,
+    "elasticity_wrt_MW_short_hour_jobs_women": 0.14,
+    "affected_share_women_short": 0.25,
+    "elasticity_short_hour_men": 0.06,
+    "elasticity_long_hour_jobs_women": -0.13,
+    "affected_share_women_long": 0.09,
+    "female_incumbents_short_hour": "0.114 (0.012)",
+    "female_incumbents_long_hour": "-0.098 (0.014)",
+    "female_new_entrants_short": "0.028 (0.005)",
+    "female_new_entrants_long": "-0.027 (0.007)",
+    "retail": "0.061 (0.018)",
+    "food_service": "0.055 (0.010)",
+    "hotel": "-0.000 (0.003)",
+    "manufacturing": "-0.057 (0.013)",
+    "short_hour_definition": "週25時間以下",
+    "bunching": "既婚女性の年収は約100万円(103万円)直下に集中(図2, 数値の超過質量は未報告)"
+   },
+   "interpretation_ja": "最低賃金上昇で女性の長時間パートが減り短時間パートが増えた（年収の壁で時間を減らす）。時給格差は縮むが年収格差はあまり縮まない。小売・飲食は雇用増、製造業は雇用減。",
+   "page": "pdf p.4, p.11-13(壁), p.23-24, p.27(表3)",
+   "verified": true
+  },
+  {
+   "id": "mw_yamanouchi2025",
+   "topic": "1_minimum_wage",
+   "cite": "Yamanouchi, K., Okudaira, H., Takizawa, M. & Hosono, K. (2025) Who Pays for the Minimum Wage in the Japanese Manufacturing Sector? RIETI DP 25-E-100",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/25e100.pdf",
+   "country": "Japan",
+   "data": "工業統計(甲調査, 30人以上事業所)・経済センサス活動調査の事業所パネル, N=590,130",
+   "method": "IV (2006年時点の生活保護-最低賃金収入ギャップ), 事業所FE・産業×年FE・地域トレンド",
+   "numbers": {
+    "elasticity_wrt_MW_IV": {
+     "ln_total_employees": "-0.487 (0.081)",
+     "ln_full_time": "-0.489 (0.099)",
+     "ln_part_time": "-0.441 (0.228)",
+     "ln_wage_bill": "-0.668 (0.100)",
+     "ln_revenue": "-0.658 (0.107)",
+     "ln_material_costs": "-0.612 (0.122)",
+     "ln_capital": "-0.360 (0.235) 非有意",
+     "operating_profit_margin": "-0.0801 (0.0231)",
+     "ln_average_wage": "-0.181 (0.083) ※表の行対応はテキスト抽出順から推定、要確認",
+     "ln_revenue_per_employee": "-0.171 (0.070) ※同上"
+    },
+    "price_pass_through": "製品価格への有意な転嫁なし"
+   },
+   "interpretation_ja": "製造業では最低賃金上昇のコストは価格転嫁されず、雇用・生産縮小と利益減で企業と労働者が負担した（雇用弾力性約-0.5）。",
+   "page": "pdf p.4, p.14-15(表2)",
+   "verified": "partial: 行ラベルと数値の対応は抽出順による"
+  },
+  {
+   "id": "mw_meta2023",
+   "topic": "1_minimum_wage",
+   "cite": "董艶麗・茨木瞬(2023)「日本における最低賃金の引き上げが雇用に与える影響─メタ分析による評価」日本労働研究雑誌 2023年1月号 pp.93-107",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2023/01/pdf/093-107.pdf",
+   "country": "Japan",
+   "data": "2000年以降の日本の実証研究(東京財団政策研究所DB), 雇用弾力性26推定値",
+   "method": "FAT-PET (WLS), G-to-S 多変量メタ回帰",
+   "numbers": {
+    "PET_true_effect_beta0": "-0.289 (SE 0.11), 5%有意",
+    "FAT_publication_bias_beta1": "-0.198 (0.554) 非有意",
+    "multivariate_beta0": -0.635,
+    "time_trend_coef": "+0.052 (p<0.05): 負の効果は時間とともに縮小",
+    "women_studies": "女性就業率の研究では雇用抑制が全体より小さい",
+    "n_estimates": 26
+   },
+   "interpretation_ja": "日本の先行研究をまとめると、最低賃金の雇用弾力性はおおむね-0.3程度（出版バイアス補正後）で有意に負。ただし近年ほど負の効果は小さい。",
+   "page": "pdf p.10(表4), p.13",
+   "verified": true
+  },
+  {
+   "id": "mw_boj_review2016",
+   "topic": "1_minimum_wage",
+   "cite": "宗像晃・東将人(2016)「雇用形態別にみて基本給はどのように決まるのか」日銀レビュー 2016-J-15",
+   "url": "https://www.boj.or.jp/research/wps_rev/rev_2016/data/rev16j15.pdf",
+   "country": "Japan",
+   "data": "賃金構造基本統計調査 2014 都道府県別パート時給分布, 毎月勤労統計",
+   "method": "log(下位X%賃金/中央値)をlog(最低賃金/中央値)に回帰",
+   "numbers": {
+    "spillover_range": "パート時給の下位30%程度まで最低賃金改定が押し上げ効果(図表10, 係数値は図のみで約0.1-0.7)",
+    "note": "係数の正確な値はグラフからのみ読める"
+   },
+   "interpretation_ja": "パートの時給は労働需給に加え最低賃金に強く連動し、最低賃金上昇は時給分布の下位3割まで波及する。",
+   "page": "pdf p.6-7(図表10)",
+   "verified": "partial: 数値は図のみ"
+  },
+  {
+   "id": "mw_kaitz_context",
+   "topic": "1_minimum_wage",
+   "cite": "鶴光太郎(2013)「最低賃金の労働市場・経済への影響」RIETI DP 13-J-008",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/13j008.pdf",
+   "country": "Japan(+OECD)",
+   "data": "OECD 最低賃金/中位所得比率 2010 (図1)",
+   "method": "サーベイ",
+   "numbers": {
+    "kaitz_japan": "日本の最低賃金・中位所得比率はOECDで最低グループ(図のみ、数値は本文になし)",
+    "PPP_level": "購買力平価の実質額ではOECD中位",
+    "early_JP_evidence": "橘木・浦川(2006): Kaitz(最低賃金/平均賃金)は20代女性雇用に影響せず; Kawaguchi&Yamada(2007): 影響群の翌年雇用確率が約2割低下"
+   },
+   "interpretation_ja": "日本の最低賃金の中位賃金比（カイツ指標）は国際的に低いが、実質額では中程度。",
+   "page": "pdf p.15, p.19-20",
+   "verified": "partial: Kaitz数値は図のみ"
+  },
+  {
+   "id": "ls_kodama_momota_fr2025",
+   "topic": "2_labor_supply",
+   "cite": "児玉直美・桃田翔平(2025)「なぜ年収の壁はなくならないのか？」財務総研フィナンシャル・レビュー161号 pp.133-153",
+   "url": "https://www.jstage.jst.go.jp/article/prifr/161/0/161_133/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "パートタイム労働者総合実態調査 2021 (約15,000人, 年収300万円以下の女性パート)",
+   "method": "所得目標仮説を入れた既婚女性労働量シミュレーションモデル, 8つの政策変更",
+   "numbers": {
+    "share_adjusting_hours_all": "約21%",
+    "share_adjusting_married_women": "約26%",
+    "share_adjusting_unmarried_women": "約6%",
+    "share_with_income_target": "約72%",
+    "married_part_labor_index_baseline": 1.0,
+    "no_spousal_deduction": 1.02,
+    "basic_deduction_plus_470k_yen": "0.98 (女性全体1.00)",
+    "everyone_pays_social_insurance": "0.96 (女性全体0.99)",
+    "SI_threshold_3M_yen": "1.04 (女性全体1.00)",
+    "no_social_insurance_at_all": "0.79 (女性全体0.97)",
+    "no_income_target": "1.54 (女性全体1.07)",
+    "marriage_rate_at_2000_level": "女性全体0.88",
+    "employment_form_shares_at_2000_level": "女性全体0.82",
+    "model_params": "SI閾値130万円, SI率13.5%, 配偶者控除38万円(150万円まで)-201万円で0"
+   },
+   "interpretation_ja": "103万円の壁の正体は税制より『家計の足りない分だけ稼ぐ』という所得目標規範と130万円の壁回避。税・社保をいじっても既婚パートの労働量は±数%しか動かないが、所得目標がなければ1.5倍になる。",
+   "page": "pdf p.6(就業調整割合), p.8, p.13, p.16-19(表4・結論)",
+   "verified": true
+  },
+  {
+   "id": "ls_kodama_momota_jil2024",
+   "topic": "2_labor_supply",
+   "cite": "児玉直美・桃田翔平(2024)「最低賃金上昇は労働時間を抑制するか？」日本労働研究雑誌 2024年10月号 pp.84-100",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2024/10/pdf/084-100.pdf",
+   "country": "Japan",
+   "data": "パートタイム労働者総合実態調査 2006/2011/2016/2021 個票(勤続18ヶ月超, 時給600-1500円), 76%女性, 平均月104時間・時給925円",
+   "method": "ln労働時間をln時給×年収階層に回帰(OLS, 最低賃金を操作変数とするIV)",
+   "numbers": {
+    "hours_wage_elasticity_women_OLS_80to150man": "-1.06〜-0.9",
+    "IV_women_by_bracket": "-0.85〜-1.29 (年収80-200万円), 200-300万円 -2.08",
+    "IV_married_women_by_bracket": "-0.74〜-1.73 (年収階層別, 多くは-0.9〜-1.17)",
+    "no_extra_elasticity_at_103_130_brackets": true,
+    "first_stage_MW_to_wage_80_90man": "最低賃金1%上昇で時給約1.4%上昇"
+   },
+   "interpretation_ja": "パート女性は時給が上がると労働時間をほぼ同率で減らす（弾力性≒-1、所得目標的行動）。103万・130万円付近だけ特に強いわけではない。",
+   "page": "pdf p.6, p.9, p.11(表5)",
+   "verified": true
+  },
+  {
+   "id": "ls_takahashi2010",
+   "topic": "2_labor_supply",
+   "cite": "高橋新吾(2010)「配偶者控除及び社会保障制度が日本の既婚女性に及ぼす労働抑制効果の測定」日本労働研究雑誌 2010年12月号 pp.28-43",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2010/12/pdf/028-043.pdf",
+   "country": "Japan",
+   "data": "消費生活に関するパネル調査(JPSC)",
+   "method": "非線形予算制約を明示した構造推定(Hausman型)",
+   "numbers": {
+    "abolish_spousal_deduction_effect_on_labor_supply": "+0.7% (母集団平均)",
+    "SI_for_all_women": "女性労働供給をほとんど増やさない",
+    "uncompensated_elasticity_married_women_per_survey": "0.185 (林2023表1より)"
+   },
+   "interpretation_ja": "配偶者控除を完全廃止しても既婚女性の労働供給は平均0.7%しか増えない。制度の労働抑制効果は誘導形研究が示唆するより小さい。",
+   "page": "pdf p.1(要旨)",
+   "verified": true
+  },
+  {
+   "id": "ls_bessho2010",
+   "topic": "2_labor_supply",
+   "cite": "別所俊一郎(2010)「税負担と労働供給」日本労働研究雑誌 2010年12月号 pp.4-17",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2010/12/pdf/004-017.pdf",
+   "country": "Japan",
+   "data": "日本の家計個票(本人推定)+先行研究レビュー",
+   "method": "労働供給の非補償弾力性推定, サーベイ",
+   "numbers": {
+    "uncompensated_wage_elasticity_men": 0.079,
+    "uncompensated_wage_elasticity_women": 0.342,
+    "cited_Kuroda_Yamamoto_2007_uncompensated": "0.47〜0.63 (都道府県集計, 男女計) ※二次引用",
+    "cited_Kuroda_Yamamoto_2007_intensive": "0.01〜0.11 ※二次引用",
+    "cited_Otake_Takenaka_Yasui_2007_Marshallian": "-0.05 (仮想質問) ※二次引用"
+   },
+   "interpretation_ja": "日本の賃金弾力性は男性0.08・女性0.34と小さめ。黒田・山本の集計データでは0.5前後だが、時間(intensive)の弾力性は0.01-0.11と非常に小さい。",
+   "page": "pdf p.1-2, p.11",
+   "verified": true
+  },
+  {
+   "id": "ls_hayashi_survey2023",
+   "topic": "2_labor_supply",
+   "cite": "林正義「課税と給付の経済学―最適労働所得課税論を巡って―」財務総研フィナンシャル・レビュー151号 表1",
+   "url": "https://www.jstage.jst.go.jp/article/prifr/151/0/151_4/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "日本の労働供給弾力性推定のサーベイ表",
+   "method": "サーベイ(各原論文の値を転記)",
+   "numbers": {
+    "Akabayashi_2006_married_women_part_uncompensated": "0.098〜0.245",
+    "Takahashi_2010_married_women": 0.185,
+    "Yamada_2011_married_women_Frisch": "0.74〜0.81",
+    "Inoue_2015_women18_65_Frisch": "0.544〜0.746",
+    "Bessho_Hayashi_2014_2015_DCM": "0.1以下",
+    "Bessho_2018_Ogasa_2019_married_women_max": "せいぜい0.27",
+    "note": "Frisch弾力性が最も大きく、離散選択モデル(DCM)の推計値は小さい"
+   },
+   "interpretation_ja": "日本の既婚女性の賃金弾力性は静学で0.1〜0.3、動学(Frisch)で0.5〜0.8。手法で大きく変わるので、シミュレーターでは0.2(静学)〜0.7(Frisch)の幅で感度分析を。",
+   "page": "pdf p.7-8 (誌面 p.10-11 表1)",
+   "verified": "secondary: 原論文ではなくサーベイ表から"
+  },
+  {
+   "id": "ls_abe_works2023",
+   "topic": "2_labor_supply",
+   "cite": "安部由起子(2023)「年収の壁の継続性と勤務制度」Works Discussion Paper No.66 (リクルートワークス研究所)",
+   "url": "https://www.jstage.jst.go.jp/article/works/66/0/66_1/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "全国就業実態パネル調査(JPSED) 2016-2022, 有配偶女性パート",
+   "method": "パネル記述分析",
+   "numbers": {
+    "part_still_part_after_6y": "56%",
+    "part_to_nonemployment_after_6y": "32%",
+    "part_to_regular_after_6y": "約5%",
+    "still_part_income_below_1.3M_after_6y": "45%",
+    "want_more_hours_but_blocked_by_tax_benefit": "約10%",
+    "blocked_by_employer_rules": "約30%",
+    "want_more_hours": "約20%",
+    "want_fewer_hours": "10%強"
+   },
+   "interpretation_ja": "既婚パート女性は6年たっても56%がパートのまま、正社員化は5%程度。時間を増やせない理由は税・社保より会社の勤務制度（雇用主の社保負担）が多い。",
+   "page": "pdf p.2(要旨), p.6",
+   "verified": true
+  },
+  {
+   "id": "ls_kondo2024_survey",
+   "topic": "2_labor_supply",
+   "cite": "近藤絢子(2024)「高齢者や既婚女性の労働供給への制度の影響」日本労働研究雑誌 2024年4月号 pp.26-31 (Kondo & Shigeoka 2017 等の紹介)",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2024/04/pdf/026-031.pdf",
+   "country": "Japan",
+   "data": "国民生活基礎調査, 労働力調査等(原論文), 個人住民税課税記録(近藤・深井2023)",
+   "method": "サーベイ(RD/コーホート比較)",
+   "numbers": {
+    "pension_eligibility_age_rise_employment_effect": "+6.9〜7.9%pt (旧支給開始年齢での就業率)",
+    "Kondo_Shigeoka2017_mandate_emp_age60": "+2.4%pt",
+    "age61": "+3.2%pt",
+    "age62": "+1.6%pt(非有意)",
+    "age63_later_cohort": "+4.1%pt",
+    "Nakazawa2022_age63": "+4.4%pt(非有意)",
+    "walls": "有配偶女性は103万円と130万円に集中(図1、超過質量の数値なし)",
+    "take_home_change_around_103man": "年額約1万円にすぎない"
+   },
+   "interpretation_ja": "年金支給開始年齢引上げや継続雇用義務化で60代前半の就業率が数%pt上がる。既婚女性は手取りがほとんど変わらない103万円でも年収を調整している。",
+   "page": "pdf p.2-4",
+   "verified": "secondary for original studies"
+  },
+  {
+   "id": "ten_kimura2019",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "Kimura, T., Kurachi, Y. & Sugo, T. (2019) Decreasing Wage Returns to Human Capital. BOJ Working Paper 19-E-12",
+   "url": "https://www.boj.or.jp/en/research/wps_rev/wps_2019/data/wp19e12.pdf",
+   "country": "Japan",
+   "data": "賃金構造基本統計調査 2005-2017 (新卒以来同一企業の59歳以下 'lifetime' 正社員, 約45-60万人/期)",
+   "method": "ln所定内給与を勤続の4次式に回帰; Topel 2段階で一般/企業特殊人的資本に分解",
+   "numbers": {
+    "return_first_year_tenure": {
+     "2005-2008": "3.4%",
+     "2009-2012": "3.2%",
+     "2013-2017": "2.9%"
+    },
+    "SE": 0.001,
+    "tenure_wage_index_(0yr=100)_added": {
+     "5y": "16.7→14.5",
+     "10y": "31.9→28.0",
+     "20y": "54.9→49.1",
+     "30y": "67.6→60.6"
+    },
+    "combined_return_per_year_experience": "2.5%(2004-09)→1.5%(2010-15)",
+    "general_HC_return": "0.7%→0.4%",
+    "firm_specific_HC_return": "1.8%→1.1%",
+    "gender_coef": -0.081,
+    "college_premium": 0.135
+   },
+   "interpretation_ja": "勤続1年当たりの賃金上昇は2000年代後半の3.4%から2010年代後半の2.9%に低下。勤続30年での上乗せは+68%→+61%。年功カーブは確実に寝てきている。",
+   "page": "pdf p.7-9(表1・2), p.12-14(表5)",
+   "verified": true
+  },
+  {
+   "id": "ten_hamaaki2011",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "濱秋純哉・堀雅博・前田佐恵子・村田啓子(2011)「低成長と日本的雇用慣行─年功賃金と終身雇用の補完性を巡って」日本労働研究雑誌 2011年6月号 pp.26-37 (同著者らの英語論文 Hamaaki et al. 2012 と同系列の分析)",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2011/06/pdf/026-037.pdf",
+   "country": "Japan",
+   "data": "賃金構造基本統計調査 1989-2008 個票, 男性常用労働者",
+   "method": "同一企業継続勤務者の賃金プロファイル比較, 終身雇用者比率",
+   "numbers": {
+    "profile": "1990年代を通じ傾きが緩やかに; 2007-08年は40歳代以降ほとんど賃金が上昇しない",
+    "lifetime_employment": "1990年代後半以降、大卒若年層で終身雇用者比率が大きく低下",
+    "note": "数値は図のみ(本文に具体値なし)"
+   },
+   "interpretation_ja": "新卒から同じ会社に勤める男性でも、2000年代後半には40代以降ほぼ昇給しなくなった。若い大卒の終身雇用比率も下がった。",
+   "page": "pdf p.1(要旨)",
+   "verified": "partial: 定量値は図のみ"
+  },
+  {
+   "id": "ten_murata_hori2019",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "村田啓子・堀雅博(2019)「賃金プロファイルのフラット化と若年労働者の早期離職」RIETI DP 19-J-028",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/19j028.pdf",
+   "country": "Japan",
+   "data": "くらしと仕事に関するインターネット調査(LOSEF) ねんきん定期便ベースの賃金履歴",
+   "method": "生存分析・プロビット(賃金プロファイルの傾き→離職)",
+   "numbers": {
+    "5yr_retention_first_job_by_entry_cohort": {
+     "1961-72": "77%",
+     "1973-84": "75%",
+     "1985-96": "64%",
+     "1997-2008": "56%"
+    },
+    "sample_quit_within_3y": "16% (自己都合9%)",
+    "within_5y": "3割弱",
+    "within_10y": "5割弱",
+    "main_result": "プロファイルのフラット化が早期離職を促す(大企業大卒でも)"
+   },
+   "interpretation_ja": "新卒入社5年後の定着率は60年代入職の77%から90年代後半以降の56%へ低下。賃金カーブが寝ると若者が早く辞める。",
+   "page": "pdf p.2(要旨), p.7-8",
+   "verified": true
+  },
+  {
+   "id": "ten_sato2015_jobloss",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "佐藤一磨(2015)『日本における労働移動に関する実証分析』三菱経済研究所 (第4・5章)",
+   "url": "https://www.jstage.jst.go.jp/article/merierb/2015/109/2015_109/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "消費生活に関するパネル調査(JPSC) 1993-2009, 35歳以下雇用者; KHPS回顧データ",
+   "method": "傾向スコア+DID(Nearest neighbor / Kernel matching)",
+   "numbers": {
+    "income_gap_4y_after_job_loss_men": "約-43万円/年 (継続就業者比, Kernel)",
+    "income_gap_4y_after_job_loss_women": "約-29万円/年",
+    "mechanism": "失職年は労働時間減、その後は時間当たり賃金低下が主因",
+    "job_change_effect_on_hourly_wage": "男女ともほとんどのケースで有意な影響なし(第4章)",
+    "share_of_lifetime_job_changes_by_age29": "約半分"
+   },
+   "interpretation_ja": "若いうちに非自発的に職を失うと、4年後でも男性で年収43万円、女性で29万円ほど低いまま。一方、自発的転職全般では時給はほぼ変わらない。",
+   "page": "pdf p.12-14(要約), p.113(図表5.13本文)",
+   "verified": true
+  },
+  {
+   "id": "ten_kondo2010_survey",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "近藤絢子(2010)「失職が再就職後の賃金にもたらす影響の経済分析─先行研究の展望と今後の課題」日本労働研究雑誌 2010年5月号 pp.29-37",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2010/05/pdf/029-037.pdf",
+   "country": "US (survey), Japan context",
+   "data": "米国 DWS・行政データ研究のサーベイ",
+   "method": "サーベイ",
+   "numbers": {
+    "US_von_Wachter_Song_Manchester2009": "解雇15-20年後も年収約20%低い ※二次引用",
+    "US_JLS1993": "6年後の四半期収入 約$1000低い ※二次引用",
+    "Japan": "日本では大規模パネル不足で厳密推計は限定的; 蔡・守島(2002)は倒産・リストラ・高齢・大企業出身で転職後賃金低下が大きいと報告"
+   },
+   "interpretation_ja": "米国では解雇の賃金損失が15-20年続き約2割。日本は勤続の価値が大きいので損失は大きいはずだが厳密な推計は少ない。",
+   "page": "pdf p.5-7",
+   "verified": "secondary"
+  },
+  {
+   "id": "ten_kudo_miyamoto_flows",
+   "topic": "3_tenure_jobchange_displacement",
+   "cite": "工藤教孝・宮本弘曉(2025)「労働市場の流動化が雇用，賃金，および生産性に与える影響」財務総研フィナンシャル・レビュー161号",
+   "url": "https://www.jstage.jst.go.jp/article/prifr/161/0/161_4/_pdf/-char/ja",
+   "country": "Japan (vs US)",
+   "data": "労働力調査フロー, 雇用動向調査",
+   "method": "記述統計+サーチ・マッチングモデルのカリブレーション",
+   "numbers": {
+    "monthly_share_changing_labor_status_JP": "3.4% (US 6.5%)",
+    "1980-99_vs_2000-24": "3.2%→3.6%",
+    "annual_job_change_rate": "概ね4〜5.5%台",
+    "job_change_rate_by_age": {
+     "25-34": "7.1%",
+     "35-44": "4.5%",
+     "45-54": "3.3%"
+    },
+    "women_minus_men": "+1.8pt"
+   },
+   "interpretation_ja": "日本の年間転職率は4〜5%台で、若いほど高い（25-34歳7.1%、45-54歳3.3%）。労働状態の月次変化は米国の約半分。",
+   "page": "pdf p.6",
+   "verified": true
+  },
+  {
+   "id": "mf_sasaki2007",
+   "topic": "4_matching_beveridge",
+   "cite": "佐々木勝(2007)「ハローワークの窓口紹介業務とマッチングの効率性」日本労働研究雑誌 2007年10月号 pp.15-31",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2007/10/pdf/015-031.pdf",
+   "country": "Japan",
+   "data": "職業安定業務統計 都道府県別四半期パネル 1998Q1-2007Q1 (47都道府県, N=423/376)",
+   "method": "Cobb-Douglas マッチング関数 ln(就職件数)=a+b ln(有効求職者)+c ln(有効求人)+年ダミー, 固定/ランダム効果; ラグ・Berman(1997)型ストック+フロー",
+   "numbers": {
+    "elasticity_job_seekers_FE": "0.612 (0.050)",
+    "elasticity_vacancies_FE": "0.218 (0.025)",
+    "lagged_FE": "求職者0.545 (0.056), 求人0.163 (0.025)",
+    "Berman_FE": "求職者0.614 (0.056), 求人0.188 (0.027)",
+    "returns_to_scale": "約0.8 (規模に関して収穫逓減)",
+    "referrals_per_1pct_seekers": "約+1%",
+    "fill_rate_coef_on_tightness": "-0.782〜-0.818",
+    "efficiency_trend": "紹介段階の効率は向上、紹介後の成立段階の効率は低下"
+   },
+   "interpretation_ja": "ハローワークでの就職件数は求職者数に0.6、求人数に0.2の弾力性。求人が増えても就職はあまり増えない。紹介から採用に至る効率は低下傾向。",
+   "page": "pdf p.1(要旨), p.10(表1)",
+   "verified": true
+  },
+  {
+   "id": "mf_kudo_miyamoto_calib",
+   "topic": "4_matching_beveridge",
+   "cite": "工藤教孝・宮本弘曉(2025) 同上 (表1 モデルパラメータ)",
+   "url": "https://www.jstage.jst.go.jp/article/prifr/161/0/161_4/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "Miyamoto(2025)による労働力調査フロー",
+   "method": "DMPモデルのカリブレーション",
+   "numbers": {
+    "monthly_job_finding_prob": "13% (別箇所で13.9%; US 25.2%)",
+    "monthly_separation_prob": "0.4% (US 1.2%)",
+    "tightness_V/U": 0.95,
+    "matching_elasticity_xi_on_U": "0.6 (Lin & Miyamoto 2014; 妥当域0.5-0.7)",
+    "matching_efficiency_m0": 0.398,
+    "unemployment_flow_income_z": "産出の61%",
+    "labor_hoarding_share_target": "5.2%",
+    "interest_rate_monthly": 0.01
+   },
+   "interpretation_ja": "日本の失業者の月次就職確率は約13%、就業者の月次失業確率は0.4%で米国の半分〜3分の1。シミュレーターのDMP型パラメータの初期値に使える。",
+   "page": "pdf p.6, p.13-14(表1)",
+   "verified": "calibrated (not estimated)"
+  },
+  {
+   "id": "mf_eguchi_teramoto2017",
+   "topic": "4_matching_beveridge",
+   "cite": "江口允崇・寺本和弘(2017)「UV曲線と賃金版フィリップス曲線の変動要因─DSGEモデルからの視点」日本労働研究雑誌 2017年6月号 pp.23-43",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2017/06/pdf/023-043.pdf",
+   "country": "Japan",
+   "data": "日本のマクロデータ(UV曲線, 賃金)",
+   "method": "サーチ・マッチング型DSGEのシミュレーション",
+   "numbers": {
+    "finding": "90年代以降UV曲線は右シフト・賃金版フィリップス曲線はフラット化; UVを右シフトさせるのはマッチング効率性ショックのみ",
+    "matching_elasticity_used": "σ=0.5 (GSTの値)",
+    "wage_rigidity_theta_w": 0.596,
+    "bargaining_power": 0.72
+   },
+   "interpretation_ja": "日本ではマッチング効率の低下でUV曲線が外側にシフトし、失業が減りにくく賃金も上がりにくくなった。",
+   "page": "pdf p.1, p.12",
+   "verified": "partial: パラメータの出典(日本推定か)は本文で一部不明"
+  },
+  {
+   "id": "mf_sakura2006_flows",
+   "topic": "4_matching_beveridge",
+   "cite": "桜健一(2006)「フローデータによるわが国労働市場の分析」日本銀行WP 06-J-20",
+   "url": "https://www.boj.or.jp/research/wps_rev/wps_2006/data/wp06j20.pdf",
+   "country": "Japan",
+   "data": "労働力調査フローデータ",
+   "method": "寄与度分解・構造VAR",
+   "numbers": {
+    "finding": "失業率変動への寄与は就職確率より離職(E→U)確率の変動が大きい; 労働力率は順循環(女性で強い)=求職意欲喪失効果>追加労働者効果"
+   },
+   "interpretation_ja": "日本の失業率の上下は『失業からの就職』より『職を失う確率』の変化で主に決まる。",
+   "page": "pdf p.2(要旨)",
+   "verified": "qualitative only"
+  },
+  {
+   "id": "mf_boj_postings2023",
+   "topic": "4_matching_beveridge",
+   "cite": "古川角歩・城戸陽介・法眼吉彦(2023)「求人広告情報を用いた正社員労働市場の分析」日本銀行WP 23-J-2",
+   "url": "https://www.boj.or.jp/research/wps_rev/wps_2023/data/wp23j02.pdf",
+   "country": "Japan",
+   "data": "オンライン求人サイト 正社員求人 約580万件 2015-2022",
+   "method": "マッチ率(=m/v)の算出, 要求スキル分析",
+   "numbers": {
+    "finding": "マッチ率は景気拡張期に低下・後退期に上昇(反循環)し、近年は趨勢的に低下; 要求スキル上昇が背景; 募集賃金上昇がラグを伴い正社員平均賃金を押し上げ(外圧・内圧効果)"
+   },
+   "interpretation_ja": "正社員の求人が埋まる割合が下がっており、企業は求人倍率以上に採用難。募集賃金の上昇は後から既存社員の賃金にも波及する。",
+   "page": "pdf p.2, p.8-9",
+   "verified": "qualitative only"
+  },
+  {
+   "id": "wg_hirata2020",
+   "topic": "5_labor_shortage_wages",
+   "cite": "平田渉・丸山聡崇・嶺山友秀(2020)「賃金版フィリップス曲線のフラット化と名目賃金の下方硬直性：2010年代の経験」日本銀行WP 20-J-3",
+   "url": "https://www.boj.or.jp/research/wps_rev/wps_2020/data/wp20j03.pdf",
+   "country": "Japan",
+   "data": "正社員の個人パネル(月給, 2010-2017)",
+   "method": "長期雇用モデル+パネル回帰(下方硬直性ダミー×労働需給改善ダミー)",
+   "numbers": {
+    "DNWR_drag_on_regular_monthly_wage_growth_2010_2017": "年平均 約-0.4%pt (識別の不確実性を考慮すると-0.2〜-0.6%pt)",
+    "example_coef": "下方硬直性ダミー×2013-17年ダミー -1.122*** (0.368) 前年比%"
+   },
+   "interpretation_ja": "不況期に賃金を下げられなかった経験が、好況期の賃上げをためらわせ、2010年代の正社員月給の伸びを年0.4%ptほど押し下げた。",
+   "page": "pdf p.2(要旨), p.36(付表)",
+   "verified": true
+  },
+  {
+   "id": "wg_ozaki_genda2019",
+   "topic": "5_labor_shortage_wages",
+   "cite": "尾崎達哉・玄田有史(2019)「賃金上昇が抑制されるメカニズム」日本銀行WP 19-J-6",
+   "url": "https://www.boj.or.jp/research/wps_rev/wps_2019/data/wp19j06.pdf",
+   "country": "Japan",
+   "data": "阪大『くらしの好みと満足度』(留保賃金, 2005-13), 賃金構造基本統計, 毎月勤労統計, 法人企業統計 1981-2018",
+   "method": "留保賃金分布=無業者の労働供給曲線; 賞与の非対称性OLS",
+   "numbers": {
+    "bonus_response_profit_margin_down_1pct": "賞与 -4〜-5%",
+    "bonus_response_profit_margin_up_1pct": "賞与 +1〜+2%",
+    "avg_reservation_wage_nonemployed_men": "約1,400円/時 (男性パート時給1,100円強)→無業男性の約40%は就業を視野に入れず",
+    "women": "女性パート時給約1,100円が既に女性無業者の90%超の留保賃金を上回る(ルイス転換点に接近)",
+    "elderly": "平均留保賃金1,200円; 時給が上回っても潜在的に約20%の供給余地",
+    "nonregular_share": "2010年代後半以降37〜38%で安定",
+    "emp_rate_60_64": "55.5%(2000)→70.6%(2018)",
+    "emp_rate_65_69": "37.5%→47.6%",
+    "bonus_share_of_pay": "約20% (一般労働者, 90年代初25%)"
+   },
+   "interpretation_ja": "人手不足でも賃金が上がりにくかったのは、女性・高齢者が低い時給で次々参入（供給が弾力的）したことと、賞与が業績悪化時には大きく減り改善時には少ししか増えない非対称性のため。女性の供給余地はほぼ尽きつつある。",
+   "page": "pdf p.2(要旨), p.11-12(図表4), p.28(賞与)",
+   "verified": true
+  },
+  {
+   "id": "wg_yamamoto_kuroda2016",
+   "topic": "5_labor_shortage_wages",
+   "cite": "山本勲・黒田祥子(2016)「過去の賃下げ経験は賃金の伸縮性を高めるのか：企業パネルデータを用いた検証」RIETI DP 16-J-063",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/16j063.pdf",
+   "country": "Japan",
+   "data": "企業パネルデータ(賃上げ・過去の賃金カット情報)",
+   "method": "パネル回帰",
+   "numbers": {
+    "share_firms_cut_base_pay_past10y": "2割弱",
+    "finding": "過去10年に所定内給与をカットした企業ほど所定内給与改訂額が大きく、利益率上昇時の所定内給与・賞与の引上げも大きい(部分的に確認)"
+   },
+   "interpretation_ja": "賃下げできなかった企業ほど賃上げに慎重（賃上げの不可逆性）。下方硬直性が上方硬直性を生む。",
+   "page": "pdf p.2(要旨)",
+   "verified": true
+  },
+  {
+   "id": "wg_yamada2025",
+   "topic": "5_labor_shortage_wages",
+   "cite": "山田久(2025)「わが国賃金長期低迷の原因と今後の展望」財務総研フィナンシャル・レビュー161号",
+   "url": "https://www.jstage.jst.go.jp/article/prifr/161/0/161_65/_pdf/-char/ja",
+   "country": "Japan (vs US, Germany)",
+   "data": "失業率と名目賃金上昇率 1980-2020",
+   "method": "記述分析",
+   "numbers": {
+    "phillips_curve": "1980-97年は通常の右下がり; 1997-2020年は傾きが緩やかに(ただし米独よりは急)",
+    "phases": "第1(1997-2002)・第2(2003-12, 需給改善でも賃金停滞)・第3(2013-19)"
+   },
+   "interpretation_ja": "1997年頃以降、日本の賃金版フィリップス曲線は寝た。正規・非正規、大企業・中小の二重構造と雇用維持優先が背景。",
+   "page": "pdf p.1, p.8-9(図11・12)",
+   "verified": "qualitative: 傾きの数値なし"
+  },
+  {
+   "id": "wg_aoyama2021",
+   "topic": "5_labor_shortage_wages",
+   "cite": "Aoyama, H., Di Guilmi, C., Fujiwara, Y. & Yoshikawa, H. (2021) Dual Labor Market and the 'Phillips Curve Puzzle'. RIETI DP 21-E-006",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/21e006.pdf",
+   "country": "Japan/US (theory)",
+   "data": "理論モデル",
+   "method": "二重労働市場の最小モデル",
+   "numbers": {
+    "finding": "労働者の交渉力低下、二次市場(非正規)の賃金に対する労働供給弾力性の上昇、労働力構成の変化がフィリップス曲線をフラット化"
+   },
+   "interpretation_ja": "非正規の供給が賃金に敏感で交渉力が弱いと、失業率が下がっても賃金・物価が上がりにくい。",
+   "page": "pdf p.2(Abstract)",
+   "verified": "qualitative only"
+  },
+  {
+   "id": "nr_yasui2016",
+   "topic": "6_nonregular",
+   "cite": "安井健悟・佐野晋平・久米功一・鶴光太郎(2016)「正社員と有期雇用労働者の賃金格差」RIETI DP 16-J-060",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/16j060.pdf",
+   "country": "Japan",
+   "data": "RIETI『平成26年度 正社員・非正社員の多様な働き方と意識に関するWeb調査』",
+   "method": "時間当たり賃金の回帰とBlinder-Oaxaca分解",
+   "numbers": {
+    "raw_gap_fixed_term_vs_regular_all": "-36.5%",
+    "raw_gap_men": "-32.4%",
+    "raw_gap_women": "-16.6%",
+    "adjusted_gap_all": "-8.8%",
+    "adjusted_gap_men": "-8.4%",
+    "adjusted_gap_women": "ほぼ0",
+    "key_explanators": "男性: 勤続年数・職種, 女性: 職種・学歴"
+   },
+   "interpretation_ja": "契約・嘱託社員の時給は正社員より平均36.5%低いが、学歴・年齢・勤続・職種をそろえると差は約9%（女性はほぼゼロ）まで縮む。",
+   "page": "pdf p.2(要旨)",
+   "verified": true
+  },
+  {
+   "id": "nr_kume_tsuru2013",
+   "topic": "6_nonregular",
+   "cite": "久米功一・鶴光太郎(2013)「非正規労働者の雇用転換－正社員化と失業化」RIETI DP 13-J-005",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/13j005.pdf",
+   "country": "Japan",
+   "data": "RIETI派遣アンケート(2009-2011, 6ヶ月ごと5回, 延べ6,098) + 就業構造基本調査の集計",
+   "method": "記述+離散選択モデル",
+   "numbers": {
+    "ESS_nonregular_job_changers_to_regular_within5y": "約25% (男性約40%, 女性約20%)",
+    "ESS_regular_to_nonregular": "約40% (女性53%)",
+    "nonregular_unemployment_inflow_gap": "正社員より失業化率が1〜2%pt高い",
+    "6m_transition_to_regular": {
+     "製造業派遣": "7.7%",
+     "契約社員": "5.9%"
+    },
+    "6m_transition_to_unemployment": {
+     "製造業派遣": "12.7%",
+     "1ヶ月未満アルバイト": "6.9%",
+     "日雇い派遣": "5.7%"
+    },
+    "6m_retention": {
+     "契約社員": "73.5%",
+     "その他派遣": "66.2%",
+     "期間定めなしパート": "65.4%",
+     "1ヶ月未満バイト": "18.6%",
+     "日雇い派遣": "40.2%"
+    },
+    "reservation_wage": "派遣・契約1,045〜1,230円/時, パート・アルバイト868〜899円",
+    "new_regulars_still_regular_next_period": "88.2%"
+   },
+   "interpretation_ja": "非正規から正社員になれるのは半年で数%程度（製造業派遣7.7%、契約社員5.9%）。一度正社員になれば9割近くが定着する。",
+   "page": "pdf p.3, p.5-6",
+   "verified": true
+  },
+  {
+   "id": "nr_genda2008",
+   "topic": "6_nonregular",
+   "cite": "玄田有史(2008)「前職が非正社員だった離職者の正社員への移行について」日本労働研究雑誌 2008年11月号 pp.61-77",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2008/11/pdf/061-077.pdf",
+   "country": "Japan",
+   "data": "就業構造基本調査2002 ランダムサンプル, 2001年以降に非正規から離職した23,352人",
+   "method": "記述+プロビット",
+   "numbers": {
+    "to_regular": "10.3% (2,407人)",
+    "to_other_nonregular": "39.3%",
+    "to_nonemployment": "47.9%",
+    "part_to_regular": "6.6%",
+    "women_to_regular": "8.2%",
+    "key_result": "同一企業での非正規継続2〜5年が正社員移行を有利に; 失業率の低い地域ほど移行しやすい"
+   },
+   "interpretation_ja": "非正規を辞めた人のうち正社員になれたのは約1割。半数近くは無業、4割は別の非正規へ。",
+   "page": "pdf p.6(表1・2)",
+   "verified": true
+  },
+  {
+   "id": "nr_kosugi2010",
+   "topic": "6_nonregular",
+   "cite": "小杉礼子(2010)「非正規雇用からのキャリア形成─登用を含めた正社員への移行の規定要因分析から」日本労働研究雑誌 2010年9月号 pp.50-59",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2010/09/pdf/050-059.pdf",
+   "country": "Japan",
+   "data": "25-44歳就業者の経歴調査(JILPT)",
+   "method": "記述+ロジット",
+   "numbers": {
+    "share_currently_regular_with_nonregular_to_regular_history": "13.9%",
+    "of_which_internal_promotion": "約2割"
+   },
+   "interpretation_ja": "25-44歳の就業者の約14%は非正規から正社員への移行経験者で、その2割は同じ会社での登用。",
+   "page": "pdf p.1(要旨)",
+   "verified": true
+  },
+  {
+   "id": "nr_asano2011",
+   "topic": "6_nonregular",
+   "cite": "浅野博勝・伊藤高弘・川口大司(2011)「非正規労働者はなぜ増えたか」RIETI DP 11-J-051",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/11j051.pdf",
+   "country": "Japan",
+   "data": "労働力調査・賃金構造基本統計・企業データ 1986-2008",
+   "method": "シフトシェア分解・企業パネル",
+   "numbers": {
+    "nonregular_share": "17%(1986)→34%(2008)",
+    "relative_wage_nonregular": "非常に安定",
+    "explained_by_industry_and_demographics": "増加の約1/4",
+    "firm_data_explained": "約6割(産業構造・需要不確実性・ICT導入)"
+   },
+   "interpretation_ja": "非正規比率は20年で倍増。相対賃金が安定しているので需要・供給の両方が増えた。産業構造や高齢化では1/4しか説明できない。",
+   "page": "pdf p.2(要旨)",
+   "verified": true
+  },
+  {
+   "id": "fw_lu2022",
+   "topic": "7_foreign_workers",
+   "cite": "盧宇晨(2022)「性別年齢階級別にみる外国人労働者の賃金水準への影響：日本からの証拠」生活経済学研究 Vol.55 pp.97-",
+   "url": "https://www.jstage.jst.go.jp/article/seikatsukeizaigaku/55/0/55_97/_pdf/-char/ja",
+   "country": "Japan",
+   "data": "47都道府県: 国勢調査, 賃金構造基本統計調査, R-JIP",
+   "method": "GLS, 2SLS(IV)",
+   "numbers": {
+    "overall_native_real_wage_effect": "男女全体では有意な影響なし",
+    "2SLS_elasticity_men35_39": "+0.050%",
+    "men40_44": "+0.063%",
+    "men45_49": "+0.064%",
+    "women30_34": "+0.089%",
+    "women40_44": "+0.100%",
+    "women50_54": "+0.092%",
+    "GLS_men50_64": "有意に正",
+    "negative_effects": "どの年齢層でも負の効果の証拠なし"
+   },
+   "interpretation_ja": "外国人労働者が1%増えても日本人の実質賃金は全体では変わらず、一部の中年層ではむしろ0.05〜0.1%上がる（補完的）。",
+   "page": "pdf p.1, p.9-11 (誌面 pp.105-107)",
+   "verified": true
+  },
+  {
+   "id": "fw_kitao_takeda2025",
+   "topic": "7_foreign_workers",
+   "cite": "Kitao, S. & Takeda, N. (2025) Endogenous Migration and the Macroeconomic Impact of Foreign Workers in Japan. RIETI DP 25-E-110",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/25e110.pdf",
+   "country": "Japan",
+   "data": "外国人雇用状況等をターゲットにカリブレーション",
+   "method": "内生的移民を含む多地域OLGモデル",
+   "numbers": {
+    "foreign_share_adult_pop_peak": "約6-7% (2040年代, 25歳以上で2025年約2%→ピーク6.7%)",
+    "no_foreigner_counterfactual": {
+     "low_skill_labor": "最大-7%",
+     "high_skill_labor": "-3.5%",
+     "output": "2040-50年代 約-2.5%",
+     "lump_sum_tax_burden": "+2.2%pt(2040)→+1%pt(2060) 消費比"
+    },
+    "wage_effect": "外国人がいないと賃金はやや高いが効果は小さい(低技能賃金 +1〜2%程度, 表2)",
+    "return_prob": "16.74%/年(5年残留率40%)"
+   },
+   "interpretation_ja": "外国人労働者がいなければ2040-50年代の産出は約2.5%低く、税負担は消費比2%pt高い。賃金押し下げ効果は小さい。",
+   "page": "pdf p.3-4, p.13, p.19-21(表2)",
+   "verified": true
+  },
+  {
+   "id": "fw_sasahara_lee2026",
+   "topic": "7_foreign_workers",
+   "cite": "Sasahara, A. & Lee, J. (2026) Immigration and Human Capital Adjustments: Evidence from the 1990 Reform of Japan's Immigration Act. RIETI DP 26-E-002",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/26e002.pdf",
+   "country": "Japan",
+   "data": "都道府県別 学校基本調査等 1988-2022",
+   "method": "シフトシェアIV(過去の定住パターン)",
+   "numbers": {
+    "IQR_immigration_shock_effect_college_share": "+4〜5%pt (2000年代を通じて)",
+    "vocational_school_share": "-4〜5%pt",
+    "work_after_HS": "一時的に僅かに低下(10%有意), 2000年代半ばに回復"
+   },
+   "interpretation_ja": "1990年入管法改正で外国人が多く流入した県ほど、日本人高校生の大学進学率が4〜5%pt上がった（低技能職との競合を避けて人的資本を積む）。",
+   "page": "pdf p.2, p.15",
+   "verified": true
+  },
+  {
+   "id": "fw_nagayoshi2022",
+   "topic": "7_foreign_workers",
+   "cite": "永吉希久子(2022)「外国人労働者と日本人労働者の賃金格差─賃金構造基本統計調査の分析から」日本労働研究雑誌 2022年7月号 pp.13-22",
+   "url": "https://www.jil.go.jp/institute/zassi/backnumber/2022/07/pdf/013-022.pdf",
+   "country": "Japan",
+   "data": "賃金構造基本統計調査 2019",
+   "method": "分位点回帰(10,25,50,75,90%)",
+   "numbers": {
+    "finding": "都道府県のみ統制では全在留資格・全分位で外国人の賃金が低く上位ほど格差大; 専門・技術は若さ・短勤続で説明; 他資格は非正規・中小企業等への配置と関連; 技能実習・特定技能は中位〜上位で属性統制後も格差残存"
+   },
+   "interpretation_ja": "外国人の賃金は日本人より低く、多くは年齢・勤続・雇用形態・企業規模の違いで説明されるが、技能実習・特定技能では説明できない格差が残る。",
+   "page": "pdf p.1(要旨)",
+   "verified": "qualitative: 係数値は本文抽出せず"
+  },
+  {
+   "id": "ai_hamaguchi_kondo2018",
+   "topic": "8_automation_AI",
+   "cite": "Hamaguchi, N. & Kondo, K. (2018) Regional Employment and Artificial Intelligence in Japan. RIETI DP 18-E-032 (日本語版: 浜口・近藤 2017 RIETI DP 17-J-023)",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/18e032.pdf",
+   "country": "Japan",
+   "data": "就業構造基本調査 2007・2012 個票 (N=1,409,531) × Frey-Osborne職業別コンピュータ化確率",
+   "method": "職業マッチング・記述/回帰",
+   "numbers": {
+    "mean_prob_computerization_all": 0.661,
+    "sd": 0.308,
+    "median": 0.76,
+    "large_cities": 0.652,
+    "small_cities": 0.665,
+    "gender": "女性のほうが高リスク職業に偏在, 大都市ほど顕著",
+    "cited_NRI_2015": "野村総合研究所(2015): 日本の労働人口の49%がAI・ロボット等で代替可能 (Frey-Osborne法) ※17-J-023 p.4で引用"
+   },
+   "interpretation_ja": "日本の就業者の平均『コンピュータ化確率』は0.66（Frey-Osborne基準）。女性・大都市で高い。NRIの『49%代替可能』も同じ手法による。",
+   "page": "18-E-032 pdf p.22(表1); 17-J-023 pdf p.4",
+   "verified": true
+  },
+  {
+   "id": "ai_nri49",
+   "topic": "8_automation_AI",
+   "cite": "野村総合研究所(2015)「日本の労働人口の49%が人工知能やロボット等で代替可能に」(Frey & Osborne との共同研究) — 浜口・近藤(2017) RIETI DP 17-J-023 による引用",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/17j023.pdf",
+   "country": "Japan",
+   "data": "601職業(原典) — 原典は未取得",
+   "method": "Frey-Osborne法",
+   "numbers": {
+    "share_of_workforce_replaceable": "49%",
+    "OECD_Arntz_style_comparison_cited": "OECD21か国の自動化可能職は9% (同論文で引用)",
+    "US_FO": "47%"
+   },
+   "interpretation_ja": "職業単位で見ると日本の労働人口の約半分が技術的に代替可能とされたが、タスク単位で見るOECD推計では1割程度にとどまる。",
+   "page": "17-J-023 pdf p.4",
+   "verified": false
+  },
+  {
+   "id": "ai_kikuchi2023",
+   "topic": "8_automation_AI",
+   "cite": "Kikuchi, S., Fujiwara, I. & Shirota, T. (2023) Automation and the Disappearance of Routine Work in Japan. RIETI DP 23-E-082",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/23e082.pdf",
+   "country": "Japan",
+   "data": "就業構造基本調査(ESS) 1980年代-2017, 通勤圏(CZ)別ロボット浸透度",
+   "method": "地域労働市場間比較(シフトシェア)",
+   "numbers": {
+    "routine_occupation_share": "25年間で32%→20%",
+    "high_vs_low_robot_CZ_routine_share_change": "-8.86%pt vs -7.69%pt",
+    "abstract_share_change": "+4.45%pt vs +3.64%pt",
+    "employment_rate_growth": "0.90%pt vs 0.76%pt (差は非有意)",
+    "finding": "自動化は人口グループ内の就業率を下げず、製造業ルーティン職からサービス部門へ雇用を移す; 若年・非大卒で顕著; 正規→非正規への移動を促す"
+   },
+   "interpretation_ja": "日本ではロボット化で雇用は減らず、ルーティン職（25年で32%→20%）から抽象・サービス職へ人が移った。",
+   "page": "pdf p.2, p.10-12",
+   "verified": true
+  },
+  {
+   "id": "ai_adachi2020",
+   "topic": "8_automation_AI",
+   "cite": "Adachi, D., Kawaguchi, D. & Saito, Y. (2020) Robots and Employment: Evidence from Japan, 1978-2017. RIETI DP 20-E-051",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/20e051.pdf",
+   "country": "Japan",
+   "data": "日本ロボット工業会 用途別・産業別ロボット出荷(数量・単価) 1978-2017",
+   "method": "用途別価格変化によるシフトシェアIV (産業・通勤圏)",
+   "numbers": {
+    "robot_adoption_elasticity_wrt_price": "-1.54 (価格1%低下で台数+1.54%)",
+    "employment_elasticity_wrt_robot_price": "-0.44 (価格1%低下で雇用+0.44%)",
+    "employment_per_1pct_more_robots": "+0.28%",
+    "interpretation": "ロボットと労働は粗補完"
+   },
+   "interpretation_ja": "日本ではロボット価格の低下でロボットも雇用も増えた（ロボット1%増で雇用0.28%増）。少なくとも産業・地域単位では代替より補完。",
+   "page": "pdf p.2(Abstract), p.4, p.23, p.41",
+   "verified": true
+  },
+  {
+   "id": "ai_morikawa2017",
+   "topic": "8_automation_AI",
+   "cite": "森川正之(2017)「人工知能・ロボットと雇用：個人サーベイによる分析」RIETI DP 17-J-005",
+   "url": "https://www.rieti.go.jp/jp/publications/dp/17j005.pdf",
+   "country": "Japan",
+   "data": "個人Webサーベイ",
+   "method": "記述・回帰",
+   "numbers": {
+    "finding": "大学・大学院(特に理系)教育による汎用的高スキル、専門学校・職業資格などの専門スキルを要する仕事はAI・ロボットに代替されにくいと認識される"
+   },
+   "interpretation_ja": "高学歴・理系や資格職の人ほど自分の仕事はAIに置き換わりにくいと感じている。",
+   "page": "pdf p.2(要旨)",
+   "verified": "qualitative only"
+  }
+ ],
+ "not_found": [
+  {
+   "item": "Kaitz指数(最低賃金/中位賃金)の日本の具体値",
+   "note": "13-J-008は図のみ。OECDデータベース(oecd.org)は許可ホスト外"
+  },
+  {
+   "item": "103万/130万円でのバンチング超過質量(excess mass)の数値",
+   "note": "Mori&Okudaira 2025, 近藤2024, 児玉桃田2025はいずれも分布図のみで超過質量を数値報告せず。近藤・深井(2023)原典未取得"
+  },
+  {
+   "item": "Akabayashi (2006) J Popul Econ 原典",
+   "note": "link.springer.comはペイウォールHTMLのみ。値は林(2023)サーベイ表からの二次引用(0.098-0.245)"
+  },
+  {
+   "item": "Kuroda & Yamamoto (2007/2008) Frisch弾力性原典",
+   "note": "imes.boj.or.jp は許可ホスト外; 別所(2010)による二次引用のみ(非補償0.47-0.63, intensive 0.01-0.11)"
+  },
+  {
+   "item": "Kano & Ohta (2005) マッチング関数・地域効率",
+   "note": "JJIE(Elsevier)は許可ホスト外。代わりに佐々木(2007)のハローワークパネル推定を採用"
+  },
+  {
+   "item": "日本の賃金版フィリップス曲線の傾き(数値)",
+   "note": "日銀WP23-J-1・20-J-3、山田(2025)はいずれも図示/定性のみ。日銀WP14-J-2(賃金版NKPC日米比較)はPDFのフォント埋め込みのため文字抽出不能"
+  },
+  {
+   "item": "玄田有史編『人手不足なのになぜ賃金が上がらないのか』(2017, 慶應義塾大学出版会)各章",
+   "note": "書籍のためオンラインPDFなし。関連する尾崎・玄田(2019 日銀WP)で代替"
+  },
+  {
+   "item": "Hamaaki, Hori, Maeda & Murata (2012 ILR Review / ESRI DP)英語原典",
+   "note": "ESRIサイトの一覧ページが404/接続リセット。日本語版(日本労働研究雑誌2011)で代替、ただし数値は図のみ"
+  },
+  {
+   "item": "有賀健(2007)の新規高卒求人への最低賃金効果の数値",
+   "note": "13-J-008で負で有意と紹介されるのみ"
+  },
+  {
+   "item": "奥平・滝澤・鶴(2013) RIETI 13-J-010 の具体的数値",
+   "note": "PDF取得済みだが要旨は定性(雇用削減か負のギャップ拡大、4年持続)。数値は未抽出"
+  }
+ ],
+ "failures": [
+  {
+   "source": "日銀WP 14-J-2 (新谷・武藤 賃金版NKPC)・14-J-9 (長沼・西岡 年功賃金と高齢化)・08-J-4 (太田・玄田・照山 1990年代以降の失業)",
+   "issue": "PDFがCIDフォント(ToUnicodeなし)で pdfminer/pypdf とも文字化け。数値抽出不能",
+   "host": "www.boj.or.jp"
+  },
+  {
+   "source": "link.springer.com (Akabayashi 2006)",
+   "issue": "PDF URLがHTML(購読ページ)を返す。ペイウォールのため回避せず断念",
+   "host": "link.springer.com"
+  },
+  {
+   "source": "ESRI ディスカッションペーパー一覧",
+   "issue": "一覧ページ404、1件は connection reset。追跡せず断念",
+   "host": "www.esri.cao.go.jp"
+  },
+  {
+   "source": "生活経済学研究43号 足立・金田(2016) 配偶者控除と労働供給",
+   "issue": "PDF取得・抽出は成功したが結果表(表3)のレイアウトが崩れ数値対応が不確実なため不採録",
+   "host": "www.jstage.jst.go.jp"
+  },
+  {
+   "source": "poppler pdftotext",
+   "issue": "日本語言語パック未導入のため使用不可。pdfminer.six (python3 -I) で代替",
+   "host": "local"
+  }
+ ]
+}

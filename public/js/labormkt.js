@@ -56,6 +56,8 @@ export function mountLaborMarket({ before, getPersonas }) {
       <p class="note">出典:労働政策研究・研修機構(JILPT)「労働力需給の推計」(2024年3月)。3つの筋書きは、経済が成長するか、女性・高齢者の働く人がどれだけ増えるかの組み合わせです。予測ではなく、条件ごとの試算です。</p></div>
     <div class="card"><h2>外国人労働者</h2><div id="lm-foreign"></div><div id="lm-find"></div>
       <p class="note">出典:厚生労働省「外国人雇用状況」の届出状況(各年10月末)。2020年以前は、公表資料のグラフの値(千人単位で丸め)です。</p></div>
+    <div class="card"><h2>最低賃金を上げたら、雇用はどうなるか</h2>
+      <div class="form-grid"><label>最低賃金の引き上げ(%) <input id="lm-mwup" type="number" min="0" max="50" step="1" value="5"></label></div><div id="lm-mwout"></div></div>
     <div class="card"><h2>研究でわかっていること</h2><div id="lm-lit"></div></div>`;
   before.parentNode.insertBefore(el, before);
   const $ = (id) => el.querySelector(`#${id}`);
@@ -89,7 +91,15 @@ export function mountLaborMarket({ before, getPersonas }) {
     const FI = LB.foreignIndustry, fyK = Object.keys(FI["外国人労働者総数"]).sort().at(-1);
     $("lm-find").innerHTML = hbar(Object.entries(FI).filter(([n]) => n !== "外国人労働者総数" && !n.startsWith("うち")).map(([n, v]) => ({ label: n, value: v[fyK] ?? 0 })).sort((a, b) => b.value - a.value).slice(0, 8), { fmt: (v) => `${(v / 1e4).toFixed(1)}万人`, labelWidth: 200 });
     const L = LB.lit ?? [];
-    $("lm-lit").innerHTML = L.length ? `<ul class="facts">${L.filter((f) => f.interpretation_ja && !f.unverified).slice(0, 24).map((f) => `<li>${esc(f.interpretation_ja)}<small>(${esc(f.cite ?? "")})</small></li>`).join("")}</ul>` : `<p class="note">文献の値は準備中です。</p>`;
+    const TOP = { 1: "最低賃金", 2: "働く時間と年収の壁", 3: "勤続・転職・失業", 4: "求人と求職の結びつき", 5: "人手不足と賃金", 6: "非正規の働き方", 7: "外国人労働者", 8: "自動化・AI" };
+    const ok = L.filter((f) => f.interpretation_ja && f.verified !== false && f.verified !== "false"), groups = {};
+    for (const f of ok) { const t = TOP[String(f.topic ?? "").match(/\d/)?.[0]] ?? String(f.topic ?? "その他"); (groups[t] ??= []).push(f); }
+    $("lm-lit").innerHTML = ok.length ? Object.entries(groups).map(([t, fs]) => `<h3>${esc(t)}</h3><ul class="facts">${fs.map((f) => `<li>${esc(f.interpretation_ja)}${f.verified === "secondary" ? "(ほかの論文の表からの引用)" : f.verified === "partial" ? "(一部の値は図からの読み取り)" : ""}<small>(${esc(f.cite ?? "")}${f.country && f.country !== "Japan" && f.country !== "JP" ? `、${esc(f.country)}` : ""})</small></li>`).join("")}</ul>`).join("") : `<p class="note">文献の値は準備中です。</p>`;
+    const drawMW = () => { const up = Math.max(0, Math.min(50, Number($("lm-mwup").value) || 0)) / 100, e = -0.29, se = 0.11;
+      $("lm-mwout").innerHTML = `<div class="analysis"><div class="a-cards"><div class="a-card"><small>最低賃金に近い賃金で働く人の雇用</small><b>${(e * up * 100).toFixed(1)}%</b> <i>幅 ${((e - 2 * se) * up * 100).toFixed(1)}〜${((e + 2 * se) * up * 100).toFixed(1)}%</i></div>
+        <div class="a-card"><small>16〜19歳の就業率</small><b>${(-0.525 * up * 100).toFixed(1)}ポイント</b> <i>10代の就業率は平均17%前後</i></div></div>
+        <p class="a-note">日本の研究をまとめたメタ分析(日本労働研究雑誌 2023年、偏りを補正した弾力性 −0.29、標準誤差0.11)と、川口・森(RIETI 13-J-009、10代の係数 −0.525)の値です。最近の研究ほど効果は小さく、女性でははっきりした効果がなく、長い時間の仕事から短い時間の仕事への移りが見られます。賃金が上がる人の収入の増加は、この計算に入れていません。</p></div>`; };
+    $("lm-mwup").oninput = drawMW; drawMW();
   });
   return { tabs: [["labormkt", "労働市場"]] };
 }
