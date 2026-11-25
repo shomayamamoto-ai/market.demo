@@ -30,7 +30,7 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); root.appendChild(renderer.domElement);
   const ui = document.createElement("div"); ui.className = "s-bar"; root.appendChild(ui);
   ui.innerHTML = `<button class="j-play">一時停止</button><select class="j-mode"><option value="all">すべての移動</option>${["rail", "air", "bus", "car"].filter((m) => geo.modes?.[m]).map((m) => `<option value="${m}">${MODE_LABEL[m]}だけ</option>`).join("")}</select><select class="j-speed"><option value="0.5">ゆっくり</option><option value="1" selected>ふつう</option><option value="2">はやい</option></select><button class="j-big">大きく</button>`;
-  const legend = document.createElement("div"); legend.className = "v-result j-legend"; root.appendChild(legend);
+  const legend = document.createElement("div"); legend.className = "j-legend"; root.appendChild(legend);
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.5, 2000);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x445566, 0.9)); const sun = new THREE.DirectionalLight(0xffffff, 0.5); sun.position.set(40, 120, 60); scene.add(sun);
   const sea = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshLambertMaterial({ color: 0x9fd3ef })); sea.rotation.x = -Math.PI / 2; sea.position.y = -0.6; scene.add(sea);
@@ -56,6 +56,9 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
   for (const r of geo.rail ?? []) { const pts = r.coords.map((c) => { const [x, z] = project(c); return new THREE.Vector3(x, 0.6, z); });
     land.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color: r.type === "新幹線" ? 0x1f3f8f : 0x666666, transparent: true, opacity: r.type === "新幹線" ? 0.95 : 0.45 }))); }
 
+  // 乗降客数の多い駅:高さが1日の乗降客数に比例する柱
+  if (geo.stations?.length) { const maxR = Math.max(...geo.stations.map((st) => st.riders_per_day)), cyl = new THREE.CylinderGeometry(0.22, 0.22, 1, 6), m = new THREE.MeshLambertMaterial({ color: 0x7a2fb0 });
+    for (const st of geo.stations) { const h = 0.4 + (st.riders_per_day / maxR) * 9, [x, z] = project([st.lon, st.lat]), c = new THREE.Mesh(cyl, m); c.scale.y = h; c.position.set(x, 0.5 + h / 2, z); land.add(c); } }
   // 人:出発地は人口に比例、行き先は流れの表に比例。弧を描いて移動し、着いたら次の行き先を選ぶ
   const popW = geo.prefs.map((p) => p.pop || 1), body = new THREE.SphereGeometry(0.28, 8, 6);
   const dots = new THREE.InstancedMesh(body, new THREE.MeshLambertMaterial({ color: 0xffffff }), people); scene.add(dots);
@@ -65,7 +68,12 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
   const startTrip = (tr, i0) => {
     const i = i0 ?? pickIndex(popW, rnd()), w = destinationWeights(geo, i, mode), j = pickIndex(w, rnd()); if (j < 0) return;
     tr.from = i; tr.to = j; tr.a = project(jitter(geo.prefs[i].centroid)); tr.b = project(jitter(geo.prefs[j].centroid)); tr.t = 0;
-    const d = Math.hypot(tr.b[0] - tr.a[0], tr.b[1] - tr.a[1]); tr.m = mode === "all" ? (d > 45 ? "air" : "rail") : mode; // 手段が分からないときは、遠い移動を飛行機とみなす(表示だけの仮定)
+    const d = Math.hypot(tr.b[0] - tr.a[0], tr.b[1] - tr.a[1]);
+    if (mode !== "all") tr.m = mode;
+    else if (geo.modes) { // 手段ごとの表があるときは、その県どうしの手段の割合で選ぶ
+      const ms = ["rail", "air", "bus", "car"].filter((m) => geo.modes[m]), w = ms.map((m) => { const t = geo.modes[m]; return Math.max(0, t.values[t.prefs.indexOf(geo.prefs[i].name)]?.[t.prefs.indexOf(geo.prefs[j].name)] ?? 0); });
+      tr.m = ms[Math.max(0, pickIndex(w, rnd()))] ?? "rail";
+    } else tr.m = d > 45 ? "air" : "rail"; // 手段が分からないときは、遠い移動を飛行機とみなす(表示だけの仮定)
     tr.height = tr.m === "air" ? 2 + d * 0.12 : 0.8 + d * 0.02; tr.speed = (tr.m === "air" ? 0.9 : 0.45) / Math.max(4, d) * 6;
   };
   travelers.forEach((tr) => { startTrip(tr); tr.t = rnd(); });
@@ -76,13 +84,13 @@ export function createJapan3D(root, geo, { people = 1200, seed = 7 } = {}) {
 
   // 凡例と、いま移動中の人の内訳
   const drawLegend = () => { const n = {}; for (const tr of travelers) n[tr.m] = (n[tr.m] ?? 0) + 1;
-    legend.innerHTML = `<h4>いま移動中の人</h4>${Object.entries(n).map(([m, c]) => `<div class="v-row"><span style="color:#${MODE_COLOR[m].toString(16).padStart(6, "0")}">●</span> ${MODE_LABEL[m]} <b>${c}</b></div>`).join("")}
-      ${geo.color ? `<p class="v-verdict">地図の色:${geo.color.label}(濃いほど高い。${lo.toFixed(1)}〜${hi.toFixed(1)}${geo.color.unit ?? ""})</p>` : ""}
-      <p class="v-verdict">${geo.od ? "行き先は、実際の県と県の旅客の流れに比例" : "行き先は、人口と距離から決めた仮の流れ(重力モデル)"}</p>`; };
+    legend.innerHTML = `<h4>いま移動中の人</h4>${Object.entries(n).sort((a, b) => b[1] - a[1]).map(([m, c]) => `<div class="j-row"><span style="color:#${MODE_COLOR[m].toString(16).padStart(6, "0")}">●</span> ${MODE_LABEL[m]} <b>${c}</b></div>`).join("")}
+      ${geo.color ? `<p class="j-note">地図の色:${geo.color.label}(濃いほど高い。${lo.toFixed(1)}〜${hi.toFixed(1)}${geo.color.unit ?? ""})</p>` : ""}
+      <p class="j-note">${geo.od ? "行き先は、実際の県と県の旅客の流れに比例" : "行き先は、人口と距離から決めた仮の流れ(重力モデル)"}</p>${geo.stations?.length ? `<p class="j-note"><span style="color:#7a2fb0">■</span> 紫の柱:乗降客数の多い駅(高さ=1日の乗降客数)</p>` : ""}`; };
   drawLegend();
 
   // カメラ:ドラッグで回す、ホイール・ピンチで寄る
-  const cam = { yaw: -0.35, pitch: 0.95, dist: 150, tx: 0, tz: 4 };
+  const phone = matchMedia("(max-width: 640px)").matches, cam = phone ? { yaw: -0.2, pitch: 1.1, dist: 175, tx: 4, tz: -2 } : { yaw: -0.3, pitch: 1.0, dist: 115, tx: 2, tz: 2 }; // スマホは縦長なので、北海道まで入るよう引いて少し北へ
   const setCam = () => { const { yaw, pitch, dist } = cam; camera.position.set(cam.tx + dist * Math.sin(yaw) * Math.cos(pitch), dist * Math.sin(pitch), cam.tz + dist * Math.cos(yaw) * Math.cos(pitch)); camera.lookAt(cam.tx, 0, cam.tz); };
   const dom = renderer.domElement; dom.style.touchAction = "none"; let drag = null; const pts = new Map();
   dom.addEventListener("pointerdown", (e) => { pts.set(e.pointerId, [e.clientX, e.clientY]); drag = { x: e.clientX, y: e.clientY }; dom.setPointerCapture(e.pointerId); });

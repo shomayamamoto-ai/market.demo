@@ -28,6 +28,7 @@ import { mountMarriage } from "./marriage.js";
 import { mountCvs } from "./cvs.js";
 import { mountEducation } from "./education.js";
 import { mountTravel } from "./travel.js";
+import { mountJapanMap } from "./japanmap.js";
 import ELECTIONS from "./election-data.js";
 import { regime } from "./regime.js";
 import { elders } from "./elders.js";
@@ -176,6 +177,7 @@ const EXPERIMENT_LABS = [commons, split, tournament, threshold];
 function buildNav() {
   NAV.find((g) => g.key === "politics").tabs.push(...mountPolitics({ getPersonas: () => state.personas, before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "politics").tabs.push(...mountElections({ before: $("tab-score") }).tabs);
+  NAV.find((g) => g.key === "region").tabs.push(...mountJapanMap({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountWeather({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "region").tabs.push(...mountTravel({ before: $("tab-score") }).tabs);
   NAV.find((g) => g.key === "japan").tabs.push(...mountMarriage({ before: $("tab-score") }).tabs);

@@ -240,3 +240,10 @@ html.stage-big{overflow:hidden}
 .viewtabs.more-l.more-r,.toc .wrap.more-l.more-r{-webkit-mask-image:linear-gradient(90deg,transparent,#000 36px,#000 calc(100% - 36px),transparent);mask-image:linear-gradient(90deg,transparent,#000 36px,#000 calc(100% - 36px),transparent)}
 .verify td{vertical-align:middle}
 label.chip{display:inline-flex;align-items:center;gap:6px;line-height:1.4}label.chip input{width:auto;min-height:0;margin:0}
+.japan3d{background:linear-gradient(#cfe8f6,#e8f4fb)}.japan3d .j-legend{top:10px;right:10px;left:auto;max-width:230px}
+.japan3d .j-legend{position:absolute;top:10px;right:10px;width:200px;background:rgba(255,255,255,.88);color:#1c2430;border-radius:10px;padding:8px 10px;font-size:12px;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.japan3d .j-legend h4{margin:0 0 4px;font-size:13px}.japan3d .j-row{display:flex;gap:6px;align-items:baseline}.japan3d .j-row b{margin-left:auto}.japan3d .j-note{margin:6px 0 0;font-size:11px;color:#4a4f5a}
+@media (max-width:640px){.japan3d .j-legend{width:150px;font-size:11px;padding:6px 8px}.japan3d .j-note{font-size:10px}}
+.japan3d .s-bar button,.japan3d .s-bar select{white-space:nowrap}
+@media (max-width:640px){.japan3d .j-legend{left:8px;right:auto;top:8px;width:138px}}
+@media (max-width:640px){.japan3d .s-bar{flex-wrap:wrap;gap:4px;right:8px}.japan3d .s-bar button,.japan3d .s-bar select{padding:4px 8px;font-size:12px}}
