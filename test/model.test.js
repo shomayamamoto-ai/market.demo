@@ -419,3 +419,11 @@ test("合成人口:年齢×性別の組み合わせが統計と偶然の範囲�
   for (const j of J.slice(0, 2)) assert.ok(j.rmse <= j.chance * 1.5, `${j.label} ${j.rmse} ${j.chance}`);
   assert.ok(P.some((p) => p.householdType === "institution" && p.age >= 85), "施設で暮らす高齢者がいる");
 });
+
+import PANEL from "../public/js/panel-data.js";
+import { regress } from "../public/js/regress.js";
+test("複合要因の分析:都道府県の表がそろい、重回帰が計算できる", () => {
+  assert.equal(PANEL.prefs.length, 47);
+  const r = regress(PANEL, "ldp2024", ["old65", "wage", "logpop"]);
+  assert.equal(r.n, 47); assert.ok(r.r2 >= 0 && r.r2 <= 1); assert.ok(r.looR2 <= r.r2 + 1e-9, "当てはめに使っていない県での当たり方は、使った県より良くならない");
+});
